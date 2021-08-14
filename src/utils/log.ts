@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import Discord from "discord.js";
 
 class Logger {
 
@@ -32,7 +33,7 @@ class BotLogger extends Logger {
 		super();
 	}
 
-
+	public message = (messageObject: Discord.Message) => this.write(messageObject.content, messageObject.author.tag);
 
 }
 
