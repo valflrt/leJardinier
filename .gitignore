@@ -1,4 +1,5 @@
 node_modules
 token.ts
+.vscode
 dist
 lastver
