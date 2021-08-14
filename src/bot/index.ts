@@ -31,7 +31,6 @@ class LeJardinier {
 	}
 
 	private onMessageCreate(message: Discord.Message) {
-		log.logger.write("new message");
 		log.bot.message(message);
 	}
 
