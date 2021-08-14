@@ -19,7 +19,7 @@ class Logger {
 	public success = (...strs: string[]) => this.output(strs.join(" "), this.successColor);
 
 	public clear = () => console.clear();
-	public newLine = (num: number = 1) => this.write(`\n`.repeat(num - 1));
+	public newLine = (number: number = 1) => this.write(`\n`.repeat(number - 1));
 	public time = () => this.write(new Date().toLocaleTimeString());
 
 	private output = (str: string, color: string = this.mainColor) =>
@@ -34,6 +34,11 @@ class BotLogger extends Logger {
 	}
 
 	public message = (messageObject: Discord.Message) => this.write(messageObject.content, messageObject.author.tag);
+
+	public connected = (tag: string) => {
+		this.success(`logged in successfully as ${chalk.underline(tag)}`);
+		this.newLine();
+	};
 
 }
 
