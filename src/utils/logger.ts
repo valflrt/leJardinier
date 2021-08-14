@@ -14,7 +14,7 @@ class Logger {
 		this.write(strs.join(" "));
 	}
 
-	public error(strs: string[]) {
+	public error(...strs: string[]) {
 		this.write(strs.join(" "), this.errorColor);
 	}
 
