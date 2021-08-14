@@ -52,8 +52,11 @@ class Logger {
 
 class BotLogger extends Logger {
 
+	private lastChatlogUser: string;
+
 	constructor() {
 		super();
+		this.lastChatlogUser = "";
 	}
 
 	/**
@@ -61,18 +64,21 @@ class BotLogger extends Logger {
 	 * @param messageObject discord message object
 	 * @author valflrt
 	 */
-	public message = (messageObject: Discord.Message) =>
-		this.log(`message:\n${chalk.bold(messageObject.author.tag)}: ${messageObject.content}`);
+	public message = (messageObject: Discord.Message) => {
+		if (this.lastChatlogUser !== messageObject.author.id) {
+			this.newLine();
+			this.log(`${chalk.bold(messageObject.author.tag)}:\n${messageObject.content ? `${messageObject.content}` : ""}`);
+		} else if (messageObject.content) this.log(messageObject.content);
+		this.lastChatlogUser = messageObject.author.id;
+	}
 
 	/**
 	 * logs a success message when the bot connected
 	 * @param tag bot's tag (username#0000)
 	 * @author valflrt
 	 */
-	public connected = (tag: string) => {
-		this.success(`successfully logged in as ${chalk.underline(tag)}`);
-		this.newLine();
-	};
+	public connected = (tag: string) => this.success(`successfully logged in as ${chalk.underline(tag)}`);
+
 
 }
 
