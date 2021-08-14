@@ -8,7 +8,17 @@ class LeJardinier {
 	private bot: Discord.Client;
 
 	constructor() {
-		this.bot = new Discord.Client({ intents: [] });
+		this.bot = new Discord.Client({
+			intents: [
+				"GUILDS",
+				"GUILD_MEMBERS",
+				"GUILD_MESSAGES",
+				"GUILD_MESSAGE_REACTIONS",
+				"GUILD_PRESENCES",
+				"GUILD_VOICE_STATES",
+				"GUILD_EMOJIS_AND_STICKERS"
+			]
+		});
 
 		this.bot.on("ready", () => this.onReady());
 		this.bot.on("messageCreate", (message) => this.onMessageCreate(message));
