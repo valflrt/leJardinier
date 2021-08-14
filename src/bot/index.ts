@@ -25,6 +25,11 @@ class LeJardinier {
 		log.bot.message(message);
 	}
 
+	/**
+	 * useless function
+	 */
+	public start = () => { };
+
 }
 
 export default new LeJardinier();
