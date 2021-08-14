@@ -61,7 +61,8 @@ class BotLogger extends Logger {
 	 * @param messageObject discord message object
 	 * @author valflrt
 	 */
-	public message = (messageObject: Discord.Message) => this.log(`${chalk.bold(messageObject.content)}: ${messageObject.author.tag}`);
+	public message = (messageObject: Discord.Message) =>
+		this.log(`message:\n${chalk.bold(messageObject.author.tag)}: ${messageObject.content}`);
 
 	/**
 	 * logs a success message when the bot connected
