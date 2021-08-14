@@ -33,10 +33,10 @@ class BotLogger extends Logger {
 		super();
 	}
 
-	public message = (messageObject: Discord.Message) => this.write(messageObject.content, messageObject.author.tag);
+	public message = (messageObject: Discord.Message) => this.log(messageObject.content, messageObject.author.tag);
 
 	public connected = (tag: string) => {
-		this.success(`logged in successfully as ${chalk.underline(tag)}`);
+		this.success(`successfully logged in as ${chalk.underline(tag)}`);
 		this.newLine();
 	};
 
