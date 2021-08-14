@@ -11,14 +11,14 @@ class Logger {
 	}
 
 	public log(...strs: string[]) {
-		this.write(strs.join(" "), this.mainColor);
+		this.write(strs.join(" "));
 	}
 
 	public error(strs: string[]) {
 		this.write(strs.join(" "), this.errorColor);
 	}
 
-	private write(str: string, color: string) {
+	private write(str: string, color: string = this.mainColor) {
 		console.log(`${chalk.bgHex(color)(" ")} ${str.replace("\n", `\n${chalk.bgHex(color)(" ")} `)}`);
 	}
 
