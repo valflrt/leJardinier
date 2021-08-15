@@ -82,7 +82,5 @@ class BotLogger extends Logger {
 
 }
 
-export default {
-	logger: new Logger(),
-	bot: new BotLogger()
-}
+export const logger = new Logger();
+export const bot = new BotLogger();

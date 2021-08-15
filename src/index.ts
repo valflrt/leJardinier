@@ -1,7 +1,7 @@
 import chalk from "chalk";
 
 import LeJardinier from "./bot";
-import log from "./bot/log";
+import * as log from "./bot/log";
 
 log.logger.clear();
 

@@ -1,7 +1,8 @@
 import Discord from "discord.js";
+import config from "../config";
 import token from "../config/token";
 
-import log from "./log";
+import * as log from "./log";
 
 class LeJardinier {
 
@@ -20,13 +21,14 @@ class LeJardinier {
 			]
 		});
 
-		this.bot.on("ready", () => this.onReady());
-		this.bot.on("messageCreate", (message) => this.onMessageCreate(message));
+		this.bot.on("ready", async () => this.onReady());
+		this.bot.on("messageCreate", async (message) => this.onMessageCreate(message));
 
 		this.bot.login(token!);
 	}
 
 	private onReady() {
+		this.bot.user?.setActivity(`${config.prefix}help`, { type: "COMPETING" });
 		log.bot.connected(this.bot.user!.tag);
 	}
 
