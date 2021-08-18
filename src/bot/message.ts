@@ -1,12 +1,14 @@
 import { Client, MessageEmbed } from "discord.js";
 
 import commands from "../commands/commands";
+import ReplyMethods from "./message.methods";
 import { Command, TMessage } from "../types";
 
 class MessageInfo {
 
 	public message: TMessage;
 	public bot: Client;
+	public methods: ReplyMethods;
 
 	private command: Command;
 	private embed: MessageEmbed;
@@ -14,6 +16,7 @@ class MessageInfo {
 	constructor(message: TMessage, bot: Client) {
 		this.message = message;
 		this.bot = bot;
+		this.methods = new ReplyMethods(this);
 
 		this.command = this.getCommand();
 		this.embed = this.setEmbed();
