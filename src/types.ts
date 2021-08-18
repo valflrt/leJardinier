@@ -8,5 +8,5 @@ export interface Command {
 }
 
 export interface TMessage extends Message {
-
+	methods: Array<Function>
 }
