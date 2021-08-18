@@ -10,10 +10,10 @@ class Commands {
 	}
 
 	/**
-	 * adds a command
+	 * adds one or more commands
 	 * @param command command object
 	 */
-	public add = (command: Command) => this.commands.push(command);
+	public add = (...commands: Command[]) => this.commands.push(...commands);
 
 	/**
 	 * finds out if a command with commandName as name exists in this object
@@ -34,8 +34,9 @@ class Commands {
 	}
 
 	/**
-	 * returns the command array
-	 * @returns command array
+	 * finds a command call directly in message content (message text sent on discord)
+	 * @param messageContent 
+	 * @returns command object
 	 */
 	public find = (messageContent: string): Command => this.commands.filter((command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null)[0];
 
