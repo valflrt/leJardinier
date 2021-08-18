@@ -1,27 +1,30 @@
-import { Client, Message, MessageEmbed } from "discord.js";
+import { Client, MessageEmbed } from "discord.js";
 
-import commands from "../commands";
-import { Command } from "../types";
-import config from "../config";
+import commands from "../commands/commands";
+import { Command, TMessage } from "../types";
 
 class MessageInfo {
 
 	public message: TMessage;
 	public bot: Client;
 
-	public methods: Function[];
-
 	private command: Command;
 	private embed: MessageEmbed;
 
-	constructor(message: Message, bot: Client) {
+	constructor(message: TMessage, bot: Client) {
 		this.message = message;
 		this.bot = bot;
-		this.methods = new Array();
 
 		this.command = this.getCommand();
 		this.embed = this.setEmbed();
-	};
+	}
+
+	private getCommand = () => commands.find(this.message.content);
+
+	private setEmbed = () => new MessageEmbed()
+		.setColor("#49a013")
+		.setFooter(`${new Date().toLocaleString()} - Answering ${this.message.author.tag} - ${this.command.name}`)
+		.setAuthor(this.bot.user!.username, "https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp");
 
 };
 
