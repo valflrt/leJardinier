@@ -1,51 +1,46 @@
-import MessageInfo from "./message";
+import { Message, MessageEmbed, MessageOptions, MessagePayload } from "discord.js";
+import MessageInstance from "./message";
 
 export default class ReplyMethods {
 
-	private message: MessageInfo;
+	private messageInstance: MessageInstance;
+	private message: Message;
+	private embed: MessageEmbed;
 
-	constructor(message: MessageInfo) {
-		this.message = message;
+	constructor(message: MessageInstance) {
+		this.messageInstance = message;
+		this.message = this.messageInstance.message;
+		this.embed = this.messageInstance.embed;
 	}
 
-	answer = (text: string, files: string[]) => {
-		this.message.message.channel.send(`${mention(text)}${text}`, files || {});
+	public answer = (message: string | MessagePayload | MessageOptions) => {
+		this.message.reply(message);
 	}
 
-	simple = text => {
-		this.message.channel.send(text);
+	public send = (message: string | MessagePayload | MessageOptions) => {
+		this.message.channel.send(message);
 	}
 
-	embed = (text, files = []) => {
-		return this.message.channel.send(
-			this.embed()
-				.setDescription(text)
-				.attachFiles(files)
-		);
+	public sendEmbed = (text: string, files = []) => {
+		this.answer({
+			embeds: [this.embed.setDescription(text)],
+			files
+		});
 	}
 
-	returnEmbed = (text: string, files: string[] = []) => {
-		return this.embed()
-			.setDescription(text)
-			.attachFiles(files)
+	public returnEmbed = (text: string) => {
+		return this.embed.setDescription(text);
 	}
 
-	customEmbed = (config, files = []) => {
-		let embed = this.embed()
-			.attachFiles(files);
-
-		let newEmbed = config(embed);
-
-		return this.message.channel.send(newEmbed);
+	public sendCustomEmbed = (config: Function, files = []) => {
+		this.answer({
+			embeds: [config(this.embed)],
+			files
+		});
 	}
 
-	returnCustomEmbed = (config, files = []) => {
-		let embed = this.embed()
-			.attachFiles(files);
-
-		let newEmbed = config(embed);
-
-		return newEmbed;
+	public returnCustomEmbed = (config: Function) => {
+		return config(this.embed);
 	}
 
 }
