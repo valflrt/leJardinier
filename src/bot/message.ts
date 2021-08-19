@@ -1,19 +1,19 @@
-import { Client, MessageEmbed } from "discord.js";
+import { Client, Message, MessageEmbed } from "discord.js";
 
 import commands from "../commands/commands";
 import ReplyMethods from "./methods";
-import { Command, TMessage } from "../types";
+import { Command } from "../types";
 
-class MessageInfo {
+class MessageInstance {
 
-	public message: TMessage;
+	public message: Message;
 	public bot: Client;
 	public methods: ReplyMethods;
 
-	private command: Command;
-	private embed: MessageEmbed;
+	public command: Command;
+	public embed: MessageEmbed;
 
-	constructor(message: TMessage, bot: Client) {
+	constructor(message: Message, bot: Client) {
 		this.message = message;
 		this.bot = bot;
 		this.methods = new ReplyMethods(this);
@@ -31,4 +31,4 @@ class MessageInfo {
 
 };
 
-export default MessageInfo;
+export default MessageInstance;
