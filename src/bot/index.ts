@@ -1,4 +1,5 @@
-import Discord from "discord.js";
+import { Client, Message } from "discord.js";
+
 import config from "../config";
 import token from "../config/token";
 
@@ -6,10 +7,10 @@ import * as log from "./log";
 
 class LeJardinier {
 
-	private bot: Discord.Client;
+	private bot: Client;
 
 	constructor() {
-		this.bot = new Discord.Client({
+		this.bot = new Client({
 			intents: [
 				"GUILDS",
 				"GUILD_MEMBERS",
@@ -32,7 +33,7 @@ class LeJardinier {
 		log.bot.connected(this.bot.user!.tag);
 	}
 
-	private onMessageCreate(message: Discord.Message) {
+	private onMessageCreate(message: Message) {
 		log.bot.message(message);
 	}
 
