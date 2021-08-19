@@ -6,7 +6,3 @@ export interface Command {
 	syntax: string,
 	execute: Function
 }
-
-export interface TMessage extends Message {
-	methods: Array<Function>
-}
