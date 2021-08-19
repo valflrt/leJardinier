@@ -29,7 +29,7 @@ class LeJardinier {
 	}
 
 	private onReady() {
-		this.bot.user?.setActivity(`${config.prefix}help`, { type: "COMPETING" });
+		this.bot.user!.setActivity(`${config.prefix}help`, { type: "COMPETING" });
 		log.bot.connected(this.bot.user!.tag);
 	}
 
