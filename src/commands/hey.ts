@@ -8,7 +8,7 @@ const hey: Command = {
 	syntax: `hey`,
 	execute: (messageInfo: MessageInfo) => {
 		let { methods, message } = messageInfo;
-		methods.embed(`${utils.randomItem("hey", "Hii", "Yo")} ${message.author} ${utils.randomItem(":3", ":)", "!")}`);
+		methods.sendEmbed(`${utils.randomItem("hey", "Hii", "Yo")} ${message.author} ${utils.randomItem(":3", ":)", "!")}`);
 	}
 };
 
