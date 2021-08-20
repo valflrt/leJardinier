@@ -4,6 +4,7 @@ import config from "../config";
 import token from "../config/token";
 
 import * as log from "./log";
+import MessageInstance from "./message";
 
 class LeJardinier {
 
@@ -30,11 +31,17 @@ class LeJardinier {
 
 	private onReady() {
 		this.bot.user!.setActivity(`${config.prefix}help`, { type: "COMPETING" });
-		log.bot.connected(this.bot.user!.tag);
+		log.bot.connected(this.bot.user!.tag, this.bot.user!.id);
 	}
 
-	private onMessageCreate(message: Message) {
+	private async onMessageCreate(message: Message) {
 		log.bot.message(message);
+
+		let messageInstance = new MessageInstance(message, this.bot);
+
+		if (messageInstance.hasCommand) {
+			messageInstance.command!.execute(messageInstance);
+		}
 	}
 
 	/**
