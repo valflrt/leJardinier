@@ -1,6 +1,6 @@
-import commands from "./commands";
+import Commands from "./commands";
 
 // simple commands
 import hey from "./hey";
 
-commands.add(hey);
+export default new Commands(hey);

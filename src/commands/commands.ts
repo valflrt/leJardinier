@@ -1,12 +1,12 @@
 import { Command } from "../types";
 import config from "../config";
 
-class Commands {
+export default class Commands {
 
 	private commands: Command[];
 
-	constructor() {
-		this.commands = new Array();
+	constructor(...commands: Command[]) {
+		this.commands = [...commands];
 	}
 
 	/**
@@ -35,11 +35,9 @@ class Commands {
 
 	/**
 	 * finds a command call directly in message content (message text sent on discord)
-	 * @param messageContent 
+	 * @param messageContent message text
 	 * @returns command object
 	 */
 	public find = (messageContent: string): Command => this.commands.filter((command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null)[0];
 
 };
-
-export default new Commands();
