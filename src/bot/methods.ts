@@ -3,14 +3,12 @@ import MessageInstance from "./message";
 
 export default class ReplyMethods {
 
-	private messageInstance: MessageInstance;
 	private message: Message;
 	private embed: MessageEmbed;
 
-	constructor(message: MessageInstance) {
-		this.messageInstance = message;
-		this.message = this.messageInstance.message;
-		this.embed = this.messageInstance.embed;
+	constructor(messageInstance: MessageInstance) {
+		this.message = messageInstance.message;
+		this.embed = messageInstance.embed;
 	}
 
 	public answer = (message: string | MessagePayload | MessageOptions) => {
