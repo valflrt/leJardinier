@@ -17,5 +17,5 @@ Finally, to start the code run:
 
 #### Notes
 
-- [typescript.ts](./typescript.ts) is useless, i added this file because my code editor put an error and the way to fix it was to add it...
+- [typescript.ts](./typescript.ts) is useless, i added it because my code editor put an error and adding this file was the way to fix it...
 - *Don't mind my code it can be fucked up sometimes...*
