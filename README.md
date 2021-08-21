@@ -3,7 +3,7 @@ This is simple simple discord bot made in typescript with discord.js.
 
 ### Installation
 
-First, you'll need to download/clone this repository from github. Then enter the folder and run `npm install`
+First, you'll need to download/clone this repository from github. Then enter the folder and run `npm install` (note: you need to have npm installed on your computer)
 
 ### Configuration
 
