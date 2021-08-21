@@ -1,5 +1,6 @@
 import MessageInstance from "../bot/message";
 import { Command } from "../types";
+import ReplyMethods from "../bot/methods";
 import * as utils from "../utils"
 
 const hey: Command = {
@@ -8,7 +9,7 @@ const hey: Command = {
 	syntax: `hey`,
 	execute: (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
-		methods.sendEmbed(`${utils.randomItem("hey", "Hii", "Yo")} ${message.author} ${utils.randomItem(":3", ":)", "!")}`);
+		methods.sendEmbed(`${utils.randomItem("hey", "Hii", "Yo")} ${ReplyMethods.mention(message.author.id)} ${utils.randomItem(":3", ":)", "!")}`);
 	}
 };
 
