@@ -1,5 +1,5 @@
 # lejardinier-typescript
-This is simple simple discord bot made in typescript (with discord.js).
+This is simple simple discord bot made in typescript with discord.js.
 
 ### Installation
 
