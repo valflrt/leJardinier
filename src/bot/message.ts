@@ -33,7 +33,8 @@ class MessageInstance {
 
 	private generateEmbed = (): MessageEmbed => new MessageEmbed()
 		.setAuthor(this.bot.user!.username, "https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp")
-		.setFooter(`${new Date().toLocaleString()} - Answering ${this.message.author.tag}${this.command ? ` - ${config.prefix}${this.command.name}` : ""} `)
+		.setFooter(this.command ? `${config.prefix}${this.command.name}` : "")
+		.setTimestamp()
 		.setColor("#49a013");
 
 };
