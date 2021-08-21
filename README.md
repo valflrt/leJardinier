@@ -11,7 +11,7 @@ In order to get the code working, you'll need to get a bot token ([learn more](h
 
 ### Starting
 
-Finally, to start the code run:
+Finally, to start the code, run:
 - `npm start` for normal start
 - `npm run dev` for development start (with nodemon: restarting when code changes)
 
