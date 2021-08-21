@@ -41,4 +41,6 @@ export default class ReplyMethods {
 		return config(this.embed);
 	}
 
+	public static mention = (userID: string): string => `<@!${userID}>`;
+
 }
