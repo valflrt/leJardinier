@@ -31,7 +31,6 @@ class Logger {
 	/**
 	 * adds line breaks (specified number)
 	 * @param number number of line breaks
-	 * @author valflrt
 	 */
 	public newLine = (number: number = 1) => this.write(`\n`.repeat(number - 1));
 
@@ -60,23 +59,28 @@ class BotLogger extends Logger {
 	}
 
 	/**
-	 * logs every message (username#0000: message content)
-	 * @param messageObject discord message object
-	 * @author valflrt
+	 * logs messages (username#0000: [message content])
+	 * @param message discord message object
 	 */
-	public message = (messageObject: Discord.Message) => {
-		if (this.lastChatlogUser !== messageObject.author.id) {
+	public message = (message: Discord.Message) => {
+		let text: string = (message.content ? `${message.content}` : "")
+			.concat(
+				message.embeds.length !== 0 && chalk.grey`[${message.embeds.length.toString()} embeds]`,
+				message.attachements.size !== 0 && chalk.grey`[${message.embeds.size.toString()} Attachements]`
+			);
+
+		if (this.lastChatlogUser !== message.author.id) {
 			this.newLine();
-			this.log(`${chalk.bold(messageObject.author.tag)}:\n${messageObject.content ? `${messageObject.content}` : ""}`);
-		} else if (messageObject.content) this.log(messageObject.content);
-		this.lastChatlogUser = messageObject.author.id;
+			this.log(`${chalk.bold(message.author.tag)}:\n${text}`);
+		} else if (message.content) this.log(text);
+
+		this.lastChatlogUser = message.author.id;
 	}
 
 	/**
 	 * logs a success message when the bot connected
 	 * @param tag bot's tag (username#0000)
 	 * @param id bot's id (discord snowflake)
-	 * @author valflrt
 	 */
 	public connected = (tag: string, id: string) => this.success(`successfully logged in as ${chalk.underline(tag)} ${chalk.grey.italic(`(id: ${id})`)}`);
 
