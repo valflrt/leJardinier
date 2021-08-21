@@ -38,6 +38,8 @@ export default class Commands {
 	 * @param messageContent message text
 	 * @returns command object
 	 */
-	public find = (messageContent: string): Command => this.commands.filter((command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null)[0];
+	public find = (messageContent: string): Command | undefined => this.commands.find(
+		(command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null
+	);
 
 };
