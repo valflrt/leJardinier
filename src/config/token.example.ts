@@ -2,4 +2,4 @@
  * rename this file to token.ts
  */
 
-export default "";
+export default "your token here";
