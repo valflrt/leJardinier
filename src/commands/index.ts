@@ -1,4 +1,4 @@
-import Commands from "./commands";
+import Commands from "../bot/commands";
 
 // simple commands
 import hey from "./hey";
