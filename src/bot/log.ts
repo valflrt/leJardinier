@@ -69,8 +69,8 @@ class BotLogger extends Logger {
 
 		let text: string = (message.content ? `${message.content}` : "")
 			.concat(
-				embeds !== 0 ? chalk.grey`[${embeds.toString()} embeds]` : "",
-				attachments !== 0 ? chalk.grey`[${attachments.toString()} Attachments]` : ""
+				embeds !== 0 ? chalk.italic(`[${embeds.toString()} embeds]`) : "",
+				attachments !== 0 ? chalk.italic(`[${attachments.toString()} Attachments]`) : ""
 			);
 
 		if (this.lastChatlogUser !== message.author.id) {
