@@ -3,7 +3,7 @@ import MessageInstance from "../bot/message";
 import { Command } from "../types";
 import commands from ".";
 
-const hey: Command = {
+const help: Command = {
 	name: "help",
 	description: "Get help",
 	syntax: `help`,
@@ -68,4 +68,4 @@ const hey: Command = {
 	}
 };
 
-export default hey;
+export default help;
