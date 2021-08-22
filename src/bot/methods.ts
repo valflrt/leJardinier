@@ -12,15 +12,15 @@ export default class ReplyMethods {
 	}
 
 	public answer = (message: string | MessagePayload | MessageOptions) => {
-		this.message.reply(message);
+		return this.message.reply(message);
 	}
 
 	public send = (message: string | MessagePayload | MessageOptions) => {
-		this.message.channel.send(message);
+		return this.message.channel.send(message);
 	}
 
 	public sendEmbed = (text: string, files = []) => {
-		this.answer({
+		return this.answer({
 			embeds: [this.embed.setDescription(text)],
 			files
 		});
@@ -31,7 +31,7 @@ export default class ReplyMethods {
 	}
 
 	public sendCustomEmbed = (config: Function, files = []) => {
-		this.answer({
+		return this.answer({
 			embeds: [config(this.embed)],
 			files
 		});
