@@ -3,7 +3,7 @@ import config from "../config";
 
 export default class Commands {
 
-	private commands: Command[];
+	private readonly commands: Command[];
 
 	constructor(...commands: Command[]) {
 		this.commands = [...commands];
@@ -40,8 +40,8 @@ export default class Commands {
 	 */
 	public find = (messageContent: string): Command | undefined => this.commands.find(
 		(command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null
-	);
+	)
 
-	public toArray = (): Array<Command> => this.commands;
+	public toArray = (): Array<Command> => new Array(...this.commands);
 
-};
+}

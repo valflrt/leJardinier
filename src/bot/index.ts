@@ -1,4 +1,5 @@
 import { Client, Message } from "discord.js";
+import commands from "../commands";
 
 import config from "../config";
 import token from "../config/token";
@@ -34,8 +35,8 @@ class LeJardinier {
 		log.bot.connected(this.bot.user!.tag, this.bot.user!.id);
 	}
 
-	private async onMessageCreate(message: Message) {
-		log.bot.message(message);
+	private onMessageCreate(message: Message) {
+		log.bot.message(message); // logs every message
 
 		let messageInstance = new MessageInstance(message, this.bot);
 

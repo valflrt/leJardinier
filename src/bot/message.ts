@@ -13,7 +13,6 @@ class MessageInstance {
 
 	public command: Command | undefined;
 	public hasCommand: boolean;
-	public embed: MessageEmbed;
 
 	constructor(message: Message, bot: Client) {
 		this.message = message;
@@ -21,7 +20,6 @@ class MessageInstance {
 
 		this.command = this.getCommand();
 		this.hasCommand = this.command ? true : false;
-		this.embed = this.generateEmbed();
 
 		this.methods = new ReplyMethods(this);
 	}
@@ -29,9 +27,9 @@ class MessageInstance {
 	private getCommand = (): Command | undefined => {
 		let command = commands.find(this.message.content);
 		return command;
-	};
+	}
 
-	private generateEmbed = (): MessageEmbed => new MessageEmbed()
+	public generateEmbed = (): MessageEmbed => new MessageEmbed()
 		.setAuthor(this.bot.user!.username, "https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp")
 		.setFooter(this.command ? `${config.prefix}${this.command.name}` : "")
 		.setTimestamp()

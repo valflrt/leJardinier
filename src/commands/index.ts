@@ -6,4 +6,7 @@ import help from "./help";
 // simple commands
 import hey from "./hey";
 
-export default new Commands(help, hey);
+export default new Commands(
+	help,
+	hey
+)

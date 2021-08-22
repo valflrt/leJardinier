@@ -9,8 +9,8 @@ const hey: Command = {
 	syntax: `hey`,
 	execute: (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
-		methods.sendEmbed(`${utils.randomItem("hey", "Hii", "Yo")} ${ReplyMethods.mention(message.author.id)} ${utils.randomItem(":3", ":)", "!")}`);
+		methods.sendEmbed(`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} ${ReplyMethods.mention(message.author.id)} ${utils.randomItem(":3", ":)", "!")}`);
 	}
-};
+}
 
 export default hey;
