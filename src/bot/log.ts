@@ -63,10 +63,14 @@ class BotLogger extends Logger {
 	 * @param message discord message object
 	 */
 	public message = (message: Discord.Message) => {
+
+		let embeds: number = message.embeds.length;
+		let attachments: number = message.attachments.toJSON().length;
+
 		let text: string = (message.content ? `${message.content}` : "")
 			.concat(
-				message.embeds.length !== 0 && chalk.grey`[${message.embeds.length.toString()} embeds]`,
-				message.attachements.size !== 0 && chalk.grey`[${message.embeds.size.toString()} Attachements]`
+				embeds !== 0 ? chalk.grey`[${embeds.toString()} embeds]` : "",
+				attachments !== 0 ? chalk.grey`[${attachments.toString()} Attachments]` : ""
 			);
 
 		if (this.lastChatlogUser !== message.author.id) {
