@@ -42,4 +42,6 @@ export default class Commands {
 		(command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null
 	);
 
+	public toArray = (): Array<Command> => this.commands;
+
 };
