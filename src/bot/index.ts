@@ -39,13 +39,9 @@ class LeJardinier {
 
 		let messageInstance = new MessageInstance(message, this.bot);
 
-		if (messageInstance.hasCommand) {
-			messageInstance.execute();
-		}
-
 		if (messageInstance.hasCommand === true) {
 			messageInstance.execute();
-		} else {
+		} else if (messageInstance.hasPrefix) {
 			messageInstance.message.react("❔");
 		}
 	}
