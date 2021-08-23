@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import Discord from "discord.js";
+import { Command } from "../types";
 
 class Logger {
 
@@ -18,10 +19,10 @@ class Logger {
 	 * all these functions have the same structure
 	 * @param strs strings to log (joined with one space)
 	 */
-	public write = (...strs: string[]) => console.log(strs.join(" "));
-	public log = (...strs: string[]) => this.output(strs.join(" "));
-	public error = (...strs: string[]) => this.output(strs.join(" "), this.errorColor);
-	public success = (...strs: string[]) => this.output(strs.join(" "), this.successColor);
+	public write = (...strs: any[]) => console.log(strs.join(" "));
+	public log = (...strs: any[]) => this.output(strs.join(" "));
+	public error = (...strs: any[]) => this.output(strs.join(" "), this.errorColor);
+	public success = (...strs: any[]) => this.output(strs.join(" "), this.successColor);
 
 	/**
 	 * clears the console
@@ -44,7 +45,7 @@ class Logger {
 	 * @param str string to log
 	 * @param color color of the "color block" at the str beginning
 	 */
-	private output = (str: string, color: string = this.mainColor) =>
+	protected output = (str: any, color: string = this.mainColor) =>
 		console.log(`${chalk.bgHex(color)(" ")} ${str.replace("\n", `\n${chalk.bgHex(color)(" ")} `)}`);
 
 }
@@ -91,5 +92,19 @@ class BotLogger extends Logger {
 
 }
 
+class CommandLogger extends Logger {
+
+	public executed = (command: Command) => this.success(`Successfully executed ${chalk.bold(command.name)}`);
+	public executionFailed = (command: Command, err: any) => this.error(`Failed to execute ${chalk.bold(command.name)}:\n${err}`);
+
+}
+
 export const logger = new Logger();
 export const bot = new BotLogger();
+export const command = new CommandLogger();
+
+export default {
+	logger,
+	bot,
+	command
+}
