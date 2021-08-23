@@ -1,10 +1,9 @@
 import { Client, Message } from "discord.js";
-import commands from "../commands";
 
 import config from "../config";
 import token from "../config/token";
 
-import * as log from "./log";
+import log from "./log";
 import MessageInstance from "./message";
 
 class LeJardinier {
@@ -41,7 +40,13 @@ class LeJardinier {
 		let messageInstance = new MessageInstance(message, this.bot);
 
 		if (messageInstance.hasCommand) {
-			messageInstance.command!.execute(messageInstance);
+			messageInstance.execute();
+		}
+
+		if (messageInstance.hasCommand === true) {
+			messageInstance.execute();
+		} else {
+			messageInstance.message.react("❔");
 		}
 	}
 
