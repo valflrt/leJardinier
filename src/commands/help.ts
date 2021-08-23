@@ -7,7 +7,7 @@ const help: Command = {
 	name: "help",
 	description: "Get help",
 	syntax: `help`,
-	execute: async (messageInstance: MessageInstance) => {
+	execution: async (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
 		const format = (array: Command[], newArray: Command[][] = [], i: number = 0): any => {

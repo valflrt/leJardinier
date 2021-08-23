@@ -7,7 +7,7 @@ const hey: Command = {
 	name: "hey",
 	description: "Greet the bot",
 	syntax: `hey`,
-	execute: (messageInstance: MessageInstance) => {
+	execution: (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
 		methods.sendEmbed(`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} ${ReplyMethods.mention(message.author.id)} ${utils.randomItem(":3", ":)", "!")}`);
 	}
