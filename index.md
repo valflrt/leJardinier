@@ -15,4 +15,4 @@ Note: You need to add the bot's prefix at the start of every command call.
 
 ## References
 
-You can access the github repository [here](https://github.com/valflrt/lejardinier-typescript)
+- [github repository](https://github.com/valflrt/lejardinier-typescript)
