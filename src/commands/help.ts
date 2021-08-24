@@ -50,14 +50,13 @@ const help: Command = {
 				await reaction.users.remove(user);
 				await sent.edit(methods.returnCustomEmbed(generatePage));
 			} else if (reaction.emoji.name === "❌") {
-				return collector.stop("Display closed by user");
+				return collector.stop();
 			} else {
 				await reaction.users.remove(user);
 			}
 		})
 
 		collector.on("end", async (collected, reason) => {
-			console.log(reason);
 			if (reason === "time") await sent.edit({
 				embeds: [methods.returnEmbed(`Display has timeout (1 min)`)]
 			})
