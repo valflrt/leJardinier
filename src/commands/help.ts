@@ -1,6 +1,8 @@
 import { MessageEmbed } from "discord.js";
+
 import MessageInstance from "../bot/message";
 import { Command } from "../types";
+
 import commands from ".";
 
 const help: Command = {
