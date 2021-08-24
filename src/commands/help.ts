@@ -8,7 +8,7 @@ const help: Command = {
 	description: "Get help",
 	syntax: `help`,
 	execution: async (messageInstance: MessageInstance) => {
-		let { methods } = messageInstance;
+		let { methods, bot } = messageInstance;
 
 		const format = (array: Command[], newArray: Command[][] = [], i: number = 0): any => {
 			if (!newArray[i]) newArray.push([]);
@@ -49,7 +49,7 @@ const help: Command = {
 				index--;
 				await reaction.users.remove(user);
 				await sent.edit(methods.returnCustomEmbed(generatePage));
-			} else if (reaction.emoji.name === "❌") {
+			} else if (reaction.emoji.name === "❌" && reaction.client.user?.id !== bot.user!.id) {
 				return collector.stop();
 			} else {
 				await reaction.users.remove(user);
