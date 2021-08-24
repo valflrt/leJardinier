@@ -49,7 +49,7 @@ const help: Command = {
 				index--;
 				await reaction.users.remove(user);
 				await sent.edit(methods.returnCustomEmbed(generatePage));
-			} else if (reaction.emoji.name === "❌" && reaction.client.user?.id !== bot.user!.id) {
+			} else if (reaction.emoji.name === "❌" && reaction.client.user?.bot) {
 				return collector.stop();
 			} else {
 				await reaction.users.remove(user);
