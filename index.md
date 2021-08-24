@@ -12,3 +12,9 @@ Le Jardinier is a simple multi-task discord bot.
 - hey: Used to greet the bot (it also greets you back)
 
 Note: You need to add the bot's prefix at the start of every command call.
+
+## Todo
+
+- [x] Add most simple commands
+- [ ] Add some other commands
+- [ ] Add database system
