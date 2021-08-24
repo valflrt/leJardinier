@@ -4,15 +4,18 @@ import commands from "../commands/index";
 import { Command } from "../types";
 import ReplyMethods from "./methods";
 import config from "../config";
+import log from "./log";
 
 class MessageInstance {
 
 	public message: Message;
 	public bot: Client;
-	public methods: ReplyMethods;
 
+	public methods: ReplyMethods;
 	public command: Command | undefined;
+
 	public hasCommand: boolean;
+	public hasPrefix: boolean;
 
 	constructor(message: Message, bot: Client) {
 		this.message = message;
@@ -20,6 +23,7 @@ class MessageInstance {
 
 		this.command = this.getCommand();
 		this.hasCommand = this.command ? true : false;
+		this.hasPrefix = this.message.content.startsWith(config.prefix);
 
 		this.methods = new ReplyMethods(this);
 	}
@@ -35,6 +39,15 @@ class MessageInstance {
 		.setTimestamp()
 		.setColor("#49a013");
 
-};
+	public execute = async () => {
+		try {
+			await this.command!.execution(this);
+			log.command.executed(this.command!);
+		} catch (err) {
+			log.command.executionFailed(this.command!, err);
+		}
+	}
+
+}
 
 export default MessageInstance;
