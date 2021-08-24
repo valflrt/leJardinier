@@ -1,4 +1,4 @@
-# lejardinier-typescript
+# Le Jardinier
 
 ## Introduction
 
