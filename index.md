@@ -1,5 +1,7 @@
 # Le Jardinier
 
+![pp](./pp.png)
+
 ## Introduction
 
 "Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.
