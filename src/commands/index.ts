@@ -1,11 +1,13 @@
 import Commands from "../bot/commands";
 
-// help command
-import help from "./help";
+// utility commands
+import help from "./utility/help";
 
-// simple commands
-import hey from "./hey";
+// fun commands
+import hey from "./fun/hey";
 
+
+// exporting commands object (commands are ordered here)
 export default new Commands(
 	help,
 	hey
