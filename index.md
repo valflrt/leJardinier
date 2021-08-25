@@ -1,7 +1,5 @@
 # Le Jardinier
 
-<img alt="pp" src="https://raw.githubusercontent.com/valflrt/lejardinier-typescript/pages/pp.png" width="48px">
-
 ## Introduction
 
 "Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.
