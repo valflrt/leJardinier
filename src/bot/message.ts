@@ -13,6 +13,7 @@ class MessageInstance {
 
 	public methods: ReplyMethods;
 	public command: Command | undefined;
+	public commandArgs: string | undefined;
 
 	public hasCommand: boolean;
 	public hasPrefix: boolean;
@@ -24,6 +25,10 @@ class MessageInstance {
 		this.command = this.getCommand();
 		this.hasCommand = this.command ? true : false;
 		this.hasPrefix = this.message.content.startsWith(config.prefix);
+
+		if (this.hasCommand) this.commandArgs = this.message.content
+			.replace(new RegExp(`^${config.prefix}${this.command!.name}`, "g"), "")
+			.trim();
 
 		this.methods = new ReplyMethods(this);
 	}
