@@ -15,8 +15,12 @@ Finally, to start the code, run:
 - `npm start` for normal start
 - `npm run dev` for development start (with nodemon: restarting when code changes)
 
-#### Notes
+### Notes
 
 - You need to have npm and node installed on your computer
 - [typescript.ts](./typescript.ts) is useless, i added it because my code editor put an error and adding this file was the way to fix it...
 - *Don't mind my code it can be fucked up sometimes...*
+
+### References
+
+- [Preview site](https://valflrt.github.io/lejardinier-typescript/)
