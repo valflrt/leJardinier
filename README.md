@@ -23,4 +23,4 @@ Finally, to start the code, run:
 
 ### References
 
-- [Preview site](https://valflrt.github.io/lejardinier-typescript/)
+- [website](https://valflrt.github.io/lejardinier-typescript/) (github pages)
