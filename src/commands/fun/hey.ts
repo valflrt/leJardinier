@@ -1,7 +1,7 @@
-import MessageInstance from "../bot/message";
-import { Command } from "../types";
-import ReplyMethods from "../bot/methods";
-import * as utils from "../utils"
+import MessageInstance from "../../bot/message";
+import { Command } from "../../types";
+import ReplyMethods from "../../bot/methods";
+import * as utils from "../../utils"
 
 const hey: Command = {
 	name: "hey",
