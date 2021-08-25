@@ -2,9 +2,7 @@
 
 ## Introduction
 
-"Le Jardinier" in french means The Gardener in english. 
-
-Le Jardinier is a simple multi-task discord bot.
+"Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.
 
 ## Commands
 
