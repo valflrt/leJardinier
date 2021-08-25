@@ -1,6 +1,6 @@
 # Le Jardinier
 
-![pp](https://raw.githubusercontent.com/valflrt/lejardinier-typescript/pages/pp.png)
+<img alt="pp" src="https://raw.githubusercontent.com/valflrt/lejardinier-typescript/pages/pp.png" width="5%">
 
 ## Introduction
 
