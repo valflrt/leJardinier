@@ -5,7 +5,7 @@ import * as utils from "../../utils"
 
 const trueorfalse: Command = {
 	name: "t/f",
-	description: `Answer "true" or "false" randomly`,
+	description: `Answers "true" or "false" randomly`,
 	syntax: `t/f [?sentence]`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, message, bot, commandArgs } = messageInstance;
