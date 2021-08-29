@@ -6,8 +6,47 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Le Jardinier</title>
-	<link rel="stylesheet" type="text/css"
-		href="https://raw.githubusercontent.com/valflrt/lejardinier-typescript/pages/style.css">
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			padding: 50px 10px;
+			padding-left: 250px;
+		}
+
+		.sidebar {
+			width: 200px;
+			height: 100%;
+			top: 0;
+			left: 0;
+
+			position: fixed;
+
+			display: flex;
+			flex-direction: column;
+		}
+
+		@media screen and (max-width: 480px) {
+			body {
+				padding-left: 50px;
+				padding-top: 60px;
+			}
+
+			.sidebar {
+				width: 100%;
+				height: 50px;
+				flex-direction: row;
+			}
+		}
+	</style>
 </head>
 
 <body>
