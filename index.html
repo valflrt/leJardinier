@@ -32,6 +32,16 @@
 
 			display: flex;
 			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.sidebar>.box {
+			width: auto;
+			height: 40%;
+
+			display: flex;
+			flex-direction: column;
 			align-items: flex-end;
 			justify-content: center;
 		}
@@ -50,6 +60,11 @@
 				height: 50px;
 				flex-direction: row;
 			}
+
+			.sidebar>.box {
+				width: 40%;
+				height: auto;
+			}
 		}
 
 		ul.circle {
@@ -63,7 +78,9 @@
 <body>
 
 	<div class="sidebar">
-		<a href="https://github.com/valflrt/lejardinier-typescript" class="link">View on github</a>
+		<div class="box">
+			<a href="https://github.com/valflrt/lejardinier-typescript" class="link">View on github</a>
+		</div>
 	</div>
 
 	<section class="main">
