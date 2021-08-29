@@ -103,16 +103,35 @@
 		}
 
 		a {
-			color: var(--color-85ba6a);
+			color: initial;
+			text-decoration: none;
 		}
 
 		a:visited {
+			color: initial;
+		}
+
+		a.link {
+			color: var(--color-85ba6a);
+			text-decoration: underline;
+		}
+
+		a:visited.visited {
 			color: var(--color-85ba6a);
 		}
 
 		a.button {
-			padding: 10px;
+			height: 25px;
+			width: auto;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
 			border-radius: 4px;
+
+			background-color: var(--color-85ba6a);
+			border: 1px solid var(--color-1a7749);
 		}
 	</style>
 </head>
@@ -120,7 +139,9 @@
 <body>
 
 	<div class="topbar">
-		<h1>Le Jardinier</h1>
+		<a href="https://valflrt.github.io/lejardinier-typescript/">
+			<h1>Le Jardinier</h1>
+		</a>
 		<a class="button github" href="https://github.com/valflrt/lejardinier-typescript">View on
 			github</a>
 	</div>
@@ -150,7 +171,7 @@
 	</section>
 
 	<footer>
-		<p>Project maintained by <a href="https://github.com/valflrt">valflrt</a>.</p>
+		<p>Project maintained by <a class="link" href="https://github.com/valflrt">valflrt</a>.</p>
 	</footer>
 
 </body>
