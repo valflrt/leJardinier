@@ -29,13 +29,13 @@
 		}
 
 		html,
-		body {
+		body,
+		.root {
 			padding: 0;
 			margin: 0;
 		}
 
 		body {
-			padding: 140px 160px 0;
 			width: 100%;
 			height: 100%;
 
@@ -43,6 +43,12 @@
 
 			background-color: var(--color-01121c);
 			color: var(--color-text);
+		}
+
+		.root {
+			padding: 140px 160px 0;
+			width: 100%;
+			height: 100%;
 		}
 
 		.topbar {
@@ -96,6 +102,8 @@
 			}
 		}
 
+		/* items */
+
 		ul.circle {
 			list-style-type: circle;
 			list-style-position: inside;
@@ -146,29 +154,31 @@
 			github</a>
 	</div>
 
-	<section class="main">
+	<div class="root">
+		<section class="main">
 
-		<h2>Introduction</h2>
+			<h2>Introduction</h2>
 
-		<p>"Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.</p>
+			<p>"Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.</p>
 
-		<h2>Commands</h2>
+			<h2>Commands</h2>
 
-		<ul class="circle">
-			<li>lj!help: Help command, gives the list of all the commands</li>
-			<li>lj!hey: Used to greet the bot (it also greets you back)</li>
-			<li>lj!t/f: Answers "true" or "false" randomly</li>
-		</ul>
+			<ul class="circle">
+				<li>lj!help: Help command, gives the list of all the commands</li>
+				<li>lj!hey: Used to greet the bot (it also greets you back)</li>
+				<li>lj!t/f: Answers "true" or "false" randomly</li>
+			</ul>
 
-		<p>Note: "lj!" is the command prefix, you need it to call commands.</p>
+			<p>Note: "lj!" is the command prefix, you need it to call commands.</p>
 
-		<h2>Todo</h2>
+			<h2>Todo</h2>
 
-		<ul class="circle">
-			<li>Add new commands</li>
-			<li>Add database system</li>
-		</ul>
-	</section>
+			<ul class="circle">
+				<li>Add new commands</li>
+				<li>Add database system</li>
+			</ul>
+		</section>
+	</div>
 
 	<footer>
 		<p>Project maintained by <a class="link" href="https://github.com/valflrt">valflrt</a>.</p>
