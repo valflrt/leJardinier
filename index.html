@@ -20,7 +20,6 @@
 		body {
 			padding: 10px 200px;
 			width: 100%;
-			height: 100%;
 		}
 
 		.sidebar {
@@ -35,6 +34,10 @@
 			flex-direction: column;
 			align-items: flex-end;
 			justify-content: center;
+		}
+
+		.main {
+			height: 100%;
 		}
 
 		@media screen and (max-width: 1024px) {
@@ -59,31 +62,33 @@
 
 <body>
 
-	<div class="sidebar">
-		<a href="https://github.com/valflrt/lejardinier-typescript" class="link">View on github</a>
-	</div>
+	<section class="main">
+		<div class="sidebar">
+			<a href="https://github.com/valflrt/lejardinier-typescript" class="link">View on github</a>
+		</div>
 
-	<h1>Le Jardinier</h1>
+		<h1>Le Jardinier</h1>
 
-	<h2>Introduction</h2>
+		<h2>Introduction</h2>
 
-	<p>"Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.</p>
+		<p>"Le Jardinier" in french means The Gardener in english, it is a simple multi-task discord bot.</p>
 
-	<h2>Commands</h2>
+		<h2>Commands</h2>
 
-	<ul class="circle">
-		<li>lj!help: Help command, gives the list of all the commands</li>
-		<li>lj!hey: Used to greet the bot (it also greets you back)</li>
-	</ul>
+		<ul class="circle">
+			<li>lj!help: Help command, gives the list of all the commands</li>
+			<li>lj!hey: Used to greet the bot (it also greets you back)</li>
+		</ul>
 
-	<p>Note: "lj!" is the command prefix, you need it to call commands.</p>
+		<p>Note: "lj!" is the command prefix, you need it to call commands.</p>
 
-	<h2>Todo</h2>
+		<h2>Todo</h2>
 
-	<ul class="circle">
-		<li>Add new commands</li>
-		<li>Add database system</li>
-	</ul>
+		<ul class="circle">
+			<li>Add new commands</li>
+			<li>Add database system</li>
+		</ul>
+	</section>
 
 	<footer>Project maintained by <a href="https://github.com/valflrt">valflrt</a>.</footer>
 
