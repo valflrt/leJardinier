@@ -18,13 +18,13 @@
 		}
 
 		body {
-			padding: 10px 200px;
+			padding: 160px 160px 0;
 			width: 100%;
 		}
 
-		.sidebar {
-			width: 200px;
-			height: 100%;
+		.topbar {
+			width: 100%;
+			height: 120px;
 			top: 0;
 			left: 0;
 
@@ -33,17 +33,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			justify-content: center;
-		}
-
-		.sidebar>.box {
-			width: auto;
-			height: 40%;
-
-			display: flex;
-			flex-direction: column;
-			align-items: flex-end;
-			justify-content: center;
+			justify-content: space-between;
 		}
 
 		.main {
@@ -55,15 +45,10 @@
 				padding: 60px 20px;
 			}
 
-			.sidebar {
+			.topbar {
 				width: 100%;
 				height: 50px;
 				flex-direction: row;
-			}
-
-			.sidebar>.box {
-				width: 40%;
-				height: auto;
 			}
 		}
 
@@ -77,15 +62,12 @@
 
 <body>
 
-	<div class="sidebar">
-		<div class="box">
-			<a href="https://github.com/valflrt/lejardinier-typescript" class="link">View on github</a>
-		</div>
+	<div class="topbar">
+		<h1>Le Jardinier</h1>
+		<a class="button" href="https://github.com/valflrt/lejardinier-typescript" class="link">View on github</a>
 	</div>
 
 	<section class="main">
-
-		<h1>Le Jardinier</h1>
 
 		<h2>Introduction</h2>
 
