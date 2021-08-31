@@ -16,6 +16,14 @@ export const randomNumber = (min: number, max: number): number =>
 	Math.floor(Math.random() * (max - min + 1) + min);
 
 /**
+ * Returns true or false based on probability
+ * @param total total number (one chance on total)
+ * @returns boolean
+ */
+export const oneOf = (total: number): boolean =>
+	Math.floor(Math.random() * total) === 1 ? true : false;
+
+/**
  * returns process's RAM usage
  * @returns string of RAM usage
  */
