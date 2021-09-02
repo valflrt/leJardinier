@@ -1,3 +1,5 @@
+import config from "../config";
+
 export interface CommandType {
 	name: string,
 	description: string,
@@ -15,7 +17,7 @@ export class Command implements CommandType {
 	constructor(command: CommandType) {
 		this.name = command.name;
 		this.description = command.description;
-		this.syntax = command.syntax;
+		this.syntax = `${config.prefix}${command.syntax}`;
 		this.execution = command.execution;
 	}
 
