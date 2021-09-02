@@ -1,19 +1,13 @@
 import { CommandType } from "./command";
 import config from "../config";
 
-export default class CommandTypes {
+export default class Commands {
 
 	private readonly commands: CommandType[];
 
 	constructor(...commands: CommandType[]) {
 		this.commands = [...commands];
 	}
-
-	/**
-	 * adds one or more commands
-	 * @param command command object
-	 */
-	public add = (...commands: CommandType[]) => this.commands.push(...commands);
 
 	/**
 	 * finds out if a command with commandName as name exists in this object
@@ -43,5 +37,25 @@ export default class CommandTypes {
 	)
 
 	public toArray = (): Array<CommandType> => new Array(...this.commands);
+
+}
+
+interface Category {
+	name: string,
+	commands: CommandType[]
+}
+
+export class CommandsDisplay {
+
+	categories: Array<Category>;
+
+	constructor() {
+		this.categories = [];
+	}
+
+	addCategory = (categoryName: string | "Miscellaneous" = "Miscellaneous", ...commands: CommandType[]) => {
+		this.categories.push({ name: categoryName, commands });
+		return this;
+	}
 
 }

@@ -1,4 +1,4 @@
-import Commands from "../bot/commands";
+import Commands, { CommandsDisplay } from "../bot/commands";
 
 // utility commands
 import help from "./utility/help";
@@ -17,3 +17,12 @@ export default new Commands(
 	percentage,
 	morse
 )
+
+export const display = new CommandsDisplay()
+	.addCategory("Utility", help)
+	.addCategory("Fun",
+		hey,
+		trueorfalse,
+		percentage,
+		morse
+	)
