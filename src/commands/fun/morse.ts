@@ -19,7 +19,7 @@ const morse = new Command({
 			if (morseLetter) morse.push(morseLetter[1]);
 			else if (char === " ") morse.push("|");
 
-			if (text.length === 0) return morse.reverse().join("  ");
+			if (text.length === 0) return morse.join("  ");
 			else return encode(text.slice(1), morse);
 		};
 
