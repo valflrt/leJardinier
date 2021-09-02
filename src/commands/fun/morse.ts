@@ -3,10 +3,10 @@ import { Command } from "../../bot/command";
 
 import morseTable from "../../assets/morse.table";
 
-const morseEncode = new Command({
-	name: "morse encode",
+const morse = new Command({
+	name: "morse",
 	description: `Encode text to Morse code`,
-	syntax: `morse encode [sentence]`,
+	syntax: `morse [sentence]`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, commandArgs } = messageInstance;
 
@@ -27,4 +27,4 @@ const morseEncode = new Command({
 	}
 })
 
-export default morseEncode;
+export default morse;

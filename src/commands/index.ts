@@ -7,7 +7,7 @@ import help from "./utility/help";
 import hey from "./fun/hey";
 import trueorfalse from "./fun/trueorfalse";
 import percentage from "./fun/percentage";
-import morseEncode from "./fun/morse.encode";
+import morse from "./fun/morse";
 
 // exporting commands object (commands are ordered here)
 export default new Commands(
@@ -15,5 +15,5 @@ export default new Commands(
 	hey,
 	trueorfalse,
 	percentage,
-	morseEncode
+	morse
 )
