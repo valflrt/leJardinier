@@ -3,16 +3,16 @@ import { MessageEmbed } from "discord.js";
 import MessageInstance from "../../bot/message";
 import { Command, CommandType } from "../../bot/command";
 
-import commands from "..";
+import { display } from "..";
 
 const help = new Command({
 	name: "help",
-	description: "Get help",
+	description: "displays every available command",
 	syntax: `help`,
 	execution: async (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		const format = (array: CommandType[], newArray: CommandType[][] = [], i: number = 0): any => {
+		/*const format = (array: CommandType[], newArray: CommandType[][] = [], i: number = 0): any => {
 			if (!newArray[i]) newArray.push([]);
 
 			if (newArray[i].length !== 5)
@@ -22,13 +22,16 @@ const help = new Command({
 			if (array.length === 0) return newArray;
 			else return format(array, newArray, i);
 		};
+		i'll keep this here as a comment cuz i spent a lot of time
+		on it and it was painful so i don't want to just delete it T^T
+		*/
 
-		let formatted = format(commands.toArray());
 		let index = 0;
 
 		let generatePage = (embed: MessageEmbed) => {
-			embed.addField(`Page: `, `${index + 1}/${formatted.length}`, true);
-			formatted[index].forEach((command: CommandType) =>
+			let currentPage = display.categories[index];
+			embed.setDescription(`**${currentPage.name}** (page ${index + 1} of ${display.categories.length})`);
+			currentPage.commands.forEach((command: CommandType) =>
 				embed.addField(`${command.syntax}`, `${command.description}`)
 			)
 			return embed;
@@ -43,15 +46,16 @@ const help = new Command({
 		let collector = sent.createReactionCollector({ filter: (reaction) => ["⬅️", "➡️", "❌"].includes(reaction.emoji.name!), max: 200, time: 60000 });
 
 		collector.on("collect", async (reaction, user) => {
-			if (reaction.emoji.name === "➡️" && index !== formatted.length - 1) {
-				index++;
+			if (user.bot) return;
+			if (reaction.emoji.name === "➡️" && index !== display.categories.length - 1) {
+				index = index + 1;
 				await reaction.users.remove(user);
-				await sent.edit(methods.returnCustomEmbed(generatePage));
+				await sent.edit({ embeds: [methods.returnCustomEmbed(generatePage)] });
 			} else if (reaction.emoji.name === "⬅️" && index !== 0) {
-				index--;
+				index = index - 1;
 				await reaction.users.remove(user);
-				await sent.edit(methods.returnCustomEmbed(generatePage));
-			} else if (reaction.emoji.name === "❌" && !reaction.me) {
+				await sent.edit({ embeds: [methods.returnCustomEmbed(generatePage)] });
+			} else if (reaction.emoji.name === "❌") {
 				return collector.stop();
 			} else {
 				await reaction.users.remove(user);
