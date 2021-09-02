@@ -1,11 +1,11 @@
 import { MessageEmbed } from "discord.js";
 
 import MessageInstance from "../../bot/message";
-import { CommandType } from "../../bot/command";
+import { Command, CommandType } from "../../bot/command";
 
 import commands from "..";
 
-const help: CommandType = {
+const help = new Command({
 	name: "help",
 	description: "Get help",
 	syntax: `help`,
@@ -51,7 +51,7 @@ const help: CommandType = {
 				index--;
 				await reaction.users.remove(user);
 				await sent.edit(methods.returnCustomEmbed(generatePage));
-			} else if (reaction.emoji.name === "❌" && reaction.client.user?.bot) {
+			} else if (reaction.emoji.name === "❌" && !reaction.me) {
 				return collector.stop();
 			} else {
 				await reaction.users.remove(user);
@@ -69,6 +69,6 @@ const help: CommandType = {
 		})
 
 	}
-}
+})
 
 export default help;

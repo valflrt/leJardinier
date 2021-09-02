@@ -1,9 +1,9 @@
 import MessageInstance from "../../bot/message";
-import { CommandType } from "../../bot/command";
+import { Command } from "../../bot/command";
 
 import morseTable from "../../assets/morse.table";
 
-const morseEncode: CommandType = {
+const morseEncode = new Command({
 	name: "morse encode",
 	description: `Encode text to Morse code`,
 	syntax: `morse encode [sentence]`,
@@ -25,6 +25,6 @@ const morseEncode: CommandType = {
 
 		methods.sendEmbed(commandArgs ? encode(commandArgs?.replace(/[^abcdefghijklmopqrstuvwxyz\s]/g, "")) : "You need to give some text to convert to morse...");
 	}
-}
+})
 
 export default morseEncode;

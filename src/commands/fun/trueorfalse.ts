@@ -1,9 +1,9 @@
 import MessageInstance from "../../bot/message";
 import ReplyMethods from "../../bot/methods";
-import { CommandType } from "../../bot/command";
+import { Command } from "../../bot/command";
 import * as utils from "../../utils"
 
-const trueorfalse: CommandType = {
+const trueorfalse = new Command({
 	name: "t/f",
 	description: `Answers "true" or "false" randomly`,
 	syntax: `t/f [?sentence]`,
@@ -11,6 +11,6 @@ const trueorfalse: CommandType = {
 		let { methods, message, bot, commandArgs } = messageInstance;
 		methods.sendEmbed(`${commandArgs && `${ReplyMethods.mention(message.author.id)}\n${commandArgs}\n${ReplyMethods.mention(bot.user!.id)}\n`}${utils.randomItem("true !", "false !")}`);
 	}
-}
+})
 
 export default trueorfalse;
