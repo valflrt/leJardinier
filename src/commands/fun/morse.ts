@@ -12,7 +12,7 @@ const morse = new Command({
 
 		const encode = (text: string, morse: string[] = []): string => {
 
-			let char = text.substr(0, 1);
+			let char = text.charAt(0);
 
 			let morseLetter = morseTable.find(item => item[0] === char);
 
@@ -23,7 +23,7 @@ const morse = new Command({
 			else return encode(text.slice(1), morse);
 		};
 
-		methods.sendEmbed(commandArgs ? encode(commandArgs?.replace(/[^abcdefghijklmopqrstuvwxyz\s]/g, "")) : "You need to give some text to convert to morse...");
+		methods.sendEmbed(commandArgs ? encode(commandArgs?.toLowerCase().replace(/[^abcdefghijklmopqrstuvwxyz\s]/g, "")) : "You need to give some text to convert to morse...");
 	}
 })
 
