@@ -1,9 +1,9 @@
 import MessageInstance from "../../bot/message";
 import ReplyMethods from "../../bot/methods";
-import { Command } from "../../types";
+import { CommandType } from "../../bot/command";
 import * as utils from "../../utils"
 
-const trueorfalse: Command = {
+const trueorfalse: CommandType = {
 	name: "t/f",
 	description: `Answers "true" or "false" randomly`,
 	syntax: `t/f [?sentence]`,

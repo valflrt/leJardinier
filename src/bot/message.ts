@@ -1,7 +1,7 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 
 import commands from "../commands/index";
-import { Command } from "../types";
+import { CommandType } from "./command";
 import ReplyMethods from "./methods";
 import config from "../config";
 import log from "./log";
@@ -12,7 +12,7 @@ class MessageInstance {
 	public bot: Client;
 
 	public methods: ReplyMethods;
-	public command: Command | undefined;
+	public command: CommandType | undefined;
 	public commandArgs: string | undefined;
 
 	public hasCommand: boolean;
@@ -33,7 +33,7 @@ class MessageInstance {
 		this.methods = new ReplyMethods(this);
 	}
 
-	private getCommand = (): Command | undefined => {
+	private getCommand = (): CommandType | undefined => {
 		let command = commands.find(this.message.content);
 		return command;
 	}

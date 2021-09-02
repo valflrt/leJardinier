@@ -1,18 +1,18 @@
 import { MessageEmbed } from "discord.js";
 
 import MessageInstance from "../../bot/message";
-import { Command } from "../../types";
+import { CommandType } from "../../bot/command";
 
 import commands from "..";
 
-const help: Command = {
+const help: CommandType = {
 	name: "help",
 	description: "Get help",
 	syntax: `help`,
 	execution: async (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		const format = (array: Command[], newArray: Command[][] = [], i: number = 0): any => {
+		const format = (array: CommandType[], newArray: CommandType[][] = [], i: number = 0): any => {
 			if (!newArray[i]) newArray.push([]);
 
 			if (newArray[i].length !== 5)
@@ -28,7 +28,7 @@ const help: Command = {
 
 		let generatePage = (embed: MessageEmbed) => {
 			embed.addField(`Page: `, `${index + 1}/${formatted.length}`, true);
-			formatted[index].forEach((command: Command) =>
+			formatted[index].forEach((command: CommandType) =>
 				embed.addField(`${command.syntax}`, `${command.description}`)
 			)
 			return embed;

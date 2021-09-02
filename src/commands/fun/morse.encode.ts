@@ -1,9 +1,9 @@
 import MessageInstance from "../../bot/message";
-import { Command } from "../../types";
+import { CommandType } from "../../bot/command";
 
 import morseTable from "../../assets/morse.table";
 
-const morseEncode: Command = {
+const morseEncode: CommandType = {
 	name: "morse encode",
 	description: `Encode text to Morse code`,
 	syntax: `morse encode [sentence]`,

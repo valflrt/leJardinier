@@ -1,9 +1,9 @@
 import MessageInstance from "../../bot/message";
-import { Command } from "../../types";
 import ReplyMethods from "../../bot/methods";
+import { CommandType } from "../../bot/command";
 import * as utils from "../../utils"
 
-const hey: Command = {
+const hey: CommandType = {
 	name: "hey",
 	description: "Greet the bot",
 	syntax: `hey`,

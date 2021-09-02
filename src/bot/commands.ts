@@ -1,11 +1,11 @@
-import { Command } from "../types";
+import { CommandType } from "./command";
 import config from "../config";
 
-export default class Commands {
+export default class CommandTypes {
 
-	private readonly commands: Command[];
+	private readonly commands: CommandType[];
 
-	constructor(...commands: Command[]) {
+	constructor(...commands: CommandType[]) {
 		this.commands = [...commands];
 	}
 
@@ -13,7 +13,7 @@ export default class Commands {
 	 * adds one or more commands
 	 * @param command command object
 	 */
-	public add = (...commands: Command[]) => this.commands.push(...commands);
+	public add = (...commands: CommandType[]) => this.commands.push(...commands);
 
 	/**
 	 * finds out if a command with commandName as name exists in this object
@@ -28,7 +28,7 @@ export default class Commands {
 	 * returns command with commandName as name if existing
 	 * @param commandName command name
 	 */
-	public get = (commandName: string): Command | null => {
+	public get = (commandName: string): CommandType | null => {
 		let command = this.commands.find(command => command.name === commandName);
 		return command ? command : null;
 	}
@@ -38,10 +38,10 @@ export default class Commands {
 	 * @param messageContent message text
 	 * @returns command object
 	 */
-	public find = (messageContent: string): Command | undefined => this.commands.find(
-		(command: Command) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null
+	public find = (messageContent: string): CommandType | undefined => this.commands.find(
+		(command: CommandType) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null
 	)
 
-	public toArray = (): Array<Command> => new Array(...this.commands);
+	public toArray = (): Array<CommandType> => new Array(...this.commands);
 
 }
