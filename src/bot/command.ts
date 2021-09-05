@@ -1,25 +1,20 @@
 import config from "../config";
-
-export interface ICommand {
-	name: string,
-	description: string,
-	syntax: string,
-	execution: Function,
-	subcommands?: ICommand[]
-}
+import { ICategory, ICommand } from "../types";
 
 export class Command implements ICommand {
 
 	name: string;
 	description: string;
 	syntax: string;
+	category?: ICategory;
 	execution: Function;
-	subcommands?: ICommand[]
+	subcommands?: ICommand[];
 
 	constructor(command: ICommand) {
 		this.name = command.name;
 		this.description = command.description;
 		this.syntax = `${config.prefix}${command.syntax}`;
+		this.category = command?.category;
 		this.execution = command.execution;
 		this.subcommands = command?.subcommands;
 	}

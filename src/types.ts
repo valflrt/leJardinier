@@ -2,7 +2,7 @@ export interface ICommand {
 	name: string,
 	description: string,
 	syntax: string,
-	category?: string,
+	category?: ICategory,
 	execution: Function,
 	subcommands?: ICommand[]
 }
