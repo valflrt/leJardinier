@@ -47,7 +47,7 @@
 		.root {
 			width: 100%;
 			min-height: 100%;
-			padding: 140px 160px 80px;
+			padding: 140px 160px 180px;
 
 			display: flex;
 			align-items: stretch;
@@ -102,7 +102,7 @@
 
 		@media screen and (max-width: 820px) {
 			.root {
-				padding: 140px 40px 80px;
+				padding: 140px 40px 180px;
 				justify-content: stretch;
 			}
 		}
@@ -115,7 +115,7 @@
 			}
 
 			.root {
-				padding: 80px 40px 80px;
+				padding: 80px 40px 180px;
 			}
 
 			.topbar {
@@ -126,10 +126,19 @@
 
 		/* items */
 
-		ul.circle {
-			list-style-type: circle;
-			list-style-position: inside;
+		ul.dot {
+			margin-left: 16px;
+			list-style-type: disc;
+			list-style-position: outside;
 			padding-left: 0;
+		}
+
+		ul>* {
+			padding-bottom: 4px;
+		}
+
+		ul:last-child {
+			padding-bottom: 0;
 		}
 
 		a {
@@ -187,22 +196,45 @@
 
 			<h2>Commands</h2>
 
-			<ul class="circle">
-				<li><b>lj!help</b>: Help command, gives the list of all the commands</li>
-				<li><b>lj!hey</b>: Used to greet the bot (it also greets you back)</li>
-				<li><b>lj!t/f</b>: Answers "true" or "false" randomly</li>
+			<ul class="dot">
+				<li><b>lj!help</b> : Help command, gives the list of all the commands</li>
+				<li><b>lj!hey</b> : Used to greet the bot (it also greets you back)</li>
+				<li><b>lj!t/f <em>[?sentence]</em></b> : Answers "true" or "false" randomly, includes <em>sentence</em>
+					in the message if given</li>
+				<li><b>lj!percentage <em>[?sentence]</em></b> : Gives a random percentage, includes <em>sentence</em> in
+					the message if given</li>
+				<li><b>lj!morse <em>[sentence]</em></b> : Encodes <em>sentence</em> to morse</li>
 			</ul>
 
-			<p>Note: "lj!" is the command prefix, you need it to call commands.</p>
+			<h3>Notes:</h3>
+
+			<p>"lj!" is the prefix, the bot scans all messages that starts with it.</p>
+
+			<p>Words between square brackets in the command list are arguments, it means that text after a command in a
+				message will be used in the command.</p>
+
+			<p>Example:</p>
+
+			<ul class="dot">
+				<li>"[?sentence]" means you <b>can</b> add text after the command (optional)</li>
+				<li>"[sentence]" means you <b>must</b> add text after the command (required)</li>
+			</ul>
 
 			<h2>Development Notes</h2>
 
 			<h3>What to expect in future versions:</h3>
 
-			<ul class="circle">
+			<ul class="dot">
 				<li>new commands</li>
 				<li>database system</li>
 			</ul>
+
+			<h2>About the developer</h2>
+
+			<p>Heyo !<br>I hope you enjoy my bot, I tried my best to make it friendly.<br>My name is Valentin, also
+				known as valflrt online, I'm french (that's why my english can be fucked up sometimes...).<br>Want to
+				find me on networks ? <a class="link" href="https://valflrt.github.io/valflrt/">Here you go !</a></p>
+
 		</section>
 	</div>
 
