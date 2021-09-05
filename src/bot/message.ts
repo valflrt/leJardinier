@@ -1,7 +1,7 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 
 import commands from "../commands/index";
-import { CommandType } from "./command";
+import { ICommand } from "./command";
 import ReplyMethods from "./methods";
 import config from "../config";
 import log from "./log";
@@ -12,7 +12,7 @@ class MessageInstance {
 	public bot: Client;
 
 	public methods: ReplyMethods;
-	public command: CommandType | undefined;
+	public command: ICommand | undefined;
 	public commandArgs: string | undefined;
 
 	public hasCommand: boolean;
@@ -22,7 +22,7 @@ class MessageInstance {
 		this.message = message;
 		this.bot = bot;
 
-		this.command = this.getCommand();
+		this.command = commands.altFind(this.message.content);
 		this.hasCommand = this.command ? true : false;
 		this.hasPrefix = this.message.content.startsWith(config.prefix);
 
@@ -31,11 +31,6 @@ class MessageInstance {
 			.trim();
 
 		this.methods = new ReplyMethods(this);
-	}
-
-	private getCommand = (): CommandType | undefined => {
-		let command = commands.find(this.message.content);
-		return command;
 	}
 
 	public generateEmbed = (): MessageEmbed => new MessageEmbed()
