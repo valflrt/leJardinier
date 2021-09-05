@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import Discord from "discord.js";
-import { ICommand } from "../bot/command";
+import { ICommand } from "../types";
 
 class Logger {
 

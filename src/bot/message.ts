@@ -1,7 +1,7 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 
 import commands from "../commands/index";
-import { ICommand } from "./command";
+import { ICommand } from "../types";
 import ReplyMethods from "./methods";
 import config from "../config";
 import log from "./log";
@@ -27,7 +27,7 @@ class MessageInstance {
 		this.hasPrefix = this.message.content.startsWith(config.prefix);
 
 		if (this.hasCommand) this.commandArgs = this.message.content
-			.replace(new RegExp(`^${config.prefix}${this.command!.name}`, "g"), "")
+			.replace(new RegExp(`^${config.prefix}.+${this.command!.name}`, "g"), "")
 			.trim();
 
 		this.methods = new ReplyMethods(this);
