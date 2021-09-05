@@ -1,11 +1,11 @@
-import { CommandType } from "./command";
+import { ICommand } from "./command";
 import config from "../config";
 
 export default class Commands {
 
-	private readonly commands: CommandType[];
+	private readonly commands: ICommand[];
 
-	constructor(...commands: CommandType[]) {
+	constructor(...commands: ICommand[]) {
 		this.commands = [...commands];
 	}
 
@@ -22,7 +22,7 @@ export default class Commands {
 	 * returns command with commandName as name if existing
 	 * @param commandName command name
 	 */
-	public get = (commandName: string): CommandType | null => {
+	public get = (commandName: string): ICommand | null => {
 		let command = this.commands.find(command => command.name === commandName);
 		return command ? command : null;
 	}
@@ -32,17 +32,59 @@ export default class Commands {
 	 * @param messageContent message text
 	 * @returns command object
 	 */
-	public find = (messageContent: string): CommandType | undefined => this.commands.find(
-		(command: CommandType) => messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null
-	)
+	public find = (messageContent: string): ICommand | undefined =>
+		this.commands.find((command: ICommand) =>
+			messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null)
 
-	public toArray = (): Array<CommandType> => new Array(...this.commands);
+	/**
+	 * finds a command call directly in message content (message text sent on discord)
+	 * and checks command's subcommands (and eventually subcommands' subcommands)
+	 * @param messageContent message text
+	 * @returns command object
+	 */
+	public altFind = (messageContent: string): ICommand | undefined => {
+
+		if (messageContent.match(new RegExp(`^${config.prefix}`, "g")) !== null) {
+
+			messageContent = messageContent.replace(new RegExp(`^${config.prefix}`, "g"), "");
+
+			let regex = (commandName: string) => new RegExp(`^${commandName}`, "g");
+
+			let fetchSubcommand = (command: ICommand, remainingText: string): ICommand => {
+				if (!command.subcommands) return command;
+				else {
+					remainingText = remainingText.replace(regex(command.name), "").trim();
+
+					console.log(remainingText);
+
+					let subcommand = command.subcommands.find((subcommand: ICommand) =>
+						remainingText.match(new RegExp(`^${subcommand.name}`, "g")) !== null);
+
+					if (!subcommand) {
+						return command;
+					} else {
+						return fetchSubcommand(subcommand, remainingText);
+					}
+				}
+			}
+
+			let mainCommand = this.commands.find((command: ICommand) =>
+				messageContent.match(regex(command.name)) !== null);
+
+			if (!mainCommand) return undefined;
+			else return fetchSubcommand(mainCommand!, messageContent);
+
+		} else return undefined
+
+	}
+
+	public toArray = (): Array<ICommand> => new Array(...this.commands);
 
 }
 
 interface Category {
 	name: string,
-	commands: CommandType[]
+	commands: ICommand[]
 }
 
 export class CommandsDisplay {
@@ -53,7 +95,7 @@ export class CommandsDisplay {
 		this.categories = [];
 	}
 
-	addCategory = (categoryName: string | "Miscellaneous" = "Miscellaneous", ...commands: CommandType[]) => {
+	addCategory = (categoryName: string | "Miscellaneous" = "Miscellaneous", ...commands: ICommand[]) => {
 		this.categories.push({ name: categoryName, commands });
 		return this;
 	}
