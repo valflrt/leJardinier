@@ -6,3 +6,8 @@ export interface ICommand {
 	execution: Function,
 	subcommands?: ICommand[]
 }
+
+export interface ICategory {
+	name: string,
+	order: number
+}
