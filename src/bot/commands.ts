@@ -1,4 +1,4 @@
-import { ICommand } from "./command";
+import { ICommand } from "../types";
 import config from "../config";
 
 export default class Commands {
@@ -14,8 +14,7 @@ export default class Commands {
 	 * @param commandName command name
 	 */
 	public has = (commandName: string): boolean => {
-		let command = this.commands.find(command => command.name === commandName);
-		return command ? true : false;
+		return this.commands.some(command => command.name === commandName);
 	}
 
 	/**
