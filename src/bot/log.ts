@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import Discord from "discord.js";
-import { CommandType } from "../bot/command";
+import { ICommand } from "../bot/command";
 
 class Logger {
 
@@ -94,8 +94,8 @@ class BotLogger extends Logger {
 
 class CommandLogger extends Logger {
 
-	public executed = (command: CommandType) => this.success(`Successfully executed ${chalk.bold(command.name)}`);
-	public executionFailed = (command: CommandType, err: any) => this.error(`Failed to execute ${chalk.bold(command.name)}:\n${err}`);
+	public executed = (command: ICommand) => this.success(`Successfully executed ${chalk.bold(command.name)}`);
+	public executionFailed = (command: ICommand, err: any) => this.error(`Failed to execute ${chalk.bold(command.name)}:\n${err}`);
 
 }
 
