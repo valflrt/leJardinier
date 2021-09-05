@@ -55,8 +55,6 @@ export default class Commands {
 				else {
 					remainingText = remainingText.replace(regex(command.name), "").trim();
 
-					console.log(remainingText);
-
 					let subcommand = command.subcommands.find((subcommand: ICommand) =>
 						remainingText.match(new RegExp(`^${subcommand.name}`, "g")) !== null);
 
