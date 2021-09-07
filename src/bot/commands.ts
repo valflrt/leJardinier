@@ -1,12 +1,15 @@
 import { ICommand } from "../types";
 import config from "../config";
+import { Collection } from "../utility/Collection";
 
 export default class Commands {
 
-	private readonly commands: ICommand[];
+	//public readonly orderedList: Collection;
+	private readonly list: ICommand[];
 
 	constructor(...commands: ICommand[]) {
-		this.commands = [...commands];
+		//this.orderedList = new Collection(...commands);
+		this.list = [...commands];
 	}
 
 	/**
@@ -14,7 +17,7 @@ export default class Commands {
 	 * @param commandName command name
 	 */
 	public has = (commandName: string): boolean => {
-		return this.commands.some(command => command.name === commandName);
+		return this.list.some(command => command.name === commandName);
 	}
 
 	/**
@@ -22,7 +25,7 @@ export default class Commands {
 	 * @param commandName command name
 	 */
 	public get = (commandName: string): ICommand | null => {
-		let command = this.commands.find(command => command.name === commandName);
+		let command = this.list.find(command => command.name === commandName);
 		return command ? command : null;
 	}
 
@@ -32,7 +35,7 @@ export default class Commands {
 	 * @returns command object
 	 */
 	public find = (messageContent: string): ICommand | undefined =>
-		this.commands.find((command: ICommand) =>
+		this.list.find((command: ICommand) =>
 			messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null)
 
 	/**
@@ -65,7 +68,7 @@ export default class Commands {
 				}
 			}
 
-			let mainCommand = this.commands.find((command: ICommand) =>
+			let mainCommand = this.list.find((command: ICommand) =>
 				messageContent.match(regex(command.name)) !== null);
 
 			if (!mainCommand) return undefined;
@@ -75,7 +78,7 @@ export default class Commands {
 
 	}
 
-	public toArray = (): Array<ICommand> => new Array(...this.commands);
+	public toArray = (): Array<ICommand> => new Array(...this.list);
 
 }
 
