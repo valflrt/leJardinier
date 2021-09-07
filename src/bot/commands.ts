@@ -1,12 +1,14 @@
-import { ICommand } from "../types";
+import { ICategory, ICommand } from "../types";
 import config from "../config";
 
 export default class Commands {
 
 	private readonly commands: ICommand[];
+	public readonly categories: ICommand[][];
 
 	constructor(...commands: ICommand[]) {
 		this.commands = [...commands];
+		this.categories = this.filterCommands(commands);
 	}
 
 	/**
@@ -73,6 +75,15 @@ export default class Commands {
 
 		} else return undefined
 
+	}
+
+	private filterCommands = (commands: ICommand[]) => {
+		let categories: ICategory[] = [];
+		commands.forEach(command =>
+			!categories.some(category => category.name === command.category!.name)
+			&& categories.push(command.category!));
+		return categories.map(category =>
+			commands.filter(command => command.category!.name === category.name));
 	}
 
 	public toArray = (): Array<ICommand> => new Array(...this.commands);
