@@ -7,7 +7,6 @@ const morse = new Command({
 	name: "morse",
 	description: `Encode text to Morse code`,
 	syntax: `morse [sentence]`,
-	category: { name: "Fun", order: 1 },
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, commandArgs } = messageInstance;
 

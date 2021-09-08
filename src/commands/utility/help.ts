@@ -4,13 +4,12 @@ import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 import { ICommand } from "../../types";
 
-import commands, { display } from "..";
+import commands from "..";
 
 const help = new Command({
 	name: "help",
 	description: "Display help panel",
 	syntax: "help",
-	category: { name: "Utility", order: 0 },
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 		methods.sendEmbed(`You don't know how to use this bot ?
@@ -40,12 +39,11 @@ const help = new Command({
 				*/
 
 				let index = 0;
+				let categories = commands.getCategories();
 
 				let generatePage = (embed: MessageEmbed) => {
-					let currentCategoryCommands = commands.toArray().filter((command) => command.category!.order === index);
-					let currentCategory = currentCategoryCommands[0].category!;
-					embed.setDescription(`**${currentCategory.name}** (page ${index + 1} of ${display.categories.length})`);
-					currentCategoryCommands.forEach((command: ICommand) =>
+					embed.setDescription(`**${categories[index].name}** (page ${index + 1} of ${categories.length})`);
+					categories[index].commands.forEach((command: ICommand) =>
 						embed.addField(`${command.syntax}`, `${command.description}`)
 					)
 					return embed;
@@ -61,7 +59,7 @@ const help = new Command({
 
 				collector.on("collect", async (reaction, user) => {
 					if (user.bot) return;
-					if (reaction.emoji.name === "➡️" && index !== display.categories.length - 1) {
+					if (reaction.emoji.name === "➡️" && index !== categories.length - 1) {
 						index = index + 1;
 						await reaction.users.remove(user);
 						await sent.edit({ embeds: [methods.returnCustomEmbed(generatePage)] });
