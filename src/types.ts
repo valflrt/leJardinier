@@ -2,12 +2,12 @@ export interface ICommand {
 	name: string,
 	description: string,
 	syntax: string,
-	category?: ICategory,
+	categoryName?: string,
 	execution: Function,
 	subcommands?: ICommand[]
 }
 
 export interface ICategory {
 	name: string,
-	order: number
+	commands: ICommand[]
 }
