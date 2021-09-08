@@ -12,9 +12,11 @@ const help = new Command({
 	syntax: "help",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendEmbed(`You don't know how to use this bot ?
+		methods.sendEmbed(`You don't know how to use this bot ?\n
 		Here is some help:
-		You need the list of all the available commands ? type: \`lj!help commands\``);
+		- \`lj!help commands\` gives command list
+		- \`lj!help command [command name]\` gives information about one command
+		- \`lj!help website\` gives the link to my website where everything you need to know is written`);
 	},
 	subcommands: [
 		new Command({
@@ -44,7 +46,7 @@ const help = new Command({
 				let generatePage = (embed: MessageEmbed) => {
 					embed.setDescription(`**${categories[index].name}** (page ${index + 1} of ${categories.length})`);
 					categories[index].commands.forEach((command: ICommand) =>
-						embed.addField(`${command.syntax}`, `${command.description}`)
+						embed.addField(`\`${command.syntax}\``, `${command.description}`)
 					)
 					return embed;
 				}
@@ -104,11 +106,24 @@ const help = new Command({
 					${command.description}${command.subcommands ? "\n\n__**Subcommands:**__\n" : ""}`);
 
 					command.subcommands?.forEach((command) =>
-						embed.addField(`   ${command.syntax}`, `   ${command.description}`));
+						embed.addField(`   \`${command.syntax}\``, `   ${command.description}`));
 
 					return embed;
 
 				});
+			}
+		}),
+		new Command({
+			name: "website",
+			description: `Get my website link`,
+			syntax: `website`,
+			execution: (messageInstance: MessageInstance) => {
+				let { methods, commandArgs } = messageInstance;
+
+				methods.sendCustomEmbed((embed: MessageEmbed) => embed
+					.setTitle("Click here to access my website")
+					.setURL("https://valflrt.github.io/lejardinier-typescript/")
+				);
 			}
 		})
 	]
