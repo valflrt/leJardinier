@@ -105,8 +105,8 @@ const help = new Command({
 					embed.setDescription(`**\`${command.syntax}\`**
 					${command.description}${command.subcommands ? "\n\n__**Subcommands:**__\n" : ""}`);
 
-					command.subcommands?.forEach((command) =>
-						embed.addField(`   \`${command.syntax}\``, `   ${command.description}`));
+					command.subcommands?.forEach((subcommand) =>
+						embed.addField(`   \`${subcommand.syntax}\``, `   ${subcommand.description}`));
 
 					return embed;
 
