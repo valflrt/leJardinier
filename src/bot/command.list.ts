@@ -1,19 +1,34 @@
 import { ICategory, ICommand } from "../types";
 import config from "../config";
 
-export default class Commands {
+export default class CommandList {
 
 	private readonly commands: ICommand[];
-	public readonly categories: ICommand[][];
+	private readonly categories: ICategory[];
 
 	constructor(...commands: ICommand[]) {
-		this.commands = [...commands];
-		this.categories = this.filterCommands(commands);
+		this.commands = commands;
+		this.categories = [];
+	}
+
+	/**
+	 * sets a category and all corresponding commands
+	 * also adds corresponding category name to each command
+	 * @param categoryName {string} category name
+	 * @param commands {array} commands to set
+	 * @returns {CommandList} "this", used to put together multiple times this method as a "dot chain"
+	 */
+	public setCategory = (categoryName: string, commands: ICommand[]): CommandList => {
+		commands.forEach(command => command.categoryName = categoryName);
+		let category: ICategory = { name: categoryName, commands };
+		this.categories.push(category);
+		return this;
 	}
 
 	/**
 	 * finds out if a command with commandName as name exists in this object
-	 * @param commandName command name
+	 * @param commandName {string} command name
+	 * @returns {boolean} wether this.commands has the researched command
 	 */
 	public has = (commandName: string): boolean => {
 		return this.commands.some(command => command.name === commandName);
@@ -21,7 +36,8 @@ export default class Commands {
 
 	/**
 	 * returns command with commandName as name if existing
-	 * @param commandName command name
+	 * @param commandName {string} command name
+	 * @returns {ICommand} corresponding command object
 	 */
 	public get = (commandName: string): ICommand | null => {
 		let command = this.commands.find(command => command.name === commandName);
@@ -30,8 +46,8 @@ export default class Commands {
 
 	/**
 	 * finds a command call directly in message content (message text sent on discord)
-	 * @param messageContent message text
-	 * @returns command object
+	 * @param messageContent {string} message text
+	 * @returns {ICommand} corresponding command object
 	 */
 	public find = (messageContent: string): ICommand | undefined =>
 		this.commands.find((command: ICommand) =>
@@ -40,8 +56,8 @@ export default class Commands {
 	/**
 	 * finds a command call directly in message content (message text sent on discord)
 	 * and checks command's subcommands (and eventually subcommands' subcommands)
-	 * @param messageContent message text
-	 * @returns command object
+	 * @param messageContent {string} message text
+	 * @returns {ICommand | undefined} command object or undefined if to found
 	 */
 	public altFind = (messageContent: string): ICommand | undefined => {
 
@@ -77,35 +93,16 @@ export default class Commands {
 
 	}
 
-	private filterCommands = (commands: ICommand[]) => {
-		let categories: ICategory[] = [];
-		commands.forEach(command =>
-			!categories.some(category => category.name === command.category!.name)
-			&& categories.push(command.category!));
-		return categories.map(category =>
-			commands.filter(command => command.category!.name === category.name));
-	}
+	/**
+	 * returns all commands
+	 * @returns {ICommand[]} all commands
+	 */
+	public getCommands = (): ICommand[] => new Array(...this.commands);
 
-	public toArray = (): Array<ICommand> => new Array(...this.commands);
-
-}
-
-interface Category {
-	name: string,
-	commands: ICommand[]
-}
-
-export class CommandsDisplay {
-
-	categories: Array<Category>;
-
-	constructor() {
-		this.categories = [];
-	}
-
-	addCategory = (categoryName: string | "Miscellaneous" = "Miscellaneous", ...commands: ICommand[]) => {
-		this.categories.push({ name: categoryName, commands });
-		return this;
-	}
+	/**
+	 * returns all categories
+	 * @returns {ICategory[]}
+	 */
+	public getCategories = (): ICategory[] => new Array(...this.categories);
 
 }

@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import chalk, { underline } from "chalk";
 import Discord from "discord.js";
 import { ICommand } from "../types";
 
@@ -61,6 +61,9 @@ class BotLogger extends Logger {
 
 	/**
 	 * logs messages (username#0000: [message content])
+	 * and shows embed and attachments
+	 * also avoid logging username too much times:
+	 * if the same user sent several messages it doesn't logging their username
 	 * @param message discord message object
 	 */
 	public message = (message: Discord.Message) => {
@@ -94,7 +97,36 @@ class BotLogger extends Logger {
 
 class CommandLogger extends Logger {
 
-	public executed = (command: ICommand) => this.success(`Successfully executed ${chalk.bold(command.name)}`);
+	private startTime: number;
+
+	constructor() {
+		super();
+		this.startTime = Date.now();
+	}
+
+	/**
+	 * sets time to measure command execution time
+	 * @returns {number} current date (time)
+	 */
+	public startTimer = (): number => this.startTime = Date.now();
+
+	/**
+	 * returns elapsed time
+	 * @returns {string} elapsed time
+	 */
+	public getElapsedTime = (): string => `${(Date.now() - this.startTime) / 1000}ms`;
+
+	/**
+	 * logs a success message when a command executed correctly
+	 * @param command {ICommand} command object
+	 */
+	public executed = (command: ICommand) => this.success(`Successfully executed command ${chalk.bold(command.name)} in ${this.getElapsedTime()}`);
+
+	/**
+	 * logs a failure message
+	 * @param command {ICommand} command object
+	 * @param err error to log
+	 */
 	public executionFailed = (command: ICommand, err: any) => this.error(`Failed to execute ${chalk.bold(command.name)}:\n${err}`);
 
 }

@@ -1,4 +1,4 @@
-import Commands, { CommandsDisplay } from "../bot/commands";
+import CommandList from "../bot/command.list";
 
 // utility commands
 import help from "./utility/help";
@@ -9,8 +9,8 @@ import trueorfalse from "./fun/trueorfalse";
 import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
-// exporting commands object (commands are ordered here)
-export default new Commands(
+// exporting commands object
+let commandList = new CommandList(
 	help,
 	hey,
 	trueorfalse,
@@ -18,11 +18,14 @@ export default new Commands(
 	morse
 )
 
-export const display = new CommandsDisplay()
-	.addCategory("Utility", help)
-	.addCategory("Fun",
+// sets categories (so commands are ordered and sorted here)
+commandList
+	.setCategory("Utility", [help])
+	.setCategory("Fun", [
 		hey,
 		trueorfalse,
 		percentage,
 		morse
-	)
+	])
+
+export default commandList;
