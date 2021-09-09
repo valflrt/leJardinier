@@ -11,7 +11,7 @@ const invite = new Command({
 		methods.sendCustomEmbed((embed: MessageEmbed) => embed
 			.setTitle("Invitation link")
 			.setURL(bot.generateInvite({ scopes: ["bot"], permissions: "ADMINISTRATOR" }))
-			.setDescription(`Click the click above to add me in your server`));
+			.setDescription(`The link above allow you to add me in your server`));
 	}
 })
 
