@@ -4,7 +4,7 @@ import { Command } from "../../bot/command";
 import * as utils from "../../utils"
 
 const trueorfalse = new Command({
-	name: "t/f",
+	name: "tof",
 	description: `Answers "true" or "false" randomly`,
 	arguments: `[?sentence]`,
 	execution: (messageInstance: MessageInstance) => {
