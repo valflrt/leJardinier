@@ -6,7 +6,7 @@ import morseTable from "../../assets/morse.table";
 const morse = new Command({
 	name: "morse",
 	description: `Encode text to Morse code`,
-	syntax: `morse [sentence]`,
+	arguments: `[sentence]`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, commandArgs } = messageInstance;
 

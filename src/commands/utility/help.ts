@@ -9,7 +9,6 @@ import commands from "..";
 const help = new Command({
 	name: "help",
 	description: "Display help panel",
-	syntax: "help",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 		methods.sendEmbed(`You don't know how to use this bot ?\n
@@ -22,7 +21,6 @@ const help = new Command({
 		new Command({
 			name: "commands",
 			description: "Displays every available command",
-			syntax: `commands`,
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
 
@@ -91,7 +89,7 @@ const help = new Command({
 		new Command({
 			name: "command",
 			description: `Get help about one command`,
-			syntax: `command [command name]`,
+			arguments: `[command name]`,
 			execution: (messageInstance: MessageInstance) => {
 				let { methods, commandArgs } = messageInstance;
 

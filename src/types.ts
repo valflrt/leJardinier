@@ -1,6 +1,7 @@
 export interface ICommand {
 	name: string,
 	description: string,
+	arguments?: string,
 	syntax?: string,
 	categoryName?: string,
 	execution: Function,
