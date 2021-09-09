@@ -1,5 +1,5 @@
 import config from "../config";
-import { ICategory, ICommand } from "../types";
+import { ICommand } from "../types";
 
 export class Command implements ICommand {
 
