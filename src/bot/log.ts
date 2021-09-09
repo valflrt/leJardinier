@@ -1,4 +1,4 @@
-import chalk, { underline } from "chalk";
+import chalk from "chalk";
 import Discord from "discord.js";
 import { ICommand } from "../types";
 
