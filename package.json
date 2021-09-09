@@ -3,7 +3,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "npx nodemon src/index.ts"
+    "dev": "npx nodemon --config nodemon.json src/index.ts"
   },
   "repository": {
     "type": "git",
