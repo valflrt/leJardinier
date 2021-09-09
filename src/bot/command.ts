@@ -5,7 +5,7 @@ export class Command implements ICommand {
 
 	name: string;
 	description: string;
-	syntax: string;
+	syntax?: string;
 	categoryName?: string;
 	execution: Function;
 	subcommands?: ICommand[];
@@ -13,7 +13,7 @@ export class Command implements ICommand {
 	constructor(command: ICommand) {
 		this.name = command.name;
 		this.description = command.description;
-		this.syntax = `${config.prefix}${command.syntax}`;
+		this.syntax = `${config.prefix}${command.name}`;
 		this.categoryName = command?.categoryName;
 		this.execution = command.execution;
 
