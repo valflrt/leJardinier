@@ -70,6 +70,7 @@ class BotLogger extends Logger {
 
 		let embeds: number = message.embeds.length;
 		let attachments: number = message.attachments.toJSON().length;
+		let isSystem = message.system;
 
 		let text: string = (message.content ? `${message.content}` : "")
 			.concat(
@@ -77,7 +78,8 @@ class BotLogger extends Logger {
 				attachments !== 0 ? chalk.italic(` [${attachments.toString()} Attachments]`) : ""
 			)
 
-		if (this.lastChatlogUser !== message.author.id) {
+		if (isSystem) return
+		else if (this.lastChatlogUser !== message.author.id) {
 			this.newLine();
 			this.log(`${chalk.bold(message.author.tag)}:\n${text}`);
 		} else if (message.content) this.log(text);
