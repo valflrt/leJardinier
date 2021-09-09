@@ -7,3 +7,5 @@ interface DB {
 }
 
 const DB = new Low<DB>(new JSONFile<DB>(`${__dirname}database/database.json`));
+
+export default DB;
