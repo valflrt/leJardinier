@@ -1,3 +1,3 @@
 {
-  "ignore": ["database/databases/*"]
+  "ignore": ["database/database.json"]
 }
