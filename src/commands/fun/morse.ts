@@ -1,3 +1,5 @@
+import { MessageEmbed } from "discord.js";
+
 import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 
@@ -5,26 +7,50 @@ import morseTable from "../../assets/morse.table";
 
 const morse = new Command({
 	name: "morse",
-	description: `Encode text to Morse code`,
-	arguments: `[sentence]`,
+	description: `Morse code utility command`,
 	execution: (messageInstance: MessageInstance) => {
-		let { methods, commandArgs } = messageInstance;
+		let { methods } = messageInstance;
 
-		const encode = (text: string, morse: string[] = []): string => {
+		methods.sendEmbed(`Use \`lj!morse encode\` to encode text to Morse code
+		Use \`lj!morse table\` to get Morse code table`);
+	},
+	subcommands: [
+		new Command({
+			name: "encode",
+			description: `Encode text to Morse code`,
+			arguments: `[sentence]`,
+			execution: (messageInstance: MessageInstance) => {
+				let { methods, commandArgs } = messageInstance;
 
-			let char = text.charAt(0);
+				const encode = (text: string, morse: string[] = []): string => {
 
-			let morseLetter = morseTable.find(item => item[0] === char);
+					let char = text.charAt(0);
 
-			if (morseLetter) morse.push(morseLetter[1]);
-			else if (char === " ") morse.push("|");
+					let morseLetter = morseTable.find(item => item[0] === char);
 
-			if (text.length === 0) return morse.join("  ");
-			else return encode(text.slice(1), morse);
-		};
+					if (morseLetter) morse.push(morseLetter[1]);
+					else if (char === " ") morse.push("|");
 
-		methods.sendEmbed(commandArgs ? encode(commandArgs?.toLowerCase().replace(/[^abcdefghijklmopqrstuvwxyz\s]/g, "")) : "You need to give some text to convert to morse...");
-	}
+					if (text.length === 0) return morse.join("  ");
+					else return encode(text.slice(1), morse);
+				};
+
+				methods.sendEmbed(commandArgs ? encode(commandArgs?.toLowerCase().replace(/[^abcdefghijklmopqrstuvwxyz\s]/g, "")) : "You need to give some text to convert to morse...");
+			}
+		}),
+		new Command({
+			name: "table",
+			description: `Gives the Morse table`,
+			execution: (messageInstance: MessageInstance) => {
+				let { methods } = messageInstance;
+
+				methods.sendCustomEmbed((embed: MessageEmbed) => embed
+					.setDescription(`Here is the morse table\n
+					${morseTable.map(char => `${char[0]}: \`${char[1]}\``).join("\n")}`)
+				);
+			}
+		})
+	]
 })
 
 export default morse;
