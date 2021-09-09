@@ -15,13 +15,13 @@ export class Command implements ICommand {
 		this.name = command.name;
 		this.description = command.description;
 		this.arguments = command.arguments ? ` ${command.arguments}` : "";
-		this.syntax = `${config.prefix}${command.name}${this.arguments}`;
+		this.syntax = `${config.prefix}${this.name}${this.arguments}`;
 		this.categoryName = command?.categoryName;
 		this.execution = command.execution;
 
 		// sets subcommand syntax. eg: "[prefix][command name] [subcommand name]"
 		command.subcommands?.forEach(subcommand =>
-			subcommand.syntax = `${command.syntax} ${subcommand.name}`);
+			subcommand.syntax = `${this.syntax} ${subcommand.name}`);
 
 		this.subcommands = command?.subcommands;
 	}
