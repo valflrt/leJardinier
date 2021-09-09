@@ -1,10 +1,11 @@
 import { MessageEmbed } from "discord.js";
 
 import MessageInstance from "../../bot/message";
+
 import { Command } from "../../bot/command";
 import { ICommand } from "../../types";
 
-import commands from "..";
+import commandList from "..";
 
 const help = new Command({
 	name: "help",
@@ -39,7 +40,7 @@ const help = new Command({
 				*/
 
 				let index = 0;
-				let categories = commands.getCategories();
+				let categories = commandList.getCategories();
 
 				let generatePage = (embed: MessageEmbed) => {
 					embed.setDescription(`**${categories[index].name}** (page ${index + 1} of ${categories.length})`);
@@ -95,10 +96,10 @@ const help = new Command({
 
 				if (!commandArgs) return methods.sendEmbed(`You need to specify the command name...`);
 
-				if (!commands.has(commandArgs)) return methods.sendEmbed(`Unknown command...`);
+				if (!commandList.has(commandArgs)) return methods.sendEmbed(`Unknown command...`);
 				else methods.sendCustomEmbed((embed: MessageEmbed) => {
 
-					let command = commands.get(commandArgs!)!;
+					let command = commandList.get(commandArgs!)!;
 
 					embed.setDescription(`**\`${command.syntax}\`**
 					${command.description}${command.subcommands ? "\n\n__**Subcommands:**__\n" : ""}`);
@@ -116,12 +117,8 @@ const help = new Command({
 			description: `Get my website link`,
 			syntax: `website`,
 			execution: (messageInstance: MessageInstance) => {
-				let { methods, commandArgs } = messageInstance;
-
-				methods.sendCustomEmbed((embed: MessageEmbed) => embed
-					.setTitle("Click here to access my website")
-					.setURL("https://valflrt.github.io/lejardinier-typescript/")
-				);
+				let { methods } = messageInstance;
+				methods.send("https://valflrt.github.io/lejardinier-typescript/");
 			}
 		})
 	]
