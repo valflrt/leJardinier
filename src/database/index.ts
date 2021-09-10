@@ -3,8 +3,8 @@ import { Low, JSONFile } from "lowdb";
 
 let basePath = `${__dirname}database/databases/`;
 
-interface DB {
+export interface DBSchema {
 	guilds: Guild
 }
 
-export default new Low<DB>(new JSONFile<DB>(basePath.concat("database.json")));
+export default new Low<DBSchema>(new JSONFile<DBSchema>(basePath.concat("database.json")));
