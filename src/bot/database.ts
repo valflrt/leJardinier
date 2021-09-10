@@ -3,7 +3,7 @@ import { Low } from "lowdb/lib";
 import database from "../database";
 import { SDB, SGuild } from "../database/schemas";
 
-export default class Database {
+class Database {
 
 	private DB: Low<SDB>;
 
@@ -50,3 +50,5 @@ export default class Database {
 	private save = (): Promise<any> => this.DB.write();
 
 }
+
+export default new Database;

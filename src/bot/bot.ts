@@ -1,4 +1,4 @@
-import { Client, Message } from "discord.js";
+import { Client, Guild, Message } from "discord.js";
 
 import config from "../config";
 import token from "../config/token";
