@@ -1,10 +1,7 @@
-import { Guild } from "discord.js";
 import { Low, JSONFile } from "lowdb";
+
+import { SDB } from "./schemas";
 
 let basePath = `${__dirname}database/databases/`;
 
-export interface DBSchema {
-	guilds: Guild[]
-}
-
-export default new Low<DBSchema>(new JSONFile<DBSchema>(basePath.concat("database.json")));
+export default new Low<SDB>(new JSONFile<SDB>(basePath.concat("database.json")));
