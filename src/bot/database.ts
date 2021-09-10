@@ -7,6 +7,7 @@ export default class Database {
 
 	constructor() {
 		this.DB = database;
+		this.read().catch(err => console.log(err));
 	}
 
 	/**
