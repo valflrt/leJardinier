@@ -7,4 +7,4 @@ interface DB {
 	guilds: Guild
 }
 
-const DB = new Low<DB>(new JSONFile<DB>(basePath.concat("database.json")));
+export default new Low<DB>(new JSONFile<DB>(basePath.concat("database.json")));
