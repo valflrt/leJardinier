@@ -1,4 +1,4 @@
-import { Guild, User } from "discord.js";
+import { Guild } from "discord.js";
 import { Low, JSONFile } from "lowdb";
 
 let basePath = `${__dirname}database/databases/`;
