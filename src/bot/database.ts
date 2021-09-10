@@ -1,12 +1,12 @@
 import { Low } from "lowdb/lib";
-import database from "../database";
+import database, { DBSchema } from "../database";
 
 export default class Database {
 
-	private DB: Low;
+	private DB: Low<DBSchema>;
 
-	constructor(DB: Low) {
-		this.DB = DB;
+	constructor() {
+		this.DB = database;
 	}
 
 	/**
