@@ -3,6 +3,7 @@ import { Client, Guild, Message } from "discord.js";
 import config from "../config";
 import token from "../config/token";
 
+import database from "./database";
 import log from "./log";
 import MessageInstance from "./message";
 
@@ -23,15 +24,24 @@ class LeJardinier {
 			]
 		});
 
-		this.bot.on("ready", async () => this.onReady());
+		this.bot.once("ready", async () => this.onReady());
 		this.bot.on("messageCreate", async (message) => this.onMessageCreate(message));
 
 		this.bot.login(token!);
 	}
 
-	private onReady() {
+	private async onReady() {
+
+		try {
+			await database.connect();
+			log.database.connectionSuccess();
+		} catch (e) {
+			log.database.connectionFailed(e);
+		}
+
 		this.bot.user!.setActivity({ name: `${config.prefix}help`, type: "WATCHING" });
 		log.bot.connected(this.bot.user!.tag, this.bot.user!.id);
+
 	}
 
 	private onMessageCreate(message: Message) {
