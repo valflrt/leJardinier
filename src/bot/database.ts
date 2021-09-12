@@ -16,7 +16,7 @@ class GuildManager {
 	}
 
 	public add = async (guild: IGuildSchema) => {
-		await new GuildModel(guild).save();
+		return await new GuildModel(guild).save();
 	}
 
 }
