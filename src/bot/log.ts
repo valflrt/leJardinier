@@ -92,7 +92,7 @@ class BotLogger extends Logger {
 	 * @param tag bot's tag (username#0000)
 	 * @param id bot's id (discord snowflake)
 	 */
-	public connected = (tag: string, id: string) => this.success(`successfully logged in as ${chalk.underline(tag)} ${chalk.grey.italic(`(id: ${id})`)}`);
+	public connected = (tag: string, id: string) => this.success(`Successfully logged in as ${chalk.underline(tag)} ${chalk.grey.italic(`(id: ${id})`)}`);
 
 
 }
