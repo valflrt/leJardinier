@@ -1,27 +1,16 @@
-import { MongoClient, Collection } from "mongodb";
+import mongoose from "mongoose";
 
 import config from "../config/database";
 
+import guild from "../database/schemas/guild";
+
 class Database {
 
-	private client: MongoClient;
-	private DB: Collection<Document> | undefined;
+	public connect = () => mongoose.connect(config.databaseURI);
 
-	constructor() {
-		this.client = new MongoClient(config.databaseURI);
+	public findById = async (id: string) => {
+		return await guild.findOne({ id: id })
 	}
-
-	public connect = () => new Promise<void>(async (resolve) => {
-		try {
-			let connection = await this.client.connect();
-
-			this.DB = connection
-				.db("lejardinier")
-				.collection("main");
-
-			resolve();
-		} catch (e) { console.log(e) };
-	})
 
 }
 

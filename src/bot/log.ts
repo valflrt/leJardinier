@@ -133,12 +133,22 @@ class CommandLogger extends Logger {
 
 }
 
+class DatabaseLogger extends Logger {
+
+	public connectionSuccess = () => this.success(`Successfully connected to database`);
+
+	public connectionFailed = (err: any) => this.error(`Failed to connect to database:\n${err}`);
+
+}
+
 export const logger = new Logger();
 export const bot = new BotLogger();
 export const command = new CommandLogger();
+export const database = new DatabaseLogger();
 
 export default {
 	logger,
 	bot,
-	command
+	command,
+	database
 }
