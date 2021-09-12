@@ -10,4 +10,4 @@ export const UserSchema = new mongoose.Schema<IUserSchema>({
 	username: { type: String, required: true }
 })
 
-export const UserModel = mongoose.model<IUserSchema>("Guild", UserSchema);
+export const UserModel = mongoose.model<IUserSchema>("User", UserSchema);
