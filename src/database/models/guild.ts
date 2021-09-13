@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IGuildSchema {
-	id: string,
+	id: string
 	name: string
 }
 

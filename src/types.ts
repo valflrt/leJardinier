@@ -1,14 +1,15 @@
 export interface ICommand {
-	name: string,
-	description: string,
-	arguments?: string,
-	syntax?: string,
-	categoryName?: string,
-	execution: Function,
+	name: string
+	description: string
+	arguments?: string
+	syntax?: string
+	categoryName?: string
+	requiresDB?: boolean
+	execution: Function
 	subcommands?: ICommand[]
 }
 
 export interface ICategory {
-	name: string,
+	name: string
 	commands: ICommand[]
 }
