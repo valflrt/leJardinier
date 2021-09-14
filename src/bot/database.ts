@@ -4,6 +4,7 @@ import config from "../config/database";
 
 import { IGuildSchema, GuildModel } from "../database/models/guild";
 import { IUserSchema, UserModel } from "../database/models/user";
+import { IAccountSchema, AccountModel } from "../database/models/account";
 
 class GuildManager {
 
@@ -34,6 +35,27 @@ class UserManager {
 
 	public exists = async (id: string): Promise<boolean> => {
 		let doc = await UserModel.findOne({ id });
+		return doc ? true : false;
+	}
+
+	public remove = async (id: string) => {
+		return await UserModel.findOneAndRemove({ id });
+	}
+
+	public add = async (user: IUserSchema) => {
+		return await (new UserModel(user)).save();
+	}
+
+}
+
+class AccountManager {
+
+	public find = async (userId: string, guildId: string) => {
+		return await AccountModel.findOne({ userId, guildId });
+	}
+
+	public exists = async (id: string): Promise<boolean> => {
+		let doc = await AccountModel.findOne({ id });
 		return doc ? true : false;
 	}
 

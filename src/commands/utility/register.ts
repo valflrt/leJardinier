@@ -55,6 +55,8 @@ const register = new Command({
 						console.log(err);
 						methods.sendEmbed(`Failed to register user`);
 					});
+
+
 			}
 		})
 	]
