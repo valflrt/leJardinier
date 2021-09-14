@@ -4,6 +4,7 @@ import CommandList from "../bot/command.list";
 import help from "./utility/help";
 import invite from "./utility/invite";
 import register from "./utility/register"
+import unregister from "./utility/unregister";
 
 // fun commands
 import hey from "./fun/hey";
@@ -16,6 +17,7 @@ let commandList = new CommandList(
 	help,
 	invite,
 	register,
+	unregister,
 	hey,
 	trueorfalse,
 	percentage,
@@ -27,7 +29,8 @@ commandList
 	.setCategory("Utility", [
 		help,
 		invite,
-		register
+		register,
+		unregister
 	])
 	.setCategory("Fun", [
 		hey,
