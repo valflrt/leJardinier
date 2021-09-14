@@ -8,6 +8,7 @@ export class Command implements ICommand {
 	arguments?: string;
 	syntax?: string;
 	categoryName?: string;
+	requiresDB?: boolean;
 	execution: Function;
 	subcommands?: ICommand[];
 
@@ -17,6 +18,7 @@ export class Command implements ICommand {
 		this.arguments = command.arguments ? ` ${command.arguments}` : "";
 		this.syntax = `${config.prefix}${this.name}${this.arguments}`;
 		this.categoryName = command?.categoryName;
+		this.requiresDB = command?.requiresDB;
 		this.execution = command.execution;
 
 		// sets subcommand syntax. eg: "[prefix][command name] [subcommand name]"
