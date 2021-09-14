@@ -24,8 +24,8 @@ class LeJardinier {
 			]
 		});
 
-		this.bot.once("ready", async () => this.onReady());
-		this.bot.on("messageCreate", async (message) => this.onMessageCreate(message));
+		this.bot.once("ready", () => this.onReady());
+		this.bot.on("messageCreate", (message) => this.onMessageCreate(message));
 
 		this.bot.login(token!);
 	}
