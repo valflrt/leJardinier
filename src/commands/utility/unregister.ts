@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { Command } from "../../bot/command";
-import { guildManager } from "../../bot/database";
+import { guildManager, userManager } from "../../bot/database";
 import MessageInstance from "../../bot/message";
 
 const unregister = new Command({
@@ -43,10 +43,18 @@ const unregister = new Command({
 			name: "user",
 			description: "Unregister yourself",
 			requiresDB: true,
-			execution: (messageInstance: MessageInstance) => {
-				let { methods } = messageInstance;
+			execution: async (messageInstance: MessageInstance) => {
+				let { methods, message } = messageInstance;
 
+				if (await userManager.exists(message.author!.id) === false)
+					return methods.sendEmbed(`This user is not registered`);
 
+				userManager.remove(message.author!.id)
+					.then(() => methods.sendEmbed(`User unregistered successfully`))
+					.catch(err => {
+						console.log(err);
+						methods.sendEmbed(`Failed to unregister user`);
+					});
 			}
 		})
 	]

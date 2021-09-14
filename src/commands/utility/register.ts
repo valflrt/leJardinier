@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { Command } from "../../bot/command";
-import { guildManager } from "../../bot/database";
+import { guildManager, userManager } from "../../bot/database";
 import MessageInstance from "../../bot/message";
 
 const register = new Command({
@@ -41,12 +41,20 @@ const register = new Command({
 		}),
 		new Command({
 			name: "user",
-			description: "Register yourself",
+			description: "Register yourself (current guild must be registered)",
 			requiresDB: true,
-			execution: (messageInstance: MessageInstance) => {
-				let { methods } = messageInstance;
+			execution: async (messageInstance: MessageInstance) => {
+				let { methods, message } = messageInstance;
 
+				if (await userManager.exists(message.author!.id) === true)
+					return methods.sendEmbed(`User already registered`);
 
+				userManager.add(message.author!)
+					.then(() => methods.sendEmbed(`User successfully registered`))
+					.catch(err => {
+						console.log(err);
+						methods.sendEmbed(`Failed to register user`);
+					});
 			}
 		})
 	]
