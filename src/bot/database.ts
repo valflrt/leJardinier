@@ -7,16 +7,22 @@ import { IUserSchema, UserModel } from "../database/models/user";
 
 class GuildManager {
 
-	public findById = async (id: string) => {
+	public find = async (id: string) => {
 		return await GuildModel.findOne({ id });
 	}
 
-	public removeById = async (id: string) => {
+	public exists = async (id: string): Promise<boolean> => {
+		let guildDoc = await GuildModel.findOne({ id });
+		return guildDoc ? true : false;
+	}
+
+	public remove = async (id: string) => {
 		return await GuildModel.findOneAndRemove({ id });
 	}
 
 	public add = async (guild: IGuildSchema) => {
-		return await new GuildModel(guild).save();
+		let doc = new GuildModel(guild);
+		return await doc.save();
 	}
 
 }
