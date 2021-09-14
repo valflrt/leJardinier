@@ -43,6 +43,7 @@ class MessageInstance {
 		.setColor("#49a013");
 
 	public execute = async () => {
+		this.message.channel.sendTyping();
 		log.command.startTimer();
 		try {
 			let guildExists = await guildManager.exists(this.message.guild!.id);
