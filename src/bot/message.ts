@@ -1,8 +1,11 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 
-import commands from "../commands/index";
 import { ICommand } from "../types";
+
+import { guildManager } from "./database";
 import ReplyMethods from "./methods";
+import commands from "../commands/index";
+
 import config from "../config";
 import log from "./log";
 
@@ -40,8 +43,13 @@ class MessageInstance {
 		.setColor("#49a013");
 
 	public execute = async () => {
+		log.command.startTimer();
 		try {
-			await this.command!.execution(this);
+			let guildExists = await guildManager.exists(this.message.guild!.id);
+			if (this.command!.requiresDB === true && guildExists === false)
+				this.methods.sendEmbed(`This command requires registering the guild
+				Use \`${commands.get("register")!.syntax}\` for more information.`);
+			else await this.command!.execution(this);
 			log.command.executed(this.command!);
 		} catch (err) {
 			log.command.executionFailed(this.command!, err);
