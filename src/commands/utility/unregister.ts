@@ -22,11 +22,14 @@ const unregister = new Command({
 		new Command({
 			name: "guild",
 			description: "Unregister current guild (you need to be the owner)",
-			execution: (messageInstance: MessageInstance) => {
+			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
 					return methods.sendEmbed(`You are not the owner of this guild !`);*/
+
+				if (await guildManager.exists(message.guild!.id) === false)
+					return methods.sendEmbed(`This guild is not registered`);
 
 				guildManager.remove(message.guild!.id)
 					.then(() => methods.sendEmbed(`Guild unregistered successfully`))

@@ -22,11 +22,14 @@ const register = new Command({
 		new Command({
 			name: "guild",
 			description: "Register current guild (you need to be the owner)",
-			execution: (messageInstance: MessageInstance) => {
+			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
 					return methods.sendEmbed(`You are not the owner of this guild !`);*/
+
+				if (await guildManager.exists(message.guild!.id) === true)
+					return methods.sendEmbed(`Guild already registered`);
 
 				guildManager.add(message.guild!)
 					.then(() => methods.sendEmbed(`Guild registered successfully`))
