@@ -32,6 +32,8 @@ class LeJardinier {
 
 	private async onReady() {
 
+		log.bot.starting()
+
 		try {
 			await database.connect();
 			log.database.connectionSuccess();

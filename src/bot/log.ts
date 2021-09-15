@@ -4,25 +4,19 @@ import { ICommand } from "../types";
 
 class Logger {
 
-	protected mainColor: string;
-	protected successColor: string;
-	protected errorColor: string;
-
-	constructor() {
-		this.mainColor = "#abf7a7";
-		this.successColor = "#41f45e";
-		this.errorColor = "#ee7474";
-	}
+	protected mainColor: string = "#abf7a7";
+	protected successColor: string = "#41f45e";
+	protected errorColor: string = "#ee7474";
 
 	/**
 	 * general logging functions 
 	 * all these functions have the same structure
 	 * @param strs strings to log (joined with one space)
 	 */
-	public write = (...strs: any[]) => console.log(strs.join(" "));
-	public log = (...strs: any[]) => this.output(strs.join(" "));
-	public error = (...strs: any[]) => this.output(strs.join(" "), this.errorColor);
-	public success = (...strs: any[]) => this.output(strs.join(" "), this.successColor);
+	public write = (item: any) => console.log(item);
+	public log = (str: string) => this.output(str, this.mainColor);
+	public error = (str: string) => this.output(str, this.errorColor);
+	public success = (str: string) => this.output(str, this.successColor);
 
 	/**
 	 * clears the console
@@ -45,7 +39,7 @@ class Logger {
 	 * @param str string to log
 	 * @param color color of the "color block" at the str beginning
 	 */
-	protected output = (str: any, color: string = this.mainColor) =>
+	protected output = (str: string, color: string = this.mainColor) =>
 		console.log(`${chalk.bgHex(color)(" ")} ${str.replace("\n", `\n${chalk.bgHex(color)(" ")} `)}`);
 
 }
@@ -94,6 +88,10 @@ class BotLogger extends Logger {
 	 */
 	public connected = (tag: string, id: string) => this.success(`Successfully logged in as ${chalk.underline(tag)} ${chalk.grey.italic(`(id: ${id})`)}`);
 
+	/**
+	 * logs "Starting..."
+	 */
+	public starting = () => this.log(`Starting...`);
 
 }
 
