@@ -9,4 +9,4 @@ log.logger.write(` ${chalk.hex("#abf7a7").bold`Le Jardinier`} 🍀 ${chalk.rgb(2
 ${chalk.rgb(200, 220, 210)(`   by valflrt`)}`);
 log.logger.newLine(2);
 
-LeJardinier.start();
+new LeJardinier().start();

@@ -9,10 +9,13 @@ import MessageInstance from "./message";
 
 class LeJardinier {
 
-	private bot: Client;
+	private bot?: Client;
 
-	constructor() {
-		this.bot = new Client({
+	/**
+	 * start bot
+	 */
+	public start = () => {
+		this.bot! = new Client({
 			intents: [
 				"GUILDS",
 				"GUILD_MEMBERS",
@@ -28,11 +31,11 @@ class LeJardinier {
 		this.bot.on("messageCreate", (message) => this.onMessageCreate(message));
 
 		this.bot.login(token!);
-	}
+	};
 
 	private async onReady() {
 
-		log.bot.starting()
+		log.bot.starting();
 
 		try {
 			await database.connect();
@@ -41,15 +44,15 @@ class LeJardinier {
 			log.database.connectionFailed(e);
 		}
 
-		this.bot.user!.setActivity({ name: `${config.prefix}help`, type: "WATCHING" });
-		log.bot.connected(this.bot.user!.tag, this.bot.user!.id);
+		this.bot!.user!.setActivity({ name: `${config.prefix}help`, type: "WATCHING" });
+		log.bot.connected(this.bot!.user!.tag, this.bot!.user!.id);
 
 	}
 
-	private onMessageCreate(message: Message) {
+	private async onMessageCreate(message: Message) {
 		log.bot.message(message); // logs every message
 
-		let messageInstance = new MessageInstance(message, this.bot);
+		let messageInstance = new MessageInstance(message, this.bot!);
 
 		if (messageInstance.hasCommand === true) {
 			messageInstance.execute();
@@ -58,11 +61,6 @@ class LeJardinier {
 		}
 	}
 
-	/**
-	 * useless function
-	 */
-	public start = () => { };
-
 }
 
-export default new LeJardinier();
+export default LeJardinier;
