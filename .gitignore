@@ -1,6 +1,8 @@
 node_modules
 token.ts
 database.ts
-.vscode
+
 dist
-database/database.json
+
+.vscode
+.VSCodeCounter
