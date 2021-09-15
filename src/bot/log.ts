@@ -40,7 +40,8 @@ class Logger {
 	 * @param color color of the "color block" at the str beginning
 	 */
 	protected output = (str: string, color: string = this.mainColor) =>
-		console.log(`${chalk.bgHex(color)(" ")} ${str.replace("\n", `\n${chalk.bgHex(color)(" ")} `)}`);
+		console.log(`${chalk.bgHex(color)(" ")} ${str} `
+			.replace(/\n/g, `\n${chalk.bgHex(color)(" ")} `));
 
 }
 
