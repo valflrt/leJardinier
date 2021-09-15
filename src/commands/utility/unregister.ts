@@ -14,7 +14,7 @@ const unregister = new Command({
 		let userSubcommand = unregister.subcommands?.find(cmd => cmd.name === "user");
 
 		methods.sendEmbed(`With this command, you can unregister guilds and users.`
-			.concat(`By unregistering, the guild/user will be removed from my database.\n`)
+			.concat(`By unregistering, the guild/user will be removed from my database.\n\n`)
 			.concat(`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}`)
 			.concat(`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}`)
 		);
