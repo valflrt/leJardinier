@@ -22,7 +22,7 @@ class LeJardinier {
 	};
 
 	/**
-	 * sets event listeners (= starts the bot)
+	 * makes the client login and sets function for event "ready" (= starts the bot)
 	 */
 	public start = () => {
 		log.bot.starting();
