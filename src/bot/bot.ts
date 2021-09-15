@@ -1,4 +1,4 @@
-import { Client, Message } from "discord.js";
+import { Client, ClientOptions, Message } from "discord.js";
 
 import config from "../config";
 import token from "../config/token";
@@ -12,30 +12,28 @@ class LeJardinier {
 	private bot?: Client;
 
 	/**
-	 * start bot
+	 * Creates client object
+	 * @param options {ClientOptions}
+	 * @returns {LeJardinier} this
 	 */
-	public start = () => {
-		this.bot! = new Client({
-			intents: [
-				"GUILDS",
-				"GUILD_MEMBERS",
-				"GUILD_MESSAGES",
-				"GUILD_MESSAGE_REACTIONS",
-				"GUILD_PRESENCES",
-				"GUILD_VOICE_STATES",
-				"GUILD_EMOJIS_AND_STICKERS"
-			]
-		});
-
-		this.bot.once("ready", () => this.onReady());
-		this.bot.on("messageCreate", (message) => this.onMessageCreate(message));
-
-		this.bot.login(token!);
+	public init = (options: ClientOptions): LeJardinier => {
+		this.bot = new Client(options);
+		return this;
 	};
 
-	private async onReady() {
-
+	/**
+	 * sets event listeners (= starts the bot)
+	 */
+	public start = () => {
 		log.bot.starting();
+		this.bot!.login(token!);
+		this.bot!.once("ready", () => this.onReady());
+	}
+
+	/**
+	 * listener for event "ready"
+	 */
+	private async onReady() {
 
 		try {
 			await database.connect();
@@ -47,8 +45,14 @@ class LeJardinier {
 		this.bot!.user!.setActivity({ name: `${config.prefix}help`, type: "WATCHING" });
 		log.bot.connected(this.bot!.user!.tag, this.bot!.user!.id);
 
+		this.bot!.on("messageCreate", (message) => this.onMessageCreate(message));
+
 	}
 
+	/**
+	 * listener for event "messageCreate"
+	 * @param message {Message} message object
+	 */
 	private async onMessageCreate(message: Message) {
 		log.bot.message(message); // logs every message
 
