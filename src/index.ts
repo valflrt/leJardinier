@@ -9,4 +9,16 @@ log.logger.write(` ${chalk.hex("#abf7a7").bold`Le Jardinier`} 🍀 ${chalk.rgb(2
 ${chalk.rgb(200, 220, 210)(`   by valflrt`)}`);
 log.logger.newLine(2);
 
-new LeJardinier().start();
+new LeJardinier()
+	.init({
+		intents: [
+			"GUILDS",
+			"GUILD_MEMBERS",
+			"GUILD_MESSAGES",
+			"GUILD_MESSAGE_REACTIONS",
+			"GUILD_PRESENCES",
+			"GUILD_VOICE_STATES",
+			"GUILD_EMOJIS_AND_STICKERS"
+		]
+	})
+	.start();
