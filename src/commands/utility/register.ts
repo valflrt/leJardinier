@@ -1,5 +1,3 @@
-import { MessageEmbed } from "discord.js";
-
 import { Command } from "../../bot/command";
 import { guildManager, userManager } from "../../bot/database";
 import MessageInstance from "../../bot/message";
