@@ -8,7 +8,7 @@ import unregister from "./utility/unregister";
 
 // fun commands
 import hey from "./fun/hey";
-import trueOrFalse from "./fun/trueOrFalse";
+import trueOrFalse from "./fun/trueorfalse";
 import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
