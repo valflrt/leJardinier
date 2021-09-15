@@ -44,6 +44,20 @@ class Logger {
 
 }
 
+class SystemLogger extends Logger {
+
+	/**
+	 * logs init sequence
+	 */
+	public starting = () => {
+		this.clear();
+		this.write(` ${chalk.hex("#abf7a7").bold`Le Jardinier`} ${chalk.rgb(200, 220, 210).italic`v2.1`} 🍀 ${chalk.rgb(200, 220, 210)(`by valflrt`)}`);
+		this.newLine(2);
+		this.log(`Starting...`);
+	};
+
+}
+
 class BotLogger extends Logger {
 
 	private lastChatlogUser: string;
@@ -87,11 +101,6 @@ class BotLogger extends Logger {
 	 * @param id bot's id (discord snowflake)
 	 */
 	public connected = (tag: string, id: string) => this.success(`Successfully logged in as ${chalk.underline(tag)} ${chalk.grey.italic(`(id: ${id})`)}`);
-
-	/**
-	 * logs "Starting..."
-	 */
-	public starting = () => this.log(`Starting...`);
 
 }
 
@@ -140,12 +149,14 @@ class DatabaseLogger extends Logger {
 }
 
 export const logger = new Logger();
+export const system = new SystemLogger();
 export const bot = new BotLogger();
 export const command = new CommandLogger();
 export const database = new DatabaseLogger();
 
 export default {
 	logger,
+	system,
 	bot,
 	command,
 	database

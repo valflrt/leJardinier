@@ -25,7 +25,6 @@ class LeJardinier {
 	 * makes the client login and sets function for event "ready" (= starts the bot)
 	 */
 	public start = () => {
-		log.bot.starting();
 		this.bot!.login(token!);
 		this.bot!.once("ready", () => this.onReady());
 	}
