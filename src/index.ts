@@ -1,5 +1,3 @@
-import chalk from "chalk";
-
 import LeJardinier from "./bot/bot";
 import log from "./bot/log";
 
