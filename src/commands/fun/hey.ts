@@ -8,7 +8,9 @@ const hey = new Command({
 	description: "Greet the bot",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
-		methods.sendEmbed(`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} ${ReplyMethods.mention(message.author.id)} ${utils.randomItem(":3", ":)", "!")}`);
+		methods.sendEmbed(`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} `
+			.concat(`${ReplyMethods.mention(message.author.id)} ${utils.randomItem(":3", ":)", "!")}`)
+		);
 	}
 })
 

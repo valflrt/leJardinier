@@ -13,10 +13,11 @@ const unregister = new Command({
 		let guildSubcommand = unregister.subcommands?.find(cmd => cmd.name === "guild");
 		let userSubcommand = unregister.subcommands?.find(cmd => cmd.name === "user");
 
-		methods.sendEmbed(`With this command, you can unregister guilds and users.
-		By unregistering, the guild/user will be removed from my database.\n
-		\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}
-		\`${userSubcommand?.syntax}\` ${userSubcommand?.description}`);
+		methods.sendEmbed(`With this command, you can unregister guilds and users.`
+			.concat(`By unregistering, the guild/user will be removed from my database.\n`)
+			.concat(`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}`)
+			.concat(`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}`)
+		);
 	},
 	subcommands: [
 		new Command({
@@ -54,7 +55,7 @@ const unregister = new Command({
 					.catch(err => {
 						console.log(err);
 						methods.sendEmbed(`Failed to unregister user`);
-					});
+					})
 			}
 		})
 	]

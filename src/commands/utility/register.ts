@@ -13,10 +13,11 @@ const register = new Command({
 		let guildSubcommand = register.subcommands?.find(cmd => cmd.name === "guild");
 		let userSubcommand = register.subcommands?.find(cmd => cmd.name === "user");
 
-		methods.sendEmbed(`With this command, you can register guilds and users.
-		By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n
-		\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}
-		\`${userSubcommand?.syntax}\` ${userSubcommand?.description}`);
+		methods.sendEmbed(`With this command, you can register guilds and users.\n`
+			.concat(`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n`)
+			.concat(`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}\n`)
+			.concat(`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}\n`)
+		);
 	},
 	subcommands: [
 		new Command({

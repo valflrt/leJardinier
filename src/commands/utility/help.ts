@@ -12,11 +12,11 @@ const help = new Command({
 	description: "Display help panel",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendEmbed(`You don't know how to use this bot ?\n
-		Here is some help:
-		- \`lj!help commands\` gives command list
-		- \`lj!help command [command name]\` gives information about one command
-		- \`lj!help website\` gives the link to my website where everything you need to know is written`);
+		methods.sendEmbed(`You need some help ?\n`
+			.concat(` - \`lj!help commands\` gives command list\n`)
+			.concat(` - \`lj!help command [command name]\` gives information about one command\n`)
+			.concat(` - \`lj!help website\` gives the link to my website where everything you need to know is written\n`)
+		);
 	},
 	subcommands: [
 		new Command({

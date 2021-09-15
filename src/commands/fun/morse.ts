@@ -11,8 +11,9 @@ const morse = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		methods.sendEmbed(`Use \`lj!morse encode\` to encode text to Morse code
-		Use \`lj!morse table\` to get Morse code table`);
+		methods.sendEmbed(`Use \`lj!morse encode\` to encode text to Morse code`
+			.concat(`Use \`lj!morse table\` to get Morse code table`)
+		);
 	},
 	subcommands: [
 		new Command({
