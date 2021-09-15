@@ -8,7 +8,7 @@ import unregister from "./utility/unregister";
 
 // fun commands
 import hey from "./fun/hey";
-import trueorfalse from "./fun/trueorfalse";
+import trueOrFalse from "./fun/trueOrFalse";
 import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
@@ -19,7 +19,7 @@ let commandList = new CommandList(
 	register,
 	unregister,
 	hey,
-	trueorfalse,
+	trueOrFalse,
 	percentage,
 	morse
 )
@@ -34,7 +34,7 @@ commandList
 	])
 	.setCategory("Fun", [
 		hey,
-		trueorfalse,
+		trueOrFalse,
 		percentage,
 		morse
 	])

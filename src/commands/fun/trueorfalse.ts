@@ -3,7 +3,7 @@ import ReplyMethods from "../../bot/methods";
 import { Command } from "../../bot/command";
 import * as utils from "../../utils"
 
-const trueorfalse = new Command({
+const trueOrFalse = new Command({
 	name: "tof",
 	description: `Answers "true" or "false" randomly`,
 	arguments: `[?sentence]`,
@@ -13,4 +13,4 @@ const trueorfalse = new Command({
 	}
 })
 
-export default trueorfalse;
+export default trueOrFalse;
