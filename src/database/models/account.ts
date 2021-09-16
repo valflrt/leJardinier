@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-import { IUserSchema } from "./user";
-import { IGuildSchema } from "./guild";
+import { IUserSchema, UserSchema } from "./user";
+import { IGuildSchema, GuildSchema } from "./guild";
 
 export interface IAccountSchema {
 	user: IUserSchema
@@ -10,8 +10,8 @@ export interface IAccountSchema {
 }
 
 export const AccountSchema = new mongoose.Schema<IAccountSchema>({
-	user: { required: true },
-	guild: { required: true },
+	user: UserSchema,
+	guild: GuildSchema,
 	seedCoins: { type: Number, default: 0 }
 })
 
