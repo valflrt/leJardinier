@@ -1,9 +1,9 @@
-import { Client, ClientOptions, Message } from "discord.js";
+import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
 import config from "../config";
 import token from "../config/token";
 
-import database from "./database";
+import database, { accountManager } from "./database";
 import log from "./log";
 import MessageInstance from "./message";
 
@@ -32,7 +32,7 @@ class LeJardinier {
 	/**
 	 * listener for event "ready"
 	 */
-	private async onReady() {
+	private onReady = async () => {
 
 		try {
 			await database.connect();
@@ -44,7 +44,7 @@ class LeJardinier {
 		this.bot!.user!.setActivity({ name: `${config.prefix}help`, type: "WATCHING" });
 		log.bot.connected(this.bot!.user!.tag, this.bot!.user!.id);
 
-		this.bot!.on("messageCreate", (message) => this.onMessageCreate(message));
+		this.setListeners();
 
 	}
 
@@ -52,7 +52,7 @@ class LeJardinier {
 	 * listener for event "messageCreate"
 	 * @param message {Message} message object
 	 */
-	private async onMessageCreate(message: Message) {
+	private onMessageCreate = async (message: Message) => {
 		log.bot.message(message); // logs every message
 
 		let messageInstance = new MessageInstance(message, this.bot!);
@@ -62,6 +62,22 @@ class LeJardinier {
 		} else if (messageInstance.hasPrefix) {
 			messageInstance.message.react("❔");
 		}
+	}
+
+	private onMemberAdd = async (member: GuildMember) => {
+		if (await accountManager.exists(member.user.id) === false)
+			accountManager.add({
+				user: member.user,
+				guild: member.guild
+			});
+	}
+
+	/**
+	 * sets bot listeners (once bot started)
+	 */
+	private setListeners = () => {
+		this.bot!.on("messageCreate", (message) => this.onMessageCreate(message));
+		this.bot!.on("guildMemberAdd", (member) => this.onMemberAdd(member));
 	}
 
 }
