@@ -63,7 +63,7 @@ class AccountManager {
 		return await UserModel.findOneAndRemove({ id });
 	}
 
-	public add = async (user: IUserSchema) => {
+	public add = async (user: IAccountSchema) => {
 		return await (new UserModel(user)).save();
 	}
 
@@ -71,11 +71,13 @@ class AccountManager {
 
 export const guildManager = new GuildManager();
 export const userManager = new UserManager();
+export const accountManager = new AccountManager();
 
 export const connect = () => mongoose.connect(config.databaseURI);
 
 export default {
 	connect,
 	guildManager,
-	userManager
+	userManager,
+	accountManager
 }

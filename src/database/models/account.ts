@@ -1,15 +1,18 @@
 import mongoose from "mongoose";
 
+import { IUserSchema } from "./user";
+import { IGuildSchema } from "./guild";
+
 export interface IAccountSchema {
-	userId: string
-	guildId: string,
-	seedCoins: number
+	user: IUserSchema
+	guild: IGuildSchema
+	seedCoins?: number
 }
 
 export const AccountSchema = new mongoose.Schema<IAccountSchema>({
-	userId: { type: String, required: true },
-	guildId: { type: String, required: true },
-	seedCoins: { type: Number, default: 0, required: true }
+	user: { required: true },
+	guild: { required: true },
+	seedCoins: { type: Number, default: 0 }
 })
 
 export const AccountModel = mongoose.model<IAccountSchema>("Account", AccountSchema);
