@@ -144,8 +144,13 @@ class CommandLogger extends Logger {
 class DatabaseLogger extends Logger {
 
 	public connectionSuccess = () => this.success(`Successfully connected to database`);
-
 	public connectionFailed = (err: any) => this.error(`Failed to connect to database:\n${err}`);
+
+	public userAddedSuccessfully = () => this.success(`User added successfully`);
+	public failedToAddUser = (err: any) => this.error(`Failed to add user:\n${err}`);
+
+	public statAddedSuccessfully = () => this.success(`Stat added successfully`);
+	public failedToAddStat = (err: any) => this.error(`Failed to add stat:\n${err}`);
 
 }
 

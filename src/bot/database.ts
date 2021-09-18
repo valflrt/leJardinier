@@ -4,7 +4,7 @@ import config from "../config/database";
 
 import { IGuildSchema, GuildModel } from "../database/models/guild";
 import { IUserSchema, UserModel } from "../database/models/user";
-import { IAccountSchema, AccountModel } from "../database/models/account";
+import { IStatSchema, StatModel } from "../database/models/stat";
 
 class GuildManager {
 
@@ -48,30 +48,30 @@ class UserManager {
 
 }
 
-class AccountManager {
+class StatManager {
 
 	public find = async (userId: string, guildId: string) => {
-		return await AccountModel.findOne({ userId, guildId });
+		return await StatModel.findOne({ userId, guildId });
 	}
 
-	public exists = async (id: string): Promise<boolean> => {
-		let doc = await AccountModel.findOne({ id });
+	public exists = async (userId: string, guildId: string): Promise<boolean> => {
+		let doc = await StatModel.findOne({ userId, guildId });
 		return doc ? true : false;
 	}
 
-	public remove = async (id: string) => {
-		return await UserModel.findOneAndRemove({ id });
+	public remove = async (userId: string, guildId: string) => {
+		return await StatModel.findOneAndRemove({ userId, guildId });
 	}
 
-	public add = async (user: IAccountSchema) => {
-		return await (new UserModel(user)).save();
+	public add = async (stat: IStatSchema) => {
+		return await (new StatModel(stat)).save();
 	}
 
 }
 
 export const guildManager = new GuildManager();
 export const userManager = new UserManager();
-export const accountManager = new AccountManager();
+export const statManager = new StatManager();
 
 export const connect = () => mongoose.connect(config.databaseURI);
 
@@ -79,5 +79,5 @@ export default {
 	connect,
 	guildManager,
 	userManager,
-	accountManager
+	statManager
 }

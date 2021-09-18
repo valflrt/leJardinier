@@ -3,7 +3,7 @@ import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 import config from "../config";
 import token from "../config/token";
 
-import database, { accountManager } from "./database";
+import database, { userManager } from "./database";
 import log from "./log";
 import MessageInstance from "./message";
 
@@ -65,11 +65,9 @@ class LeJardinier {
 	}
 
 	private onMemberAdd = async (member: GuildMember) => {
-		if (await accountManager.exists(member.user.id) === false)
-			accountManager.add({
-				user: member.user,
-				guild: member.guild
-			});
+		let { user } = member;
+		if (await userManager.exists(user.id) === false)
+			userManager.add(user);
 	}
 
 	/**
