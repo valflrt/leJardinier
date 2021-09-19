@@ -41,6 +41,4 @@ export default class ReplyMethods {
 		return config(this.messageInstance.generateEmbed());
 	}
 
-	public static mention = (userID: string): string => `<@!${userID}>`;
-
 }
