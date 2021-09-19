@@ -12,6 +12,9 @@ import trueOrFalse from "./fun/trueorfalse";
 import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
+// user commands
+import stats from "./user/stats";
+
 // exporting commands object
 let commandList = new CommandList(
 	help,
@@ -21,7 +24,8 @@ let commandList = new CommandList(
 	hey,
 	trueOrFalse,
 	percentage,
-	morse
+	morse,
+	stats
 )
 
 // sets categories (so commands are ordered and sorted here)
@@ -37,6 +41,9 @@ commandList
 		trueOrFalse,
 		percentage,
 		morse
+	])
+	.setCategory("User", [
+		stats
 	])
 
 export default commandList;
