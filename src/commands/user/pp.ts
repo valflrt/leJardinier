@@ -10,16 +10,16 @@ const pp = new Command({
 	execution: async (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
 
-		let avatarURL = message.mentions.members?.size !== 0 ?
-			message.mentions.members!.first()!.user.displayAvatarURL() :
-			message.author.displayAvatarURL();
+		let user = message.mentions.members?.size !== 0 ?
+			message.mentions.members?.first()?.user :
+			message.author;
 
-		if (!avatarURL)
+		if (!user)
 			return methods.sendEmbed(`Unknown user`);
 
 		methods.sendCustomEmbed((embed: MessageEmbed) =>
-			embed.setDescription(`${message.author.toString()}`)
-				.setImage(avatarURL)
+			embed.setDescription(`Here is ${user!.toString()} profile picture`)
+				.setImage(user!.displayAvatarURL())
 		);
 
 	}
