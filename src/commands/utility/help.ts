@@ -44,9 +44,9 @@ const help = new Command({
 
 				let generatePage = (embed: MessageEmbed) => {
 					embed.setDescription(`**${categories[index].name}** (page ${index + 1} of ${categories.length})`);
-					categories[index].commands.forEach((command: ICommand) =>
-						embed.addField(`\`${command.syntax}\``, `${command.description}`)
-					)
+					let fields = categories[index].commands.map((command: ICommand) =>
+						({ name: `\`${command.syntax}\``, value: `${command.description}` }));
+					embed.addFields(...fields);
 					return embed;
 				}
 
