@@ -13,6 +13,7 @@ import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
 // user commands
+import pp from "./user/pp";
 import stats from "./user/stats";
 
 // exporting commands object
@@ -25,6 +26,7 @@ let commandList = new CommandList(
 	trueOrFalse,
 	percentage,
 	morse,
+	pp,
 	stats
 )
 
@@ -43,6 +45,7 @@ commandList
 		morse
 	])
 	.setCategory("User", [
+		pp,
 		stats
 	])
 
