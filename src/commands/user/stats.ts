@@ -1,3 +1,5 @@
+import { MessageEmbed } from "discord.js";
+
 import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 import { statManager } from "../../bot/database";
@@ -16,8 +18,9 @@ const stats = new Command({
 		if (!stats)
 			return methods.sendEmbed(`Unknown user`);
 
-		methods.sendEmbed(`${message.author.toString()}\n`
-			.concat(`messages: ${stats!.messageCount}`)
+		methods.sendCustomEmbed((embed: MessageEmbed) =>
+			embed.setDescription(`${message.author.toString()}`)
+				.addField(`messages sent:`, `${stats!.messageCount}`)
 		);
 
 	}
