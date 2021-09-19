@@ -7,7 +7,7 @@ import database, { userManager } from "./database";
 import log from "./log";
 import MessageInstance from "./message";
 
-class LeJardinier {
+export default class LeJardinier {
 
 	private bot?: Client;
 
@@ -79,5 +79,3 @@ class LeJardinier {
 	}
 
 }
-
-export default LeJardinier;
