@@ -42,15 +42,17 @@ const help = new Command({
 				let index = 0;
 				let categories = commandList.getCategories();
 
-				let generatePage = (embed: MessageEmbed) => {
-					embed.setDescription(`**${categories[index].name}** (page ${index + 1} of ${categories.length})`);
-					let fields = categories[index].commands.map((command: ICommand) =>
-						({ name: `\`${command.syntax}\``, value: `${command.description}` }));
-					embed.addFields(...fields);
-					return embed;
-				}
+				let pages: MessageEmbed[] = categories.map(category =>
+					methods.returnCustomEmbed((embed: MessageEmbed) => {
+						embed.setDescription(`**${category.name}** (page ${index + 1} of ${categories.length})`);
+						let fields = category.commands.map((command: ICommand) =>
+							({ name: `\`${command.syntax}\``, value: `${command.description}` }));
+						embed.addFields(...fields);
+						return embed;
+					})
+				);
 
-				let sent = await methods.sendCustomEmbed(generatePage);
+				let sent = await methods.send({ embeds: [pages[index]] });
 
 				await sent.react("⬅️");
 				await sent.react("➡️");
@@ -63,11 +65,11 @@ const help = new Command({
 					if (reaction.emoji.name === "➡️" && index !== categories.length - 1) {
 						index = index + 1;
 						await reaction.users.remove(user);
-						await sent.edit({ embeds: [methods.returnCustomEmbed(generatePage)] });
+						await sent.edit({ embeds: [pages[index]] });
 					} else if (reaction.emoji.name === "⬅️" && index !== 0) {
 						index = index - 1;
 						await reaction.users.remove(user);
-						await sent.edit({ embeds: [methods.returnCustomEmbed(generatePage)] });
+						await sent.edit({ embeds: [pages[index]] });
 					} else if (reaction.emoji.name === "❌") {
 						return collector.stop();
 					} else {
