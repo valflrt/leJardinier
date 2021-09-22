@@ -4,9 +4,10 @@ import { Command } from "../../bot/command";
 import MessageInstance from "../../bot/message";
 
 import { playlistManager } from "../../bot/database";
-import emotes from "../../assets/reactions";
-
+import { PlaylistModel } from "../../database/models/playlist";
 import { Song } from "../../bot/music";
+
+import reactions from "../../assets/reactions";
 
 const music = new Command({
 	name: "music",
@@ -37,7 +38,7 @@ const music = new Command({
 				let song = new Song(commandArgs!);
 				await song.init();
 
-				if (!song.songFound) return methods.sendEmbed(`${emotes.error.random()} Song not found please check your youtube url`);
+				if (!song.songFound) return methods.sendEmbed(`${reactions.error.random()} Song not found please check your youtube url`);
 
 				await playlistManager.addSong(message.guildId!, song.get());
 
@@ -45,7 +46,7 @@ const music = new Command({
 
 				methods.sendCustomEmbed((embed: MessageEmbed) => embed
 					.setThumbnail(songInfo.details.thumbnails[0].url)
-					.setDescription(`${emotes.success.random()} Successfully added song: ${songInfo.name}`)
+					.setDescription(`${reactions.success.random()} Successfully added song: ${songInfo.name}`)
 				);
 			}
 		}),
@@ -59,8 +60,17 @@ const music = new Command({
 		new Command({
 			name: "clear",
 			description: `Clear the playlist`,
-			execution: (messageInstance: MessageInstance) => {
-				let { methods } = messageInstance;
+			execution: async (messageInstance: MessageInstance) => {
+				let { methods, message } = messageInstance;
+
+				let playlist = await PlaylistModel.findOne({ guildId: message.guildId! })
+				if (!playlist) {
+					new PlaylistModel({ guildId: message.guildId });
+					return methods.sendEmbed(`Playlist already cleared`);
+				}
+				playlist.songs = [];
+				await playlist.save();
+				methods.sendEmbed(`${reactions.success.random()} Playlist successfully cleared`)
 			}
 		})
 	]
