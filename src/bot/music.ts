@@ -27,6 +27,6 @@ export class Song {
 	})
 
 	private getSongDetails = async () =>
-		await ytdl.getInfo(this.commandArgs!);
+		await ytdl.getBasicInfo(this.commandArgs!);
 
 }
