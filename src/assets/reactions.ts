@@ -21,5 +21,11 @@ export default {
 		"💥",
 		"⚰️",
 		"❗"
+	),
+	smile: new EmoteCollection(
+		":3",
+		":)",
+		"c:",
+		":D"
 	)
 };
