@@ -1,3 +1,5 @@
+import { MoreVideoDetails } from "ytdl-core"
+
 export interface ICommand {
 	name: string
 	description: string
@@ -12,4 +14,9 @@ export interface ICommand {
 export interface ICategory {
 	name: string
 	commands: ICommand[]
+}
+
+export interface ISong {
+	name: string
+	details: MoreVideoDetails
 }
