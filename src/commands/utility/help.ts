@@ -42,9 +42,9 @@ const help = new Command({
 				let index = 0;
 				let categories = commandList.getCategories();
 
-				let pages: MessageEmbed[] = categories.map(category =>
+				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
-						embed.setDescription(`**${category.name}** (page ${index + 1} of ${categories.length})`);
+						embed.setDescription(`**${category.name}** (page ${i + 1} of ${categories.length})`);
 						let fields = category.commands.map((command: ICommand) =>
 							({ name: `\`${command.syntax}\``, value: `${command.description}` }));
 						embed.addFields(...fields);
