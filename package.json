@@ -20,6 +20,7 @@
     "chalk": "^3.0.0",
     "discord.js": "^13.1.0",
     "ffmpeg-static": "^4.4.0",
+    "googleapis": "^87.0.0",
     "mongoose": "^6.0.5",
     "ytdl-core": "^4.9.1"
   }

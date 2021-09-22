@@ -27,8 +27,8 @@ const music = new Command({
 			}
 		}),
 		new Command({
-			name: "add",
-			description: `Add a song to the playlist`,
+			name: "url",
+			description: `Add a song to the playlist from a youtube url`,
 			arguments: `[youtube url]`,
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
