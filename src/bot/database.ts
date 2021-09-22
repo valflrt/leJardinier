@@ -5,6 +5,9 @@ import config from "../config/database";
 import { IGuildSchema, GuildModel } from "../database/models/guild";
 import { IUserSchema, UserModel } from "../database/models/user";
 import { IStatSchema, StatModel } from "../database/models/stat";
+import { PlaylistModel } from "../database/models/playlist";
+
+import { ISong } from "../types";
 
 class GuildManager {
 
@@ -69,15 +72,41 @@ class StatManager {
 
 }
 
+class PlaylistManager {
+
+	public addSong = async (guildId: string, song: ISong) =>
+		await new PlaylistModel({
+			guildId,
+			song
+		}).save();
+
+	public getFirstSong = async (guildId: string) => {
+		let playlist = await PlaylistModel.findOne({ guildId });
+		if (!playlist) return null;
+		return playlist.songs![0];
+	}
+
+	public skipSong = async (guildId: string) => {
+		let playlist = await PlaylistModel.findOne({ guildId });
+		if (!playlist) return null;
+		playlist.songs!.shift();
+		return await playlist.save();
+	}
+
+}
+
 export const guildManager = new GuildManager();
 export const userManager = new UserManager();
 export const statManager = new StatManager();
+export const playlistManager = new PlaylistManager();
 
 export const connect = () => mongoose.connect(config.databaseURI);
 
 export default {
 	connect,
+
 	guildManager,
 	userManager,
-	statManager
+	statManager,
+	playlistManager
 }

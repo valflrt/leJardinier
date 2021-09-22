@@ -16,6 +16,9 @@ import morse from "./fun/morse";
 import pp from "./user/pp";
 import stats from "./user/stats";
 
+// entertainment commands
+import music from "./entertainment/music";
+
 // exporting commands object
 let commandList = new CommandList(
 	help,
@@ -27,7 +30,8 @@ let commandList = new CommandList(
 	percentage,
 	morse,
 	pp,
-	stats
+	stats,
+	music
 )
 
 // sets categories (so commands are ordered and sorted here)
@@ -47,6 +51,9 @@ commandList
 	.setCategory("User", [
 		pp,
 		stats
+	])
+	.setCategory("Entertainment", [
+		music
 	])
 
 export default commandList;

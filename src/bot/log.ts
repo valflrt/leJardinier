@@ -130,14 +130,14 @@ class CommandLogger extends Logger {
 	 * logs a success message when a command executed correctly
 	 * @param command {ICommand} command object
 	 */
-	public executed = (command: ICommand) => this.success(`Successfully executed command ${chalk.bold(command.name)} in ${this.getElapsedTime()}`);
+	public executed = (command: ICommand) => this.success(`Successfully executed command ${chalk.underline.bold(command.syntax)} in ${this.getElapsedTime()}`);
 
 	/**
 	 * logs a failure message
 	 * @param command {ICommand} command object
 	 * @param err error to log
 	 */
-	public executionFailed = (command: ICommand, err: any) => this.error(`Failed to execute ${chalk.bold(command.name)}:\n${err}`);
+	public executionFailed = (command: ICommand, err: any) => this.error(`Failed to execute ${chalk.underline.bold(command.syntax)}:\n${err}`);
 
 }
 
