@@ -9,13 +9,20 @@ const invite = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, bot } = messageInstance;
 		methods.send({
-			embeds: [methods.returnEmbed(`The button below allow you to add me in your server`)],
+			embeds: [
+				methods.returnEmbed(
+					`The button below allow you to add me in your server`
+				),
+			],
 			components: [
-				linkButton("Invite me !", bot.generateInvite({
-					scopes: ["bot"],
-					permissions: "ADMINISTRATOR",
-				}))
-			]
+				linkButton(
+					"Invite me !",
+					bot.generateInvite({
+						scopes: ["bot"],
+						permissions: "ADMINISTRATOR",
+					})
+				),
+			],
 		});
 	},
 });
