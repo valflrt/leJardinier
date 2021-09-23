@@ -6,6 +6,7 @@ import { Command } from "../../bot/command";
 import { ICommand } from "../../types";
 
 import commandList from "..";
+import { linkButton } from "../../bot/interactions";
 
 const help = new Command({
 	name: "help",
@@ -157,9 +158,15 @@ const help = new Command({
 			syntax: `website`,
 			execution: (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
-				methods.send(
-					"https://valflrt.github.io/lejardinier-typescript/"
-				);
+				methods.send({
+					content: `Here you go `,
+					components: [
+						linkButton(
+							"My website",
+							"https://valflrt.github.io/lejardinier-typescript/"
+						),
+					],
+				});
 			},
 		}),
 	],
