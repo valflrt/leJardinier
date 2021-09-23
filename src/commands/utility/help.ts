@@ -160,8 +160,8 @@ const help = new Command({
 			syntax: `website`,
 			execution: (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
-				methods.send({
-					content: `Here you go ${reactions.smile.random()}`,
+				methods.answer({
+					content: `Now you just need to click the button below to access my website ${reactions.smile.random()}`,
 					components: [
 						linkButton(
 							"My website",
