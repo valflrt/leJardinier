@@ -2,7 +2,6 @@ import { ICategory, ICommand } from "../types";
 import config from "../config";
 
 export default class CommandList {
-
 	private readonly commands: ICommand[];
 	private readonly categories: ICategory[];
 
@@ -18,12 +17,15 @@ export default class CommandList {
 	 * @param commands {array} commands to set
 	 * @returns {CommandList} "this", used to put together multiple times this method as a "dot chain"
 	 */
-	public setCategory = (categoryName: string, commands: ICommand[]): CommandList => {
-		commands.forEach(command => command.categoryName = categoryName);
+	public setCategory = (
+		categoryName: string,
+		commands: ICommand[]
+	): CommandList => {
+		commands.forEach((command) => (command.categoryName = categoryName));
 		let category: ICategory = { name: categoryName, commands };
 		this.categories.push(category);
 		return this;
-	}
+	};
 
 	/**
 	 * finds out if a command with commandName as name exists in this object
@@ -31,8 +33,8 @@ export default class CommandList {
 	 * @returns {boolean} wether this.commands has the researched command
 	 */
 	public has = (commandName: string): boolean => {
-		return this.commands.some(command => command.name === commandName);
-	}
+		return this.commands.some((command) => command.name === commandName);
+	};
 
 	/**
 	 * returns command with commandName as name if existing
@@ -40,9 +42,11 @@ export default class CommandList {
 	 * @returns {ICommand} corresponding command object
 	 */
 	public get = (commandName: string): ICommand | null => {
-		let command = this.commands.find(command => command.name === commandName);
+		let command = this.commands.find(
+			(command) => command.name === commandName
+		);
 		return command ? command : null;
-	}
+	};
 
 	/**
 	 * finds a command call directly in message content (message text sent on discord)
@@ -50,8 +54,12 @@ export default class CommandList {
 	 * @returns {ICommand} corresponding command object
 	 */
 	public find = (messageContent: string): ICommand | undefined =>
-		this.commands.find((command: ICommand) =>
-			messageContent.match(new RegExp(`^${config.prefix}${command.name}`, "g")) !== null)
+		this.commands.find(
+			(command: ICommand) =>
+				messageContent.match(
+					new RegExp(`^${config.prefix}${command.name}`, "g")
+				) !== null
+		);
 
 	/**
 	 * finds a command call directly in message content (message text sent on discord)
@@ -60,20 +68,33 @@ export default class CommandList {
 	 * @returns {ICommand | undefined} command object or undefined if to found
 	 */
 	public altFind = (messageContent: string): ICommand | undefined => {
+		if (
+			messageContent.match(new RegExp(`^${config.prefix}`, "g")) !== null
+		) {
+			messageContent = messageContent.replace(
+				new RegExp(`^${config.prefix}`, "g"),
+				""
+			);
 
-		if (messageContent.match(new RegExp(`^${config.prefix}`, "g")) !== null) {
+			let regex = (commandName: string) =>
+				new RegExp(`^${commandName}`, "g");
 
-			messageContent = messageContent.replace(new RegExp(`^${config.prefix}`, "g"), "");
-
-			let regex = (commandName: string) => new RegExp(`^${commandName}`, "g");
-
-			let fetchSubcommand = (command: ICommand, remainingText: string): ICommand => {
+			let fetchSubcommand = (
+				command: ICommand,
+				remainingText: string
+			): ICommand => {
 				if (!command.subcommands) return command;
 				else {
-					remainingText = remainingText.replace(regex(command.name), "").trim();
+					remainingText = remainingText
+						.replace(regex(command.name), "")
+						.trim();
 
-					let subcommand = command.subcommands.find((subcommand: ICommand) =>
-						remainingText.match(new RegExp(`^${subcommand.name}`, "g")) !== null);
+					let subcommand = command.subcommands.find(
+						(subcommand: ICommand) =>
+							remainingText.match(
+								new RegExp(`^${subcommand.name}`, "g")
+							) !== null
+					);
 
 					if (!subcommand) {
 						return command;
@@ -81,17 +102,17 @@ export default class CommandList {
 						return fetchSubcommand(subcommand, remainingText);
 					}
 				}
-			}
+			};
 
-			let mainCommand = this.commands.find((command: ICommand) =>
-				messageContent.match(regex(command.name)) !== null);
+			let mainCommand = this.commands.find(
+				(command: ICommand) =>
+					messageContent.match(regex(command.name)) !== null
+			);
 
 			if (!mainCommand) return undefined;
 			else return fetchSubcommand(mainCommand!, messageContent);
-
-		} else return undefined
-
-	}
+		} else return undefined;
+	};
 
 	/**
 	 * returns all commands
@@ -104,5 +125,4 @@ export default class CommandList {
 	 * @returns {ICategory[]}
 	 */
 	public getCategories = (): ICategory[] => new Array(...this.categories);
-
 }

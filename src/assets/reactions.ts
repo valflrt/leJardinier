@@ -1,7 +1,6 @@
-import { randomItem } from "../utils"
+import { randomItem } from "../utils";
 
 class ReactionCollection {
-
 	public readonly emotes: string[];
 
 	constructor(...emotes: string[]) {
@@ -12,20 +11,7 @@ class ReactionCollection {
 }
 
 export default {
-	success: new ReactionCollection(
-		"✨",
-		"👍",
-		"🎉"
-	),
-	error: new ReactionCollection(
-		"💥",
-		"⚰️",
-		"❗"
-	),
-	smile: new ReactionCollection(
-		":3",
-		":)",
-		"c:",
-		":D"
-	)
+	success: new ReactionCollection("✨", "👍", "🎉"),
+	error: new ReactionCollection("💥", "⚰️", "❗"),
+	smile: new ReactionCollection(":3", ":)", "c:", ":D"),
 };

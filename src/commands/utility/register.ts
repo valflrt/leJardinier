@@ -8,13 +8,24 @@ const register = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		let guildSubcommand = register.subcommands?.find(cmd => cmd.name === "guild");
-		let userSubcommand = register.subcommands?.find(cmd => cmd.name === "user");
+		let guildSubcommand = register.subcommands?.find(
+			(cmd) => cmd.name === "guild"
+		);
+		let userSubcommand = register.subcommands?.find(
+			(cmd) => cmd.name === "user"
+		);
 
-		methods.sendEmbed(`With this command, you can register guilds and users.\n`
-			.concat(`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n\n`)
-			.concat(`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}\n`)
-			.concat(`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}\n`)
+		methods.sendEmbed(
+			`With this command, you can register guilds and users.\n`
+				.concat(
+					`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n\n`
+				)
+				.concat(
+					`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}\n`
+				)
+				.concat(
+					`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}\n`
+				)
 		);
 	},
 	subcommands: [
@@ -27,16 +38,19 @@ const register = new Command({
 				/*if (message.guild?.ownerId !== message.author.id)
 					return methods.sendEmbed(`You are not the owner of this guild !`);*/
 
-				if (await guildManager.exists(message.guild!.id) === true)
+				if ((await guildManager.exists(message.guild!.id)) === true)
 					return methods.sendEmbed(`Guild already registered`);
 
-				guildManager.add(message.guild!)
-					.then(() => methods.sendEmbed(`Guild registered successfully`))
-					.catch(err => {
+				guildManager
+					.add(message.guild!)
+					.then(() =>
+						methods.sendEmbed(`Guild registered successfully`)
+					)
+					.catch((err) => {
 						console.log(err);
 						methods.sendEmbed(`Failed to register guild`);
 					});
-			}
+			},
 		}),
 		new Command({
 			name: "user",
@@ -45,20 +59,21 @@ const register = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
-				if (await userManager.exists(message.author!.id) === true)
+				if ((await userManager.exists(message.author!.id)) === true)
 					return methods.sendEmbed(`User already registered`);
 
-				userManager.add(message.author!)
-					.then(() => methods.sendEmbed(`User successfully registered`))
-					.catch(err => {
+				userManager
+					.add(message.author!)
+					.then(() =>
+						methods.sendEmbed(`User successfully registered`)
+					)
+					.catch((err) => {
 						console.log(err);
 						methods.sendEmbed(`Failed to register user`);
 					});
-
-
-			}
-		})
-	]
-})
+			},
+		}),
+	],
+});
 
 export default register;

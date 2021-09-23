@@ -12,7 +12,7 @@ new LeJardinier()
 			"GUILD_MESSAGE_REACTIONS",
 			"GUILD_PRESENCES",
 			"GUILD_VOICE_STATES",
-			"GUILD_EMOJIS_AND_STICKERS"
-		]
+			"GUILD_EMOJIS_AND_STICKERS",
+		],
 	})
 	.start();

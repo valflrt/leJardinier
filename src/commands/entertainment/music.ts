@@ -14,8 +14,6 @@ const music = new Command({
 	description: `Music command`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
-
-
 	},
 	subcommands: [
 		new Command({
@@ -23,8 +21,7 @@ const music = new Command({
 			description: `Start playing music from the playlist`,
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
-
-			}
+			},
 		}),
 		new Command({
 			name: "url",
@@ -33,22 +30,33 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
 
-				if (!commandArgs) return methods.sendEmbed(`${reactions.error.random()} You must specify the video url`);
+				if (!commandArgs)
+					return methods.sendEmbed(
+						`${reactions.error.random()} You must specify the video url`
+					);
 
 				let song = new Song(commandArgs!);
 				await song.init();
 
-				if (!song.songFound) return methods.sendEmbed(`${reactions.error.random()} Song not found please check your youtube url`);
+				if (!song.songFound)
+					return methods.sendEmbed(
+						`${reactions.error.random()} Song not found please check your youtube url`
+					);
 
 				await playlistManager.addSong(message.guildId!, song.get());
 
 				let songInfo = song.get();
 
-				methods.sendCustomEmbed((embed: MessageEmbed) => embed
-					.setThumbnail(songInfo.details.thumbnails[0].url)
-					.setDescription(`${reactions.success.random()} Successfully added song: ${songInfo.name}`)
+				methods.sendCustomEmbed((embed: MessageEmbed) =>
+					embed
+						.setThumbnail(songInfo.details.thumbnails[0].url)
+						.setDescription(
+							`${reactions.success.random()} Successfully added song: ${
+								songInfo.name
+							}`
+						)
 				);
-			}
+			},
 		}),
 		new Command({
 			name: "search",
@@ -57,33 +65,47 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
 
-				if (!commandArgs) return methods.sendEmbed(`${reactions.error.random()} You must specify text to search for`);
+				if (!commandArgs)
+					return methods.sendEmbed(
+						`${reactions.error.random()} You must specify text to search for`
+					);
 
 				let data = await youtubeSearch(commandArgs!);
 
-				if (!data) return methods.sendEmbed(`${reactions.error.random()} Couldn't find the researched video`);
+				if (!data)
+					return methods.sendEmbed(
+						`${reactions.error.random()} Couldn't find the researched video`
+					);
 
 				let song = new Song(data.id.videoId);
 				await song.init();
 
-				if (!song.songFound) return methods.sendEmbed(`${reactions.error.random()} Song not found please check your youtube search`);
+				if (!song.songFound)
+					return methods.sendEmbed(
+						`${reactions.error.random()} Song not found please check your youtube search`
+					);
 
 				await playlistManager.addSong(message.guildId!, song.get());
 
 				let songInfo = song.get();
 
-				methods.sendCustomEmbed((embed: MessageEmbed) => embed
-					.setThumbnail(songInfo.details.thumbnails[0].url)
-					.setDescription(`${reactions.success.random()} Successfully added song: ${songInfo.name}`)
+				methods.sendCustomEmbed((embed: MessageEmbed) =>
+					embed
+						.setThumbnail(songInfo.details.thumbnails[0].url)
+						.setDescription(
+							`${reactions.success.random()} Successfully added song: ${
+								songInfo.name
+							}`
+						)
 				);
-			}
+			},
 		}),
 		new Command({
 			name: "skip",
 			description: `Skip current song`,
 			execution: (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
-			}
+			},
 		}),
 		new Command({
 			name: "clear",
@@ -91,17 +113,21 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
-				let playlist = await PlaylistModel.findOne({ guildId: message.guildId! })
+				let playlist = await PlaylistModel.findOne({
+					guildId: message.guildId!,
+				});
 				if (!playlist) {
 					new PlaylistModel({ guildId: message.guildId });
 					return methods.sendEmbed(`Playlist already cleared`);
 				}
 				playlist.songs = [];
 				await playlist.save();
-				methods.sendEmbed(`${reactions.success.random()} Playlist successfully cleared`)
-			}
-		})
-	]
-})
+				methods.sendEmbed(
+					`${reactions.success.random()} Playlist successfully cleared`
+				);
+			},
+		}),
+	],
+});
 
 export default music;

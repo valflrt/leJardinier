@@ -2,7 +2,6 @@ import config from "../config";
 import { ICommand } from "../types";
 
 export class Command implements ICommand {
-
 	name: string;
 	description: string;
 	arguments?: string;
@@ -22,10 +21,11 @@ export class Command implements ICommand {
 		this.execution = command.execution;
 
 		// sets subcommand syntax. eg: "[prefix][command name] [subcommand name]"
-		command.subcommands?.forEach(subcommand =>
-			subcommand.syntax = `${this.syntax} ${subcommand.name}`);
+		command.subcommands?.forEach(
+			(subcommand) =>
+				(subcommand.syntax = `${this.syntax} ${subcommand.name}`)
+		);
 
 		this.subcommands = command?.subcommands;
 	}
-
 }

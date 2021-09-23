@@ -8,7 +8,6 @@ import log from "./log";
 import MessageInstance from "./message";
 
 export default class LeJardinier {
-
 	private bot?: Client;
 
 	/**
@@ -27,13 +26,12 @@ export default class LeJardinier {
 	public start = () => {
 		this.bot!.login(token!);
 		this.bot!.once("ready", () => this.onReady());
-	}
+	};
 
 	/**
 	 * listener for event "ready"
 	 */
 	private onReady = async () => {
-
 		try {
 			await database.connect();
 			log.database.connectionSuccess();
@@ -41,12 +39,14 @@ export default class LeJardinier {
 			log.database.connectionFailed(e);
 		}
 
-		this.bot!.user!.setActivity({ name: `${config.prefix}help`, type: "WATCHING" });
+		this.bot!.user!.setActivity({
+			name: `${config.prefix}help`,
+			type: "WATCHING",
+		});
 		log.bot.connected(this.bot!.user!.tag, this.bot!.user!.id);
 
 		this.setListeners();
-
-	}
+	};
 
 	/**
 	 * listener for event "messageCreate"
@@ -62,20 +62,21 @@ export default class LeJardinier {
 		} else if (messageInstance.hasPrefix) {
 			messageInstance.message.react("❔");
 		}
-	}
+	};
 
 	private onMemberAdd = async (member: GuildMember) => {
 		let { user } = member;
-		if (await userManager.exists(user.id) === false)
+		if ((await userManager.exists(user.id)) === false)
 			userManager.add(user);
-	}
+	};
 
 	/**
 	 * sets bot listeners (once bot started)
 	 */
 	private setListeners = () => {
-		this.bot!.on("messageCreate", (message) => this.onMessageCreate(message));
+		this.bot!.on("messageCreate", (message) =>
+			this.onMessageCreate(message)
+		);
 		this.bot!.on("guildMemberAdd", (member) => this.onMemberAdd(member));
-	}
-
+	};
 }

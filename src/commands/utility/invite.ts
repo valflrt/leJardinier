@@ -8,11 +8,20 @@ const invite = new Command({
 	description: "Get bot invitation link",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, bot } = messageInstance;
-		methods.sendCustomEmbed((embed: MessageEmbed) => embed
-			.setTitle("Invitation link")
-			.setURL(bot.generateInvite({ scopes: ["bot"], permissions: "ADMINISTRATOR" }))
-			.setDescription(`The link above allow you to add me in your server`));
-	}
-})
+		methods.sendCustomEmbed((embed: MessageEmbed) =>
+			embed
+				.setTitle("Invitation link")
+				.setURL(
+					bot.generateInvite({
+						scopes: ["bot"],
+						permissions: "ADMINISTRATOR",
+					})
+				)
+				.setDescription(
+					`The link above allow you to add me in your server`
+				)
+		);
+	},
+});
 
 export default invite;
