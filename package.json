@@ -10,9 +10,15 @@
     "type": "git",
     "url": "https://github.com/valflrt/lejardinier-typescript"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
   "author": "valflrt",
   "license": "ISC",
   "devDependencies": {
+    "husky": "^7.0.2",
     "nodemon": "^2.0.12",
     "prettier": "^2.4.1",
     "ts-node": "^10.2.0",
