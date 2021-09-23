@@ -2,7 +2,7 @@ import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 
 import { linkButton } from "../../bot/interactions";
-  
+
 import reactions from "../../assets/reactions";
 
 const invite = new Command({
