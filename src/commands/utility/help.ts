@@ -1,12 +1,14 @@
 import { MessageEmbed } from "discord.js";
 
 import MessageInstance from "../../bot/message";
+import { linkButton } from "../../bot/interactions";
 
 import { Command } from "../../bot/command";
 import { ICommand } from "../../types";
 
 import commandList from "..";
-import { linkButton } from "../../bot/interactions";
+
+import reactions from "../../assets/reactions";
 
 const help = new Command({
 	name: "help",
@@ -159,7 +161,7 @@ const help = new Command({
 			execution: (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
 				methods.send({
-					content: `Here you go `,
+					content: `Here you go ${reactions.smile.random()}`,
 					components: [
 						linkButton(
 							"My website",
