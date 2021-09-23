@@ -14,4 +14,5 @@ new LeJardinier()
 			"GUILD_VOICE_STATES",
 			"GUILD_EMOJIS_AND_STICKERS",
 		],
-	}).start();
+	})
+	.start();

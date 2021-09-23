@@ -29,7 +29,10 @@ export default class ReplyMethods {
 		return this.messageInstance.generateEmbed().setDescription(text);
 	};
 
-	public sendCustomEmbed = (setup: Function, options: MessageOptions = {}) => {
+	public sendCustomEmbed = (
+		setup: Function,
+		options: MessageOptions = {}
+	) => {
 		if (!options.embeds) options.embeds = [];
 		options.embeds.push(this.returnCustomEmbed(setup));
 		return this.answer(options);
