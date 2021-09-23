@@ -4,7 +4,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "npx nodemon --config nodemon.json src/index.ts",
-    "lint": "npx prettier src/ --write --config .prettierrc"
+    "lint": "npx prettier src/ --write --config .prettierrc",
+    "postinstall": "npx husky install"
   },
   "repository": {
     "type": "git",
