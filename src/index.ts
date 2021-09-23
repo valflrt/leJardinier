@@ -15,4 +15,7 @@ new LeJardinier()
 			"GUILD_EMOJIS_AND_STICKERS",
 		],
 	})
+
+
+
 	.start();
