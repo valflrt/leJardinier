@@ -11,7 +11,7 @@ const invite = new Command({
 		methods.send({
 			embeds: [
 				methods.returnEmbed(
-					`The button below allow you to add me in your server`
+					`The button below allows you to add me in your server`
 				),
 			],
 			components: [
