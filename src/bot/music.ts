@@ -1,4 +1,4 @@
-import { VoiceChannel } from "discord.js";
+import { VoiceChannel, StageChannel, Client } from "discord.js";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
@@ -38,18 +38,21 @@ export class Song {
 		await ytdl.getBasicInfo(this.commandArgs!);
 }
 
-export class AudioChannelManager  {
+export class AudioChannelManager {
 
-	private channel: VoiceChannel;
+	private channel: VoiceChannel | StageChannel;
+	private bot: Client;
 
-	constructor(channel: VoiceChannel) {
-		this.channel = channel;
+	constructor(messageInstance: MessageInstance) {
+		this.channel = messageInstance.message.member!.voice.channel!;
+		this.bot = messageInstance.bot;
 	}
 
 	public startPlaying = async () => {
 		let song = await playlistManager.getFirstSong(this.channel.guildId);
 		if (!song) return;
-		this.channel
+		let permissions = this.channel.permissionsFor(this.bot.user);
+		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
 	}
 
 }

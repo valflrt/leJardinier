@@ -5,7 +5,7 @@ import MessageInstance from "../../bot/message";
 
 import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
-import { Song, youtubeSearch } from "../../bot/music";
+import { Song, AudioChannelManager, youtubeSearch } from "../../bot/music";
 
 import reactions from "../../assets/reactions";
 
@@ -20,7 +20,14 @@ const music = new Command({
 			name: "play",
 			description: `Start playing music from the playlist`,
 			execution: async (messageInstance: MessageInstance) => {
-				let { methods } = messageInstance;
+				let { methods, message } = messageInstance;
+
+				if (!message.member?.voice.channel) return;
+
+				let manager = new AudioChannelManager(messageInstance);
+
+				await manager.startPlaying();
+
 			},
 		}),
 		new Command({
@@ -51,8 +58,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songInfo.details.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songInfo.name
+							`${reactions.success.random()} Successfully added song: ${songInfo.name
 							}`
 						)
 				);
@@ -93,8 +99,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songInfo.details.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songInfo.name
+							`${reactions.success.random()} Successfully added song: ${songInfo.name
 							}`
 						)
 				);
