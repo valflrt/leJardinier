@@ -11,7 +11,7 @@ export default class ReplyMethods {
 		this.messageInstance = messageInstance;
 	}
 
-	public answer = (options: string | MessagePayload | MessageOptions) => {
+	public reply = (options: string | MessagePayload | MessageOptions) => {
 		return this.message.reply(options);
 	};
 
@@ -22,7 +22,7 @@ export default class ReplyMethods {
 	public sendEmbed = (content: string, options: MessageOptions = {}) => {
 		if (!options.embeds) options.embeds = [];
 		options.embeds.push(this.returnEmbed(content));
-		return this.answer(options);
+		return this.reply(options);
 	};
 
 	public returnEmbed = (text: string) => {
@@ -35,7 +35,7 @@ export default class ReplyMethods {
 	) => {
 		if (!options.embeds) options.embeds = [];
 		options.embeds.push(this.returnCustomEmbed(setup));
-		return this.answer(options);
+		return this.reply(options);
 	};
 
 	public returnCustomEmbed = (setup: Function) =>

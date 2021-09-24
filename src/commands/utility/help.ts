@@ -68,7 +68,7 @@ const help = new Command({
 					})
 				);
 
-				let sent = await methods.send({ embeds: [pages[index]] });
+				let sent = await methods.reply({ embeds: [pages[index]] });
 
 				await sent.react("⬅️");
 				await sent.react("➡️");
@@ -160,7 +160,7 @@ const help = new Command({
 			syntax: `website`,
 			execution: (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
-				methods.answer({
+				methods.reply({
 					content: `Now you just need to click the button below to access my website ${reactions.smile.random()}`,
 					components: [
 						linkButton(

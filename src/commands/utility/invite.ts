@@ -10,7 +10,7 @@ const invite = new Command({
 	description: "Get bot invitation link",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, bot } = messageInstance;
-		methods.answer({
+		methods.reply({
 			embeds: [
 				methods.returnEmbed(
 					`The button below allows you to add me in your server ${reactions.smile.random()}`
