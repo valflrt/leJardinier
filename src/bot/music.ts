@@ -1,9 +1,12 @@
+import { VoiceChannel } from "discord.js";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
-import keys from "../config/keys";
-
+import { playlistManager } from "./database";
+import MessageInstance from "./message";
 import { ISong } from "../types";
+
+import keys from "../config/keys";
 
 export class Song {
 	private commandArgs: string;
@@ -33,6 +36,22 @@ export class Song {
 
 	private getSongDetails = async () =>
 		await ytdl.getBasicInfo(this.commandArgs!);
+}
+
+export class AudioChannelManager  {
+
+	private channel: VoiceChannel;
+
+	constructor(channel: VoiceChannel) {
+		this.channel = channel;
+	}
+
+	public startPlaying = async () => {
+		let song = await playlistManager.getFirstSong(this.channel.guildId);
+		if (!song) return;
+		this.channel
+	}
+
 }
 
 export const youtubeSearch = async (searchString: string) =>
