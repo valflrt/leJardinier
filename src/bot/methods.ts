@@ -1,4 +1,4 @@
-import { Message, MessageOptions, MessagePayload } from "discord.js";
+import { Message, MessagePayload, ReplyMessageOptions } from "discord.js";
 
 import MessageInstance from "./message";
 
@@ -11,15 +11,15 @@ export default class ReplyMethods {
 		this.messageInstance = messageInstance;
 	}
 
-	public reply = (options: string | MessagePayload | MessageOptions) => {
+	public reply = (options: string | MessagePayload | ReplyMessageOptions) => {
 		return this.message.reply(options);
 	};
 
-	public send = (options: string | MessagePayload | MessageOptions) => {
+	public send = (options: string | MessagePayload | ReplyMessageOptions) => {
 		return this.message.channel.send(options);
 	};
 
-	public sendEmbed = (content: string, options: MessageOptions = {}) => {
+	public sendEmbed = (content: string, options: ReplyMessageOptions = {}) => {
 		if (!options.embeds) options.embeds = [];
 		options.embeds.push(this.returnEmbed(content));
 		return this.reply(options);
@@ -31,7 +31,7 @@ export default class ReplyMethods {
 
 	public sendCustomEmbed = (
 		setup: Function,
-		options: MessageOptions = {}
+		options: ReplyMessageOptions = {}
 	) => {
 		if (!options.embeds) options.embeds = [];
 		options.embeds.push(this.returnCustomEmbed(setup));
