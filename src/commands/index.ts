@@ -17,7 +17,7 @@ import pp from "./user/pp";
 import stats from "./user/stats";
 
 // entertainment commands
-import music from "./entertainment/music";
+import music from "./music/music";
 
 // exporting commands object
 let commandList = new CommandList(
