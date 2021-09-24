@@ -27,7 +27,6 @@ const music = new Command({
 				let manager = new AudioChannelManager(messageInstance);
 
 				await manager.startPlaying();
-
 			},
 		}),
 		new Command({
@@ -58,7 +57,8 @@ const music = new Command({
 					embed
 						.setThumbnail(songInfo.details.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${songInfo.name
+							`${reactions.success.random()} Successfully added song: ${
+								songInfo.name
 							}`
 						)
 				);
@@ -99,7 +99,8 @@ const music = new Command({
 					embed
 						.setThumbnail(songInfo.details.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${songInfo.name
+							`${reactions.success.random()} Successfully added song: ${
+								songInfo.name
 							}`
 						)
 				);

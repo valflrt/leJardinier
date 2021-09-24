@@ -39,7 +39,6 @@ export class Song {
 }
 
 export class AudioChannelManager {
-
 	private channel: VoiceChannel | StageChannel;
 	private bot: Client;
 
@@ -53,8 +52,7 @@ export class AudioChannelManager {
 		if (!song) return;
 		let permissions = this.channel.permissionsFor(this.bot.user);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
-	}
-
+	};
 }
 
 export const youtubeSearch = async (searchString: string) =>
