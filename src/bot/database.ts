@@ -72,10 +72,11 @@ class StatManager {
 class PlaylistManager {
 	public addSong = async (guildId: string, song: ISong) => {
 		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist) playlist = new PlaylistModel({
-			guildId,
-			song,
-		});
+		if (!playlist)
+			playlist = new PlaylistModel({
+				guildId,
+				song,
+			});
 		playlist.songs!.push(song);
 		return playlist.save();
 	};
