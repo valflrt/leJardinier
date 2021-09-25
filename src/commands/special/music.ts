@@ -1,13 +1,20 @@
 import { MessageEmbed } from "discord.js";
+import {
+	joinVoiceChannel,
+	createAudioPlayer,
+	NoSubscriberBehavior,
+	createAudioResource
+} from "@discordjs/voice"
 
 import { Command } from "../../bot/command";
 import MessageInstance from "../../bot/message";
 
 import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
-import { Song, AudioChannelManager, youtubeSearch } from "../../bot/music";
+import { Song, youtubeSearch } from "../../bot/music";
 
 import reactions from "../../assets/reactions";
+import ytdl from "ytdl-core";
 
 const music = new Command({
 	name: "music",
@@ -22,11 +29,31 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
-				if (!message.member?.voice.channel) return;
+				if (!message.member?.voice.channel) return methods.sendEmbed(`${reactions.error.random()} You need to be in a voice channel`);
+				let audioChannel = message.member!.voice.channel;
 
-				let manager = new AudioChannelManager(messageInstance);
+				let song = await playlistManager.getFirstSong(message.guildId!);
+				if (!song) return methods.sendEmbed(`The playlist is empty !`);
 
-				await manager.startPlaying();
+				let permissions = audioChannel.permissionsFor(audioChannel.guild.me!);
+				if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
+
+				let connection = joinVoiceChannel({
+					guildId: message.guildId!,
+					channelId: audioChannel.id,
+					adapterCreator: audioChannel.guild.voiceAdapterCreator
+				});
+
+				let player = createAudioPlayer({
+					behaviors: {
+						noSubscriber: NoSubscriberBehavior.Pause,
+					}
+				});
+
+				player.play(createAudioResource(ytdl(song.details.video_url)));
+
+				connection.subscribe(player);
+
 			},
 		}),
 		new Command({
@@ -57,8 +84,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songInfo.details.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songInfo.name
+							`${reactions.success.random()} Successfully added song: ${songInfo.name
 							}`
 						)
 				);
@@ -99,8 +125,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songInfo.details.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songInfo.name
+							`${reactions.success.random()} Successfully added song: ${songInfo.name
 							}`
 						)
 				);

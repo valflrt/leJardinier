@@ -1,9 +1,6 @@
-import { VoiceChannel, StageChannel, Client } from "discord.js";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
-import { playlistManager } from "./database";
-import MessageInstance from "./message";
 import { ISong } from "../types";
 
 import keys from "../config/keys";
@@ -38,23 +35,6 @@ export class Song {
 		await ytdl.getBasicInfo(this.commandArgs!);
 }
 
-export class AudioChannelManager {
-	private channel: VoiceChannel | StageChannel;
-	private bot: Client;
-
-	constructor(messageInstance: MessageInstance) {
-		this.channel = messageInstance.message.member!.voice.channel!;
-		this.bot = messageInstance.bot;
-	}
-
-	public startPlaying = async () => {
-		let song = await playlistManager.getFirstSong(this.channel.guildId);
-		if (!song) return;
-		let permissions = this.channel.permissionsFor(this.bot.user);
-		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
-	};
-}
-
 export const youtubeSearch = async (searchString: string) =>
 	(
 		await axios.get(
@@ -62,7 +42,6 @@ export const youtubeSearch = async (searchString: string) =>
 				.concat(`part=snippet`)
 				.concat(`&q=${searchString}`)
 				.concat(`&type=video`)
-				.concat(`&key=${keys.youtube}`)
 				.concat(`&key=${keys.youtube}`)
 		)
 	).data.items[0];
