@@ -78,7 +78,8 @@ class PlaylistManager {
 
 	public getFirstSong = async (guildId: string) => {
 		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist) return null;
+		if (!playlist) return undefined;
+		if (playlist.songs?.length === 0) return null;
 		return playlist.songs![0];
 	};
 
