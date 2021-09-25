@@ -12,7 +12,7 @@ export const PlaylistSchema = new mongoose.Schema<IPlaylistSchema>({
 		type: [
 			{
 				name: String,
-				videoDetails: Object,
+				details: Object,
 			},
 		],
 		default: [],
