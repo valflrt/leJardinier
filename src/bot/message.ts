@@ -1,13 +1,14 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 
-import { ICommand } from "../types";
-
 import { guildManager, userManager, statManager } from "./database";
 import ReplyMethods from "./methods";
+import log from "./log";
+
+import { ICommand } from "../types";
 import commands from "../commands/index";
 
 import config from "../config";
-import log from "./log";
+import reactions from "../assets/reactions";
 
 class MessageInstance {
 	public message: Message;
@@ -51,11 +52,14 @@ class MessageInstance {
 			.setColor("#49a013")
 			.setTimestamp();
 
+	// TODO: fix this shit: it sucks
+
 	public execute = async () => {
 		this.message.channel.sendTyping();
 		log.command.startTimer();
 		try {
 			await this.beforeExecute();
+			if (this.check() === false) return this.methods.sendEmbed(`${reactions.error.random()} I can't answer here`);
 			await this.command!.execution(this);
 			log.command.executed(this.command!);
 		} catch (err) {
@@ -63,11 +67,17 @@ class MessageInstance {
 		}
 	};
 
+	private check = () => (
+		!this.message.guild
+	) ? false : true;
+
+
 	private beforeExecute = async () => {
 		let guildExists = await guildManager.exists(this.message.guild!.id);
-		if (this.command!.requiresDB === true && guildExists === false)
+		if (this.command!.requiresDB === true && guildExists === false) {
 			this.methods.sendEmbed(`This command requires registering the guild
 				Use \`${commands.get("register")!.syntax}\` for more information.`);
+		}
 	};
 
 	private finish = async () => {
