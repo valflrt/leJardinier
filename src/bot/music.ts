@@ -1,6 +1,7 @@
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
+import { playlistManager } from "./database";
 import { ISong } from "../types";
 
 import keys from "../config/keys";
@@ -24,12 +25,11 @@ export class Song {
 			.catch(() => (this.songFound = false));
 	};
 
-	// TODO: find a way to replace method get
-
-	public get = (): ISong => ({
-		name: this.details!.title,
-		details: this.details!,
-	});
+	public save = (guildId: string) =>
+		playlistManager.addSong(guildId, {
+			name: this.details!.title,
+			details: this.details!,
+		});
 
 	private getSongDetails = async () =>
 		await ytdl.getBasicInfo(this.commandArgs!);

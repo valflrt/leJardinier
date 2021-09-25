@@ -81,16 +81,13 @@ const music = new Command({
 						`${reactions.error.random()} Song not found please check your youtube url`
 					);
 
-				await playlistManager.addSong(message.guildId!, song.get());
-
-				let songInfo = song.get();
+				await song.save(message.guildId!);
 
 				methods.sendCustomEmbed((embed: MessageEmbed) =>
 					embed
-						.setThumbnail(songInfo.details.thumbnails[0].url)
+						.setThumbnail(song.details!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songInfo.name
+							`${reactions.success.random()} Successfully added song: ${song.details!.title
 							}`
 						)
 				);
@@ -120,20 +117,16 @@ const music = new Command({
 
 				if (!song.songFound)
 					return methods.sendEmbed(
-						`${reactions.error.random()} Song not found please check your youtube search`
+						`${reactions.error.random()} Song not found please try another youtube search`
 					);
 
-				await playlistManager.addSong(message.guildId!, song.get());
-
-				let songInfo = song.get();
+				await song.save(message.guildId!);
 
 				methods.sendCustomEmbed((embed: MessageEmbed) =>
 					embed
-						.setThumbnail(songInfo.details.thumbnails[0].url)
+						.setThumbnail(song.details!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songInfo.name
-							}`
+							`${reactions.success.random()} Successfully added song: ${song.details!.title}`
 						)
 				);
 			},
