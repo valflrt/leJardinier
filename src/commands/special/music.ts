@@ -87,7 +87,8 @@ const music = new Command({
 					embed
 						.setThumbnail(song.details!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${song.details!.title
+							`${reactions.success.random()} Successfully added song: ${
+								song.details!.title
 							}`
 						)
 				);
@@ -126,7 +127,9 @@ const music = new Command({
 					embed
 						.setThumbnail(song.details!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${song.details!.title}`
+							`${reactions.success.random()} Successfully added song: ${
+								song.details!.title
+							}`
 						)
 				);
 			},
