@@ -70,7 +70,11 @@ class GuildConnectionHandler {
 				adapterCreator: audioChannel.guild.voiceAdapterCreator,
 			});
 
-		await methods.sendEmbed(`${reactions.success.random()} Successfully joined \`${audioChannel.name}\``);
+		await methods.sendEmbed(
+			`${reactions.success.random()} Successfully joined \`${
+				audioChannel.name
+			}\``
+		);
 
 		let player = createAudioPlayer({
 			behaviors: {
@@ -81,14 +85,21 @@ class GuildConnectionHandler {
 		player.play(createAudioResource(ytdl(song.video_url)));
 
 		player.on(AudioPlayerStatus.Playing, () => {
-			methods.sendCustomEmbed((embed: MessageEmbed) => embed
-				.setThumbnail(song!.thumbnails[0].url)
-				.setDescription(`${reactions.success.random()} Playing \`${song!.title}\``)
-			)
+			methods.sendCustomEmbed((embed: MessageEmbed) =>
+				embed
+					.setThumbnail(song!.thumbnails[0].url)
+					.setDescription(
+						`${reactions.success.random()} Playing \`${
+							song!.title
+						}\``
+					)
+			);
 		});
 
-		player.on("error", err => {
-			methods.sendEmbed(`${reactions.error.random()} An unknown error occurred (connection might have crashed)`);
+		player.on("error", (err) => {
+			methods.sendEmbed(
+				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
+			);
 			logger.error(`Audio connection crashed: ${err}`);
 		});
 
@@ -100,7 +111,6 @@ class GuildConnectionHandler {
 		});
 
 		connection.subscribe(player);
-
 	};
 
 	private getNextSong = async (messageInstance: MessageInstance) => {

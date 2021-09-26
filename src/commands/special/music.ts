@@ -49,7 +49,9 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added \`${songDetails.title}\``
+							`${reactions.success.random()} Successfully added \`${
+								songDetails.title
+							}\``
 						)
 				);
 			},
@@ -88,7 +90,8 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${songDetails.title
+							`${reactions.success.random()} Successfully added song: ${
+								songDetails.title
 							}`
 						)
 				);
@@ -107,13 +110,19 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
-				let playlist = await PlaylistModel.findOne({ guildId: message.guildId! });
-				if (!playlist) return methods.sendEmbed(`The playlist is empty !`);
+				let playlist = await PlaylistModel.findOne({
+					guildId: message.guildId!,
+				});
+				if (!playlist)
+					return methods.sendEmbed(`The playlist is empty !`);
 
-				let songs = playlist.songs!.map(song => `\`${song.title}\``).join("\n");
+				let songs = playlist
+					.songs!.map((song) => `\`${song.title}\``)
+					.join("\n");
 
-				methods.sendEmbed(`Here is the current playlist:\n`
-					.concat(songs));
+				methods.sendEmbed(
+					`Here is the current playlist:\n`.concat(songs)
+				);
 			},
 		}),
 		new Command({
