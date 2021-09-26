@@ -1,20 +1,15 @@
 import mongoose from "mongoose";
-import { ISong } from "../../types";
+import { MoreVideoDetails } from "ytdl-core";
 
 export interface IPlaylistSchema {
 	guildId: string;
-	songs?: ISong[];
+	songs?: MoreVideoDetails[];
 }
 
 export const PlaylistSchema = new mongoose.Schema<IPlaylistSchema>({
 	guildId: { type: String, required: true },
 	songs: {
-		type: [
-			{
-				name: String,
-				details: Object,
-			},
-		],
+		type: [Object],
 		default: [],
 	},
 });
