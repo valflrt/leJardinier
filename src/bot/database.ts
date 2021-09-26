@@ -6,8 +6,7 @@ import { IGuildSchema, GuildModel } from "../database/models/guild";
 import { IUserSchema, UserModel } from "../database/models/user";
 import { IStatSchema, StatModel } from "../database/models/stat";
 import { PlaylistModel } from "../database/models/playlist";
-
-import { ISong } from "../types";
+import { MoreVideoDetails } from "ytdl-core";
 
 class GuildManager {
 	public find = async (id: string) => {
@@ -70,7 +69,7 @@ class StatManager {
 }
 
 class PlaylistManager {
-	public addSong = async (guildId: string, song: ISong) => {
+	public addSong = async (guildId: string, song: MoreVideoDetails) => {
 		let playlist = await PlaylistModel.findOne({ guildId });
 		if (!playlist)
 			playlist = new PlaylistModel({

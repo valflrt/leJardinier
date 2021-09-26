@@ -3,11 +3,20 @@ import config from "../config";
 
 export default class CommandList {
 	private readonly commands: ICommand[];
-	private readonly categories: ICategory[];
+	private readonly categories: ICategory[] = [];
 
 	constructor(...commands: ICommand[]) {
-		this.commands = commands;
-		this.categories = [];
+		let filter = (a: ICommand, b: ICommand) => b.name.length - a.name.length;
+		let sortSubcommands = (subcommands: ICommand[] | undefined) => {
+			if (!subcommands) return;
+			subcommands.forEach((subcommand: ICommand) => {
+				subcommand.subcommands?.sort(filter);
+				sortSubcommands(subcommand.subcommands);
+			});
+		};
+		sortSubcommands(commands)
+
+		this.commands = commands.sort(filter);
 	}
 
 	/**
