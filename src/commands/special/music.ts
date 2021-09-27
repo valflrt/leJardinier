@@ -4,7 +4,7 @@ import { Command } from "../../bot/command";
 import MessageInstance from "../../bot/message";
 
 import { PlaylistModel } from "../../database/models/playlist";
-import { guildConnectionHandler, Song, youtubeSearch } from "../../bot/music";
+import { playerManager, GuildPlayer, Song, youtubeSearch } from "../../bot/music";
 
 import reactions from "../../assets/reactions";
 
@@ -19,7 +19,9 @@ const music = new Command({
 			name: "play",
 			description: `Start playing music from the playlist`,
 			execution: async (messageInstance: MessageInstance) => {
-				guildConnectionHandler.play(messageInstance);
+				let player = new GuildPlayer(messageInstance);
+				playerManager.register(player);
+				player.start();
 			},
 		}),
 		new Command({
@@ -49,8 +51,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added \`${
-								songDetails.title
+							`${reactions.success.random()} Successfully added \`${songDetails.title
 							}\``
 						)
 				);
@@ -90,8 +91,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songDetails.title
+							`${reactions.success.random()} Successfully added song: ${songDetails.title
 							}`
 						)
 				);
@@ -100,8 +100,10 @@ const music = new Command({
 		new Command({
 			name: "skip",
 			description: `Skip current song`,
-			execution: (messageInstance: MessageInstance) => {
+			execution: async (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
+				await guildConnectionHandler.skipSong(messageInstance);
+				methods.sendEmbed(`Song skipped`);
 			},
 		}),
 		new Command({

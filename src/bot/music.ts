@@ -6,18 +6,19 @@ import {
 	NoSubscriberBehavior,
 	AudioPlayerStatus,
 	AudioPlayer,
+	VoiceConnection,
 } from "@discordjs/voice";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
-import { InternalDiscordGatewayAdapterCreator, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 
 import MessageInstance from "./message";
 import { playlistManager } from "./database";
 import reactions from "../assets/reactions";
 
 import keys from "../config/keys";
-import log, { logger } from "./log";
+import { logger } from "./log";
 
 export class Song {
 	private commandArgs: string;
@@ -43,11 +44,39 @@ export class Song {
 		(await ytdl.getBasicInfo(this.commandArgs!))?.videoDetails;
 }
 
-class GuildConnectionHandler {
-	private players: AudioPlayer[] = [];
+class PlayerManager {
+	private players: GuildPlayer[] = [];
 
-	public play = async (messageInstance: MessageInstance) => {
-		let { methods, message } = messageInstance;
+	register(guildPlayer: GuildPlayer) {
+		this.players.push(guildPlayer);
+	}
+
+	get(guildId: string) {
+		this.players.find(player => player.guildId === guildId);
+	}
+}
+
+export const playerManager = new PlayerManager();
+
+export class GuildPlayer {
+
+	public guildId: string;
+	private initialized: boolean = false;
+
+	private messageInstance: MessageInstance;
+
+	private connection?: VoiceConnection;
+	private player?: AudioPlayer;
+
+	private currentSong: MoreVideoDetails | null | undefined = null;
+
+	constructor(messageInstance: MessageInstance) {
+		this.guildId = messageInstance.message.guildId!;
+		this.messageInstance = messageInstance;
+	}
+
+	public async start() {
+		let { methods, message } = this.messageInstance;
 
 		if (!message.member?.voice.channel)
 			return methods.sendEmbed(
@@ -55,26 +84,30 @@ class GuildConnectionHandler {
 			);
 		let audioChannel = message.member!.voice.channel;
 
-		let song = await this.getNextSong(messageInstance);
+		let song = await this.getNextSong();
 		if (!song) return;
 
 		let permissions = audioChannel.permissionsFor(audioChannel.guild.me!);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
 
-		let connection = getVoiceConnection(audioChannel.guildId);
+		this.connection = getVoiceConnection(audioChannel.guildId);
 
-		if (!connection)
-			connection = joinVoiceChannel({
+		if (!this.connection)
+			this.connection = joinVoiceChannel({
 				guildId: audioChannel.guildId,
 				channelId: audioChannel.id,
 				adapterCreator: audioChannel.guild.voiceAdapterCreator,
 			});
 
 		await methods.sendEmbed(
-			`${reactions.success.random()} Successfully joined \`${
-				audioChannel.name
-			}\``
+			`${reactions.success.random()} Successfully joined \`${audioChannel.name}\``
 		);
+
+		this.connection!.subscribe(this.player!);
+	};
+
+	private async play() {
+		let { methods, message } = this.messageInstance;
 
 		let player = createAudioPlayer({
 			behaviors: {
@@ -82,15 +115,14 @@ class GuildConnectionHandler {
 			},
 		});
 
-		player.play(createAudioResource(ytdl(song.video_url)));
+		player.play(createAudioResource(ytdl(this.currentSong!.video_url)));
 
 		player.on(AudioPlayerStatus.Playing, () => {
 			methods.sendCustomEmbed((embed: MessageEmbed) =>
 				embed
-					.setThumbnail(song!.thumbnails[0].url)
+					.setThumbnail(this.currentSong!.thumbnails[0].url)
 					.setDescription(
-						`${reactions.success.random()} Playing \`${
-							song!.title
+						`${reactions.success.random()} Playing \`${this.currentSong!.title
 						}\``
 					)
 			);
@@ -105,31 +137,30 @@ class GuildConnectionHandler {
 
 		player.on(AudioPlayerStatus.Idle, async () => {
 			await playlistManager.skipSong(message.guildId!);
-			song = await this.getNextSong(messageInstance);
-			if (!song) return connection!.destroy();
-			player.play(createAudioResource(ytdl(song.video_url)));
+			this.currentSong = await this.getNextSong();
+			if (!this.currentSong) return this.connection!.destroy();
+			player.play(createAudioResource(ytdl(this.currentSong!.video_url)));
 		});
+	}
 
-		connection.subscribe(player);
+	private async getNextSong() {
+		let { methods, message } = this.messageInstance;
+		this.currentSong = await playlistManager.getFirstSong(message.guildId!);
+		if (!this.currentSong) await methods.sendEmbed(`The playlist is empty !`);
+		return this.currentSong;
 	};
 
-	private getNextSong = async (messageInstance: MessageInstance) => {
-		let { methods, message } = messageInstance;
-		let song = await playlistManager.getFirstSong(message.guildId!);
-		if (!song) await methods.sendEmbed(`The playlist is empty !`);
-		return song;
-	};
+	public async skipSong(messageInstance: MessageInstance) {
+		await playlistManager.skipSong(messageInstance.message.guildId!);
+		this.play();
+	}
 }
 
-export const guildConnectionHandler = new GuildConnectionHandler();
-
 export const youtubeSearch = async (searchString: string) =>
-	(
-		await axios.get(
-			`https://youtube.googleapis.com/youtube/v3/search?`
-				.concat(`part=snippet`)
-				.concat(`&q=${searchString}`)
-				.concat(`&type=video`)
-				.concat(`&key=${keys.youtube}`)
-		)
-	).data.items[0];
+	(await axios.get(
+		`https://youtube.googleapis.com/youtube/v3/search?`
+			.concat(`part=snippet`)
+			.concat(`&q=${searchString}`)
+			.concat(`&type=video`)
+			.concat(`&key=${keys.youtube}`)
+	)).data.items[0];
