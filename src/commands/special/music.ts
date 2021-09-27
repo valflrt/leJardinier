@@ -24,9 +24,14 @@ const music = new Command({
 			name: "play",
 			description: `Start playing music from the playlist`,
 			execution: async (messageInstance: MessageInstance) => {
+				let { methods } = messageInstance;
+
 				let player = new GuildPlayer(messageInstance);
 				playerManager.register(player);
-				player.start();
+				await player.init();
+				await player.join();
+				methods.sendEmbed(`${reactions.success.random()} Successfully joined \`${player.audioChannel!.name}\``);
+				await player.play();
 			},
 		}),
 		new Command({
@@ -56,8 +61,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added \`${
-								songDetails.title
+							`${reactions.success.random()} Successfully added \`${songDetails.title
 							}\``
 						)
 				);
@@ -97,8 +101,7 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${
-								songDetails.title
+							`${reactions.success.random()} Successfully added song: ${songDetails.title
 							}`
 						)
 				);
@@ -108,9 +111,12 @@ const music = new Command({
 			name: "skip",
 			description: `Skip current song`,
 			execution: async (messageInstance: MessageInstance) => {
-				let { methods } = messageInstance;
-				await guildConnectionHandler.skipSong(messageInstance);
-				methods.sendEmbed(`Song skipped`);
+				let { methods, message } = messageInstance;
+				let player = playerManager.get(message.guildId!);
+				if (!player?.initialized) return methods.sendEmbed(`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`)
+				await player.skipSong();
+				await player.play();
+				methods.sendEmbed(`${reactions.success.random()} Song skipped successfully`);
 			},
 		}),
 		new Command({
