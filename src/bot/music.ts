@@ -52,14 +52,13 @@ class PlayerManager {
 	}
 
 	get(guildId: string) {
-		this.players.find(player => player.guildId === guildId);
+		this.players.find((player) => player.guildId === guildId);
 	}
 }
 
 export const playerManager = new PlayerManager();
 
 export class GuildPlayer {
-
 	public guildId: string;
 	private initialized: boolean = false;
 
@@ -100,11 +99,13 @@ export class GuildPlayer {
 			});
 
 		await methods.sendEmbed(
-			`${reactions.success.random()} Successfully joined \`${audioChannel.name}\``
+			`${reactions.success.random()} Successfully joined \`${
+				audioChannel.name
+			}\``
 		);
 
 		this.connection!.subscribe(this.player!);
-	};
+	}
 
 	private async play() {
 		let { methods, message } = this.messageInstance;
@@ -122,7 +123,8 @@ export class GuildPlayer {
 				embed
 					.setThumbnail(this.currentSong!.thumbnails[0].url)
 					.setDescription(
-						`${reactions.success.random()} Playing \`${this.currentSong!.title
+						`${reactions.success.random()} Playing \`${
+							this.currentSong!.title
 						}\``
 					)
 			);
@@ -146,9 +148,10 @@ export class GuildPlayer {
 	private async getNextSong() {
 		let { methods, message } = this.messageInstance;
 		this.currentSong = await playlistManager.getFirstSong(message.guildId!);
-		if (!this.currentSong) await methods.sendEmbed(`The playlist is empty !`);
+		if (!this.currentSong)
+			await methods.sendEmbed(`The playlist is empty !`);
 		return this.currentSong;
-	};
+	}
 
 	public async skipSong(messageInstance: MessageInstance) {
 		await playlistManager.skipSong(messageInstance.message.guildId!);
@@ -157,10 +160,12 @@ export class GuildPlayer {
 }
 
 export const youtubeSearch = async (searchString: string) =>
-	(await axios.get(
-		`https://youtube.googleapis.com/youtube/v3/search?`
-			.concat(`part=snippet`)
-			.concat(`&q=${searchString}`)
-			.concat(`&type=video`)
-			.concat(`&key=${keys.youtube}`)
-	)).data.items[0];
+	(
+		await axios.get(
+			`https://youtube.googleapis.com/youtube/v3/search?`
+				.concat(`part=snippet`)
+				.concat(`&q=${searchString}`)
+				.concat(`&type=video`)
+				.concat(`&key=${keys.youtube}`)
+		)
+	).data.items[0];

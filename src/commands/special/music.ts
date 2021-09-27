@@ -4,7 +4,12 @@ import { Command } from "../../bot/command";
 import MessageInstance from "../../bot/message";
 
 import { PlaylistModel } from "../../database/models/playlist";
-import { playerManager, GuildPlayer, Song, youtubeSearch } from "../../bot/music";
+import {
+	playerManager,
+	GuildPlayer,
+	Song,
+	youtubeSearch,
+} from "../../bot/music";
 
 import reactions from "../../assets/reactions";
 
@@ -51,7 +56,8 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added \`${songDetails.title
+							`${reactions.success.random()} Successfully added \`${
+								songDetails.title
 							}\``
 						)
 				);
@@ -91,7 +97,8 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${songDetails.title
+							`${reactions.success.random()} Successfully added song: ${
+								songDetails.title
 							}`
 						)
 				);
