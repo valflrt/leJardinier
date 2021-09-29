@@ -1,7 +1,6 @@
 import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
-import config from "../config";
-import token from "../config/token";
+import config, { secrets } from "../config";
 
 import database, { userManager } from "./database";
 import log from "./log";
@@ -24,7 +23,7 @@ export default class LeJardinier {
 	 * makes the client login and sets function for event "ready" (= starts the bot)
 	 */
 	public start = () => {
-		this.bot!.login(token!);
+		this.bot!.login(secrets.token!);
 		this.bot!.once("ready", () => this.onReady());
 	};
 
