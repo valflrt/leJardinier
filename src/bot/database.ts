@@ -69,7 +69,7 @@ class StatManager {
 }
 
 class PlaylistManager {
-	public addSong = async (guildId: string, song: MoreVideoDetails) => {
+	public add = async (guildId: string, song: MoreVideoDetails) => {
 		let playlist = await PlaylistModel.findOne({ guildId });
 		if (!playlist)
 			playlist = new PlaylistModel({
@@ -80,19 +80,26 @@ class PlaylistManager {
 		return playlist.save();
 	};
 
-	public getFirstSong = async (guildId: string) => {
+	public getFirst = async (guildId: string) => {
 		let playlist = await PlaylistModel.findOne({ guildId });
 		if (!playlist) return undefined;
 		if (playlist.songs?.length === 0) return null;
 		return playlist.songs![0];
 	};
 
-	public skipSong = async (guildId: string) => {
+	public removeFirst = async (guildId: string) => {
 		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist) return null;
+		if (!playlist) return;
 		playlist.songs!.shift();
 		return await playlist.save();
 	};
+
+	public clear = async (guildId: string) => {
+		let playlist = await PlaylistModel.findOne({ guildId });
+		if (!playlist || playlist.songs!.length === 0) return null;
+		playlist.songs! = [];
+		return await playlist.save();
+	}
 }
 
 export const guildManager = new GuildManager();

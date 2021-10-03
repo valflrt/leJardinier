@@ -3,6 +3,7 @@ import { MessageEmbed } from "discord.js";
 import { Command } from "../../bot/command";
 import MessageInstance from "../../bot/message";
 
+import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
 import {
 	playerManager,
@@ -18,25 +19,27 @@ const music = new Command({
 	description: `Music command`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
+		methods.sendEmbed(
+			`You can play some good tunes with this command ${reactions.smile.random()}\n`
+				.concat(`Here are the available commands:\n`)
+				.concat(music.subcommands!.map(subcommand => `\`${subcommand.syntax}\` ${subcommand.description}`).join("\n"))
+		);
 	},
 	subcommands: [
 		new Command({
 			name: "play",
-			description: `Start playing music from the playlist`,
+			description: `Start playing music from the current playlist`,
 			execution: async (messageInstance: MessageInstance) => {
-				let { methods } = messageInstance;
-
 				let player = new GuildPlayer(messageInstance);
 				playerManager.register(player);
 				await player.init();
 				await player.join();
-				methods.sendEmbed(`${reactions.success.random()} Successfully joined \`${player.audioChannel!.name}\``);
 				await player.play();
 			},
 		}),
 		new Command({
 			name: "url",
-			description: `Add a song to the playlist from a youtube url`,
+			description: `Add a song to the current playlist from a youtube url`,
 			arguments: `[youtube url]`,
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
@@ -53,18 +56,27 @@ const music = new Command({
 						`${reactions.error.random()} Song not found please check your youtube url`
 					);
 
+				let sent = await methods.sendEmbed(
+					`Looking for your song...`
+				);
+
 				await song.save(message.guildId!);
 
 				let songDetails = (await song.details)!;
 
-				methods.sendCustomEmbed((embed: MessageEmbed) =>
-					embed
-						.setThumbnail(songDetails.thumbnails[0].url)
-						.setDescription(
-							`${reactions.success.random()} Successfully added \`${songDetails.title
-							}\``
-						)
-				);
+				sent.edit({
+					embeds: [
+						methods.returnCustomEmbed((embed: MessageEmbed) =>
+							embed
+								.setThumbnail(songDetails.thumbnails[0].url)
+								.setDescription(
+									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`
+										.concat(`Added \`${songDetails.title
+											}\``)
+								)
+						),
+					],
+				});
 			},
 		}),
 		new Command({
@@ -76,7 +88,7 @@ const music = new Command({
 
 				if (!commandArgs)
 					return methods.sendEmbed(
-						`${reactions.error.random()} You must specify text to search for`
+						`${reactions.error.random()} You need to specify text to search for`
 					);
 
 				let data = await youtubeSearch(commandArgs!);
@@ -90,21 +102,28 @@ const music = new Command({
 
 				if (!(await song.found))
 					return methods.sendEmbed(
-						`${reactions.error.random()} Song not found please try another youtube search`
+						`${reactions.error.random()} No results !\n`
+							.concat(`Please try another youtube search ${reactions.smile.random()}`)
 					);
+
+				let sent = await methods.sendEmbed(`Loading data...`);
 
 				await song.save(message.guildId!);
 
 				let songDetails = (await song.details)!;
 
-				methods.sendCustomEmbed((embed: MessageEmbed) =>
-					embed
-						.setThumbnail(songDetails.thumbnails[0].url)
-						.setDescription(
-							`${reactions.success.random()} Successfully added song: ${songDetails.title
-							}`
-						)
-				);
+				sent.edit({
+					embeds: [
+						methods.returnCustomEmbed((embed: MessageEmbed) =>
+							embed
+								.setThumbnail(songDetails.thumbnails[0].url)
+								.setDescription(
+									`${reactions.success.random()} Added \`${songDetails.title
+									}\``
+								)
+						),
+					],
+				});
 			},
 		}),
 		new Command({
@@ -113,26 +132,43 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 				let player = playerManager.get(message.guildId!);
-				if (!player?.initialized) return methods.sendEmbed(`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`)
+				if (!player?.initialized)
+					return methods.sendEmbed(
+						`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`
+					);
 				await player.skipSong();
 				await player.play();
-				methods.sendEmbed(`${reactions.success.random()} Song skipped successfully`);
+				methods.sendEmbed(
+					`${reactions.success.random()} Song skipped !`
+				);
+			},
+		}),
+		new Command({
+			name: "stop",
+			description: `Stop the music`,
+			execution: async (messageInstance: MessageInstance) => {
+				let { methods, message } = messageInstance;
+
+				playerManager.get(message.guildId!)?.destroy();
+				methods.sendEmbed(
+					`${reactions.success.random()} Stopped playing !`
+				);
 			},
 		}),
 		new Command({
 			name: "playlist",
-			description: `Display playlist`,
+			description: `Display the current playlist`,
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
 
 				let playlist = await PlaylistModel.findOne({
 					guildId: message.guildId!,
 				});
-				if (!playlist)
+				if (!playlist || !playlist.songs || playlist.songs.length === 0)
 					return methods.sendEmbed(`The playlist is empty !`);
 
 				let songs = playlist
-					.songs!.map((song) => `\`${song.title}\``)
+					.songs!.map((song, i) => `\` ${i + 1} \` \`${song.title}\``)
 					.join("\n");
 
 				methods.sendEmbed(
@@ -142,19 +178,14 @@ const music = new Command({
 		}),
 		new Command({
 			name: "clear",
-			description: `Clear the playlist`,
+			description: `Clear the current playlist`,
 			execution: async (messageInstance: MessageInstance) => {
 				let { methods, message } = messageInstance;
-
-				let playlist = await PlaylistModel.findOne({
-					guildId: message.guildId!,
-				});
-				if (!playlist) {
-					new PlaylistModel({ guildId: message.guildId });
-					return methods.sendEmbed(`Playlist already cleared`);
-				}
-				playlist.songs = [];
-				await playlist.save();
+				let cleared = await playlistManager.clear(message.guildId!);
+				if (cleared === null)
+					return methods.sendEmbed(
+						`${reactions.success.random()} Playlist already empty`
+					);
 				methods.sendEmbed(
 					`${reactions.success.random()} Playlist successfully cleared`
 				);

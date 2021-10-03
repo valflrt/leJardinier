@@ -7,6 +7,7 @@ import {
 	AudioPlayerStatus,
 	AudioPlayer,
 	VoiceConnection,
+	VoiceConnectionStatus,
 } from "@discordjs/voice";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
@@ -17,7 +18,8 @@ import MessageInstance from "./message";
 import { playlistManager } from "./database";
 import reactions from "../assets/reactions";
 
-import keys from "../config/keys";
+import { secrets } from "../config";
+
 import { logger } from "./log";
 
 export class Song {
@@ -38,7 +40,7 @@ export class Song {
 	}
 
 	public save = async (guildId: string) =>
-		playlistManager.addSong(guildId, (await this.fetchSong())!);
+		playlistManager.add(guildId, (await this.fetchSong())!);
 
 	private fetchSong = async (): Promise<MoreVideoDetails | undefined> =>
 		(await ytdl.getBasicInfo(this.commandArgs!))?.videoDetails;
@@ -56,7 +58,9 @@ class PlayerManager {
 	}
 
 	remove(guildId: string) {
-		this.players = this.players.filter(player => player.guildId !== guildId);
+		this.players = this.players.filter(
+			(player) => player.guildId !== guildId
+		);
 	}
 }
 
@@ -70,6 +74,7 @@ export class GuildPlayer {
 
 	private connection?: VoiceConnection;
 	private player?: AudioPlayer;
+	// private sent?: Message;
 
 	public audioChannel?: VoiceChannel | StageChannel;
 	public currentSong: MoreVideoDetails | null | undefined = null;
@@ -88,14 +93,18 @@ export class GuildPlayer {
 			);
 		this.audioChannel = message.member!.voice.channel;
 
-		let permissions = this.audioChannel!.permissionsFor(this.audioChannel!.guild.me!);
+		let permissions = this.audioChannel!.permissionsFor(
+			this.audioChannel!.guild.me!
+		);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
 
 		this.initialized = true;
+
+		return;
 	}
 
 	public async join() {
-		let { } = this.messageInstance;
+		let { methods } = this.messageInstance;
 
 		this.connection = getVoiceConnection(this.audioChannel!.guildId);
 
@@ -106,64 +115,78 @@ export class GuildPlayer {
 				adapterCreator: this.audioChannel!.guild.voiceAdapterCreator,
 			});
 
-		this.connection!.subscribe(this.player!);
+		this.connection.once(VoiceConnectionStatus.Ready, async () => {
+			this.connection!.subscribe(this.player!);
+			await methods.sendEmbed(`Joined ${this.audioChannel!.toString()}`);
+		});
+
+		return;
 	}
 
 	public async play() {
 		let { methods } = this.messageInstance;
 
 		await this.getNextSong();
-		if (!this.currentSong) return methods.sendEmbed(`The playlist is empty !`);
+		if (!this.currentSong)
+			return methods.sendEmbed(`The playlist is empty !`);
 
-		if (!this.player)
+		if (!this.player || this.player!.checkPlayable() === false)
 			this.initPlayer();
 
-		this.player!.play(createAudioResource(ytdl(this.currentSong!.video_url)));
+		this.player!.play(
+			createAudioResource(ytdl(this.currentSong!.video_url))
+		);
 	}
 
 	private initPlayer() {
-		let { methods } = this.messageInstance
+		let { methods } = this.messageInstance;
 
-		if (!this.player) {
-			this.player = createAudioPlayer({
-				behaviors: {
-					noSubscriber: NoSubscriberBehavior.Pause,
-				},
-			});
+		this.player = createAudioPlayer({
+			behaviors: {
+				noSubscriber: NoSubscriberBehavior.Pause,
+			},
+		});
 
-			this.player.on(AudioPlayerStatus.Playing, () => {
-				methods.sendCustomEmbed((embed: MessageEmbed) =>
-					embed
-						.setThumbnail(this.currentSong!.thumbnails[0].url)
-						.setDescription(
-							`${reactions.success.random()} Playing \`${this.currentSong!.title
-							}\``
-						)
-				);
-			});
+		this.player.on(AudioPlayerStatus.Playing, () => {
+			methods.sendCustomEmbed((embed: MessageEmbed) =>
+				embed
+					.setThumbnail(this.currentSong!.thumbnails[0].url)
+					.setDescription(
+						`${reactions.success.random()} Now playing \`${this.currentSong!.title
+						}\``
+					)
+			);
+		});
 
-			this.player.on("error", (err) => {
-				methods.sendEmbed(
-					`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
-				);
-				logger.error(`Audio connection crashed: ${err}`);
-			});
+		this.player.on(AudioPlayerStatus.Idle, async () => {
+			await this.skipSong();
+			await methods.sendEmbed(`Loading next song`)
+			await this.play();
+		});
 
-			this.player.on(AudioPlayerStatus.Idle, async () => {
-				await this.skipSong();
-				await this.play();
-			});
-		}
+		this.player.on("error", (err) => {
+			methods.sendEmbed(
+				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
+			);
+			logger.error(`Audio connection crashed: ${err}`);
+		});
+
+		return;
 	}
 
 	private async getNextSong() {
 		let { message } = this.messageInstance;
-		this.currentSong = await playlistManager.getFirstSong(message.guildId!);
+		this.currentSong = await playlistManager.getFirst(message.guildId!);
 		return this.currentSong;
 	}
 
 	public async skipSong() {
-		await playlistManager.skipSong(this.messageInstance.message.guildId!);
+		await playlistManager.removeFirst(this.messageInstance.message.guildId!);
+	}
+
+	public destroy() {
+		this.connection?.destroy();
+		playerManager.remove(this.guildId);
 	}
 }
 
@@ -174,6 +197,6 @@ export const youtubeSearch = async (searchString: string) =>
 				.concat(`part=snippet`)
 				.concat(`&q=${searchString}`)
 				.concat(`&type=video`)
-				.concat(`&key=${keys.youtube}`)
+				.concat(`&key=${secrets.youtube}`)
 		)
 	).data.items[0];
