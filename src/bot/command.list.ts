@@ -6,18 +6,7 @@ export default class CommandList {
 	private readonly _categories: ICategory[] = [];
 
 	constructor(...commands: ICommand[]) {
-		let filter = (a: ICommand, b: ICommand) =>
-			b.name.length - a.name.length;
-		let sortSubcommands = (commands: ICommand[] | undefined) => {
-			if (!commands) return;
-			commands.forEach((command: ICommand) => {
-				command.commands?.sort(filter);
-				sortSubcommands(command.commands);
-			});
-		};
-		sortSubcommands(commands);
-
-		this._commands = commands.sort(filter);
+		this._commands = commands;
 	}
 
 	/**
