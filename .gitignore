@@ -1,6 +1,5 @@
 node_modules
-token.ts
-database.ts
+src/config/secrets.ts
 
 dist
 
