@@ -1,5 +1,6 @@
 node_modules
-src/config/secrets.ts
+
+secrets.ts
 
 dist
 

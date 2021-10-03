@@ -11,11 +11,13 @@ const morse = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		methods.sendEmbed(`Use \`lj!morse encode\` to encode text to Morse code`
-			.concat(`Use \`lj!morse table\` to get Morse code table`)
+		methods.sendEmbed(
+			`Use \`lj!morse encode\` to encode text to Morse code`.concat(
+				`Use \`lj!morse table\` to get Morse code table`
+			)
 		);
 	},
-	subcommands: [
+	commands: [
 		new Command({
 			name: "encode",
 			description: `Encode text to Morse code`,
@@ -24,10 +26,11 @@ const morse = new Command({
 				let { methods, commandArgs } = messageInstance;
 
 				const encode = (text: string, morse: string[] = []): string => {
-
 					let char = text.charAt(0);
 
-					let morseLetter = morseTable.find(item => item[0] === char);
+					let morseLetter = morseTable.find(
+						(item) => item[0] === char
+					);
 
 					if (morseLetter) morse.push(morseLetter[1]);
 					else if (char === " ") morse.push("|");
@@ -36,8 +39,19 @@ const morse = new Command({
 					else return encode(text.slice(1), morse);
 				};
 
-				methods.sendEmbed(commandArgs ? encode(commandArgs?.toLowerCase().replace(/[^abcdefghijklmopqrstuvwxyz\s]/g, "")) : "You need to give some text to convert to morse...");
-			}
+				methods.sendEmbed(
+					commandArgs
+						? encode(
+								commandArgs
+									?.toLowerCase()
+									.replace(
+										/[^abcdefghijklmopqrstuvwxyz\s]/g,
+										""
+									)
+						  )
+						: "You need to give some text to convert to morse..."
+				);
+			},
 		}),
 		new Command({
 			name: "table",
@@ -45,13 +59,13 @@ const morse = new Command({
 			execution: (messageInstance: MessageInstance) => {
 				let { methods } = messageInstance;
 
-				methods.sendCustomEmbed((embed: MessageEmbed) => embed
-					.setDescription(`Here is the morse table\n
-					${morseTable.map(char => `${char[0]}: \`${char[1]}\``).join("\n")}`)
+				methods.sendCustomEmbed((embed: MessageEmbed) =>
+					embed.setDescription(`Here is the morse table\n
+					${morseTable.map((char) => `${char[0]}: \`${char[1]}\``).join("\n")}`)
 				);
-			}
-		})
-	]
-})
+			},
+		}),
+	],
+});
 
 export default morse;
