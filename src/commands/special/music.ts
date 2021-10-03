@@ -22,10 +22,10 @@ const music = new Command({
 		methods.sendEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
 				.concat(`Here are the available commands:\n`)
-				.concat(music.subcommands!.map(subcommand => `\`${subcommand.syntax}\` ${subcommand.description}`).join("\n"))
+				.concat(music.commands!.map(command => `\`${command.syntax}\` ${command.description}`).join("\n"))
 		);
 	},
-	subcommands: [
+	commands: [
 		new Command({
 			name: "play",
 			description: `Start playing music from the current playlist`,

@@ -9,7 +9,7 @@ export class Command implements ICommand {
 	categoryName?: string;
 	requiresDB?: boolean;
 	execution: Function;
-	subcommands?: ICommand[];
+	commands?: ICommand[];
 
 	constructor(command: ICommand) {
 		this.name = command.name;
@@ -21,11 +21,11 @@ export class Command implements ICommand {
 		this.execution = command.execution;
 
 		// sets subcommand syntax. eg: "[prefix][command name] [subcommand name]"
-		command.subcommands?.forEach(
-			(subcommand) =>
-				(subcommand.syntax = `${this.syntax} ${subcommand.name}`)
+		command.commands?.forEach(
+			(command) =>
+				(command.syntax = `${this.syntax} ${command.name}`)
 		);
 
-		this.subcommands = command?.subcommands;
+		this.commands = command?.commands;
 	}
 }

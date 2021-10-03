@@ -8,10 +8,10 @@ const register = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		let guildSubcommand = register.subcommands?.find(
+		let guildCommand = register.commands?.find(
 			(cmd) => cmd.name === "guild"
 		);
-		let userSubcommand = register.subcommands?.find(
+		let userCommand = register.commands?.find(
 			(cmd) => cmd.name === "user"
 		);
 
@@ -21,14 +21,14 @@ const register = new Command({
 					`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n\n`
 				)
 				.concat(
-					`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}\n`
+					`\`${guildCommand?.syntax}\` ${guildCommand?.description}\n`
 				)
 				.concat(
-					`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}\n`
+					`\`${userCommand?.syntax}\` ${userCommand?.description}\n`
 				)
 		);
 	},
-	subcommands: [
+	commands: [
 		new Command({
 			name: "guild",
 			description: "Register current guild (you need to be the owner)",

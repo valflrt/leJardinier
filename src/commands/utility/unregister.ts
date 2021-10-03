@@ -8,10 +8,10 @@ const unregister = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		let guildSubcommand = unregister.subcommands?.find(
+		let guildCommand = unregister.commands?.find(
 			(cmd) => cmd.name === "guild"
 		);
-		let userSubcommand = unregister.subcommands?.find(
+		let userCommand = unregister.commands?.find(
 			(cmd) => cmd.name === "user"
 		);
 
@@ -21,14 +21,14 @@ const unregister = new Command({
 					`By unregistering, the guild/user will be removed from my database.\n\n`
 				)
 				.concat(
-					`\`${guildSubcommand?.syntax}\` ${guildSubcommand?.description}`
+					`\`${guildCommand?.syntax}\` ${guildCommand?.description}`
 				)
 				.concat(
-					`\`${userSubcommand?.syntax}\` ${userSubcommand?.description}`
+					`\`${userCommand?.syntax}\` ${userCommand?.description}`
 				)
 		);
 	},
-	subcommands: [
+	commands: [
 		new Command({
 			name: "guild",
 			description: "Unregister current guild (you need to be the owner)",

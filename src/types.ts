@@ -6,7 +6,7 @@ export interface ICommand {
 	categoryName?: string;
 	requiresDB?: boolean;
 	execution: Function;
-	subcommands?: ICommand[];
+	commands?: ICommand[];
 }
 
 export interface ICategory {

@@ -26,7 +26,7 @@ const help = new Command({
 				)
 		);
 	},
-	subcommands: [
+	commands: [
 		new Command({
 			name: "commands",
 			description: "Displays every available command",
@@ -136,15 +136,15 @@ const help = new Command({
 						let command = commandList.get(commandArgs!)!;
 
 						embed.setDescription(`**\`${command.syntax}\`**
-					${command.description}${command.subcommands
+					${command.description}${command.commands
 								? "\n\n__**Subcommands:**__\n"
 								: ""
 							}`);
 
-						command.subcommands?.forEach((subcommand) =>
+						command.commands?.forEach((command) =>
 							embed.addField(
-								`   \`${subcommand.syntax}\``,
-								`   ${subcommand.description}`
+								`   \`${command.syntax}\``,
+								`   ${command.description}`
 							)
 						);
 
