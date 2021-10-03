@@ -12,7 +12,7 @@ import {
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
-import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
+import { Message, MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
 
 import MessageInstance from "./message";
 import { playlistManager } from "./database";
@@ -74,7 +74,7 @@ export class GuildPlayer {
 
 	private connection?: VoiceConnection;
 	private player?: AudioPlayer;
-	// private sent?: Message;
+	private currentSongMessage?: Message;
 
 	public audioChannel?: VoiceChannel | StageChannel;
 	public currentSong: MoreVideoDetails | null | undefined = null;
@@ -128,7 +128,7 @@ export class GuildPlayer {
 
 		await this.getNextSong();
 		if (!this.currentSong)
-			return methods.sendEmbed(`The playlist is empty !`);
+			return this.currentSongMessage?.edit({ embeds: [methods.returnEmbed(`The playlist is empty !`)] });
 
 		if (!this.player || this.player!.checkPlayable() === false)
 			this.initPlayer();
@@ -148,20 +148,21 @@ export class GuildPlayer {
 		});
 
 		this.player.on(AudioPlayerStatus.Playing, () => {
-			methods.sendCustomEmbed((embed: MessageEmbed) =>
-				embed
-					.setThumbnail(this.currentSong!.thumbnails[0].url)
-					.setDescription(
-						`${reactions.success.random()} Now playing \`${
-							this.currentSong!.title
-						}\``
-					)
-			);
+			this.currentSongMessage?.edit({
+				embeds: [methods.returnCustomEmbed((embed: MessageEmbed) =>
+					embed
+						.setThumbnail(this.currentSong!.thumbnails[0].url)
+						.setDescription(
+							`${reactions.success.random()} Now playing \`${this.currentSong!.title
+							}\``
+						)
+				)]
+			});
 		});
 
 		this.player.on(AudioPlayerStatus.Idle, async () => {
 			await this.skipSong();
-			await methods.sendEmbed(`Loading next song`);
+			this.currentSongMessage = await methods.sendEmbed(`Loading next song`);
 			await this.play();
 		});
 
