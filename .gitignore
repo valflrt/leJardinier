@@ -1,6 +1,9 @@
 node_modules
+
+secrets.ts
 token.ts
 database.ts
+keys.ts
 
 dist
 

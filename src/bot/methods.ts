@@ -1,8 +1,8 @@
-import { Message, MessageOptions, MessagePayload } from "discord.js";
+import { Message, MessagePayload, ReplyMessageOptions } from "discord.js";
+
 import MessageInstance from "./message";
 
 export default class ReplyMethods {
-
 	private message: Message;
 	private messageInstance: MessageInstance;
 
@@ -11,34 +11,33 @@ export default class ReplyMethods {
 		this.messageInstance = messageInstance;
 	}
 
-	public answer = (message: string | MessagePayload | MessageOptions) => {
-		return this.message.reply(message);
-	}
+	public reply = (options: string | MessagePayload | ReplyMessageOptions) => {
+		return this.message.reply(options);
+	};
 
-	public send = (message: string | MessagePayload | MessageOptions) => {
-		return this.message.channel.send(message);
-	}
+	public send = (options: string | MessagePayload | ReplyMessageOptions) => {
+		return this.message.channel.send(options);
+	};
 
-	public sendEmbed = (text: string, files = []) => {
-		return this.answer({
-			embeds: [this.messageInstance.generateEmbed().setDescription(text)],
-			files
-		})
-	}
+	public sendEmbed = (content: string, options: ReplyMessageOptions = {}) => {
+		if (!options.embeds) options.embeds = [];
+		options.embeds.push(this.returnEmbed(content));
+		return this.reply(options);
+	};
 
 	public returnEmbed = (text: string) => {
 		return this.messageInstance.generateEmbed().setDescription(text);
-	}
+	};
 
-	public sendCustomEmbed = (config: Function, files = []) => {
-		return this.answer({
-			embeds: [config(this.messageInstance.generateEmbed())],
-			files
-		})
-	}
+	public sendCustomEmbed = (
+		setup: Function,
+		options: ReplyMessageOptions = {}
+	) => {
+		if (!options.embeds) options.embeds = [];
+		options.embeds.push(this.returnCustomEmbed(setup));
+		return this.reply(options);
+	};
 
-	public returnCustomEmbed = (config: Function) => {
-		return config(this.messageInstance.generateEmbed());
-	}
-
+	public returnCustomEmbed = (setup: Function) =>
+		setup(this.messageInstance.generateEmbed());
 }

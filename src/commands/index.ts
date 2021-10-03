@@ -3,7 +3,7 @@ import CommandList from "../bot/command.list";
 // utility commands
 import help from "./utility/help";
 import invite from "./utility/invite";
-import register from "./utility/register"
+import register from "./utility/register";
 import unregister from "./utility/unregister";
 
 // fun commands
@@ -16,6 +16,9 @@ import morse from "./fun/morse";
 import pp from "./user/pp";
 import stats from "./user/stats";
 
+// entertainment commands
+import music from "./special/music";
+
 // exporting commands object
 let commandList = new CommandList(
 	help,
@@ -27,26 +30,15 @@ let commandList = new CommandList(
 	percentage,
 	morse,
 	pp,
-	stats
-)
+	stats,
+	music
+);
 
 // sets categories (so commands are ordered and sorted here)
 commandList
-	.setCategory("Utility", [
-		help,
-		invite,
-		register,
-		unregister
-	])
-	.setCategory("Fun", [
-		hey,
-		trueOrFalse,
-		percentage,
-		morse
-	])
-	.setCategory("User", [
-		pp,
-		stats
-	])
+	.setCategory("Utility", [help, invite, register, unregister])
+	.setCategory("Fun", [hey, trueOrFalse, percentage, morse])
+	.setCategory("User", [pp, stats])
+	.setCategory("Entertainment", [music]);
 
 export default commandList;
