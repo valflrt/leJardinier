@@ -22,7 +22,14 @@ const music = new Command({
 		methods.sendEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
 				.concat(`Here are the available commands:\n`)
-				.concat(music.commands!.map(command => `\`${command.syntax}\` ${command.description}`).join("\n"))
+				.concat(
+					music
+						.commands!.map(
+							(command) =>
+								`\`${command.syntax}\` ${command.description}`
+						)
+						.join("\n")
+				)
 		);
 	},
 	commands: [
@@ -56,9 +63,7 @@ const music = new Command({
 						`${reactions.error.random()} Song not found please check your youtube url`
 					);
 
-				let sent = await methods.sendEmbed(
-					`Looking for your song...`
-				);
+				let sent = await methods.sendEmbed(`Looking for your song...`);
 
 				await song.save(message.guildId!);
 
@@ -70,9 +75,9 @@ const music = new Command({
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`
-										.concat(`Added \`${songDetails.title
-											}\``)
+									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
+										`Added \`${songDetails.title}\``
+									)
 								)
 						),
 					],
@@ -102,8 +107,9 @@ const music = new Command({
 
 				if (!(await song.found))
 					return methods.sendEmbed(
-						`${reactions.error.random()} No results !\n`
-							.concat(`Please try another youtube search ${reactions.smile.random()}`)
+						`${reactions.error.random()} No results !\n`.concat(
+							`Please try another youtube search ${reactions.smile.random()}`
+						)
 					);
 
 				let sent = await methods.sendEmbed(`Loading data...`);
@@ -118,7 +124,8 @@ const music = new Command({
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Added \`${songDetails.title
+									`${reactions.success.random()} Added \`${
+										songDetails.title
 									}\``
 								)
 						),

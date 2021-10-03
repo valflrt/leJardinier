@@ -11,9 +11,7 @@ const register = new Command({
 		let guildCommand = register.commands?.find(
 			(cmd) => cmd.name === "guild"
 		);
-		let userCommand = register.commands?.find(
-			(cmd) => cmd.name === "user"
-		);
+		let userCommand = register.commands?.find((cmd) => cmd.name === "user");
 
 		methods.sendEmbed(
 			`With this command, you can register guilds and users.\n`

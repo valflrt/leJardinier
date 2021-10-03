@@ -99,7 +99,7 @@ class PlaylistManager {
 		if (!playlist || playlist.songs!.length === 0) return null;
 		playlist.songs! = [];
 		return await playlist.save();
-	}
+	};
 }
 
 export const guildManager = new GuildManager();

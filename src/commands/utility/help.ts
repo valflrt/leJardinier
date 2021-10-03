@@ -53,7 +53,8 @@ const help = new Command({
 				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
 						embed.setDescription(
-							`**${category.name}** (page ${i + 1} of ${categories.length
+							`**${category.name}** (page ${i + 1} of ${
+								categories.length
 							})`
 						);
 						let fields = category.commands.map(
@@ -136,10 +137,7 @@ const help = new Command({
 						let command = commandList.get(commandArgs!)!;
 
 						embed.setDescription(`**\`${command.syntax}\`**
-					${command.description}${command.commands
-								? "\n\n__**Subcommands:**__\n"
-								: ""
-							}`);
+					${command.description}${command.commands ? "\n\n__**Subcommands:**__\n" : ""}`);
 
 						command.commands?.forEach((command) =>
 							embed.addField(

@@ -22,8 +22,7 @@ export class Command implements ICommand {
 
 		// sets subcommand syntax. eg: "[prefix][command name] [subcommand name]"
 		command.commands?.forEach(
-			(command) =>
-				(command.syntax = `${this.syntax} ${command.name}`)
+			(command) => (command.syntax = `${this.syntax} ${command.name}`)
 		);
 
 		this.commands = command?.commands;

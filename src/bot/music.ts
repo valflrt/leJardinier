@@ -152,7 +152,8 @@ export class GuildPlayer {
 				embed
 					.setThumbnail(this.currentSong!.thumbnails[0].url)
 					.setDescription(
-						`${reactions.success.random()} Now playing \`${this.currentSong!.title
+						`${reactions.success.random()} Now playing \`${
+							this.currentSong!.title
 						}\``
 					)
 			);
@@ -160,7 +161,7 @@ export class GuildPlayer {
 
 		this.player.on(AudioPlayerStatus.Idle, async () => {
 			await this.skipSong();
-			await methods.sendEmbed(`Loading next song`)
+			await methods.sendEmbed(`Loading next song`);
 			await this.play();
 		});
 
@@ -181,7 +182,9 @@ export class GuildPlayer {
 	}
 
 	public async skipSong() {
-		await playlistManager.removeFirst(this.messageInstance.message.guildId!);
+		await playlistManager.removeFirst(
+			this.messageInstance.message.guildId!
+		);
 	}
 
 	public destroy() {

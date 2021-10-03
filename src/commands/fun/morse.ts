@@ -42,13 +42,13 @@ const morse = new Command({
 				methods.sendEmbed(
 					commandArgs
 						? encode(
-							commandArgs
-								?.toLowerCase()
-								.replace(
-									/[^abcdefghijklmopqrstuvwxyz\s]/g,
-									""
-								)
-						)
+								commandArgs
+									?.toLowerCase()
+									.replace(
+										/[^abcdefghijklmopqrstuvwxyz\s]/g,
+										""
+									)
+						  )
 						: "You need to give some text to convert to morse..."
 				);
 			},
