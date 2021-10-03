@@ -128,7 +128,9 @@ export class GuildPlayer {
 
 		await this.getNextSong();
 		if (!this.currentSong)
-			return this.currentSongMessage?.edit({ embeds: [methods.returnEmbed(`The playlist is empty !`)] });
+			return this.currentSongMessage?.edit({
+				embeds: [methods.returnEmbed(`The playlist is empty !`)],
+			});
 
 		if (!this.player || this.player!.checkPlayable() === false)
 			this.initPlayer();
@@ -149,20 +151,25 @@ export class GuildPlayer {
 
 		this.player.on(AudioPlayerStatus.Playing, () => {
 			this.currentSongMessage?.edit({
-				embeds: [methods.returnCustomEmbed((embed: MessageEmbed) =>
-					embed
-						.setThumbnail(this.currentSong!.thumbnails[0].url)
-						.setDescription(
-							`${reactions.success.random()} Now playing \`${this.currentSong!.title
-							}\``
-						)
-				)]
+				embeds: [
+					methods.returnCustomEmbed((embed: MessageEmbed) =>
+						embed
+							.setThumbnail(this.currentSong!.thumbnails[0].url)
+							.setDescription(
+								`${reactions.success.random()} Now playing \`${
+									this.currentSong!.title
+								}\``
+							)
+					),
+				],
 			});
 		});
 
 		this.player.on(AudioPlayerStatus.Idle, async () => {
 			await this.skipSong();
-			this.currentSongMessage = await methods.sendEmbed(`Loading next song`);
+			this.currentSongMessage = await methods.sendEmbed(
+				`Loading next song`
+			);
 			await this.play();
 		});
 
