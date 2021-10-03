@@ -25,7 +25,7 @@ class MessageInstance {
 		this.message = message;
 		this.bot = bot;
 
-		this.command = commands.altFind(this.message.content);
+		this.command = commands.fetch(this.message.content);
 		this.hasCommand = this.command ? true : false;
 		this.hasPrefix = this.message.content.startsWith(config.prefix);
 
