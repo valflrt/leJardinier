@@ -48,13 +48,12 @@ const help = new Command({
 				*/
 
 				let index = 0;
-				let categories = commandList.getCategories();
+				let categories = commandList.categories;
 
 				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
 						embed.setDescription(
-							`**${category.name}** (page ${i + 1} of ${
-								categories.length
+							`**${category.name}** (page ${i + 1} of ${categories.length
 							})`
 						);
 						let fields = category.commands.map(
@@ -137,11 +136,10 @@ const help = new Command({
 						let command = commandList.get(commandArgs!)!;
 
 						embed.setDescription(`**\`${command.syntax}\`**
-					${command.description}${
-							command.subcommands
+					${command.description}${command.subcommands
 								? "\n\n__**Subcommands:**__\n"
 								: ""
-						}`);
+							}`);
 
 						command.subcommands?.forEach((subcommand) =>
 							embed.addField(
