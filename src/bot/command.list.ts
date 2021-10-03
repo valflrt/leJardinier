@@ -2,8 +2,8 @@ import { ICategory, ICommand } from "../types";
 import config from "../config";
 
 export default class CommandList {
-	private readonly commands: ICommand[];
-	private readonly categories: ICategory[] = [];
+	private readonly _commands: ICommand[];
+	private readonly _categories: ICategory[] = [];
 
 	constructor(...commands: ICommand[]) {
 		let filter = (a: ICommand, b: ICommand) =>
@@ -17,7 +17,7 @@ export default class CommandList {
 		};
 		sortSubcommands(commands);
 
-		this.commands = commands.sort(filter);
+		this._commands = commands.sort(filter);
 	}
 
 	/**
@@ -33,7 +33,7 @@ export default class CommandList {
 	): CommandList => {
 		commands.forEach((command) => (command.categoryName = categoryName));
 		let category: ICategory = { name: categoryName, commands };
-		this.categories.push(category);
+		this._categories.push(category);
 		return this;
 	};
 
@@ -43,7 +43,7 @@ export default class CommandList {
 	 * @returns {boolean} wether this.commands has the researched command
 	 */
 	public has = (commandName: string): boolean => {
-		return this.commands.some((command) => command.name === commandName);
+		return this._commands.some((command) => command.name === commandName);
 	};
 
 	/**
@@ -52,7 +52,7 @@ export default class CommandList {
 	 * @returns {ICommand} corresponding command object
 	 */
 	public get = (commandName: string): ICommand | null => {
-		let command = this.commands.find(
+		let command = this._commands.find(
 			(command) => command.name === commandName
 		);
 		return command ? command : null;
@@ -64,7 +64,7 @@ export default class CommandList {
 	 * @returns {ICommand} corresponding command object
 	 */
 	public find = (messageContent: string): ICommand | undefined =>
-		this.commands.find(
+		this._commands.find(
 			(command: ICommand) =>
 				messageContent.match(
 					new RegExp(`^${config.prefix}${command.name}`, "g")
@@ -87,7 +87,7 @@ export default class CommandList {
 			);
 
 			let regex = (commandName: string) =>
-				new RegExp(`^${commandName}`, "g");
+				new RegExp(`^${commandName}\s`, "g");
 
 			let fetchSubcommand = (
 				command: ICommand,
@@ -97,15 +97,12 @@ export default class CommandList {
 				else {
 					remainingText = remainingText
 						.replace(regex(command.name), "")
-						.trim();
-
 					let subcommand = command.subcommands.find(
 						(subcommand: ICommand) =>
 							remainingText.match(
-								new RegExp(`^${subcommand.name}`, "g")
+								new RegExp(`^${subcommand.name}\s`, "g")
 							) !== null
 					);
-
 					if (!subcommand) {
 						return command;
 					} else {
@@ -114,12 +111,14 @@ export default class CommandList {
 				}
 			};
 
-			let mainCommand = this.commands.find(
+			let mainCommand = this._commands.find(
 				(command: ICommand) =>
-					messageContent.match(regex(command.name)) !== null
+					messageContent.match(new RegExp(`^${command.name}`, "g")) !== null
 			);
 
 			if (!mainCommand) return undefined;
+			else if (messageContent.match(new RegExp(`^${mainCommand.name}^`, "g")) !== null)
+				return mainCommand;
 			else return fetchSubcommand(mainCommand!, messageContent);
 		} else return undefined;
 	};
@@ -128,11 +127,15 @@ export default class CommandList {
 	 * returns all commands
 	 * @returns {ICommand[]} all commands
 	 */
-	public getCommands = (): ICommand[] => new Array(...this.commands);
+	get commands(): ICommand[] {
+		return new Array(...this._commands)
+	};
 
 	/**
 	 * returns all categories
 	 * @returns {ICategory[]}
 	 */
-	public getCategories = (): ICategory[] => new Array(...this.categories);
+	get categories(): ICategory[] {
+		return new Array(...this._categories)
+	};
 }
