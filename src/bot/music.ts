@@ -2,7 +2,8 @@ import * as voice from "@discordjs/voice";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
-import { Message, MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
+import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
+import { SentMessage } from "../types";
 
 import { playlistManager } from "./database";
 import MessageInstance from "./message";
@@ -65,7 +66,7 @@ export class GuildPlayer {
 	private connection?: voice.VoiceConnection;
 	private player?: voice.AudioPlayer;
 
-	private currentSongMessage?: Message;
+	private currentSongMessage?: SentMessage;
 
 	public audioChannel?: VoiceChannel | StageChannel;
 	public currentSong: MoreVideoDetails | null | undefined = null;
@@ -79,7 +80,7 @@ export class GuildPlayer {
 		let { methods, message, bot } = this.messageInstance;
 
 		if (!message.member?.voice.channel)
-			return methods.sendEmbed(
+			return methods.sendTextEmbed(
 				`${reactions.error.random()} You need to be in a voice channel`
 			);
 		this.audioChannel = message.member!.voice.channel;
@@ -88,7 +89,7 @@ export class GuildPlayer {
 			this.audioChannel!.guild.me!
 		);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
-			return methods.sendEmbed(
+			return methods.sendTextEmbed(
 				`${reactions.error.random()} I am not allowed to join voice channels !\n`.concat(
 					`Please contact the moderator of this guild.`
 				)
@@ -102,19 +103,17 @@ export class GuildPlayer {
 		});
 
 		if (!this.audioChannel?.members.has(bot.user!.id))
-			methods.sendEmbed(`Joined ${this.audioChannel!.toString()}`);
+			methods.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
 	}
 
 	public async play() {
 		let { methods } = this.messageInstance;
 
-		this.currentSongMessage = await methods.sendEmbed(`Loading audio...`);
+		this.currentSongMessage = await methods.sendTextEmbed(`Loading audio...`);
 
 		await this.getNextSong();
 		if (!this.currentSong)
-			return this.currentSongMessage?.edit({
-				embeds: [methods.returnEmbed(`The playlist is empty !`)],
-			});
+			return this.currentSongMessage?.editWithTextEmbed(`The playlist is empty !`);
 
 		this.initPlayer();
 
@@ -138,20 +137,15 @@ export class GuildPlayer {
 		});
 
 		this.player.on(voice.AudioPlayerStatus.Playing, () => {
-			this.currentSongMessage?.edit({
-				embeds: [
-					methods.returnCustomEmbed((embed: MessageEmbed) =>
-						embed
-							.setThumbnail(this.currentSong!.thumbnails[0].url)
-							.setDescription(
-								`${reactions.success.random()} Now playing **${url(
-									this.currentSong!.title,
-									this.currentSong!.video_url
-								)}**`
-							)
-					),
-				],
-			});
+			this.currentSongMessage?.editWithCustomEmbed((embed: MessageEmbed) => embed
+				.setThumbnail(this.currentSong!.thumbnails[0].url)
+				.setDescription(
+					`${reactions.success.random()} Now playing **${url(
+						this.currentSong!.title,
+						this.currentSong!.video_url
+					)}**`
+				)
+			);
 		});
 
 		this.player.on(voice.AudioPlayerStatus.Idle, async () => {
@@ -160,7 +154,7 @@ export class GuildPlayer {
 		});
 
 		this.player.on("error", (err) => {
-			methods.sendEmbed(
+			methods.sendTextEmbed(
 				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
 			);
 			logger.error(`Audio connection crashed: ${err}`);

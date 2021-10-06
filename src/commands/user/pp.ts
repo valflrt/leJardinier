@@ -15,7 +15,7 @@ const pp = new Command({
 				? message.mentions.members?.first()?.user
 				: message.author;
 
-		if (!user) return methods.sendEmbed(`Unknown user`);
+		if (!user) return methods.sendTextEmbed(`Unknown user`);
 
 		methods.sendCustomEmbed((embed: MessageEmbed) =>
 			embed

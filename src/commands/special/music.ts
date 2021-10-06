@@ -20,7 +20,7 @@ const music = new Command({
 	description: `Music command`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendEmbed(
+		methods.sendTextEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
 				.concat(`Here are the available commands:\n`)
 				.concat(
@@ -52,16 +52,16 @@ const music = new Command({
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
-					return methods.sendEmbed(
+					return methods.sendTextEmbed(
 						`${reactions.error.random()} You must specify the video url`
 					);
 
-				let sent = await methods.sendEmbed(`Looking for your song...`);
+				let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
 				let song = new Song(commandArgs!);
 
 				if (!(await song.found))
-					return methods.sendEmbed(
+					return methods.sendTextEmbed(
 						`${reactions.error.random()} Song not found please check your youtube url`
 					);
 
@@ -69,22 +69,17 @@ const music = new Command({
 
 				let songDetails = (await song.details)!;
 
-				sent.edit({
-					embeds: [
-						methods.returnCustomEmbed((embed: MessageEmbed) =>
-							embed
-								.setThumbnail(songDetails.thumbnails[0].url)
-								.setDescription(
-									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-										`Added **${url(
-											songDetails.title,
-											songDetails.video_url
-										)}**`
-									)
-								)
-						),
-					],
-				});
+				sent.editWithCustomEmbed((embed: MessageEmbed) => embed
+					.setThumbnail(songDetails.thumbnails[0].url)
+					.setDescription(
+						`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
+							`Added **${url(
+								songDetails.title,
+								songDetails.video_url
+							)}**`
+						)
+					)
+				);
 			},
 		}),
 		new Command({
@@ -95,55 +90,39 @@ const music = new Command({
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
-					return methods.sendEmbed(
+					return methods.sendTextEmbed(
 						`${reactions.error.random()} You need to specify text to search for`
 					);
 
-				let sent = await methods.sendEmbed(`Looking for your song...`);
+				let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
 				let data = await youtubeSearch(commandArgs!);
 
 				if (!data)
-					return methods.sendEmbed(`${reactions.error.random()} No results !\n`
+					return sent.editWithTextEmbed(`${reactions.error.random()} No results !\n`
 						.concat(`Please try another youtube search ${reactions.smile.random()}`));
 
-				await sent.edit({
-					embeds: [
-						methods.returnEmbed(`Song found ! Loading data...`)
-					]
-				});
+				await sent.editWithTextEmbed(`Song found ! Loading data...`);
 
 				let song = new Song(data.id.videoId);
 
 				if (!(await song.found))
-					return sent.edit({
-						embeds: [
-							methods.returnEmbed(
-								`${reactions.error.random()} Couldn't find song information !\n`.concat(
-									`Please retry ${reactions.smile.random()}`
-								)
-							)
-						]
-					});
+					return sent.editWithTextEmbed(`${reactions.error.random()} Couldn't find song information !\n`.concat(
+						`Please retry ${reactions.smile.random()}`));
 
 				await song.save(message.guildId!);
 
 				let songDetails = (await song.details)!;
 
-				sent.edit({
-					embeds: [
-						methods.returnCustomEmbed((embed: MessageEmbed) =>
-							embed
-								.setThumbnail(songDetails.thumbnails[0].url)
-								.setDescription(
-									`${reactions.success.random()} Added **${url(
-										songDetails.title,
-										songDetails.video_url
-									)}**`
-								)
-						),
-					],
-				});
+				sent.editWithCustomEmbed((embed: MessageEmbed) => embed
+					.setThumbnail(songDetails.thumbnails[0].url)
+					.setDescription(
+						`${reactions.success.random()} Added **${url(
+							songDetails.title,
+							songDetails.video_url
+						)}**`
+					)
+				);
 			},
 		}),
 		new Command({
@@ -153,11 +132,11 @@ const music = new Command({
 				let { methods, message } = messageInstance;
 				let player = playerManager.get(message.guildId!);
 				if (!player?.initialized)
-					return methods.sendEmbed(
+					return methods.sendTextEmbed(
 						`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`
 					);
 				await player.skipSong();
-				await methods.sendEmbed(
+				await methods.sendTextEmbed(
 					`${reactions.success.random()} Song skipped !`
 				);
 				await player.play();
@@ -170,7 +149,7 @@ const music = new Command({
 				let { methods, message } = messageInstance;
 
 				playerManager.get(message.guildId!)?.destroy();
-				methods.sendEmbed(
+				methods.sendTextEmbed(
 					`${reactions.success.random()} Stopped playing !`
 				);
 			},
@@ -185,13 +164,13 @@ const music = new Command({
 					guildId: message.guildId!,
 				});
 				if (!playlist || !playlist.songs || playlist.songs.length === 0)
-					return methods.sendEmbed(`The playlist is empty !`);
+					return methods.sendTextEmbed(`The playlist is empty !`);
 
 				let songs = playlist
 					.songs!.map((song, i) => `\` ${i + 1} \` \`${song.title}\``)
 					.join("\n");
 
-				methods.sendEmbed(
+				methods.sendTextEmbed(
 					`Here is the current playlist:\n`.concat(songs)
 				);
 			},
@@ -203,10 +182,10 @@ const music = new Command({
 				let { methods, message } = messageInstance;
 				let cleared = await playlistManager.clear(message.guildId!);
 				if (cleared === null)
-					return methods.sendEmbed(
+					return methods.sendTextEmbed(
 						`${reactions.success.random()} Playlist already empty`
 					);
-				methods.sendEmbed(
+				methods.sendTextEmbed(
 					`${reactions.success.random()} Playlist successfully cleared`
 				);
 			},

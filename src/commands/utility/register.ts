@@ -13,7 +13,7 @@ const register = new Command({
 		);
 		let userCommand = register.commands?.find((cmd) => cmd.name === "user");
 
-		methods.sendEmbed(
+		methods.sendTextEmbed(
 			`With this command, you can register guilds and users.\n`
 				.concat(
 					`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n\n`
@@ -34,19 +34,19 @@ const register = new Command({
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
-					return methods.sendEmbed(`You are not the owner of this guild !`);*/
+					return methods.sendTextEmbed(`You are not the owner of this guild !`);*/
 
 				if ((await guildManager.exists(message.guild!.id)) === true)
-					return methods.sendEmbed(`Guild already registered`);
+					return methods.sendTextEmbed(`Guild already registered`);
 
 				guildManager
 					.add(message.guild!)
 					.then(() =>
-						methods.sendEmbed(`Guild registered successfully`)
+						methods.sendTextEmbed(`Guild registered successfully`)
 					)
 					.catch((err) => {
 						console.log(err);
-						methods.sendEmbed(`Failed to register guild`);
+						methods.sendTextEmbed(`Failed to register guild`);
 					});
 			},
 		}),
@@ -58,16 +58,16 @@ const register = new Command({
 				let { methods, message } = messageInstance;
 
 				if ((await userManager.exists(message.author!.id)) === true)
-					return methods.sendEmbed(`User already registered`);
+					return methods.sendTextEmbed(`User already registered`);
 
 				userManager
 					.add(message.author!)
 					.then(() =>
-						methods.sendEmbed(`User successfully registered`)
+						methods.sendTextEmbed(`User successfully registered`)
 					)
 					.catch((err) => {
 						console.log(err);
-						methods.sendEmbed(`Failed to register user`);
+						methods.sendTextEmbed(`Failed to register user`);
 					});
 			},
 		}),

@@ -60,7 +60,7 @@ class MessageInstance {
 		try {
 			await this.beforeExecute();
 			if (this.check() === false)
-				return this.methods.sendEmbed(
+				return this.methods.sendTextEmbed(
 					`${reactions.error.random()} I can't answer here`
 				);
 			await this.command!.execution(this);
@@ -75,7 +75,7 @@ class MessageInstance {
 	private beforeExecute = async () => {
 		let guildExists = await guildManager.exists(this.message.guild!.id);
 		if (this.command!.requiresDB === true && guildExists === false) {
-			this.methods.sendEmbed(`This command requires registering the guild
+			this.methods.sendTextEmbed(`This command requires registering the guild
 				Use \`${commands.get("register")!.syntax}\` for more information.`);
 		}
 	};

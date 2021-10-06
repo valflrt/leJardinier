@@ -9,7 +9,7 @@ const hey = new Command({
 	description: "Greet the bot",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
-		methods.sendEmbed(
+		methods.sendTextEmbed(
 			`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} `.concat(
 				`${message.author.toString()} ${reactions.smile.random()}`
 			)

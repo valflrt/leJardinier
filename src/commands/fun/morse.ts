@@ -11,7 +11,7 @@ const morse = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
 
-		methods.sendEmbed(
+		methods.sendTextEmbed(
 			`Use \`lj!morse encode\` to encode text to Morse code`.concat(
 				`Use \`lj!morse table\` to get Morse code table`
 			)
@@ -39,16 +39,16 @@ const morse = new Command({
 					else return encode(text.slice(1), morse);
 				};
 
-				methods.sendEmbed(
+				methods.sendTextEmbed(
 					commandArgs
 						? encode(
-								commandArgs
-									?.toLowerCase()
-									.replace(
-										/[^abcdefghijklmopqrstuvwxyz\s]/g,
-										""
-									)
-						  )
+							commandArgs
+								?.toLowerCase()
+								.replace(
+									/[^abcdefghijklmopqrstuvwxyz\s]/g,
+									""
+								)
+						)
 						: "You need to give some text to convert to morse..."
 				);
 			},

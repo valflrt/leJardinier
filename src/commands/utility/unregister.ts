@@ -15,7 +15,7 @@ const unregister = new Command({
 			(cmd) => cmd.name === "user"
 		);
 
-		methods.sendEmbed(
+		methods.sendTextEmbed(
 			`With this command, you can unregister guilds and users.`
 				.concat(
 					`By unregistering, the guild/user will be removed from my database.\n\n`
@@ -36,19 +36,19 @@ const unregister = new Command({
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
-					return methods.sendEmbed(`You are not the owner of this guild !`);*/
+					return methods.sendTextEmbed(`You are not the owner of this guild !`);*/
 
 				if ((await guildManager.exists(message.guild!.id)) === false)
-					return methods.sendEmbed(`This guild is not registered`);
+					return methods.sendTextEmbed(`This guild is not registered`);
 
 				guildManager
 					.remove(message.guild!.id)
 					.then(() =>
-						methods.sendEmbed(`Guild unregistered successfully`)
+						methods.sendTextEmbed(`Guild unregistered successfully`)
 					)
 					.catch((err) => {
 						console.log(err);
-						methods.sendEmbed(`Failed to unregister guild`);
+						methods.sendTextEmbed(`Failed to unregister guild`);
 					});
 			},
 		}),
@@ -60,16 +60,16 @@ const unregister = new Command({
 				let { methods, message } = messageInstance;
 
 				if ((await userManager.exists(message.author!.id)) === false)
-					return methods.sendEmbed(`This user is not registered`);
+					return methods.sendTextEmbed(`This user is not registered`);
 
 				userManager
 					.remove(message.author!.id)
 					.then(() =>
-						methods.sendEmbed(`User unregistered successfully`)
+						methods.sendTextEmbed(`User unregistered successfully`)
 					)
 					.catch((err) => {
 						console.log(err);
-						methods.sendEmbed(`Failed to unregister user`);
+						methods.sendTextEmbed(`Failed to unregister user`);
 					});
 			},
 		}),

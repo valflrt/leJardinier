@@ -15,7 +15,7 @@ const help = new Command({
 	description: "Display help panel",
 	execution: (messageInstance: MessageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendEmbed(
+		methods.sendTextEmbed(
 			`You need some help ?\n`
 				.concat(` - \`lj!help commands\` gives the command list\n`)
 				.concat(
@@ -53,8 +53,7 @@ const help = new Command({
 				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
 						embed.setDescription(
-							`**${category.name}** (page ${i + 1} of ${
-								categories.length
+							`**${category.name}** (page ${i + 1} of ${categories.length
 							})`
 						);
 						let fields = category.commands.map(
@@ -68,7 +67,7 @@ const help = new Command({
 					})
 				);
 
-				let sent = await methods.reply({ embeds: [pages[index]] });
+				let sent = await methods.sendEmbed(pages[index]);
 
 				await sent.react("⬅️");
 				await sent.react("➡️");
@@ -89,11 +88,11 @@ const help = new Command({
 					) {
 						index = index + 1;
 						await reaction.users.remove(user);
-						await sent.edit({ embeds: [pages[index]] });
+						await sent.editWithEmbed(pages[index]);
 					} else if (reaction.emoji.name === "⬅️" && index !== 0) {
 						index = index - 1;
 						await reaction.users.remove(user);
-						await sent.edit({ embeds: [pages[index]] });
+						await sent.editWithEmbed(pages[index]);
 					} else if (reaction.emoji.name === "❌") {
 						return collector.stop();
 					} else {
@@ -103,17 +102,9 @@ const help = new Command({
 
 				collector.on("end", async (collected, reason) => {
 					if (reason === "time")
-						await sent.edit({
-							embeds: [
-								methods.returnEmbed(
-									`Display has timeout (1 min)`
-								),
-							],
-						});
+						await sent.editWithTextEmbed(`Display has timeout (1 min)`);
 					else
-						await sent.edit({
-							embeds: [methods.returnEmbed(`Display closed`)],
-						});
+						await sent.editWithTextEmbed(`Display closed`);
 					await sent.reactions.removeAll();
 				});
 			},
@@ -126,12 +117,12 @@ const help = new Command({
 				let { methods, commandArgs } = messageInstance;
 
 				if (!commandArgs)
-					return methods.sendEmbed(
+					return methods.sendTextEmbed(
 						`You need to specify the command name...`
 					);
 
 				if (!commandList.has(commandArgs))
-					return methods.sendEmbed(`Unknown command...`);
+					return methods.sendTextEmbed(`Unknown command...`);
 				else
 					methods.sendCustomEmbed((embed: MessageEmbed) => {
 						let command = commandList.get(commandArgs!)!;

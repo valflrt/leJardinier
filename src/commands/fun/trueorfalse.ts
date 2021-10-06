@@ -8,10 +8,9 @@ const trueOrFalse = new Command({
 	arguments: `[?sentence]`,
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, message, bot, commandArgs } = messageInstance;
-		methods.sendEmbed(
-			`${
-				commandArgs &&
-				`${message.author.toString()}\n${commandArgs}\n${bot.user!.toString()}\n`
+		methods.sendTextEmbed(
+			`${commandArgs &&
+			`${message.author.toString()}\n${commandArgs}\n${bot.user!.toString()}\n`
 			}${utils.randomItem("true !", "false !")}`
 		);
 	},

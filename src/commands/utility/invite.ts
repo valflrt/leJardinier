@@ -12,7 +12,7 @@ const invite = new Command({
 		let { methods, bot } = messageInstance;
 		methods.reply({
 			embeds: [
-				methods.returnEmbed(
+				methods.returnTextEmbed(
 					`The button below allows you to add me in your server ${reactions.smile.random()}`
 				),
 			],
