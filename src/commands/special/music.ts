@@ -22,13 +22,12 @@ const music = new Command({
 		methods.sendEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
 				.concat(`Here are the available commands:\n`)
-				.concat(
-					music
-						.commands!.map(
-							(command) =>
-								`\`${command.syntax}\` ${command.description}`
-						)
-						.join("\n")
+				.concat(music
+					.commands!.map(
+						(command) =>
+							`\`${command.syntax}\` ${command.description}`
+					)
+					.join("\n")
 				)
 		);
 	},
@@ -124,8 +123,7 @@ const music = new Command({
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Added \`${
-										songDetails.title
+									`${reactions.success.random()} Added \`${songDetails.title
 									}\``
 								)
 						),
@@ -144,10 +142,10 @@ const music = new Command({
 						`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`
 					);
 				await player.skipSong();
-				await player.play();
-				methods.sendEmbed(
+				await methods.sendEmbed(
 					`${reactions.success.random()} Song skipped !`
 				);
+				await player.play();
 			},
 		}),
 		new Command({

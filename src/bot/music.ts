@@ -1,21 +1,11 @@
-import {
-	createAudioPlayer,
-	createAudioResource,
-	joinVoiceChannel,
-	getVoiceConnection,
-	NoSubscriberBehavior,
-	AudioPlayerStatus,
-	AudioPlayer,
-	VoiceConnection,
-	VoiceConnectionStatus,
-} from "@discordjs/voice";
+import * as voice from "@discordjs/voice";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
 import { Message, MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
 
-import MessageInstance from "./message";
 import { playlistManager } from "./database";
+import MessageInstance from "./message";
 import reactions from "../assets/reactions";
 
 import { secrets } from "../config";
@@ -72,8 +62,9 @@ export class GuildPlayer {
 
 	private messageInstance: MessageInstance;
 
-	private connection?: VoiceConnection;
-	private player?: AudioPlayer;
+	private connection?: voice.VoiceConnection;
+	private player?: voice.AudioPlayer;
+
 	private currentSongMessage?: Message;
 
 	public audioChannel?: VoiceChannel | StageChannel;
@@ -106,21 +97,18 @@ export class GuildPlayer {
 	public async join() {
 		let { methods } = this.messageInstance;
 
-		this.connection = getVoiceConnection(this.audioChannel!.guildId);
-
-		if (!this.connection)
-			this.connection = joinVoiceChannel({
+		return new Promise<void>((resolve) => {
+			this.connection = voice.joinVoiceChannel({
 				guildId: this.audioChannel!.guildId,
 				channelId: this.audioChannel!.id,
-				adapterCreator: this.audioChannel!.guild.voiceAdapterCreator,
+				adapterCreator: this.audioChannel!.guild.voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
 			});
 
-		this.connection.once(VoiceConnectionStatus.Ready, async () => {
-			this.connection!.subscribe(this.player!);
-			await methods.sendEmbed(`Joined ${this.audioChannel!.toString()}`);
+			this.connection.once(voice.VoiceConnectionStatus.Ready, async () => {
+				await methods.sendEmbed(`Joined ${this.audioChannel!.toString()}`);
+				resolve();
+			});
 		});
-
-		return;
 	}
 
 	public async play() {
@@ -132,32 +120,34 @@ export class GuildPlayer {
 				embeds: [methods.returnEmbed(`The playlist is empty !`)],
 			});
 
-		if (!this.player || this.player!.checkPlayable() === false)
-			this.initPlayer();
+		//if (!this.player || this.player!.checkPlayable() === false)
+		this.initPlayer();
 
-		this.player!.play(
-			createAudioResource(ytdl(this.currentSong!.video_url))
-		);
+		this.currentSongMessage = await methods.sendEmbed(`Loading audio...`);
+
+		this.player!.play(await this.createResource(ytdl(this.currentSong!.video_url)));
+		this.connection!.subscribe(this.player!);
+
+		return;
 	}
 
 	private initPlayer() {
 		let { methods } = this.messageInstance;
 
-		this.player = createAudioPlayer({
+		this.player = voice.createAudioPlayer({
 			behaviors: {
-				noSubscriber: NoSubscriberBehavior.Pause,
+				noSubscriber: voice.NoSubscriberBehavior.Pause,
 			},
 		});
 
-		this.player.on(AudioPlayerStatus.Playing, () => {
+		this.player.on(voice.AudioPlayerStatus.Playing, () => {
 			this.currentSongMessage?.edit({
 				embeds: [
 					methods.returnCustomEmbed((embed: MessageEmbed) =>
 						embed
 							.setThumbnail(this.currentSong!.thumbnails[0].url)
 							.setDescription(
-								`${reactions.success.random()} Now playing \`${
-									this.currentSong!.title
+								`${reactions.success.random()} Now playing \`${this.currentSong!.title
 								}\``
 							)
 					),
@@ -165,12 +155,10 @@ export class GuildPlayer {
 			});
 		});
 
-		this.player.on(AudioPlayerStatus.Idle, async () => {
-			await this.skipSong();
-			this.currentSongMessage = await methods.sendEmbed(
-				`Loading next song`
-			);
-			await this.play();
+		this.player.on(voice.AudioPlayerStatus.Idle, async (o, n) => {
+			console.log(o, n);
+			/*await this.skipSong();
+			await this.play();*/
 		});
 
 		this.player.on("error", (err) => {
@@ -178,21 +166,24 @@ export class GuildPlayer {
 				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
 			);
 			logger.error(`Audio connection crashed: ${err}`);
+			this.destroy();
 		});
 
 		return;
 	}
 
+	private async createResource(resource: any) {
+		let { stream, type } = await voice.demuxProbe(resource);
+		return voice.createAudioResource(stream, { inputType: type });
+	}
+
 	private async getNextSong() {
-		let { message } = this.messageInstance;
-		this.currentSong = await playlistManager.getFirst(message.guildId!);
+		this.currentSong = await playlistManager.getFirst(this.messageInstance.message.guildId!);
 		return this.currentSong;
 	}
 
 	public async skipSong() {
-		await playlistManager.removeFirst(
-			this.messageInstance.message.guildId!
-		);
+		await playlistManager.removeFirst(this.messageInstance.message.guildId!);
 	}
 
 	public destroy() {
