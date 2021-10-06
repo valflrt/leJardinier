@@ -22,12 +22,13 @@ const music = new Command({
 		methods.sendEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
 				.concat(`Here are the available commands:\n`)
-				.concat(music
-					.commands!.map(
-						(command) =>
-							`\`${command.syntax}\` ${command.description}`
-					)
-					.join("\n")
+				.concat(
+					music
+						.commands!.map(
+							(command) =>
+								`\`${command.syntax}\` ${command.description}`
+						)
+						.join("\n")
 				)
 		);
 	},
@@ -38,7 +39,6 @@ const music = new Command({
 			execution: async (messageInstance: MessageInstance) => {
 				let player = new GuildPlayer(messageInstance);
 				playerManager.register(player);
-				await player.init();
 				await player.join();
 				await player.play();
 			},
@@ -123,7 +123,8 @@ const music = new Command({
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Added \`${songDetails.title
+									`${reactions.success.random()} Added \`${
+										songDetails.title
 									}\``
 								)
 						),

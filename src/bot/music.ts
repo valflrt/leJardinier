@@ -75,8 +75,9 @@ export class GuildPlayer {
 		this.messageInstance = messageInstance;
 	}
 
-	public async init() {
+	public async join() {
 		let { methods, message } = this.messageInstance;
+
 
 		if (!message.member?.voice.channel)
 			return methods.sendEmbed(
@@ -87,32 +88,30 @@ export class GuildPlayer {
 		let permissions = this.audioChannel!.permissionsFor(
 			this.audioChannel!.guild.me!
 		);
-		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
+		if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
+			return methods.sendEmbed(
+				`${reactions.error.random()} I am not allowed to join voice channels !`.concat(
+					`Please contact the moderator of this guild.`
+				)
+			);
 
-		this.initialized = true;
-
-		return;
-	}
-
-	public async join() {
-		let { methods } = this.messageInstance;
-
-		return new Promise<void>((resolve) => {
-			this.connection = voice.joinVoiceChannel({
-				guildId: this.audioChannel!.guildId,
-				channelId: this.audioChannel!.id,
-				adapterCreator: this.audioChannel!.guild.voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
-			});
-
-			this.connection.once(voice.VoiceConnectionStatus.Ready, async () => {
-				await methods.sendEmbed(`Joined ${this.audioChannel!.toString()}`);
-				resolve();
-			});
+		this.connection = voice.joinVoiceChannel({
+			guildId: this.audioChannel!.guildId,
+			channelId: this.audioChannel!.id,
+			adapterCreator: this.audioChannel!.guild
+				.voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
 		});
+
+		methods.sendEmbed(
+			`Joined ${this.audioChannel!.toString()}`
+		);
+
 	}
 
 	public async play() {
 		let { methods } = this.messageInstance;
+
+		this.currentSongMessage = await methods.sendEmbed(`Loading audio...`);
 
 		await this.getNextSong();
 		if (!this.currentSong)
@@ -120,15 +119,18 @@ export class GuildPlayer {
 				embeds: [methods.returnEmbed(`The playlist is empty !`)],
 			});
 
-		//if (!this.player || this.player!.checkPlayable() === false)
 		this.initPlayer();
 
-		this.currentSongMessage = await methods.sendEmbed(`Loading audio...`);
+		this.connection!.once(
+			voice.VoiceConnectionStatus.Ready,
+			async () => {
+				this.player!.play(
+					await this.createResource(ytdl(this.currentSong!.video_url, { filter: "audioonly" }))
+				);
+				this.connection!.subscribe(this.player!);
+			}
+		);
 
-		this.player!.play(await this.createResource(ytdl(this.currentSong!.video_url)));
-		this.connection!.subscribe(this.player!);
-
-		return;
 	}
 
 	private initPlayer() {
@@ -155,10 +157,9 @@ export class GuildPlayer {
 			});
 		});
 
-		this.player.on(voice.AudioPlayerStatus.Idle, async (o, n) => {
-			console.log(o, n);
-			/*await this.skipSong();
-			await this.play();*/
+		this.player.on(voice.AudioPlayerStatus.Idle, async () => {
+			await this.skipSong();
+			await this.play();
 		});
 
 		this.player.on("error", (err) => {
@@ -178,12 +179,16 @@ export class GuildPlayer {
 	}
 
 	private async getNextSong() {
-		this.currentSong = await playlistManager.getFirst(this.messageInstance.message.guildId!);
+		this.currentSong = await playlistManager.getFirst(
+			this.messageInstance.message.guildId!
+		);
 		return this.currentSong;
 	}
 
 	public async skipSong() {
-		await playlistManager.removeFirst(this.messageInstance.message.guildId!);
+		await playlistManager.removeFirst(
+			this.messageInstance.message.guildId!
+		);
 	}
 
 	public destroy() {
