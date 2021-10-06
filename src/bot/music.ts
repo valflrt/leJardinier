@@ -6,11 +6,11 @@ import { Message, MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
 
 import { playlistManager } from "./database";
 import MessageInstance from "./message";
-import reactions from "../assets/reactions";
-
-import { secrets } from "../config";
 
 import { logger } from "./log";
+import { secrets } from "../config";
+import { url } from "./text";
+import reactions from "../assets/reactions";
 
 export class Song {
 	private commandArgs: string;
@@ -76,8 +76,7 @@ export class GuildPlayer {
 	}
 
 	public async join() {
-		let { methods, message } = this.messageInstance;
-
+		let { methods, message, bot } = this.messageInstance;
 
 		if (!message.member?.voice.channel)
 			return methods.sendEmbed(
@@ -102,10 +101,8 @@ export class GuildPlayer {
 				.voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
 		});
 
-		methods.sendEmbed(
-			`Joined ${this.audioChannel!.toString()}`
-		);
-
+		if (!this.audioChannel?.members.has(bot.user!.id))
+			methods.sendEmbed(`Joined ${this.audioChannel!.toString()}`);
 	}
 
 	public async play() {
@@ -121,16 +118,14 @@ export class GuildPlayer {
 
 		this.initPlayer();
 
-		this.connection!.once(
-			voice.VoiceConnectionStatus.Ready,
-			async () => {
-				this.player!.play(
-					await this.createResource(ytdl(this.currentSong!.video_url, { filter: "audioonly" }))
-				);
-				this.connection!.subscribe(this.player!);
-			}
-		);
-
+		this.connection!.once(voice.VoiceConnectionStatus.Ready, async () => {
+			this.player!.play(
+				await this.createResource(
+					ytdl(this.currentSong!.video_url, { filter: "audioonly" })
+				)
+			);
+			this.connection!.subscribe(this.player!);
+		});
 	}
 
 	private initPlayer() {
@@ -149,8 +144,10 @@ export class GuildPlayer {
 						embed
 							.setThumbnail(this.currentSong!.thumbnails[0].url)
 							.setDescription(
-								`${reactions.success.random()} Now playing \`${this.currentSong!.title
-								}\``
+								`${reactions.success.random()} Now playing \`${url(
+									this.currentSong!.title,
+									this.currentSong!.video_url
+								)}\``
 							)
 					),
 				],

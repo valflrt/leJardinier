@@ -12,6 +12,7 @@ import {
 	youtubeSearch,
 } from "../../bot/music";
 
+import { url } from "../../bot/text";
 import reactions from "../../assets/reactions";
 
 const music = new Command({
@@ -75,7 +76,10 @@ const music = new Command({
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
 									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-										`Added \`${songDetails.title}\``
+										`Added \`${url(
+											songDetails.title,
+											songDetails.video_url
+										)}\``
 									)
 								)
 						),
@@ -123,9 +127,10 @@ const music = new Command({
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Added \`${
-										songDetails.title
-									}\``
+									`${reactions.success.random()} Added ${url(
+										songDetails.title,
+										songDetails.video_url
+									)}`
 								)
 						),
 					],
