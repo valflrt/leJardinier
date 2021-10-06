@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 
 import MessageInstance from "../../bot/message";
 import { linkButton } from "../../bot/interactions";
@@ -67,8 +67,46 @@ const help = new Command({
 					})
 				);
 
-				let sent = await methods.sendEmbed(pages[index]);
+				let sent = await methods.sendEmbed(pages[index], {
+					components: [new MessageActionRow()
+						.addComponents(
+							new MessageButton()
+								.setCustomId("p")
+								.setLabel("Previous")
+								.setStyle("SECONDARY"),
+							new MessageButton()
+								.setCustomId("n")
+								.setLabel("Next")
+								.setStyle("SECONDARY"),
+						)]
+				});
 
+				let collector = sent.createMessageComponentCollector({
+					filter: (button) => button.customId === "p" || button.customId === "n",
+					time: 60000
+				});
+
+				collector.on("collect", async (i) => {
+					if (!i.user.bot)
+						if (i.customId === "n") {
+							if (index === categories.length - 1) index = 0;
+							else index = index + 1;
+						} else if (i.customId === "p") {
+							if (index === 0) index = categories.length - 1;
+							else index = index - 1;
+						};
+					await i.update({ embeds: [pages[index]] });
+				});
+
+				collector.on("end", async (collected, reason) => {
+					if (reason === "time")
+						await sent.editWithTextEmbed(`Display has timeout (1 min)`);
+					else
+						await sent.editWithTextEmbed(`Display closed`);
+				});
+
+				/* this code took so long to make that i want to keep it...
+				
 				await sent.react("⬅️");
 				await sent.react("➡️");
 				await sent.react("❌");
@@ -107,6 +145,7 @@ const help = new Command({
 						await sent.editWithTextEmbed(`Display closed`);
 					await sent.reactions.removeAll();
 				});
+				*/
 			},
 		}),
 		new Command({
