@@ -164,7 +164,6 @@ export class GuildPlayer {
 				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
 			);
 			logger.error(`Audio connection crashed: ${err}`);
-			this.destroy();
 		});
 
 		return;

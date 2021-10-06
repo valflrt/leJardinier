@@ -56,14 +56,14 @@ const music = new Command({
 						`${reactions.error.random()} You must specify the video url`
 					);
 
+				let sent = await methods.sendEmbed(`Looking for your song...`);
+
 				let song = new Song(commandArgs!);
 
 				if (!(await song.found))
 					return methods.sendEmbed(
 						`${reactions.error.random()} Song not found please check your youtube url`
 					);
-
-				let sent = await methods.sendEmbed(`Looking for your song...`);
 
 				await song.save(message.guildId!);
 
@@ -99,23 +99,32 @@ const music = new Command({
 						`${reactions.error.random()} You need to specify text to search for`
 					);
 
+				let sent = await methods.sendEmbed(`Looking for your song...`);
+
 				let data = await youtubeSearch(commandArgs!);
 
 				if (!data)
-					return methods.sendEmbed(
-						`${reactions.error.random()} Couldn't find the researched video`
-					);
+					return methods.sendEmbed(`${reactions.error.random()} No results !\n`
+						.concat(`Please try another youtube search ${reactions.smile.random()}`));
+
+				await sent.edit({
+					embeds: [
+						methods.returnEmbed(`Song found ! Loading data...`)
+					]
+				});
 
 				let song = new Song(data.id.videoId);
 
 				if (!(await song.found))
-					return methods.sendEmbed(
-						`${reactions.error.random()} No results !\n`.concat(
-							`Please try another youtube search ${reactions.smile.random()}`
-						)
-					);
-
-				let sent = await methods.sendEmbed(`Loading data...`);
+					return sent.edit({
+						embeds: [
+							methods.returnEmbed(
+								`${reactions.error.random()} Couldn't find song information !\n`.concat(
+									`Please retry ${reactions.smile.random()}`
+								)
+							)
+						]
+					});
 
 				await song.save(message.guildId!);
 
