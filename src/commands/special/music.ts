@@ -76,10 +76,10 @@ const music = new Command({
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
 									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-										`Added \`${url(
+										`Added **${url(
 											songDetails.title,
 											songDetails.video_url
-										)}\``
+										)}**`
 									)
 								)
 						),
@@ -127,10 +127,10 @@ const music = new Command({
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Added ${url(
+									`${reactions.success.random()} Added **${url(
 										songDetails.title,
 										songDetails.video_url
-									)}`
+									)}**`
 								)
 						),
 					],

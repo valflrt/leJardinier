@@ -89,7 +89,7 @@ export class GuildPlayer {
 		);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
 			return methods.sendEmbed(
-				`${reactions.error.random()} I am not allowed to join voice channels !`.concat(
+				`${reactions.error.random()} I am not allowed to join voice channels !\n`.concat(
 					`Please contact the moderator of this guild.`
 				)
 			);
@@ -144,10 +144,10 @@ export class GuildPlayer {
 						embed
 							.setThumbnail(this.currentSong!.thumbnails[0].url)
 							.setDescription(
-								`${reactions.success.random()} Now playing \`${url(
+								`${reactions.success.random()} Now playing **${url(
 									this.currentSong!.title,
 									this.currentSong!.video_url
-								)}\``
+								)}**`
 							)
 					),
 				],
