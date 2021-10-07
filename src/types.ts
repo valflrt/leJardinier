@@ -19,5 +19,7 @@ export interface ICategory {
 export interface SentMessage extends Message {
 	editWithEmbed: (embed: MessageEmbed) => Promise<Message>;
 	editWithTextEmbed: (text: string) => Promise<Message>;
-	editWithCustomEmbed: (setup: (embed: MessageEmbed) => MessageEmbed) => Promise<Message>;
+	editWithCustomEmbed: (
+		setup: (embed: MessageEmbed) => MessageEmbed
+	) => Promise<Message>;
 }

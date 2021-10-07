@@ -9,14 +9,16 @@ const percentage = new Command({
 	execution: (messageInstance: MessageInstance) => {
 		let { methods, message, bot, commandArgs } = messageInstance;
 		methods.sendTextEmbed(
-			`${commandArgs &&
+			`${
+				commandArgs &&
 				`${message.author.toString()}\n${commandArgs}\n${bot.user!.toString()}\n`
-				}`.concat(
-					`${utils.oneOf(100)
+			}`.concat(
+				`${
+					utils.oneOf(100)
 						? utils.randomNumber(100, 300)
 						: utils.randomNumber(0, 100)
-					}%`
-				)
+				}%`
+			)
 		);
 	},
 });

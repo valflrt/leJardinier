@@ -57,6 +57,7 @@ class MessageInstance {
 	public execute = async () => {
 		this.message.channel.sendTyping();
 		log.command.startTimer();
+
 		try {
 			await this.beforeExecute();
 			if (this.check() === false)
@@ -75,7 +76,8 @@ class MessageInstance {
 	private beforeExecute = async () => {
 		let guildExists = await guildManager.exists(this.message.guild!.id);
 		if (this.command!.requiresDB === true && guildExists === false) {
-			this.methods.sendTextEmbed(`This command requires registering the guild
+			this.methods
+				.sendTextEmbed(`This command requires registering the guild
 				Use \`${commands.get("register")!.syntax}\` for more information.`);
 		}
 	};

@@ -56,7 +56,9 @@ const music = new Command({
 						`${reactions.error.random()} You must specify the video url`
 					);
 
-				let sent = await methods.sendTextEmbed(`Looking for your song...`);
+				let sent = await methods.sendTextEmbed(
+					`Looking for your song...`
+				);
 
 				let song = new Song(commandArgs!);
 
@@ -69,16 +71,17 @@ const music = new Command({
 
 				let songDetails = (await song.details)!;
 
-				sent.editWithCustomEmbed((embed: MessageEmbed) => embed
-					.setThumbnail(songDetails.thumbnails[0].url)
-					.setDescription(
-						`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-							`Added **${url(
-								songDetails.title,
-								songDetails.video_url
-							)}**`
+				sent.editWithCustomEmbed((embed: MessageEmbed) =>
+					embed
+						.setThumbnail(songDetails.thumbnails[0].url)
+						.setDescription(
+							`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
+								`Added **${url(
+									songDetails.title,
+									songDetails.video_url
+								)}**`
+							)
 						)
-					)
 				);
 			},
 		}),
@@ -94,34 +97,43 @@ const music = new Command({
 						`${reactions.error.random()} You need to specify text to search for`
 					);
 
-				let sent = await methods.sendTextEmbed(`Looking for your song...`);
+				let sent = await methods.sendTextEmbed(
+					`Looking for your song...`
+				);
 
 				let data = await youtubeSearch(commandArgs!);
 
 				if (!data)
-					return sent.editWithTextEmbed(`${reactions.error.random()} No results !\n`
-						.concat(`Please try another youtube search ${reactions.smile.random()}`));
+					return sent.editWithTextEmbed(
+						`${reactions.error.random()} No results !\n`.concat(
+							`Please try another youtube search ${reactions.smile.random()}`
+						)
+					);
 
 				await sent.editWithTextEmbed(`Song found ! Loading data...`);
 
 				let song = new Song(data.id.videoId);
 
 				if (!(await song.found))
-					return sent.editWithTextEmbed(`${reactions.error.random()} Couldn't find song information !\n`.concat(
-						`Please retry ${reactions.smile.random()}`));
+					return sent.editWithTextEmbed(
+						`${reactions.error.random()} Couldn't find song information !\n`.concat(
+							`Please retry ${reactions.smile.random()}`
+						)
+					);
 
 				await song.save(message.guildId!);
 
 				let songDetails = (await song.details)!;
 
-				sent.editWithCustomEmbed((embed: MessageEmbed) => embed
-					.setThumbnail(songDetails.thumbnails[0].url)
-					.setDescription(
-						`${reactions.success.random()} Added **${url(
-							songDetails.title,
-							songDetails.video_url
-						)}**`
-					)
+				sent.editWithCustomEmbed((embed: MessageEmbed) =>
+					embed
+						.setThumbnail(songDetails.thumbnails[0].url)
+						.setDescription(
+							`${reactions.success.random()} Added **${url(
+								songDetails.title,
+								songDetails.video_url
+							)}**`
+						)
 				);
 			},
 		}),

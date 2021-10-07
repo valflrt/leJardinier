@@ -109,11 +109,15 @@ export class GuildPlayer {
 	public async play() {
 		let { methods } = this.messageInstance;
 
-		this.currentSongMessage = await methods.sendTextEmbed(`Loading audio...`);
+		this.currentSongMessage = await methods.sendTextEmbed(
+			`Loading audio...`
+		);
 
 		await this.getNextSong();
 		if (!this.currentSong)
-			return this.currentSongMessage?.editWithTextEmbed(`The playlist is empty !`);
+			return this.currentSongMessage?.editWithTextEmbed(
+				`The playlist is empty !`
+			);
 
 		this.initPlayer();
 
@@ -137,14 +141,16 @@ export class GuildPlayer {
 		});
 
 		this.player.on(voice.AudioPlayerStatus.Playing, () => {
-			this.currentSongMessage?.editWithCustomEmbed((embed: MessageEmbed) => embed
-				.setThumbnail(this.currentSong!.thumbnails[0].url)
-				.setDescription(
-					`${reactions.success.random()} Now playing **${url(
-						this.currentSong!.title,
-						this.currentSong!.video_url
-					)}**`
-				)
+			this.currentSongMessage?.editWithCustomEmbed(
+				(embed: MessageEmbed) =>
+					embed
+						.setThumbnail(this.currentSong!.thumbnails[0].url)
+						.setDescription(
+							`${reactions.success.random()} Now playing **${url(
+								this.currentSong!.title,
+								this.currentSong!.video_url
+							)}**`
+						)
 			);
 		});
 

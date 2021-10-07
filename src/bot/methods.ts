@@ -1,4 +1,9 @@
-import { Message, MessageEmbed, MessagePayload, ReplyMessageOptions } from "discord.js";
+import {
+	Message,
+	MessageEmbed,
+	MessagePayload,
+	ReplyMessageOptions,
+} from "discord.js";
 
 import MessageInstance from "./message";
 import { SentMessage } from "../types";
@@ -15,7 +20,7 @@ export default class ReplyMethods {
 	/**
 	 * replies to the call message
 	 * @param options message options
-	 * @returns 
+	 * @returns
 	 */
 	public reply = (options: string | MessagePayload | ReplyMessageOptions) => {
 		return this.message.reply(options);
@@ -24,7 +29,7 @@ export default class ReplyMethods {
 	/**
 	 * sends a message in the current channel
 	 * @param options messages options
-	 * @returns 
+	 * @returns
 	 */
 	public send = (options: string | MessagePayload | ReplyMessageOptions) => {
 		return this.message.channel.send(options);
@@ -36,23 +41,29 @@ export default class ReplyMethods {
 	 * @param options {ReplyMessageOptions}
 	 * @returns {Promise<SentMessage>}
 	 */
-	public async sendEmbed(embed: MessageEmbed, options: ReplyMessageOptions = {}): Promise<SentMessage> {
+	public async sendEmbed(
+		embed: MessageEmbed,
+		options: ReplyMessageOptions = {}
+	): Promise<SentMessage> {
 		if (!options.embeds) options.embeds = [];
 		options.embeds.push(embed);
-		let sent = await this.reply(options) as SentMessage;
+		let sent = (await this.reply(options)) as SentMessage;
 		return this.initSent(sent);
-	};
+	}
 
 	/**
-	 * 
+	 *
 	 * @param content {string} text to send
 	 * @param options {ReplyMessageOptions}
 	 * @returns {Promise<SentMessage>}
 	 */
-	public async sendTextEmbed(content: string, options: ReplyMessageOptions = {}): Promise<SentMessage> {
+	public async sendTextEmbed(
+		content: string,
+		options: ReplyMessageOptions = {}
+	): Promise<SentMessage> {
 		let sent = await this.sendEmbed(this.returnTextEmbed(content), options);
 		return this.initSent(sent);
-	};
+	}
 
 	/**
 	 * returns a simple text embed
@@ -61,7 +72,7 @@ export default class ReplyMethods {
 	 */
 	public returnTextEmbed(content: string): MessageEmbed {
 		return this.messageInstance.generateEmbed().setDescription(content);
-	};
+	}
 
 	/**
 	 * creates a custom MessageEmbed and sends it
@@ -69,17 +80,22 @@ export default class ReplyMethods {
 	 * @param options {ReplyMessageOptions}
 	 * @returns {Promise<SentMessage>}
 	 */
-	public async sendCustomEmbed(setup: (embed: MessageEmbed) => MessageEmbed, options: ReplyMessageOptions = {}): Promise<SentMessage> {
+	public async sendCustomEmbed(
+		setup: (embed: MessageEmbed) => MessageEmbed,
+		options: ReplyMessageOptions = {}
+	): Promise<SentMessage> {
 		let sent = await this.sendEmbed(this.returnCustomEmbed(setup), options);
 		return this.initSent(sent);
-	};
+	}
 
 	/**
 	 * sets up a custom embed and returns it
 	 * @param setup {Function} setup function
 	 * @returns {MessageEmbed} embed that has been set up
 	 */
-	public returnCustomEmbed(setup: (embed: MessageEmbed) => MessageEmbed): MessageEmbed {
+	public returnCustomEmbed(
+		setup: (embed: MessageEmbed) => MessageEmbed
+	): MessageEmbed {
 		return setup(this.messageInstance.generateEmbed());
 	}
 
@@ -93,8 +109,9 @@ export default class ReplyMethods {
 			sent.edit({ embeds: [embed] });
 		sent.editWithTextEmbed = (text: string) =>
 			sent.editWithEmbed(this.returnTextEmbed(text));
-		sent.editWithCustomEmbed = (setup: (embed: MessageEmbed) => MessageEmbed) =>
-			sent.editWithEmbed(this.returnCustomEmbed(setup));
+		sent.editWithCustomEmbed = (
+			setup: (embed: MessageEmbed) => MessageEmbed
+		) => sent.editWithEmbed(this.returnCustomEmbed(setup));
 		return sent;
 	}
 }

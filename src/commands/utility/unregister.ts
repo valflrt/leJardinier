@@ -39,7 +39,9 @@ const unregister = new Command({
 					return methods.sendTextEmbed(`You are not the owner of this guild !`);*/
 
 				if ((await guildManager.exists(message.guild!.id)) === false)
-					return methods.sendTextEmbed(`This guild is not registered`);
+					return methods.sendTextEmbed(
+						`This guild is not registered`
+					);
 
 				guildManager
 					.remove(message.guild!.id)
