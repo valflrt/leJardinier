@@ -7,30 +7,29 @@ import log from "./log";
 import MessageInstance from "./message";
 
 export default class LeJardinier {
+
 	private bot?: Client;
 
 	/**
 	 * Creates client object
 	 * @param options {ClientOptions}
-	 * @returns {LeJardinier} this
 	 */
-	public init = (options: ClientOptions): LeJardinier => {
+	constructor(options: ClientOptions) {
 		this.bot = new Client(options);
-		return this;
 	};
 
 	/**
 	 * makes the client login and sets function for event "ready" (= starts the bot)
 	 */
-	public start = () => {
+	public start() {
 		this.bot!.login(secrets.token!);
-		this.bot!.once("ready", () => this.onReady());
+		this.bot!.once("ready", this.onReady);
 	};
 
 	/**
 	 * listener for event "ready"
 	 */
-	private onReady = async () => {
+	private onReady = async (bot: Client) => {
 		try {
 			await database.connect();
 			log.database.connectionSuccess();
@@ -38,11 +37,12 @@ export default class LeJardinier {
 			log.database.connectionFailed(e);
 		}
 
-		this.bot!.user!.setActivity({
+		bot.user!.setActivity({
 			name: `${config.prefix}help`,
 			type: "WATCHING",
 		});
-		log.bot.connected(this.bot!.user!.tag, this.bot!.user!.id);
+
+		log.bot.connected(bot.user!.tag, bot.user!.id);
 
 		this.setListeners();
 	};
@@ -52,6 +52,13 @@ export default class LeJardinier {
 	 * @param message {Message} message object
 	 */
 	private onMessageCreate = async (message: Message) => {
+
+		// checks if something is wrong with the message
+		if (message.author.bot) return; // skip if the author is a bot
+		if (!message.author || !message.guild) // logs a message if guild or author is undefined
+			return log.bot.error((!message.author ? "author is undefined" : "")
+				.concat(!message.guild ? "guild is undefined" : ""));
+
 		log.bot.message(message); // logs every message
 
 		let messageInstance = new MessageInstance(message, this.bot!);
@@ -64,18 +71,15 @@ export default class LeJardinier {
 	};
 
 	private onMemberAdd = async (member: GuildMember) => {
-		let { user } = member;
-		if ((await userManager.exists(user.id)) === false)
-			userManager.add(user);
+		if ((await userManager.exists(member.user.id)) === false)
+			userManager.add(member.user);
 	};
 
 	/**
 	 * sets bot listeners (once bot started)
 	 */
-	private setListeners = () => {
-		this.bot!.on("messageCreate", (message) =>
-			this.onMessageCreate(message)
-		);
-		this.bot!.on("guildMemberAdd", (member) => this.onMemberAdd(member));
+	private setListeners() {
+		this.bot!.on("messageCreate", this.onMessageCreate);
+		this.bot!.on("guildMemberAdd", this.onMemberAdd);
 	};
 }
