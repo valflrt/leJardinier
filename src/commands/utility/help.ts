@@ -43,7 +43,7 @@ const help = new Command({
 					if (array.length === 0) return newArray;
 					else return format(array, newArray, i);
 				};
-				i'll keep this here as a comment cuz i spent a lot of time
+				i'll keep this here as a comment because i spent a lot of time
 				on it and it was painful so i don't want to just delete it T^T
 				*/
 
