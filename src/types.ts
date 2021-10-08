@@ -1,4 +1,5 @@
 import { Message, MessageEmbed } from "discord.js/typings/index.js";
+import MessageInstance from "./bot/message";
 
 export interface ICommand {
 	name: string;
@@ -7,7 +8,7 @@ export interface ICommand {
 	syntax?: string;
 	categoryName?: string;
 	requiresDB?: boolean;
-	execution: Function;
+	execution: (messageInstance: MessageInstance) => void;
 	commands?: ICommand[];
 }
 

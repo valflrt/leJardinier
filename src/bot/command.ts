@@ -1,3 +1,4 @@
+import MessageInstance from "./message";
 import config from "../config";
 import { ICommand } from "../types";
 
@@ -8,7 +9,7 @@ export class Command implements ICommand {
 	syntax?: string;
 	categoryName?: string;
 	requiresDB?: boolean;
-	execution: Function;
+	execution: (messageInstance: MessageInstance) => void;
 	commands?: ICommand[];
 
 	constructor(command: ICommand) {
