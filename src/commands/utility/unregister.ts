@@ -1,11 +1,10 @@
 import { Command } from "../../bot/command";
 import { guildManager, userManager } from "../../bot/database";
-import MessageInstance from "../../bot/message";
 
 const unregister = new Command({
 	name: "unregister",
 	description: "Unregister a guild or an user",
-	execution: (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods } = messageInstance;
 
 		let guildCommand = unregister.commands?.find(
@@ -32,7 +31,7 @@ const unregister = new Command({
 		new Command({
 			name: "guild",
 			description: "Unregister current guild (you need to be the owner)",
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
@@ -58,7 +57,7 @@ const unregister = new Command({
 			name: "user",
 			description: "Unregister yourself",
 			requiresDB: true,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
 				if ((await userManager.exists(message.author!.id)) === false)

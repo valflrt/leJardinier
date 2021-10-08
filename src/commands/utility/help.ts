@@ -1,6 +1,5 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 
-import MessageInstance from "../../bot/message";
 import { linkButton } from "../../bot/interactions";
 
 import { Command } from "../../bot/command";
@@ -13,7 +12,7 @@ import reactions from "../../assets/reactions";
 const help = new Command({
 	name: "help",
 	description: "Display help panel",
-	execution: (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
 			`You need some help ?\n`
@@ -30,7 +29,7 @@ const help = new Command({
 		new Command({
 			name: "commands",
 			description: "Displays every available command",
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods } = messageInstance;
 
 				/*const format = (array: ICommand[], newArray: ICommand[][] = [], i: number = 0): any => {
@@ -152,7 +151,7 @@ const help = new Command({
 			name: "command",
 			description: `Get help about one command`,
 			arguments: `[command name]`,
-			execution: (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, commandArgs } = messageInstance;
 
 				if (!commandArgs)
@@ -184,7 +183,7 @@ const help = new Command({
 			name: "website",
 			description: `Get my website link`,
 			syntax: `website`,
-			execution: (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods } = messageInstance;
 				methods.reply({
 					content: `Now you just need to click the button below to access my website ${reactions.smile.random()}`,

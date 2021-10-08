@@ -1,4 +1,3 @@
-import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 
 import { linkButton } from "../../bot/interactions";
@@ -8,7 +7,7 @@ import reactions from "../../assets/reactions";
 const invite = new Command({
 	name: "invite",
 	description: "Get bot invitation link",
-	execution: (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods, bot } = messageInstance;
 		methods.reply({
 			embeds: [

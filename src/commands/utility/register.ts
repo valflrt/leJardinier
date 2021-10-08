@@ -1,11 +1,10 @@
 import { Command } from "../../bot/command";
 import { guildManager, userManager } from "../../bot/database";
-import MessageInstance from "../../bot/message";
 
 const register = new Command({
 	name: "register",
 	description: "Register a guild or an user",
-	execution: (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods } = messageInstance;
 
 		let guildCommand = register.commands?.find(
@@ -30,7 +29,7 @@ const register = new Command({
 		new Command({
 			name: "guild",
 			description: "Register current guild (you need to be the owner)",
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
@@ -54,7 +53,7 @@ const register = new Command({
 			name: "user",
 			description: "Register yourself (current guild must be registered)",
 			requiresDB: true,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
 				if ((await userManager.exists(message.author!.id)) === true)

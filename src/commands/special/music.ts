@@ -1,7 +1,6 @@
 import { MessageEmbed } from "discord.js";
 
 import { Command } from "../../bot/command";
-import MessageInstance from "../../bot/message";
 
 import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
@@ -18,7 +17,7 @@ import reactions from "../../assets/reactions";
 const music = new Command({
 	name: "music",
 	description: `Music command`,
-	execution: (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
@@ -37,7 +36,7 @@ const music = new Command({
 		new Command({
 			name: "play",
 			description: `Start playing music from the current playlist`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let player = new GuildPlayer(messageInstance);
 				playerManager.register(player);
 				await player.join();
@@ -48,7 +47,7 @@ const music = new Command({
 			name: "url",
 			description: `Add a song to the current playlist from a youtube url`,
 			arguments: `[youtube url]`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
@@ -89,7 +88,7 @@ const music = new Command({
 			name: "search",
 			description: `Add a song to the playlist from youtube search`,
 			arguments: `[youtube search]`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
@@ -140,7 +139,7 @@ const music = new Command({
 		new Command({
 			name: "skip",
 			description: `Skip current song`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 				let player = playerManager.get(message.guildId!);
 				if (!player?.initialized)
@@ -157,7 +156,7 @@ const music = new Command({
 		new Command({
 			name: "stop",
 			description: `Stop the music`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
 				playerManager.get(message.guildId!)?.destroy();
@@ -169,7 +168,7 @@ const music = new Command({
 		new Command({
 			name: "playlist",
 			description: `Display the current playlist`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
 				let playlist = await PlaylistModel.findOne({
@@ -190,7 +189,7 @@ const music = new Command({
 		new Command({
 			name: "clear",
 			description: `Clear the current playlist`,
-			execution: async (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 				let cleared = await playlistManager.clear(message.guildId!);
 				if (cleared === null)

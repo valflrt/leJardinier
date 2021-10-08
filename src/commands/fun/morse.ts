@@ -1,6 +1,5 @@
 import { MessageEmbed } from "discord.js";
 
-import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 
 import morseTable from "../../assets/morse.table";
@@ -8,7 +7,7 @@ import morseTable from "../../assets/morse.table";
 const morse = new Command({
 	name: "morse",
 	description: `Morse code utility command`,
-	execution: (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods } = messageInstance;
 
 		methods.sendTextEmbed(
@@ -22,7 +21,7 @@ const morse = new Command({
 			name: "encode",
 			description: `Encode text to Morse code`,
 			arguments: `[sentence]`,
-			execution: (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods, commandArgs } = messageInstance;
 
 				const encode = (text: string, morse: string[] = []): string => {
@@ -42,13 +41,13 @@ const morse = new Command({
 				methods.sendTextEmbed(
 					commandArgs
 						? encode(
-								commandArgs
-									?.toLowerCase()
-									.replace(
-										/[^abcdefghijklmopqrstuvwxyz\s]/g,
-										""
-									)
-						  )
+							commandArgs
+								?.toLowerCase()
+								.replace(
+									/[^abcdefghijklmopqrstuvwxyz\s]/g,
+									""
+								)
+						)
 						: "You need to give some text to convert to morse..."
 				);
 			},
@@ -56,7 +55,7 @@ const morse = new Command({
 		new Command({
 			name: "table",
 			description: `Gives the Morse table`,
-			execution: (messageInstance: MessageInstance) => {
+			execution: async messageInstance => {
 				let { methods } = messageInstance;
 
 				methods.sendCustomEmbed((embed: MessageEmbed) =>

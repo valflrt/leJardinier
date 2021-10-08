@@ -1,13 +1,12 @@
 import { MessageEmbed } from "discord.js";
 
-import MessageInstance from "../../bot/message";
 import { Command } from "../../bot/command";
 
 const pp = new Command({
 	name: "pp",
 	description: "Get profile picture",
 	arguments: `[?mention]`,
-	execution: async (messageInstance: MessageInstance) => {
+	execution: async messageInstance => {
 		let { methods, message } = messageInstance;
 
 		let member = message.mentions.members?.first()?.user || message.author;
