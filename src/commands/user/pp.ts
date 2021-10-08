@@ -20,7 +20,7 @@ const pp = new Command({
 		methods.sendCustomEmbed((embed: MessageEmbed) =>
 			embed
 				.setDescription(`Here is ${user!.toString()} profile picture`)
-				.setImage(user!.displayAvatarURL())
+				.setImage(user!.displayAvatarURL({ size: 256 }))
 		);
 	},
 });
