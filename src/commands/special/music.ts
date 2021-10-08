@@ -4,12 +4,7 @@ import { Command } from "../../bot/command";
 
 import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
-import {
-	playerManager,
-	GuildPlayer,
-	Song,
-	youtubeSearch,
-} from "../../bot/music";
+import * as Music from "../../bot/music";
 
 import { url } from "../../bot/text";
 import reactions from "../../assets/reactions";
@@ -37,8 +32,8 @@ const music = new Command({
 			name: "play",
 			description: `Start playing music from the current playlist`,
 			execution: async messageInstance => {
-				let player = new GuildPlayer(messageInstance);
-				playerManager.register(player);
+				let player = new Music.GuildPlayer(messageInstance);
+				Music.playerManager.register(player);
 				await player.join();
 				await player.play();
 			},
@@ -59,7 +54,7 @@ const music = new Command({
 					`Looking for your song...`
 				);
 
-				let song = new Song(commandArgs!);
+				let song = new Music.Song(commandArgs!);
 
 				if (!(await song.found))
 					return methods.sendTextEmbed(
@@ -100,7 +95,7 @@ const music = new Command({
 					`Looking for your song...`
 				);
 
-				let data = await youtubeSearch(commandArgs!);
+				let data = await Music.youtubeSearch(commandArgs!);
 
 				if (!data)
 					return sent.editWithTextEmbed(
@@ -111,7 +106,7 @@ const music = new Command({
 
 				await sent.editWithTextEmbed(`Song found ! Loading data...`);
 
-				let song = new Song(data.id.videoId);
+				let song = new Music.Song(data.id.videoId);
 
 				if (!(await song.found))
 					return sent.editWithTextEmbed(
@@ -141,7 +136,7 @@ const music = new Command({
 			description: `Skip current song`,
 			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
-				let player = playerManager.get(message.guildId!);
+				let player = Music.playerManager.get(message.guildId!);
 				if (!player?.initialized)
 					return methods.sendTextEmbed(
 						`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`
@@ -159,7 +154,7 @@ const music = new Command({
 			execution: async messageInstance => {
 				let { methods, message } = messageInstance;
 
-				playerManager.get(message.guildId!)?.destroy();
+				Music.playerManager.get(message.guildId!)?.destroy();
 				methods.sendTextEmbed(
 					`${reactions.success.random()} Stopped playing !`
 				);
