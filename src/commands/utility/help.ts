@@ -96,12 +96,13 @@ const help = new Command({
 				});
 
 				collector.on("end", async (collected, reason) => {
+					row.components.forEach(c => c.setDisabled());
 					if (reason === "time")
 						await sent.editWithTextEmbed(
-							`Display has timeout (1 min)`
+							`Display has timeout (1 min)`,
+							{ components: [row] }
 						);
-					else await sent.editWithTextEmbed(`Display closed`);
-					row.spliceComponents(0, 2);
+					else await sent.editWithTextEmbed(`Display closed`, { components: [row] });
 				});
 
 				/* this code took so long to make that i want to keep it...
