@@ -53,8 +53,7 @@ const help = new Command({
 				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
 						embed.setDescription(
-							`**${category.name}** (page ${i + 1} of ${
-								categories.length
+							`**${category.name}** (page ${i + 1} of ${categories.length
 							})`
 						);
 						let fields = category.commands.map(
@@ -68,19 +67,19 @@ const help = new Command({
 					})
 				);
 
+				let row = new MessageActionRow().addComponents(
+					new MessageButton()
+						.setCustomId("p")
+						.setLabel("Previous")
+						.setStyle("SECONDARY"),
+					new MessageButton()
+						.setCustomId("n")
+						.setLabel("Next")
+						.setStyle("SECONDARY")
+				);
+
 				let sent = await methods.sendEmbed(pages[index], {
-					components: [
-						new MessageActionRow().addComponents(
-							new MessageButton()
-								.setCustomId("p")
-								.setLabel("Previous")
-								.setStyle("SECONDARY"),
-							new MessageButton()
-								.setCustomId("n")
-								.setLabel("Next")
-								.setStyle("SECONDARY")
-						),
-					],
+					components: [row],
 				});
 
 				let collector = sent.createMessageComponentCollector({
@@ -90,14 +89,10 @@ const help = new Command({
 				});
 
 				collector.on("collect", async (i) => {
-					if (!i.user.bot)
-						if (i.customId === "n") {
-							if (index === categories.length - 1) index = 0;
-							else index = index + 1;
-						} else if (i.customId === "p") {
-							if (index === 0) index = categories.length - 1;
-							else index = index - 1;
-						}
+					if (i.user.bot) return;
+					index = (i.customId === "n") ?
+						((index !== categories.length - 1) ? index + 1 : 0)
+						: ((index !== 0) ? index - 1 : categories.length - 1);
 					await i.update({ embeds: [pages[index]] });
 				});
 
@@ -107,6 +102,7 @@ const help = new Command({
 							`Display has timeout (1 min)`
 						);
 					else await sent.editWithTextEmbed(`Display closed`);
+					row.spliceComponents(0, 2);
 				});
 
 				/* this code took so long to make that i want to keep it...
