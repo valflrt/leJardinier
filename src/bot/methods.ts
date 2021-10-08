@@ -61,8 +61,7 @@ export default class ReplyMethods {
 		content: string,
 		options: ReplyMessageOptions = {}
 	): Promise<SentMessage> {
-		let sent = await this.sendEmbed(this.returnTextEmbed(content), options);
-		return this.initSent(sent);
+		return await this.sendEmbed(this.returnTextEmbed(content), options);
 	}
 
 	/**
@@ -84,8 +83,7 @@ export default class ReplyMethods {
 		setup: (embed: MessageEmbed) => MessageEmbed,
 		options: ReplyMessageOptions = {}
 	): Promise<SentMessage> {
-		let sent = await this.sendEmbed(this.returnCustomEmbed(setup), options);
-		return this.initSent(sent);
+		return await this.sendEmbed(this.returnCustomEmbed(setup), options);
 	}
 
 	/**
