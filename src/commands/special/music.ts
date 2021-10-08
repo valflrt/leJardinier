@@ -192,8 +192,37 @@ const music = new Command({
 						`${reactions.success.random()} Playlist already empty`
 					);
 				methods.sendTextEmbed(
-					`${reactions.success.random()} Playlist successfully cleared`
+					`${reactions.success.random()} Playlist cleared`
 				);
+			},
+		}),
+		new Command({
+			name: "remove",
+			description: `Removes one song the current playlist`,
+			arguments: "[song id]",
+			execution: async messageInstance => {
+				let { methods, message, commandArgs } = messageInstance;
+
+				if (!commandArgs)
+					return methods.sendTextEmbed(`${reactions.error.random()} You need to specify an id !`);
+
+				let songId = +commandArgs;
+
+				if (!songId || !Number.isInteger(songId))
+					return methods.sendTextEmbed(`${reactions.error.random()} Incorrect id !\n`
+						.concat(`Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`));
+
+				let playlist = await PlaylistModel.findOne({ guildId: message.guildId! });
+				if (!playlist)
+					return methods.sendTextEmbed(
+						`${reactions.success.random()} Current playlist is empty`
+					);
+
+				let removed = playlist.songs!.splice(songId - 1, 1)[0];
+				await playlist.save();
+
+				methods.sendTextEmbed(`${reactions.success.random()} Removed\n`
+					.concat(`\` ${songId} \` \`${removed.title}\``));
 			},
 		}),
 	],
