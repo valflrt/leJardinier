@@ -10,17 +10,13 @@ const pp = new Command({
 	execution: async (messageInstance: MessageInstance) => {
 		let { methods, message } = messageInstance;
 
-		let user =
-			message.mentions.members?.size !== 0
-				? message.mentions.members?.first()?.user
-				: message.author;
-
-		if (!user) return methods.sendTextEmbed(`Unknown user`);
+		let member = message.mentions.members?.first()?.user || message.author;
+		if (!member) return methods.sendTextEmbed(`Unknown user`);
 
 		methods.sendCustomEmbed((embed: MessageEmbed) =>
 			embed
-				.setDescription(`Here is ${user!.toString()} profile picture`)
-				.setImage(user!.displayAvatarURL({ size: 256 }))
+				.setDescription(`Here is ${member!.toString()} profile picture`)
+				.setImage(member!.displayAvatarURL({ size: 300 }))
 		);
 	},
 });
