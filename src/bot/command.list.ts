@@ -29,7 +29,7 @@ export default class CommandList {
 	/**
 	 * finds out if a command with commandName as name exists in this object
 	 * @param commandName {string} command name
-	 * @returns {boolean} wether this.commands has the researched command
+	 * @returns {boolean} whether this.commands has the researched command
 	 */
 	public has(commandName: string): boolean {
 		return this._commands.some((command) => command.name === commandName);
