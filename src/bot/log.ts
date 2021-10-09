@@ -1,6 +1,8 @@
 import chalk from "chalk";
 import Discord from "discord.js";
+
 import { ICommand } from "../types";
+import config from "../config";
 
 class Logger {
 	protected mainColor: string = "#abf7a7";
@@ -10,7 +12,7 @@ class Logger {
 	/**
 	 * general logging functions
 	 * all these functions have the same structure
-	 * @param strs strings to log (joined with one space)
+	 * @param str string to log (joined with one space)
 	 */
 	public write = (item: any) => console.log(item);
 	public log = (str: string) => this.output(str, this.mainColor);
@@ -59,7 +61,7 @@ class SystemLogger extends Logger {
 				200,
 				220,
 				210
-			).italic`v2.1`} 🍀 ${chalk.rgb(200, 220, 210)(`by valflrt`)}`
+			).italic(config.version)} 🍀 ${chalk.rgb(200, 220, 210)(`by valflrt`)}`
 		);
 		this.newLine(2);
 		this.log(`Starting...`);

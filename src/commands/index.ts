@@ -3,8 +3,8 @@ import CommandList from "../bot/command.list";
 // utility commands
 import help from "./utility/help";
 import invite from "./utility/invite";
-import register from "./utility/register";
-import unregister from "./utility/unregister";
+//import register from "./utility/register";
+//import unregister from "./utility/unregister";
 
 // fun commands
 import hey from "./fun/hey";
@@ -14,7 +14,7 @@ import morse from "./fun/morse";
 
 // user commands
 import pp from "./user/pp";
-import stats from "./user/stats";
+//import stats from "./user/stats";
 
 // entertainment commands
 import music from "./special/music";
