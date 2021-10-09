@@ -9,7 +9,7 @@ export class Command implements ICommand {
 	syntax?: string;
 	categoryName?: string;
 	requiresDB?: boolean;
-	execution: (messageInstance: MessageInstance) => void;
+	execution: (messageInstance: MessageInstance) => Promise<void>;
 	commands?: ICommand[];
 
 	constructor(command: ICommand) {
