@@ -23,22 +23,22 @@ import music from "./special/music";
 let commandList = new CommandList(
 	help,
 	invite,
-	register,
-	unregister,
+	//register,
+	//unregister,
 	hey,
 	trueOrFalse,
 	percentage,
 	morse,
 	pp,
-	stats,
+	//stats,
 	music
 );
 
 // sets categories (so commands are ordered and sorted here)
 commandList
-	.setCategory("Utility", [help, invite, register, unregister])
+	.setCategory("Utility", [help, invite/*, register, unregister*/])
 	.setCategory("Fun", [hey, trueOrFalse, percentage, morse])
-	.setCategory("User", [pp, stats])
+	.setCategory("User", [pp, /*stats*/])
 	.setCategory("Entertainment", [music]);
 
 export default commandList;

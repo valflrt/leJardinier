@@ -71,8 +71,8 @@ export default class LeJardinier {
 	};
 
 	private onMemberAdd = async (member: GuildMember) => {
-		if ((await userManager.exists(member.user.id)) === false)
-			userManager.add(member.user);
+		/*if ((await userManager.exists(member.user.id)) === false)
+			userManager.add(member.user);*/
 	};
 
 	/**
