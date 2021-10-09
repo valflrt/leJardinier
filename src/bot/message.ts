@@ -31,16 +31,28 @@ class MessageInstance {
 		this.methods = new ReplyMethods(this);
 	}
 
+	/**
+	 * returns a boolean whether a command has been found or not
+	 * @returns {boolean}
+	 */
 	get hasCommand(): boolean {
 		return this.command ? true : false;
 	}
 
+	/**
+	 * returns a boolean whether the message content starts with the prefix or not
+	 * @returns {boolean}
+	 */
 	get hasPrefix(): boolean {
 		return this.message.content.startsWith(config.prefix)
 	}
 
-	public generateEmbed = (): MessageEmbed =>
-		new MessageEmbed()
+	/**
+	 * returns a new formatted MessageEmbed
+	 * @returns {MessageEmbed}
+	 */
+	get embed(): MessageEmbed {
+		return new MessageEmbed()
 			.setAuthor(
 				this.bot.user!.username,
 				"https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp"
@@ -48,8 +60,15 @@ class MessageInstance {
 			.setFooter(this.command ? this.command.syntax! : "")
 			.setColor("#49a013")
 			.setTimestamp();
+	};
 
-	public execute = async () => {
+	/**
+	 * executes the current command
+	 * @returns {Promise<void>}
+	 */
+	public async execute(): Promise<void> {
+		if (!this.command) return log.logger.error(`Command does not exist`);
+
 		log.command.startTimer();
 		await this.message.channel.sendTyping();
 

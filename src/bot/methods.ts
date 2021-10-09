@@ -70,7 +70,7 @@ export default class ReplyMethods {
 	 * @returns {MessageEmbed}
 	 */
 	public returnTextEmbed(content: string): MessageEmbed {
-		return this.messageInstance.generateEmbed().setDescription(content);
+		return this.messageInstance.embed.setDescription(content);
 	}
 
 	/**
@@ -94,7 +94,7 @@ export default class ReplyMethods {
 	public returnCustomEmbed(
 		setup: (embed: MessageEmbed) => MessageEmbed
 	): MessageEmbed {
-		return setup(this.messageInstance.generateEmbed());
+		return setup(this.messageInstance.embed);
 	}
 
 	/**
