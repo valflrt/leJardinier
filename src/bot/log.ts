@@ -61,7 +61,7 @@ class SystemLogger extends Logger {
 				200,
 				220,
 				210
-			).italic(config.version)} 🍀 ${chalk.rgb(200, 220, 210)(`by valflrt`)}`
+			).italic(`v${config.version}`)} 🍀 ${chalk.rgb(200, 220, 210)(`by valflrt`)}`
 		);
 		this.newLine(2);
 		this.log(`Starting...`);
