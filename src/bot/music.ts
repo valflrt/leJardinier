@@ -1,4 +1,5 @@
 import * as voice from "@discordjs/voice";
+import { bold, hyperlink } from "@discordjs/builders";
 import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
@@ -10,7 +11,6 @@ import MessageInstance from "./message";
 
 import { logger } from "./log";
 import { secrets } from "../config";
-import { url } from "./text";
 import reactions from "../assets/reactions";
 
 export class Song {
@@ -146,10 +146,10 @@ export class GuildPlayer {
 					embed
 						.setThumbnail(this.currentSong!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Now playing **${url(
+							`${reactions.success.random()} Now playing ${bold(hyperlink(
 								this.currentSong!.title,
 								this.currentSong!.video_url
-							)}**`
+							))}`
 						)
 			);
 		});
