@@ -1,4 +1,5 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { bold, hyperlink, inlineCode, underscore } from "@discordjs/builders";
 
 import { linkButton } from "../../bot/interactions";
 
@@ -16,12 +17,12 @@ const help = new Command({
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
 			`You need some help ?\n`
-				.concat(` - \`lj!help commands\` gives the command list\n`)
+				.concat(` - ${inlineCode(`lj!help commands`)} gives the command list\n`)
 				.concat(
-					` - \`lj!help command [command name]\` gives information about one command\n`
+					` - ${inlineCode(`lj!help command [command name]`)} gives information about one command\n`
 				)
 				.concat(
-					` - \`lj!help website\` gives the link to my website where everything you need to know is written\n`
+					` - ${inlineCode(`lj!help website`)} gives the link to my website where everything you need to know is written`
 				)
 		);
 	},
@@ -52,12 +53,12 @@ const help = new Command({
 				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
 						embed.setDescription(
-							`**${category.name}** (page ${i + 1} of ${categories.length
+							`${bold(category.name)} (page ${i + 1} of ${categories.length
 							})`
 						);
 						let fields = category.commands.map(
 							(command: ICommand) => ({
-								name: `\`${command.syntax}\``,
+								name: `${inlineCode(command.syntax!)}`,
 								value: `${command.description}`,
 							})
 						);
@@ -166,12 +167,12 @@ const help = new Command({
 					methods.sendCustomEmbed((embed: MessageEmbed) => {
 						let command = commandList.get(commandArgs!)!;
 
-						embed.setDescription(`**\`${command.syntax}\`**
-					${command.description}${command.commands ? "\n\n__**Subcommands:**__\n" : ""}`);
+						embed.setDescription(`${bold(inlineCode(command.syntax!))}
+					${command.description}${command.commands ? `\n\n${bold(underscore(`Subcommands:`))}\n` : ""}`);
 
 						command.commands?.forEach((command) =>
 							embed.addField(
-								`   \`${command.syntax}\``,
+								`   ${inlineCode(command.syntax!)}`,
 								`   ${command.description}`
 							)
 						);
@@ -186,15 +187,8 @@ const help = new Command({
 			syntax: `website`,
 			execution: async messageInstance => {
 				let { methods } = messageInstance;
-				methods.reply({
-					content: `Now you just need to click the button below to access my website ${reactions.smile.random()}`,
-					components: [
-						linkButton(
-							"My website",
-							"https://valflrt.github.io/lejardinier-typescript/"
-						),
-					],
-				});
+				methods.sendTextEmbed(`Click ${hyperlink(`here`, `https://valflrt.github.io/lejardinier-typescript/`)} `
+					.concat(`to get to my website ${reactions.smile.random()}`));
 			},
 		}),
 	],

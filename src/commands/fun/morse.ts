@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { inlineCode } from "@discordjs/builders";
 
 import { Command } from "../../bot/command";
 
@@ -11,8 +12,8 @@ const morse = new Command({
 		let { methods } = messageInstance;
 
 		methods.sendTextEmbed(
-			`Use \`lj!morse encode\` to encode text to Morse code`.concat(
-				`Use \`lj!morse table\` to get Morse code table`
+			`Use ${inlineCode(`lj!morse encode`)} to encode text to Morse code`.concat(
+				`Use ${inlineCode(`lj!morse table`)} to get Morse code table`
 			)
 		);
 	},
@@ -60,7 +61,7 @@ const morse = new Command({
 
 				methods.sendCustomEmbed((embed: MessageEmbed) =>
 					embed.setDescription(`Here is the morse table\n
-					${morseTable.map((char) => `${char[0]}: \`${char[1]}\``).join("\n")}`)
+					${morseTable.map((char) => `${char[0]}: ${inlineCode(char[1])}`).join("\n")}`)
 				);
 			},
 		}),

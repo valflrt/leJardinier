@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import { Command } from "../../bot/command";
 
@@ -6,7 +7,6 @@ import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
 import * as Music from "../../bot/music";
 
-import { url } from "../../bot/text";
 import reactions from "../../assets/reactions";
 
 const music = new Command({
@@ -70,10 +70,10 @@ const music = new Command({
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
 							`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-								`Added **${url(
+								`Added ${bold(hyperlink(
 									songDetails.title,
 									songDetails.video_url
-								)}**`
+								))}`
 							)
 						)
 				);
@@ -123,10 +123,10 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Added **${url(
+							`${reactions.success.random()} Added ${bold(hyperlink(
 								songDetails.title,
 								songDetails.video_url
-							)}**`
+							))}`
 						)
 				);
 			},
@@ -139,7 +139,7 @@ const music = new Command({
 				let player = Music.playerManager.get(message.guildId!);
 				if (!player?.initialized)
 					return methods.sendTextEmbed(
-						`${reactions.error.random()} You need to use \`lj!music play\` before skipping a song !`
+						`${reactions.error.random()} You need to use ${inlineCode(`lj!music play`)} before skipping a song !`
 					);
 				await player.skipSong();
 				await methods.sendTextEmbed(
@@ -173,7 +173,7 @@ const music = new Command({
 					return methods.sendTextEmbed(`The playlist is empty !`);
 
 				let songs = playlist
-					.songs!.map((song, i) => `\` ${i + 1} \` \`${song.title}\``)
+					.songs!.map((song, i) => `${inlineCode(` ${i + 1} `)} ${inlineCode(song.title)}`)
 					.join("\n");
 
 				methods.sendTextEmbed(
@@ -222,7 +222,7 @@ const music = new Command({
 				await playlist.save();
 
 				methods.sendTextEmbed(`${reactions.success.random()} Removed\n`
-					.concat(`\` ${songId} \` \`${removed.title}\``));
+					.concat(`${inlineCode(` ${songId} `)} ${inlineCode(removed.title)}`));
 			},
 		}),
 	],

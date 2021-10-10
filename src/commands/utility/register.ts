@@ -1,3 +1,5 @@
+import { inlineCode } from "@discordjs/builders";
+
 import { Command } from "../../bot/command";
 import { guildManager, userManager } from "../../bot/database";
 
@@ -7,21 +9,16 @@ const register = new Command({
 	execution: async messageInstance => {
 		let { methods } = messageInstance;
 
-		let guildCommand = register.commands?.find(
-			(cmd) => cmd.name === "guild"
-		);
-		let userCommand = register.commands?.find((cmd) => cmd.name === "user");
-
 		methods.sendTextEmbed(
 			`With this command, you can register guilds and users.\n`
 				.concat(
-					`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n\n`
+					`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n`
 				)
 				.concat(
-					`\`${guildCommand?.syntax}\` ${guildCommand?.description}\n`
+					`- ${inlineCode(`lj!register guild`)}: register the current guild\n`
 				)
 				.concat(
-					`\`${userCommand?.syntax}\` ${userCommand?.description}\n`
+					`- ${inlineCode(`lj!register user`)}: register yourself`
 				)
 		);
 	},

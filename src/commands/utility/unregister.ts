@@ -1,3 +1,5 @@
+import { inlineCode } from "@discordjs/builders";
+
 import { Command } from "../../bot/command";
 import { guildManager, userManager } from "../../bot/database";
 
@@ -7,23 +9,16 @@ const unregister = new Command({
 	execution: async messageInstance => {
 		let { methods } = messageInstance;
 
-		let guildCommand = unregister.commands?.find(
-			(cmd) => cmd.name === "guild"
-		);
-		let userCommand = unregister.commands?.find(
-			(cmd) => cmd.name === "user"
-		);
-
 		methods.sendTextEmbed(
 			`With this command, you can unregister guilds and users.`
 				.concat(
 					`By unregistering, the guild/user will be removed from my database.\n\n`
 				)
 				.concat(
-					`\`${guildCommand?.syntax}\` ${guildCommand?.description}`
+					`${inlineCode(`lj!unregister guild`)}: unregister current guild\n`
 				)
 				.concat(
-					`\`${userCommand?.syntax}\` ${userCommand?.description}`
+					`${inlineCode(`lj!unregister user`)} unregister yourself`
 				)
 		);
 	},
