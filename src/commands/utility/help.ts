@@ -1,8 +1,6 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { bold, hyperlink, inlineCode, underscore } from "@discordjs/builders";
 
-import { linkButton } from "../../bot/interactions";
-
 import { Command } from "../../bot/command";
 import { ICommand } from "../../types";
 
@@ -16,13 +14,13 @@ const help = new Command({
 	execution: async messageInstance => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
-			`You need some help ?\n`
+			`Here is what you can do to get help:\n`
 				.concat(` - ${inlineCode(`lj!help commands`)} gives the command list\n`)
 				.concat(
 					` - ${inlineCode(`lj!help command [command name]`)} gives information about one command\n`
 				)
 				.concat(
-					` - ${inlineCode(`lj!help website`)} gives the link to my website where everything you need to know is written`
+					` - ${inlineCode(`lj!help website`)} gives the link to my website where there is information about me`
 				)
 		);
 	},
@@ -158,7 +156,7 @@ const help = new Command({
 
 				if (!commandArgs)
 					return methods.sendTextEmbed(
-						`You need to specify the command name...`
+						`You need to specify the name of the command you're looking for...`
 					);
 
 				if (!commandList.has(commandArgs))
