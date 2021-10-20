@@ -68,11 +68,11 @@ const help = new Command({
 				let row = new MessageActionRow().addComponents(
 					new MessageButton()
 						.setCustomId("p")
-						.setLabel("Previous")
+						.setLabel("Previous Page")
 						.setStyle("SECONDARY"),
 					new MessageButton()
 						.setCustomId("n")
-						.setLabel("Next")
+						.setLabel("Next Page")
 						.setStyle("SECONDARY")
 				);
 
