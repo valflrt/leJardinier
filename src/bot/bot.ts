@@ -2,12 +2,11 @@ import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
 import config, { secrets } from "../config";
 
-import database/* , { userManager } */ from "./database";
+import database /* , { userManager } */ from "./database";
 import log from "./log";
 import MessageInstance from "./message";
 
 export default class LeJardinier {
-
 	private bot?: Client;
 
 	/**
@@ -16,7 +15,7 @@ export default class LeJardinier {
 	 */
 	constructor(options: ClientOptions) {
 		this.bot = new Client(options);
-	};
+	}
 
 	/**
 	 * makes the client login and sets function for event "ready" (= starts the bot)
@@ -24,7 +23,7 @@ export default class LeJardinier {
 	public start() {
 		this.bot!.login(secrets.token!);
 		this.bot!.once("ready", this.onReady);
-	};
+	}
 
 	/**
 	 * listener for event "ready"
@@ -52,12 +51,15 @@ export default class LeJardinier {
 	 * @param message {Message} message object
 	 */
 	private onMessageCreate = async (message: Message) => {
-
 		// checks if something is wrong with the message
 		if (message.author.bot) return; // skip if the author is a bot
-		if (!message.author || !message.guild) // logs a message if guild or author is undefined
-			return log.bot.error((!message.author ? "author is undefined" : "")
-				.concat(!message.guild ? "guild is undefined" : ""));
+		if (!message.author || !message.guild)
+			// logs a message if guild or author is undefined
+			return log.bot.error(
+				(!message.author ? "author is undefined" : "").concat(
+					!message.guild ? "guild is undefined" : ""
+				)
+			);
 
 		log.bot.message(message); // logs every message
 
@@ -80,6 +82,7 @@ export default class LeJardinier {
 	 */
 	private setListeners() {
 		this.bot!.on("messageCreate", this.onMessageCreate);
+		this.bot!.on("messageCreate", this.onMessageCreate);
 		this.bot!.on("guildMemberAdd", this.onMemberAdd);
-	};
+	}
 }

@@ -5,7 +5,7 @@ import ReplyMethods from "./methods";
 import log from "./log";
 
 import { ICommand } from "../types";
-import commands from "../commands/index";
+import commands from "../commands.old/index";
 
 import config from "../config";
 
@@ -22,11 +22,17 @@ class MessageInstance {
 		this.bot = bot;
 
 		this.command = commands.fetch(this.message.content);
-		this.commandArgs = (this.command) ? this.message.content
-			.replace(
-				new RegExp(`^${config.prefix}.+${this.command!.name}`, "g"),
-				""
-			).trim() : null;
+		this.commandArgs = this.command
+			? this.message.content
+					.replace(
+						new RegExp(
+							`^${config.prefix}.+${this.command!.name}`,
+							"g"
+						),
+						""
+					)
+					.trim()
+			: null;
 
 		this.methods = new ReplyMethods(this);
 	}
@@ -44,7 +50,7 @@ class MessageInstance {
 	 * @returns {boolean}
 	 */
 	get hasPrefix(): boolean {
-		return this.message.content.startsWith(config.prefix)
+		return this.message.content.startsWith(config.prefix);
 	}
 
 	/**
@@ -60,7 +66,7 @@ class MessageInstance {
 			.setFooter(this.command ? this.command.syntax! : "")
 			.setColor("#49a013")
 			.setTimestamp();
-	};
+	}
 
 	/**
 	 * executes the current command
@@ -78,7 +84,7 @@ class MessageInstance {
 		} catch (err) {
 			log.command.executionFailed(this.command!, err);
 		}
-	};
+	}
 
 	/*private beforeExecute = async () => {
 		let guildExists = await guildManager.exists(this.message.guild!.id);
