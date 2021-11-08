@@ -5,7 +5,7 @@ import ReplyMethods from "./methods";
 import log from "./log";
 
 import { ICommand } from "../types";
-import commands from "../commands.old/index";
+import commands from "../commands";
 
 import config from "../config";
 

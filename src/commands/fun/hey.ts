@@ -6,7 +6,7 @@ import reactions from "../../assets/reactions";
 const hey = new Command({
 	name: "hey",
 	description: "Greet the bot",
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods, message } = messageInstance;
 		methods.sendTextEmbed(
 			`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} `.concat(
