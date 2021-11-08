@@ -6,7 +6,7 @@ import { guildManager, userManager } from "../../bot/database";
 const unregister = new Command({
 	name: "unregister",
 	description: "Unregister a guild or an user",
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods } = messageInstance;
 
 		methods.sendTextEmbed(
@@ -15,7 +15,9 @@ const unregister = new Command({
 					`By unregistering, the guild/user will be removed from my database.\n\n`
 				)
 				.concat(
-					`${inlineCode(`lj!unregister guild`)}: unregister current guild\n`
+					`${inlineCode(
+						`lj!unregister guild`
+					)}: unregister current guild\n`
 				)
 				.concat(
 					`${inlineCode(`lj!unregister user`)} unregister yourself`
@@ -26,7 +28,7 @@ const unregister = new Command({
 		new Command({
 			name: "guild",
 			description: "Unregister current guild (you need to be the owner)",
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
@@ -52,7 +54,7 @@ const unregister = new Command({
 			name: "user",
 			description: "Unregister yourself",
 			requiresDB: true,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				if ((await userManager.exists(message.author!.id)) === false)

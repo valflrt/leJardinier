@@ -6,7 +6,7 @@ const pp = new Command({
 	name: "pp",
 	description: "Get profile picture",
 	arguments: `[?mention]`,
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods, message } = messageInstance;
 
 		let member = message.mentions.members?.first()?.user || message.author;
@@ -14,7 +14,9 @@ const pp = new Command({
 
 		methods.sendCustomEmbed((embed: MessageEmbed) =>
 			embed
-				.setDescription(`Here is ${member!.toString()}'s profile picture`)
+				.setDescription(
+					`Here is ${member!.toString()}'s profile picture`
+				)
 				.setImage(member!.displayAvatarURL({ size: 300 }))
 		);
 	},

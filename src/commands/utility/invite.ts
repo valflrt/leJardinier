@@ -7,19 +7,22 @@ import reactions from "../../assets/reactions";
 const invite = new Command({
 	name: "invite",
 	description: "Get bot invitation link",
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods, bot } = messageInstance;
-		methods.sendTextEmbed(`The button below allows you to add me in your server ${reactions.smile.random()}`, {
-			components: [
-				linkButton(
-					"Invite me !",
-					bot.generateInvite({
-						scopes: ["bot"],
-						permissions: "ADMINISTRATOR",
-					})
-				),
-			],
-		});
+		methods.sendTextEmbed(
+			`The button below allows you to add me in your server ${reactions.smile.random()}`,
+			{
+				components: [
+					linkButton(
+						"Invite me !",
+						bot.generateInvite({
+							scopes: ["bot"],
+							permissions: "ADMINISTRATOR",
+						})
+					),
+				],
+			}
+		);
 	},
 });
 

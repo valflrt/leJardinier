@@ -11,16 +11,24 @@ import reactions from "../../assets/reactions";
 const help = new Command({
 	name: "help",
 	description: "Display help panel",
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
 			`Here is what you can do to get help:\n`
-				.concat(` - ${inlineCode(`lj!help commands`)} gives the command list\n`)
 				.concat(
-					` - ${inlineCode(`lj!help command [command name]`)} gives information about one command\n`
+					` - ${inlineCode(
+						`lj!help commands`
+					)} gives the command list\n`
 				)
 				.concat(
-					` - ${inlineCode(`lj!help website`)} gives the link to my website where there is information about me`
+					` - ${inlineCode(
+						`lj!help command [command name]`
+					)} gives information about one command\n`
+				)
+				.concat(
+					` - ${inlineCode(
+						`lj!help website`
+					)} gives the link to my website where there is information about me`
 				)
 		);
 	},
@@ -28,7 +36,7 @@ const help = new Command({
 		new Command({
 			name: "commands",
 			description: "Displays every available command",
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods } = messageInstance;
 
 				/*const format = (array: ICommand[], newArray: ICommand[][] = [], i: number = 0): any => {
@@ -51,7 +59,8 @@ const help = new Command({
 				let pages: MessageEmbed[] = categories.map((category, i) =>
 					methods.returnCustomEmbed((embed: MessageEmbed) => {
 						embed.setDescription(
-							`${bold(category.name)} (page ${i + 1} of ${categories.length
+							`${bold(category.name)} (page ${i + 1} of ${
+								categories.length
 							})`
 						);
 						let fields = category.commands.map(
@@ -88,20 +97,28 @@ const help = new Command({
 
 				collector.on("collect", async (i) => {
 					if (i.user.bot) return;
-					index = (i.customId === "n") ?
-						((index !== categories.length - 1) ? index + 1 : 0)
-						: ((index !== 0) ? index - 1 : categories.length - 1);
+					index =
+						i.customId === "n"
+							? index !== categories.length - 1
+								? index + 1
+								: 0
+							: index !== 0
+							? index - 1
+							: categories.length - 1;
 					await i.update({ embeds: [pages[index]] });
 				});
 
 				collector.on("end", async (collected, reason) => {
-					row.components.forEach(c => c.setDisabled());
+					row.components.forEach((c) => c.setDisabled());
 					if (reason === "time")
 						await sent.editWithTextEmbed(
 							`Display has timeout (1 min)`,
 							{ components: [row] }
 						);
-					else await sent.editWithTextEmbed(`Display closed`, { components: [row] });
+					else
+						await sent.editWithTextEmbed(`Display closed`, {
+							components: [row],
+						});
 				});
 
 				/* this code took so long to make that i want to keep it...
@@ -151,7 +168,7 @@ const help = new Command({
 			name: "command",
 			description: `Get help about one command`,
 			arguments: `[command name]`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, commandArgs } = messageInstance;
 
 				if (!commandArgs)
@@ -165,8 +182,14 @@ const help = new Command({
 					methods.sendCustomEmbed((embed: MessageEmbed) => {
 						let command = commandList.get(commandArgs!)!;
 
-						embed.setDescription(`${bold(inlineCode(command.syntax!))}
-					${command.description}${command.commands ? `\n\n${bold(underscore(`Subcommands:`))}\n` : ""}`);
+						embed.setDescription(`${bold(
+							inlineCode(command.syntax!)
+						)}
+					${command.description}${
+							command.commands
+								? `\n\n${bold(underscore(`Subcommands:`))}\n`
+								: ""
+						}`);
 
 						command.commands?.forEach((command) =>
 							embed.addField(
@@ -183,10 +206,16 @@ const help = new Command({
 			name: "website",
 			description: `Get my website link`,
 			syntax: `website`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods } = messageInstance;
-				methods.sendTextEmbed(`Click ${hyperlink(`here`, `https://valflrt.github.io/lejardinier-typescript/`)} `
-					.concat(`to get to my website ${reactions.smile.random()}`));
+				methods.sendTextEmbed(
+					`Click ${hyperlink(
+						`here`,
+						`https://valflrt.github.io/lejardinier-typescript/`
+					)} `.concat(
+						`to get to my website ${reactions.smile.random()}`
+					)
+				);
 			},
 		}),
 	],

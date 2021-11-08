@@ -36,9 +36,9 @@ let commandList = new CommandList(
 
 // sets categories (so commands are ordered and sorted here)
 commandList
-	.setCategory("Utility", [help, invite/*, register, unregister*/])
+	.setCategory("Utility", [help, invite /*, register, unregister*/])
 	.setCategory("Fun", [hey, trueOrFalse, percentage, morse])
-	.setCategory("User", [pp, /*stats*/])
+	.setCategory("User", [pp /*stats*/])
 	.setCategory("Entertainment", [music]);
 
 export default commandList;

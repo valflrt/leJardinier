@@ -67,7 +67,7 @@ export default class LeJardinier {
 
 		if (messageInstance.hasCommand === true) {
 			messageInstance.execute();
-		} ele if (messageInstance.hasPrefix) {
+		} else if (messageInstance.hasPrefix) {
 			messageInstance.message.react("❔");
 		}
 	};

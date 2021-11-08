@@ -146,10 +146,12 @@ export class GuildPlayer {
 					embed
 						.setThumbnail(this.currentSong!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Now playing ${bold(hyperlink(
-								this.currentSong!.title,
-								this.currentSong!.video_url
-							))}`
+							`${reactions.success.random()} Now playing ${bold(
+								hyperlink(
+									this.currentSong!.title,
+									this.currentSong!.video_url
+								)
+							)}`
 						)
 			);
 		});

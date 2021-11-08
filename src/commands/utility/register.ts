@@ -6,7 +6,7 @@ import { guildManager, userManager } from "../../bot/database";
 const register = new Command({
 	name: "register",
 	description: "Register a guild or an user",
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods } = messageInstance;
 
 		methods.sendTextEmbed(
@@ -15,7 +15,9 @@ const register = new Command({
 					`By registering, the guild/user will be saved in my database so I will be able to provide more functions (collecting xp, shop, ...)\n`
 				)
 				.concat(
-					`- ${inlineCode(`lj!register guild`)}: register the current guild\n`
+					`- ${inlineCode(
+						`lj!register guild`
+					)}: register the current guild\n`
 				)
 				.concat(
 					`- ${inlineCode(`lj!register user`)}: register yourself`
@@ -26,7 +28,7 @@ const register = new Command({
 		new Command({
 			name: "guild",
 			description: "Register current guild (you need to be the owner)",
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				/*if (message.guild?.ownerId !== message.author.id)
@@ -50,7 +52,7 @@ const register = new Command({
 			name: "user",
 			description: "Register yourself (current guild must be registered)",
 			requiresDB: true,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				if ((await userManager.exists(message.author!.id)) === true)

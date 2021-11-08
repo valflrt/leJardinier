@@ -12,7 +12,7 @@ import reactions from "../../assets/reactions";
 const music = new Command({
 	name: "music",
 	description: `Music command`,
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
@@ -31,7 +31,7 @@ const music = new Command({
 		new Command({
 			name: "play",
 			description: `Start playing music from the current playlist`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let player = new Music.GuildPlayer(messageInstance);
 				Music.playerManager.register(player);
 				await player.join();
@@ -42,7 +42,7 @@ const music = new Command({
 			name: "url",
 			description: `Add a song to the current playlist from a youtube url`,
 			arguments: `[youtube url]`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
@@ -70,10 +70,12 @@ const music = new Command({
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
 							`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-								`Added ${bold(hyperlink(
-									songDetails.title,
-									songDetails.video_url
-								))}`
+								`Added ${bold(
+									hyperlink(
+										songDetails.title,
+										songDetails.video_url
+									)
+								)}`
 							)
 						)
 				);
@@ -83,7 +85,7 @@ const music = new Command({
 			name: "search",
 			description: `Add a song to the playlist from youtube search`,
 			arguments: `[youtube search]`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
@@ -123,10 +125,12 @@ const music = new Command({
 					embed
 						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Added ${bold(hyperlink(
-								songDetails.title,
-								songDetails.video_url
-							))}`
+							`${reactions.success.random()} Added ${bold(
+								hyperlink(
+									songDetails.title,
+									songDetails.video_url
+								)
+							)}`
 						)
 				);
 			},
@@ -134,12 +138,14 @@ const music = new Command({
 		new Command({
 			name: "skip",
 			description: `Skip current song`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 				let player = Music.playerManager.get(message.guildId!);
 				if (!player?.initialized)
 					return methods.sendTextEmbed(
-						`${reactions.error.random()} You need to use ${inlineCode(`lj!music play`)} before skipping a song !`
+						`${reactions.error.random()} You need to use ${inlineCode(
+							`lj!music play`
+						)} before skipping a song !`
 					);
 				await player.skipSong();
 				await methods.sendTextEmbed(
@@ -151,7 +157,7 @@ const music = new Command({
 		new Command({
 			name: "stop",
 			description: `Stop the music`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				Music.playerManager.get(message.guildId!)?.destroy();
@@ -163,7 +169,7 @@ const music = new Command({
 		new Command({
 			name: "playlist",
 			description: `Display the current playlist`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				let playlist = await PlaylistModel.findOne({
@@ -173,7 +179,12 @@ const music = new Command({
 					return methods.sendTextEmbed(`The playlist is empty !`);
 
 				let songs = playlist
-					.songs!.map((song, i) => `${inlineCode(` ${i + 1} `)} ${inlineCode(song.title)}`)
+					.songs!.map(
+						(song, i) =>
+							`${inlineCode(` ${i + 1} `)} ${inlineCode(
+								song.title
+							)}`
+					)
 					.join("\n");
 
 				methods.sendTextEmbed(
@@ -184,7 +195,7 @@ const music = new Command({
 		new Command({
 			name: "clear",
 			description: `Clear the current playlist`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message } = messageInstance;
 				let cleared = await playlistManager.clear(message.guildId!);
 				if (cleared === null)
@@ -200,19 +211,26 @@ const music = new Command({
 			name: "remove",
 			description: `Removes one song the current playlist`,
 			arguments: "[song id]",
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, message, commandArgs } = messageInstance;
 
 				if (!commandArgs)
-					return methods.sendTextEmbed(`${reactions.error.random()} You need to specify an id !`);
+					return methods.sendTextEmbed(
+						`${reactions.error.random()} You need to specify an id !`
+					);
 
 				let songId = +commandArgs;
 
 				if (!songId || !Number.isInteger(songId))
-					return methods.sendTextEmbed(`${reactions.error.random()} Incorrect id !\n`
-						.concat(`Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`));
+					return methods.sendTextEmbed(
+						`${reactions.error.random()} Incorrect id !\n`.concat(
+							`Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
+						)
+					);
 
-				let playlist = await PlaylistModel.findOne({ guildId: message.guildId! });
+				let playlist = await PlaylistModel.findOne({
+					guildId: message.guildId!,
+				});
 				if (!playlist)
 					return methods.sendTextEmbed(
 						`${reactions.success.random()} Current playlist is empty`
@@ -221,8 +239,13 @@ const music = new Command({
 				let removed = playlist.songs!.splice(songId - 1, 1)[0];
 				await playlist.save();
 
-				methods.sendTextEmbed(`${reactions.success.random()} Removed\n`
-					.concat(`${inlineCode(` ${songId} `)} ${inlineCode(removed.title)}`));
+				methods.sendTextEmbed(
+					`${reactions.success.random()} Removed\n`.concat(
+						`${inlineCode(` ${songId} `)} ${inlineCode(
+							removed.title
+						)}`
+					)
+				);
 			},
 		}),
 	],

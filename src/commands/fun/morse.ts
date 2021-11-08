@@ -8,11 +8,13 @@ import morseTable from "../../assets/morse.table";
 const morse = new Command({
 	name: "morse",
 	description: `Morse code utility command`,
-	execution: async messageInstance => {
+	execution: async (messageInstance) => {
 		let { methods } = messageInstance;
 
 		methods.sendTextEmbed(
-			`Use ${inlineCode(`lj!morse encode`)} to encode text to Morse code`.concat(
+			`Use ${inlineCode(
+				`lj!morse encode`
+			)} to encode text to Morse code`.concat(
 				`Use ${inlineCode(`lj!morse table`)} to get Morse code table`
 			)
 		);
@@ -22,7 +24,7 @@ const morse = new Command({
 			name: "encode",
 			description: `Encode text to Morse code`,
 			arguments: `[sentence]`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods, commandArgs } = messageInstance;
 
 				const encode = (text: string, morse: string[] = []): string => {
@@ -42,13 +44,13 @@ const morse = new Command({
 				methods.sendTextEmbed(
 					commandArgs
 						? encode(
-							commandArgs
-								?.toLowerCase()
-								.replace(
-									/[^abcdefghijklmopqrstuvwxyz\s]/g,
-									""
-								)
-						)
+								commandArgs
+									?.toLowerCase()
+									.replace(
+										/[^abcdefghijklmopqrstuvwxyz\s]/g,
+										""
+									)
+						  )
 						: "You need to give some text to convert to morse..."
 				);
 			},
@@ -56,7 +58,7 @@ const morse = new Command({
 		new Command({
 			name: "table",
 			description: `Gives the Morse table`,
-			execution: async messageInstance => {
+			execution: async (messageInstance) => {
 				let { methods } = messageInstance;
 
 				methods.sendCustomEmbed((embed: MessageEmbed) =>

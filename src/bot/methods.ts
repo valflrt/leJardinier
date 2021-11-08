@@ -103,13 +103,18 @@ export default class ReplyMethods {
 	 * @returns {SentMessage} formatted Message class
 	 */
 	private initSent(sent: SentMessage): SentMessage {
-		sent.editWithEmbed = (embed: MessageEmbed, options: ReplyMessageOptions = {}) => {
+		sent.editWithEmbed = (
+			embed: MessageEmbed,
+			options: ReplyMessageOptions = {}
+		) => {
 			if (!options.embeds) options.embeds = [];
 			options.embeds.push(embed);
 			return sent.edit(options);
 		};
-		sent.editWithTextEmbed = (text: string, options: ReplyMessageOptions = {}) =>
-			sent.editWithEmbed(this.returnTextEmbed(text), options);
+		sent.editWithTextEmbed = (
+			text: string,
+			options: ReplyMessageOptions = {}
+		) => sent.editWithEmbed(this.returnTextEmbed(text), options);
 		sent.editWithCustomEmbed = (
 			setup: (embed: MessageEmbed) => MessageEmbed,
 			options: ReplyMessageOptions = {}

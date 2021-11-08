@@ -57,11 +57,13 @@ class SystemLogger extends Logger {
 	public starting = () => {
 		this.clear();
 		this.write(
-			` ${chalk.hex("#abf7a7").bold`Le Jardinier`} ${chalk.rgb(
+			` ${chalk.hex("#abf7a7").bold`Le Jardinier`} ${chalk
+				.rgb(200, 220, 210)
+				.italic(`v${config.version}`)} 🍀 ${chalk.rgb(
 				200,
 				220,
 				210
-			).italic(`v${config.version}`)} 🍀 ${chalk.rgb(200, 220, 210)(`by valflrt`)}`
+			)(`by valflrt`)}`
 		);
 		this.newLine(2);
 		this.log(`Starting...`);
