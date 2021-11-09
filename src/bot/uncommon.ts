@@ -5,16 +5,14 @@
 
 import { Client, TextChannel } from "discord.js";
 
-export default {
-	start: (bot: Client) => {
-		setInterval(() => {
-			let time = new Date();
-			if (time.getHours() === time.getMinutes()) {
-				let channel = bot.channels.cache.get(
-					"802634814771560518"
-				) as TextChannel;
-				channel.send("<@&802634842557644900> Hurry up !");
-			}
-		}, 5000);
-	},
+export const start = (bot: Client) => {
+	setInterval(() => {
+		let time = new Date();
+		if (time.getHours() === time.getMinutes()) {
+			let channel = bot.channels.cache.get(
+				"802634814771560518"
+			) as TextChannel;
+			channel.send("<@&802634842557644900> Hurry up !");
+		}
+	}, 5000);
 };
