@@ -19,7 +19,7 @@ Finally, to start the code, run:
 
 You can also use the command below to lint the code in `src`:
 
--   `npm run lint` for normal start
+-   `npm run lint`
 
 ### Notes
 
