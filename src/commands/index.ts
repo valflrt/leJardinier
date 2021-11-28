@@ -3,6 +3,7 @@ import CCommandList from "../lib/commandManager/classes/commandList";
 
 // utility commands
 import help from "./utility/help";
+import time from "./utility/time";
 import invite from "./utility/invite";
 //import register from "./utility/register";
 //import unregister from "./utility/unregister";
@@ -26,6 +27,7 @@ let commandList = new CCommandList();
 
 commandList
 	//.addCommand(() => help)
+	.addCommand(() => time, "Utility")
 	.addCommand(() => hey, "Fun")
 	.addCommand(() => trueOrFalse, "Fun");
 
