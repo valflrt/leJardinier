@@ -155,10 +155,13 @@ class CommandLogger extends Logger {
 	 * @param command command object
 	 * @param err error to log
 	 */
-	public executionFailed = (command: CCommand, err: any) =>
+	public executionFailed = (command: CCommand, err: any) => {
 		this.error(
-			`Failed to execute ${chalk.underline.bold(command.syntax)}:\n${err}`
+			`Failed to execute ${chalk.underline.bold(
+				command.identifier
+			)}:\n${err}`
 		);
+	};
 }
 
 class DatabaseLogger extends Logger {
