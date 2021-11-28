@@ -82,7 +82,6 @@ export default class LeJardinier {
 	 */
 	private setListeners() {
 		this.bot!.on("messageCreate", this.onMessageCreate);
-		this.bot!.on("messageCreate", this.onMessageCreate);
 		this.bot!.on("guildMemberAdd", this.onMemberAdd);
 	}
 }
