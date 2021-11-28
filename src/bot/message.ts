@@ -45,7 +45,7 @@ class MessageInstance {
 	}
 
 	/**
-	 * returns a new formatted MessageEmbed
+	 * returns a new preformatted MessageEmbed
 	 */
 	get embed(): MessageEmbed {
 		return new MessageEmbed()
