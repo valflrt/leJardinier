@@ -32,7 +32,6 @@ class MessageInstance {
 
 	/**
 	 * returns a boolean whether a command has been found or not
-	 * @returns {boolean}
 	 */
 	get hasCommand(): boolean {
 		return this.command ? true : false;
@@ -40,7 +39,6 @@ class MessageInstance {
 
 	/**
 	 * returns a boolean whether the message content starts with the prefix or not
-	 * @returns {boolean}
 	 */
 	get hasPrefix(): boolean {
 		return this.message.content.startsWith(config.prefix);
@@ -48,7 +46,6 @@ class MessageInstance {
 
 	/**
 	 * returns a new formatted MessageEmbed
-	 * @returns {MessageEmbed}
 	 */
 	get embed(): MessageEmbed {
 		return new MessageEmbed()
@@ -62,8 +59,7 @@ class MessageInstance {
 	}
 
 	/**
-	 * executes the current command
-	 * @returns {Promise<void>}
+	 * executes the current command and returns a Promise
 	 */
 	public async execute(): Promise<void> {
 		if (!this.command) return log.logger.error(`Command does not exist`);

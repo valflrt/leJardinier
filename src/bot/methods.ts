@@ -20,7 +20,6 @@ export default class ReplyMethods {
 	/**
 	 * replies to the call message
 	 * @param options message options
-	 * @returns
 	 */
 	public reply = (options: string | MessagePayload | ReplyMessageOptions) => {
 		return this.message.reply(options);
@@ -29,7 +28,6 @@ export default class ReplyMethods {
 	/**
 	 * sends a message in the current channel
 	 * @param options messages options
-	 * @returns
 	 */
 	public send = (options: string | MessagePayload | ReplyMessageOptions) => {
 		return this.message.channel.send(options);
@@ -37,9 +35,8 @@ export default class ReplyMethods {
 
 	/**
 	 * sends an already created MessageEmbed
-	 * @param embed {MessageEmbed} already created embed
-	 * @param options {ReplyMessageOptions}
-	 * @returns {Promise<SentMessage>}
+	 * @param embed already created embed
+	 * @param options message options
 	 */
 	public async sendEmbed(
 		embed: MessageEmbed,
@@ -52,10 +49,9 @@ export default class ReplyMethods {
 	}
 
 	/**
-	 *
-	 * @param content {string} text to send
-	 * @param options {ReplyMessageOptions}
-	 * @returns {Promise<SentMessage>}
+	 * sends an embed
+	 * @param content text to send
+	 * @param options message options
 	 */
 	public async sendTextEmbed(
 		content: string,
@@ -66,18 +62,16 @@ export default class ReplyMethods {
 
 	/**
 	 * returns a simple text embed
-	 * @param content {string} text to send as the description of the MessageEmbed
-	 * @returns {MessageEmbed}
+	 * @param content text to send as the description of the MessageEmbed
 	 */
 	public returnTextEmbed(content: string): MessageEmbed {
 		return this.messageInstance.embed.setDescription(content);
 	}
 
 	/**
-	 * creates a custom MessageEmbed and sends it
-	 * @param setup setup function
-	 * @param options {ReplyMessageOptions}
-	 * @returns {Promise<SentMessage>}
+	 * creates a custom MessageEmbed using a callback and sends it
+	 * @param setup the callback function
+	 * @param options message options
 	 */
 	public async sendCustomEmbed(
 		setup: (embed: MessageEmbed) => MessageEmbed,
@@ -88,8 +82,7 @@ export default class ReplyMethods {
 
 	/**
 	 * sets up a custom embed and returns it
-	 * @param setup {Function} setup function
-	 * @returns {MessageEmbed} embed that has been set up
+	 * @param setup the callback function
 	 */
 	public returnCustomEmbed(
 		setup: (embed: MessageEmbed) => MessageEmbed
@@ -98,9 +91,8 @@ export default class ReplyMethods {
 	}
 
 	/**
-	 * Adds two new functions to a "MessageSent" object
-	 * @param sent {SentMessage} object which needs to get the new functions added
-	 * @returns {SentMessage} formatted Message class
+	 * Adds two new functions to a "MessageSent" object and returns it
+	 * @param sent object which needs to get the new functions added
 	 */
 	private initSent(sent: SentMessage): SentMessage {
 		sent.editWithEmbed = (
