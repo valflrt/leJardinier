@@ -1,19 +1,18 @@
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 import * as utils from "../../utils";
 
 import reactions from "../../assets/reactions";
 
-const hey = new Command({
-	name: "hey",
-	description: "Greet the bot",
-	execution: async (messageInstance) => {
+const hey = new CCommand()
+	.setName("hey")
+	.setDescription("Greet the bot")
+	.setExecution(async (messageInstance) => {
 		let { methods, message } = messageInstance;
 		methods.sendTextEmbed(
 			`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} `.concat(
 				`${message.author.toString()} ${reactions.smile.random()}`
 			)
 		);
-	},
-});
+	});
 
 export default hey;

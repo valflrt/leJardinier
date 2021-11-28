@@ -4,9 +4,10 @@ import { Client, Message, MessageEmbed } from "discord.js";
 import ReplyMethods from "./methods";
 import log from "./log";
 
-import { ICommand } from "../types";
-import commands from "../commands";
+import CCommand from "../lib/commandManager/classes/command";
+import CMessageContent from "../lib/commandManager/classes/messageContent";
 
+import commandList from "../commands";
 import config from "../config";
 
 class MessageInstance {
@@ -14,25 +15,17 @@ class MessageInstance {
 	public bot: Client;
 
 	public methods: ReplyMethods;
-	public command: ICommand | undefined;
-	public commandArgs: string | null;
+	public command: CCommand | null;
+	public commandParameters: string[];
 
 	constructor(message: Message, bot: Client) {
 		this.message = message;
 		this.bot = bot;
 
-		this.command = commands.fetch(this.message.content);
-		this.commandArgs = this.command
-			? this.message.content
-					.replace(
-						new RegExp(
-							`^${config.prefix}.+${this.command!.name}`,
-							"g"
-						),
-						""
-					)
-					.trim()
-			: null;
+		let messageContent = new CMessageContent(this.message.content);
+
+		this.command = commandList.find(messageContent.commandPattern);
+		this.commandParameters = messageContent.parameters;
 
 		this.methods = new ReplyMethods(this);
 	}

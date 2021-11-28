@@ -1,4 +1,5 @@
-import CommandList from "../bot/command.list";
+import CCommandList from "../lib/commandManager/classes/commandList";
+//import CommandList from "../bot/command.list";
 
 // utility commands
 import help from "./utility/help";
@@ -20,7 +21,12 @@ import pp from "./user/pp";
 import music from "./special/music";
 
 // exporting commands object
-let commandList = new CommandList(
+
+let commandList = new CCommandList();
+
+commandList.addCommand(() => hey, "Fun");
+
+/*let commandList = new CommandList(
 	help,
 	invite,
 	//register,
@@ -32,13 +38,13 @@ let commandList = new CommandList(
 	pp,
 	//stats,
 	music
-);
+);*/
 
 // sets categories (so commands are ordered and sorted here)
-commandList
-	.setCategory("Utility", [help, invite /*, register, unregister*/])
-	.setCategory("Fun", [hey, trueOrFalse, percentage, morse])
-	.setCategory("User", [pp /*stats*/])
-	.setCategory("Entertainment", [music]);
+//commandList
+//	.setCategory("Utility", [help, invite /*, register, unregister*/])
+//	.setCategory("Fun", [hey, trueOrFalse, percentage, morse])
+//	.setCategory("User", [pp /*stats*/])
+//	.setCategory("Entertainment", [music]);
 
 export default commandList;
