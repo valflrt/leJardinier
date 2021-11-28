@@ -138,8 +138,10 @@ export default class CCommand {
 	}
 
 	public get syntax(): string {
-		return `${config.prefix}${this.formattedIdentifier} ${this.parameters
-			.map((p) => `[${p.required ? "?" : ""}${p.name}]`)
+		return `${config.prefix}${this.formattedIdentifier}${
+			this.parameters.length !== 0 ? " " : ""
+		}${this.parameters
+			.map((p) => `[${p.required !== true ? "?" : ""}${p.name}]`)
 			.join(" ")}`;
 	}
 }
