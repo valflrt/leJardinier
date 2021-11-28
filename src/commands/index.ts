@@ -24,7 +24,10 @@ import music from "./special/music";
 
 let commandList = new CCommandList();
 
-commandList.addCommand(() => hey, "Fun");
+commandList
+	//.addCommand(() => help)
+	.addCommand(() => hey, "Fun")
+	.addCommand(() => trueOrFalse, "Fun");
 
 /*let commandList = new CommandList(
 	help,

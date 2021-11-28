@@ -1,19 +1,23 @@
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 import * as utils from "../../utils";
 
-const trueOrFalse = new Command({
-	name: "tof",
-	description: `Answers "true" or "false" randomly`,
-	arguments: `[?sentence]`,
-	execution: async (messageInstance) => {
-		let { methods, message, bot, commandArgs } = messageInstance;
+const trueOrFalse = new CCommand()
+	.setName("true or false")
+	.setIdentifier("tof")
+	.setDescription(`Answers "true" or "false" randomly`)
+	.addParameter((p) =>
+		p.setName("sentence").setType(String).setRequired(false)
+	)
+	.setExecution(async (messageInstance) => {
+		let { methods, message, bot, commandParameters } = messageInstance;
 		methods.sendTextEmbed(
 			`${
-				commandArgs &&
-				`${message.author.toString()}\n${commandArgs}\n${bot.user!.toString()}\n`
+				commandParameters &&
+				`${message.author.toString()}\n${commandParameters.join(
+					" "
+				)}\n${bot.user!.toString()}\n`
 			}${utils.randomItem("true !", "false !")}`
 		);
-	},
-});
+	});
 
 export default trueOrFalse;
