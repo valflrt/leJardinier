@@ -45,6 +45,17 @@ export default class CCommandList {
 		return loop(this.commands, 0);
 	}
 
+	/**
+	 * finds and returns a command using an identifier
+	 * @param identifier string that contains the "path" to the command
+	 */
+	public get(identifier: string): CCommand | null {
+		let command = this.commands.find(
+			(c) => c.completeIdentifier === identifier
+		);
+		return command ? command : null;
+	}
+
 	public get commands(): CCommand[] {
 		return this._commands;
 	}
