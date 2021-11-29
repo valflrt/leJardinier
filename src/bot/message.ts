@@ -55,7 +55,7 @@ class MessageInstance {
 				this.bot.user!.username,
 				"https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp"
 			)
-			.setFooter(this.command ? this.command.syntax! : "")
+			.setFooter(this.command ? this.command.completeIdentifier! : "")
 			.setColor("#49a013")
 			.setTimestamp();
 	}
