@@ -15,7 +15,7 @@ import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
 // user commands
-import pp from "./user/pp";
+import profilePicture from "./user/pp";
 //import stats from "./user/stats";
 
 // entertainment commands
@@ -28,28 +28,15 @@ let commandList = new CCommandList();
 commandList
 	.addCommand(() => help, "Utility")
 	.addCommand(() => time, "Utility")
+	//.addCommand(() => invite, "Utility");
+	//.addCommand(() => register, "Utility");
+	//.addCommand(() => unregister, "Utility");
 	.addCommand(() => hey, "Fun")
-	.addCommand(() => trueOrFalse, "Fun");
-
-/*let commandList = new CommandList(
-	help,
-	invite,
-	//register,
-	//unregister,
-	hey,
-	trueOrFalse,
-	percentage,
-	morse,
-	pp,
-	//stats,
-	music
-);*/
-
-// sets categories (so commands are ordered and sorted here)
-//commandList
-//	.setCategory("Utility", [help, invite /*, register, unregister*/])
-//	.setCategory("Fun", [hey, trueOrFalse, percentage, morse])
-//	.setCategory("User", [pp /*stats*/])
-//	.setCategory("Entertainment", [music]);
+	.addCommand(() => trueOrFalse, "Fun")
+	//.addCommand(() => percentage, "Fun");
+	.addCommand(() => morse, "Fun");
+//.addCommand(() => profilePicture, "User Information");
+//.addCommand(() => stats, "User Information");
+//.addCommand(() => music, "Special");
 
 export default commandList;
