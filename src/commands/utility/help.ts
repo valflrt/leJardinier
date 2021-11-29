@@ -1,12 +1,30 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import { bold, hyperlink, inlineCode, underscore } from "@discordjs/builders";
+import {
+	bold,
+	hyperlink,
+	inlineCode,
+	quote,
+	underscore,
+} from "@discordjs/builders";
 
 import CCommand from "../../lib/commandManager/classes/command";
-import CMessageContent from "../../lib/commandManager/classes/messageContent";
 
 import commandList from "..";
 
 import reactions from "../../assets/reactions";
+
+const commandFormat = {
+	title: (command: CCommand) => `${bold(command.name)}`,
+	description: (command: CCommand) =>
+		`${quote(command.description)}\n`.concat(
+			`${quote(bold(inlineCode(command.syntax!)))}`
+		),
+	createFields: (commands: CCommand[]) =>
+		commands.map((command) => ({
+			name: `- ${commandFormat.title(command)}`,
+			value: commandFormat.description(command),
+		})),
+};
 
 const help = new CCommand()
 	.setName("help")
@@ -67,19 +85,17 @@ const help = new CCommand()
 				let i = 0;
 				categories.forEach((commands, name) => {
 					pages.push(
-						methods.returnCustomEmbed((embed: MessageEmbed) => {
-							embed.setDescription(
-								`${bold(name)} (page ${i + 1} of ${
-									categories.size
-								})`
-							);
-							let fields = commands.map((command: CCommand) => ({
-								name: `${inlineCode(command.syntax!)}`,
-								value: `${command.description}`,
-							}));
-							embed.addFields(...fields);
-							return embed;
-						})
+						methods.returnCustomEmbed((embed) =>
+							embed
+								.setDescription(
+									`${bold(name)} (page ${i + 1} of ${
+										categories.size
+									})`
+								)
+								.addFields(
+									commandFormat.createFields(commands!)
+								)
+						)
 					);
 					i++;
 				});
@@ -189,32 +205,28 @@ const help = new CCommand()
 						`You need to specify the name of the command you're looking for...`
 					);
 
-				let command = commandList.find(
-					new CMessageContent(commandParameters[0]).commandPattern
-				);
+				let command = commandList.get(commandParameters[0]);
 
 				if (!command)
 					return methods.sendTextEmbed(`Unknown command...`);
 				else
-					methods.sendCustomEmbed((embed: MessageEmbed) => {
-						embed.setDescription(`${bold(
-							inlineCode(command!.syntax!)
-						)}
-					${command!.description}${
-							command!.commands
-								? `\n\n${bold(underscore(`Subcommands:`))}\n`
-								: ""
-						}`);
-
-						command!.commands?.forEach((command) =>
-							embed.addField(
-								`   ${inlineCode(command.syntax!)}`,
-								`   ${command.description}`
+					methods.sendCustomEmbed((embed) =>
+						embed
+							.setDescription(
+								`${bold(commandFormat.title(command!))}\n`
+									.concat(commandFormat.description(command!))
+									.concat(
+										command!.commands
+											? `\n\n${bold(
+													underscore(`Subcommands:`)
+											  )}\n`
+											: ""
+									)
 							)
-						);
-
-						return embed;
-					});
+							.addFields(
+								commandFormat.createFields(command!.commands)
+							)
+					);
 			})
 	)
 
