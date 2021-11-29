@@ -1,12 +1,13 @@
 import { MessageEmbed } from "discord.js";
 
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 
-const pp = new Command({
-	name: "pp",
-	description: "Get profile picture",
-	arguments: `[?mention]`,
-	execution: async (messageInstance) => {
+const profilePicture = new CCommand()
+	.setName("profile picture")
+	.setIdentifier("pp")
+	.setDescription("Gives someone's profile picture")
+	.addParameter((p) => p.setName("mention").setRequired(false))
+	.setExecution(async (messageInstance) => {
 		let { methods, message } = messageInstance;
 
 		let member = message.mentions.members?.first()?.user || message.author;
@@ -19,7 +20,6 @@ const pp = new Command({
 				)
 				.setImage(member!.displayAvatarURL({ size: 300 }))
 		);
-	},
-});
+	});
 
-export default pp;
+export default profilePicture;

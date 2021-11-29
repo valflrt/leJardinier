@@ -28,15 +28,15 @@ let commandList = new CCommandList();
 commandList
 	.addCommand(() => help, "Utility")
 	.addCommand(() => time, "Utility")
-	//.addCommand(() => invite, "Utility");
-	//.addCommand(() => register, "Utility");
-	//.addCommand(() => unregister, "Utility");
+	//.addCommand(() => invite, "Utility")
+	//.addCommand(() => register, "Utility")
+	//.addCommand(() => unregister, "Utility")
 	.addCommand(() => hey, "Fun")
 	.addCommand(() => trueOrFalse, "Fun")
-	//.addCommand(() => percentage, "Fun");
-	.addCommand(() => morse, "Fun");
-//.addCommand(() => profilePicture, "User Information");
-//.addCommand(() => stats, "User Information");
-//.addCommand(() => music, "Special");
+	//.addCommand(() => percentage, "Fun")
+	.addCommand(() => morse, "Fun")
+	.addCommand(() => profilePicture, "User Information");
+//.addCommand(() => stats, "User Information")
+//.addCommand(() => music, "Special")
 
 export default commandList;
