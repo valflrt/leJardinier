@@ -15,8 +15,8 @@ import percentage from "./fun/percentage";
 import morse from "./fun/morse";
 
 // user commands
-import profilePicture from "./user/pp";
-//import stats from "./user/stats";
+import profilePicture from "./userInformation/pp";
+//import stats from "./userInformation/stats";
 
 // entertainment commands
 import music from "./special/music";
