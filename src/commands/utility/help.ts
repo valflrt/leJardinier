@@ -180,9 +180,7 @@ const help = new CCommand()
 		c
 			.setName("command")
 			.setDescription("Get help about one command")
-			.addParameter((p) =>
-				p.setName("command name").setRequired(true).setType(String)
-			)
+			.addParameter((p) => p.setName("command name").setRequired(true))
 			.setExecution(async (messageInstance) => {
 				let { methods, commandParameters } = messageInstance;
 

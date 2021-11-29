@@ -5,9 +5,7 @@ const trueOrFalse = new CCommand()
 	.setName("true or false")
 	.setIdentifier("tof")
 	.setDescription(`Answers "true" or "false" randomly`)
-	.addParameter((p) =>
-		p.setName("sentence").setType(String).setRequired(false)
-	)
+	.addParameter((p) => p.setName("sentence").setRequired(false))
 	.setExecution(async (messageInstance) => {
 		let { methods, message, bot, commandParameters } = messageInstance;
 		methods.sendTextEmbed(

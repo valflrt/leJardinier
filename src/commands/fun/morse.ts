@@ -1,10 +1,9 @@
 import { MessageEmbed } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
 
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 
 import morseTable from "../../assets/morse.table";
-import CCommand from "../../lib/commandManager/classes/command";
 
 const morse = new CCommand()
 	.setName("morse")
@@ -26,9 +25,7 @@ const morse = new CCommand()
 		c
 			.setName("encode")
 			.setDescription("Encode text to Morse code")
-			.addParameter((p) =>
-				p.setName("sentence").setRequired(true).setType(String)
-			)
+			.addParameter((p) => p.setName("sentence").setRequired(true))
 			.setExecution(async (messageInstance) => {
 				let { methods, commandParameters } = messageInstance;
 
