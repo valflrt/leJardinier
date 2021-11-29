@@ -1,6 +1,5 @@
 export default class CCommandParameter {
 	private _name!: string;
-	private _type!: StringConstructor | NumberConstructor;
 	private _required: boolean = false;
 
 	/**
@@ -9,10 +8,6 @@ export default class CCommandParameter {
 	 */
 	public setName(name: string): this {
 		this.name = name;
-		return this;
-	}
-	public setType(type: StringConstructor | NumberConstructor): this {
-		this.type = type;
 		return this;
 	}
 	public setRequired(required: boolean): this {
@@ -27,13 +22,6 @@ export default class CCommandParameter {
 	}
 	public get name(): string {
 		return this._name;
-	}
-
-	public set type(v: StringConstructor | NumberConstructor) {
-		this._type = v;
-	}
-	public get type(): StringConstructor | NumberConstructor {
-		return this._type;
 	}
 
 	public set required(v: boolean) {
