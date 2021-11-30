@@ -17,7 +17,7 @@ const commandFormat = {
 	title: (command: CCommand) => `${bold(command.name)}`,
 	description: (command: CCommand) =>
 		`${quote(command.description)}\n`.concat(
-			`${quote(bold(inlineCode(command.syntax!)))}`
+			quote(`Usage: ${bold(inlineCode(command.syntax!))}`)
 		),
 	fullCommand: (command: CCommand) =>
 		commandFormat
@@ -35,23 +35,10 @@ const help = new CCommand()
 	.setDescription("Display help panel")
 	.setExecution(async (messageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendTextEmbed(
-			`Here is what you can do to get help:\n`
-				.concat(
-					commandFormat.fullCommand(
-						help.commands.find((c) => c.identifier === "commands")!
-					)
-				)
-				.concat(
-					commandFormat.fullCommand(
-						help.commands.find((c) => c.identifier === "command")!
-					)
-				)
-				.concat(
-					commandFormat.fullCommand(
-						help.commands.find((c) => c.identifier === "website")!
-					)
-				)
+		methods.sendCustomEmbed((embed) =>
+			embed
+				.setDescription(`Here is what you can do to get help:`)
+				.addFields(commandFormat.createFields(help.commands))
 		);
 	})
 
