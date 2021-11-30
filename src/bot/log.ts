@@ -146,7 +146,7 @@ class CommandLogger extends Logger {
 	public executed = (command: CCommand) =>
 		this.success(
 			`Successfully executed command ${chalk.underline.bold(
-				command.syntax
+				command.wholeIdentifier
 			)} in ${this.getElapsedTime()}`
 		);
 

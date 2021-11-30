@@ -98,7 +98,7 @@ export default class CCommand {
 	 * [command prefix][parent commands identifiers separated by dots][current command identifier]
 	 * @example lj!help.command.name
 	 */
-	public get completeIdentifier(): string {
+	public get wholeIdentifier(): string {
 		return `${this._parent ? `${this._parent.identifier}.` : ""}${
 			this._identifier
 		}`;
@@ -138,7 +138,7 @@ export default class CCommand {
 	}
 
 	public get syntax(): string {
-		return `${config.prefix}${this.completeIdentifier}${
+		return `${config.prefix}${this.wholeIdentifier}${
 			this.parameters.length !== 0 ? " " : ""
 		}${this.parameters
 			.map((p) => `[${p.required !== true ? "?" : ""}${p.name}]`)

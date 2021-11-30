@@ -51,7 +51,7 @@ export default class CCommandList {
 	 */
 	public get(identifier: string): CCommand | null {
 		let command = this.commands.find(
-			(c) => c.completeIdentifier === identifier
+			(c) => c.wholeIdentifier === identifier
 		);
 		return command ? command : null;
 	}
