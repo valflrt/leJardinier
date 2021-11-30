@@ -19,6 +19,10 @@ const commandFormat = {
 		`${quote(command.description)}\n`.concat(
 			`${quote(bold(inlineCode(command.syntax!)))}`
 		),
+	fullCommand: (command: CCommand) =>
+		commandFormat
+			.title(command)
+			.concat(`\n${commandFormat.description(command)}`),
 	createFields: (commands: CCommand[]) =>
 		commands.map((command) => ({
 			name: `- ${commandFormat.title(command)}`,
@@ -34,19 +38,19 @@ const help = new CCommand()
 		methods.sendTextEmbed(
 			`Here is what you can do to get help:\n`
 				.concat(
-					` - ${inlineCode(
-						`lj!help commands`
-					)} gives the command list\n`
+					commandFormat.fullCommand(
+						help.commands.find((c) => c.identifier === "commands")!
+					)
 				)
 				.concat(
-					` - ${inlineCode(
-						`lj!help command [command name]`
-					)} gives information about one command\n`
+					commandFormat.fullCommand(
+						help.commands.find((c) => c.identifier === "command")!
+					)
 				)
 				.concat(
-					` - ${inlineCode(
-						`lj!help website`
-					)} gives the link to my website where there is information about me`
+					commandFormat.fullCommand(
+						help.commands.find((c) => c.identifier === "website")!
+					)
 				)
 		);
 	})

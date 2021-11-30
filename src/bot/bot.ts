@@ -78,7 +78,7 @@ export default class LeJardinier {
 	};
 
 	/**
-	 * sets bot listeners (once bot started)
+	 * sets bot listeners (once bot started: prevents too early event calls)
 	 */
 	private setListeners() {
 		this.bot!.on("messageCreate", this.onMessageCreate);
