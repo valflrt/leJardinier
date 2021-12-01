@@ -3,6 +3,7 @@ import {
 	bold,
 	hyperlink,
 	inlineCode,
+	italic,
 	quote,
 	underscore,
 } from "@discordjs/builders";
@@ -25,7 +26,7 @@ const commandFormat = {
 			.concat(`\n${commandFormat.description(command)}`),
 	createFields: (commands: CCommand[]) =>
 		commands.map((command) => ({
-			name: `- ${commandFormat.title(command)}`,
+			name: `${commandFormat.title(command)}`,
 			value: commandFormat.description(command),
 		})),
 };
@@ -37,7 +38,23 @@ const help = new CCommand()
 		let { methods } = messageInstance;
 		methods.sendCustomEmbed((embed) =>
 			embed
-				.setDescription(`Here is what you can do to get help:`)
+				.setDescription(
+					`Hello I'm ${bold(
+						"Le Jardinier"
+					)} ${reactions.smile.random()}\n`
+						.concat(
+							`I am an utility discord bot developed by <@${
+								"564012236851511298" /* my discord id */
+							}>.\n`
+						)
+						.concat(
+							italic(
+								`"le jardinier" means "the gardener" in french.\n`
+							)
+						)
+						.concat("\n")
+						.concat(`Here are some commands you can start with:`)
+				)
 				.addFields(commandFormat.createFields(help.commands))
 		);
 	})
