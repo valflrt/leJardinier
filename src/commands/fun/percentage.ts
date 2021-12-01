@@ -1,25 +1,31 @@
-import { Command } from "../../bot/command";
+import { bold, inlineCode, quote } from "@discordjs/builders";
+
+import CCommand from "../../lib/commandManager/classes/command";
 import * as utils from "../../utils";
 
-const percentage = new Command({
-	name: "percentage",
-	description: "Gives a random percentage",
-	arguments: `[?sentence]`,
-	execution: async (messageInstance) => {
-		let { methods, message, bot, commandArgs } = messageInstance;
+const percentage = new CCommand()
+	.setName("percentage")
+	.setDescription("Gives a random percentage")
+	.addParameter((p) => p.setName("sentence").setRequired(false))
+	.setExecution(async (messageInstance) => {
+		let { methods, message, commandParameters } = messageInstance;
+		console.log(commandParameters);
 		methods.sendTextEmbed(
-			`${
-				commandArgs &&
-				`${message.author.toString()}\n${commandArgs}\n${bot.user!.toString()}\n`
-			}`.concat(
-				`${
-					utils.oneOf(100)
-						? utils.randomNumber(100, 300)
-						: utils.randomNumber(0, 100)
-				}%`
+			`My answer is ${bold(
+				inlineCode(
+					`${
+						// has a 1/100 chance to give a number between 100% and 1000%
+						!utils.oneOf(100)
+							? utils.randomNumber(0, 100)
+							: utils.randomNumber(100, 1000)
+					}%`
+				)
+			)}`.concat(
+				commandParameters.length !== 0
+					? ` to\n${quote(commandParameters)}\n`
+					: ""
 			)
 		);
-	},
-});
+	});
 
 export default percentage;

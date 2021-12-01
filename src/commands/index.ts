@@ -33,7 +33,7 @@ commandList
 	//.addCommand(() => unregister, "Utility")
 	.addCommand(() => hey, "Fun")
 	.addCommand(() => trueOrFalse, "Fun")
-	//.addCommand(() => percentage, "Fun")
+	.addCommand(() => percentage, "Fun")
 	.addCommand(() => morse, "Fun")
 	.addCommand(() => profilePicture, "User Information");
 //.addCommand(() => stats, "User Information")
