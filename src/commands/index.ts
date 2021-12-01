@@ -28,7 +28,7 @@ let commandList = new CCommandList();
 commandList
 	.addCommand(() => help, "Utility")
 	.addCommand(() => time, "Utility")
-	//.addCommand(() => invite, "Utility")
+	.addCommand(() => invite, "Utility")
 	//.addCommand(() => register, "Utility")
 	//.addCommand(() => unregister, "Utility")
 	.addCommand(() => hey, "Fun")
