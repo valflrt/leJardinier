@@ -1,4 +1,9 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import {
+	EmbedFieldData,
+	MessageActionRow,
+	MessageButton,
+	MessageEmbed,
+} from "discord.js";
 import {
 	bold,
 	hyperlink,
@@ -25,10 +30,12 @@ const commandFormat = {
 			.title(command)
 			.concat(`\n${commandFormat.description(command)}`),
 	createFields: (commands: CCommand[]) =>
-		commands.map((command) => ({
-			name: `${commandFormat.title(command)}`,
-			value: commandFormat.description(command),
-		})),
+		commands.map(
+			(command): EmbedFieldData => ({
+				name: `${commandFormat.title(command)}`,
+				value: commandFormat.description(command),
+			})
+		),
 };
 
 const help = new CCommand()

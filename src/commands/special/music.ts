@@ -1,18 +1,19 @@
 import { MessageEmbed } from "discord.js";
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 
 import { playlistManager } from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
+
 import * as Music from "../../bot/music";
 
 import reactions from "../../assets/reactions";
 
-const music = new Command({
-	name: "music",
-	description: `Music command`,
-	execution: async (messageInstance) => {
+const music = new CCommand()
+	.setName("music")
+	.setDescription("Music command")
+	.setExecution(async (messageInstance) => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
 			`You can play some good tunes with this command ${reactions.smile.random()}\n`
@@ -26,26 +27,32 @@ const music = new Command({
 						.join("\n")
 				)
 		);
-	},
-	commands: [
-		new Command({
-			name: "play",
-			description: `Start playing music from the current playlist`,
-			execution: async (messageInstance) => {
+	})
+
+	// play
+	.addSubcommand((c) =>
+		c
+			.setName("play")
+			.setDescription("Start playing music from the current playlist")
+			.setExecution(async (messageInstance) => {
 				let player = new Music.GuildPlayer(messageInstance);
 				Music.playerManager.register(player);
 				await player.join();
 				await player.play();
-			},
-		}),
-		new Command({
-			name: "url",
-			description: `Add a song to the current playlist from a youtube url`,
-			arguments: `[youtube url]`,
-			execution: async (messageInstance) => {
-				let { methods, message, commandArgs } = messageInstance;
+			})
+	)
+	.addSubcommand((c) =>
+		c
+			.setName("youtube url")
+			.setIdentifier("yturl")
+			.setDescription(
+				"Add a song to the current playlist from a youtube url"
+			)
+			.addParameter((p) => p.setName("youtube url").setRequired(true))
+			.setExecution(async (messageInstance) => {
+				let { methods, message, commandParameters } = messageInstance;
 
-				if (!commandArgs)
+				if (commandParameters.length === 0)
 					return methods.sendTextEmbed(
 						`${reactions.error.random()} You must specify the video url`
 					);
@@ -54,7 +61,7 @@ const music = new Command({
 					`Looking for your song...`
 				);
 
-				let song = new Music.Song(commandArgs!);
+				let song = new Music.Song(commandParameters);
 
 				if (!(await song.found))
 					return methods.sendTextEmbed(
@@ -79,16 +86,19 @@ const music = new Command({
 							)
 						)
 				);
-			},
-		}),
-		new Command({
-			name: "search",
-			description: `Add a song to the playlist from youtube search`,
-			arguments: `[youtube search]`,
-			execution: async (messageInstance) => {
-				let { methods, message, commandArgs } = messageInstance;
+			})
+	)
 
-				if (!commandArgs)
+	// search
+	.addSubcommand((c) =>
+		c
+			.setName("search")
+			.setDescription("Add a song to the playlist from youtube search")
+			.addParameter((p) => p.setName("youtube search").setRequired(true))
+			.setExecution(async (messageInstance) => {
+				let { methods, message, commandParameters } = messageInstance;
+
+				if (!commandParameters)
 					return methods.sendTextEmbed(
 						`${reactions.error.random()} You need to specify text to search for`
 					);
@@ -97,7 +107,7 @@ const music = new Command({
 					`Looking for your song...`
 				);
 
-				let data = await Music.youtubeSearch(commandArgs!);
+				let data = await Music.youtubeSearch(commandParameters);
 
 				if (!data)
 					return sent.editWithTextEmbed(
@@ -133,12 +143,15 @@ const music = new Command({
 							)}`
 						)
 				);
-			},
-		}),
-		new Command({
-			name: "skip",
-			description: `Skip current song`,
-			execution: async (messageInstance) => {
+			})
+	)
+
+	// skip
+	.addSubcommand((c) =>
+		c
+			.setName("skip")
+			.setDescription(`Skip current song`)
+			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
 				let player = Music.playerManager.get(message.guildId!);
 				if (!player?.initialized)
@@ -152,24 +165,31 @@ const music = new Command({
 					`${reactions.success.random()} Song skipped !`
 				);
 				await player.play();
-			},
-		}),
-		new Command({
-			name: "stop",
-			description: `Stop the music`,
-			execution: async (messageInstance) => {
+			})
+	)
+
+	// stop
+	.addSubcommand((c) =>
+		c
+			.setName("stop")
+			.setDescription("Stop the music")
+			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				Music.playerManager.get(message.guildId!)?.destroy();
 				methods.sendTextEmbed(
 					`${reactions.success.random()} Stopped playing !`
 				);
-			},
-		}),
-		new Command({
-			name: "playlist",
-			description: `Display the current playlist`,
-			execution: async (messageInstance) => {
+			})
+	)
+
+	// playlist
+	.addSubcommand((c) =>
+		c
+			.setName("playlist")
+			.setIdentifier("pl")
+			.setDescription("Display the current playlist")
+			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
 				let playlist = await PlaylistModel.findOne({
@@ -190,12 +210,15 @@ const music = new Command({
 				methods.sendTextEmbed(
 					`Here is the current playlist:\n`.concat(songs)
 				);
-			},
-		}),
-		new Command({
-			name: "clear",
-			description: `Clear the current playlist`,
-			execution: async (messageInstance) => {
+			})
+	)
+
+	// clear
+	.addSubcommand((c) =>
+		c
+			.setName("clear")
+			.setDescription(`Clear the current playlist`)
+			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
 				let cleared = await playlistManager.clear(message.guildId!);
 				if (cleared === null)
@@ -205,21 +228,25 @@ const music = new Command({
 				methods.sendTextEmbed(
 					`${reactions.success.random()} Playlist cleared`
 				);
-			},
-		}),
-		new Command({
-			name: "remove",
-			description: `Removes one song the current playlist`,
-			arguments: "[song id]",
-			execution: async (messageInstance) => {
-				let { methods, message, commandArgs } = messageInstance;
+			})
+	)
 
-				if (!commandArgs)
+	// remove
+	.addSubcommand((c) =>
+		c
+			.setName("remove")
+			.setIdentifier("rm")
+			.setDescription("Removes one song the current playlist")
+			.addParameter((p) => p.setName("song id").setRequired(true))
+			.setExecution(async (messageInstance) => {
+				let { methods, message, commandParameters } = messageInstance;
+
+				if (!commandParameters)
 					return methods.sendTextEmbed(
 						`${reactions.error.random()} You need to specify an id !`
 					);
 
-				let songId = +commandArgs;
+				let songId = +commandParameters;
 
 				if (!songId || !Number.isInteger(songId))
 					return methods.sendTextEmbed(
@@ -246,9 +273,7 @@ const music = new Command({
 						)}`
 					)
 				);
-			},
-		}),
-	],
-});
+			})
+	);
 
 export default music;
