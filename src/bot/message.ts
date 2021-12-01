@@ -18,7 +18,7 @@ class MessageInstance {
 
 	public methods: ReplyMethods;
 	public command: CCommand | null;
-	public commandParameters: string[];
+	public commandParameters: string;
 
 	constructor(message: Message, bot: Client) {
 		this.message = message;

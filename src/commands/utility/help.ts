@@ -196,7 +196,7 @@ const help = new CCommand()
 						`You need to specify the name of the command you're looking for...`
 					);
 
-				let command = commandList.get(commandParameters[0]);
+				let command = commandList.get(commandParameters);
 
 				if (!command)
 					return methods.sendTextEmbed(`Unknown command...`);

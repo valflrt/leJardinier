@@ -44,10 +44,9 @@ const morse = new CCommand()
 				};
 
 				methods.sendTextEmbed(
-					commandParameters
+					commandParameters.length !== 0
 						? encode(
 								commandParameters
-									.join(" ")
 									.toLowerCase()
 									.replace(
 										/[^abcdefghijklmopqrstuvwxyz\s]/g,

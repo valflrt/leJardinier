@@ -10,10 +10,9 @@ const trueOrFalse = new CCommand()
 		let { methods, message, bot, commandParameters } = messageInstance;
 		methods.sendTextEmbed(
 			`${
-				commandParameters &&
-				`${message.author.toString()}\n${commandParameters.join(
-					" "
-				)}\n${bot.user!.toString()}\n`
+				commandParameters.length !== 0
+					? `${message.author.toString()}\n${commandParameters}\n${bot.user!.toString()}\n`
+					: ""
 			}${utils.randomItem("true !", "false !")}`
 		);
 	});
