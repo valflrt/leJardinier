@@ -1,3 +1,5 @@
+import { bold, inlineCode, quote } from "@discordjs/builders";
+
 import CCommand from "../../lib/commandManager/classes/command";
 import * as utils from "../../utils";
 
@@ -7,13 +9,15 @@ const trueOrFalse = new CCommand()
 	.setDescription(`Answers "true" or "false" randomly`)
 	.addParameter((p) => p.setName("sentence").setRequired(false))
 	.setExecution(async (messageInstance) => {
-		let { methods, message, bot, commandParameters } = messageInstance;
+		let { methods, commandParameters } = messageInstance;
 		methods.sendTextEmbed(
-			`${
+			`My answer is ${bold(
+				inlineCode(utils.randomItem("true", "false"))
+			)}`.concat(
 				commandParameters.length !== 0
-					? `${message.author.toString()}\n${commandParameters}\n${bot.user!.toString()}\n`
+					? ` to\n${quote(commandParameters)}`
 					: ""
-			}${utils.randomItem("true !", "false !")}`
+			)
 		);
 	});
 
