@@ -9,23 +9,21 @@ import { PlaylistModel } from "../../database/models/playlist";
 import * as Music from "../../bot/music";
 
 import reactions from "../../assets/reactions";
+import { subcommandFormatting } from "../../utils";
 
 const music = new CCommand()
 	.setName("music")
 	.setDescription("Music command")
 	.setExecution(async (messageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendTextEmbed(
-			`You can play some good tunes with this command ${reactions.smile.random()}\n`
-				.concat(`Here are the available commands:\n`)
-				.concat(
-					music
-						.commands!.map(
-							(command) =>
-								`\`${command.syntax}\` ${command.description}`
-						)
-						.join("\n")
+		methods.sendCustomEmbed((embed) =>
+			embed
+				.setDescription(
+					`You can play some good tunes with this command ${reactions.smile.random()}\n`.concat(
+						`Here are the available commands:`
+					)
 				)
+				.setFields(subcommandFormatting.createFields(music.commands))
 		);
 	})
 
@@ -41,109 +39,144 @@ const music = new CCommand()
 				await player.play();
 			})
 	)
+
+	// add
 	.addSubcommand((c) =>
 		c
-			.setName("youtube url")
-			.setIdentifier("yturl")
-			.setDescription(
-				"Add a song to the current playlist from a youtube url"
-			)
-			.addParameter((p) => p.setName("youtube url").setRequired(true))
+			.setName("add")
+			.setDescription("Adds a song to the playlist")
 			.setExecution(async (messageInstance) => {
-				let { methods, message, commandParameters } = messageInstance;
-
-				if (commandParameters.length === 0)
-					return methods.sendTextEmbed(
-						`${reactions.error.random()} You must specify the video url`
-					);
-
-				let sent = await methods.sendTextEmbed(
-					`Looking for your song...`
-				);
-
-				let song = new Music.Song(commandParameters);
-
-				if (!(await song.found))
-					return methods.sendTextEmbed(
-						`${reactions.error.random()} Song not found please check your youtube url`
-					);
-
-				await song.save(message.guildId!);
-
-				let songDetails = (await song.details)!;
-
-				sent.editWithCustomEmbed((embed: MessageEmbed) =>
+				let { methods } = messageInstance;
+				methods.sendCustomEmbed((embed) =>
 					embed
-						.setThumbnail(songDetails.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
-								`Added ${bold(
-									hyperlink(
-										songDetails.title,
-										songDetails.video_url
-									)
-								)}`
+							`Use this command to add a song to the playlist:`
+						)
+						.addFields(
+							subcommandFormatting.createFields(
+								music.commands.find(
+									(c) => c.identifier === "add"
+								)!.commands
 							)
 						)
 				);
 			})
-	)
 
-	// search
-	.addSubcommand((c) =>
-		c
-			.setName("search")
-			.setDescription("Add a song to the playlist from youtube search")
-			.addParameter((p) => p.setName("youtube search").setRequired(true))
-			.setExecution(async (messageInstance) => {
-				let { methods, message, commandParameters } = messageInstance;
+			// add.yturl
+			.addSubcommand((c) =>
+				c
+					.setName("youtube url")
+					.setIdentifier("yturl")
+					.setDescription(
+						"Add a song to the current playlist from a youtube url"
+					)
+					.addParameter((p) =>
+						p.setName("youtube url").setRequired(true)
+					)
+					.setExecution(async (messageInstance) => {
+						let { methods, message, commandParameters } =
+							messageInstance;
 
-				if (!commandParameters)
-					return methods.sendTextEmbed(
-						`${reactions.error.random()} You need to specify text to search for`
-					);
+						if (commandParameters.length === 0)
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} You must specify the video url`
+							);
 
-				let sent = await methods.sendTextEmbed(
-					`Looking for your song...`
-				);
+						let sent = await methods.sendTextEmbed(
+							`Looking for your song...`
+						);
 
-				let data = await Music.youtubeSearch(commandParameters);
+						let song = new Music.Song(commandParameters);
 
-				if (!data)
-					return sent.editWithTextEmbed(
-						`${reactions.error.random()} No results !\n`.concat(
-							`Please try another youtube search ${reactions.smile.random()}`
-						)
-					);
+						if (!(await song.found))
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} Song not found please check your youtube url`
+							);
 
-				await sent.editWithTextEmbed(`Song found ! Loading data...`);
+						await song.save(message.guildId!);
 
-				let song = new Music.Song(data.id.videoId);
+						let songDetails = (await song.details)!;
 
-				if (!(await song.found))
-					return sent.editWithTextEmbed(
-						`${reactions.error.random()} Couldn't find song information !\n`.concat(
-							`Please retry ${reactions.smile.random()}`
-						)
-					);
-
-				await song.save(message.guildId!);
-
-				let songDetails = (await song.details)!;
-
-				sent.editWithCustomEmbed((embed: MessageEmbed) =>
-					embed
-						.setThumbnail(songDetails.thumbnails[0].url)
-						.setDescription(
-							`${reactions.success.random()} Added ${bold(
-								hyperlink(
-									songDetails.title,
-									songDetails.video_url
+						sent.editWithCustomEmbed((embed: MessageEmbed) =>
+							embed
+								.setThumbnail(songDetails.thumbnails[0].url)
+								.setDescription(
+									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
+										`Added ${bold(
+											hyperlink(
+												songDetails.title,
+												songDetails.video_url
+											)
+										)}`
+									)
 								)
-							)}`
-						)
-				);
-			})
+						);
+					})
+			)
+
+			// add.search
+			.addSubcommand((c) =>
+				c
+					.setName("search")
+					.setDescription(
+						"Add a song to the playlist from youtube search"
+					)
+					.addParameter((p) =>
+						p.setName("youtube search").setRequired(true)
+					)
+					.setExecution(async (messageInstance) => {
+						let { methods, message, commandParameters } =
+							messageInstance;
+
+						if (!commandParameters)
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} You need to specify text to search for`
+							);
+
+						let sent = await methods.sendTextEmbed(
+							`Looking for your song...`
+						);
+
+						let data = await Music.youtubeSearch(commandParameters);
+
+						if (!data)
+							return sent.editWithTextEmbed(
+								`${reactions.error.random()} No results !\n`.concat(
+									`Please try another youtube search ${reactions.smile.random()}`
+								)
+							);
+
+						await sent.editWithTextEmbed(
+							`Song found ! Loading data...`
+						);
+
+						let song = new Music.Song(data.id.videoId);
+
+						if (!(await song.found))
+							return sent.editWithTextEmbed(
+								`${reactions.error.random()} Couldn't find song information !\n`.concat(
+									`Please retry ${reactions.smile.random()}`
+								)
+							);
+
+						await song.save(message.guildId!);
+
+						let songDetails = (await song.details)!;
+
+						sent.editWithCustomEmbed((embed: MessageEmbed) =>
+							embed
+								.setThumbnail(songDetails.thumbnails[0].url)
+								.setDescription(
+									`${reactions.success.random()} Added ${bold(
+										hyperlink(
+											songDetails.title,
+											songDetails.video_url
+										)
+									)}`
+								)
+						);
+					})
+			)
 	)
 
 	// skip

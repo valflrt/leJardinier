@@ -18,25 +18,7 @@ import CCommand from "../../lib/commandManager/classes/command";
 import commandList from "..";
 
 import reactions from "../../assets/reactions";
-
-const commandFormat = {
-	title: (command: CCommand) => `${bold(command.name)}`,
-	description: (command: CCommand) =>
-		`${quote(command.description)}\n`.concat(
-			quote(`Usage: ${bold(inlineCode(command.syntax!))}`)
-		),
-	fullCommand: (command: CCommand) =>
-		commandFormat
-			.title(command)
-			.concat(`\n${commandFormat.description(command)}`),
-	createFields: (commands: CCommand[]) =>
-		commands.map(
-			(command): EmbedFieldData => ({
-				name: `${commandFormat.title(command)}`,
-				value: commandFormat.description(command),
-			})
-		),
-};
+import { subcommandFormatting } from "../../utils";
 
 const help = new CCommand()
 	.setName("help")
@@ -62,7 +44,7 @@ const help = new CCommand()
 						.concat("\n")
 						.concat(`Here are some commands you can start with:`)
 				)
-				.addFields(commandFormat.createFields(help.commands))
+				.addFields(subcommandFormatting.createFields(help.commands))
 		);
 	})
 
@@ -108,7 +90,7 @@ const help = new CCommand()
 									})`
 								)
 								.addFields(
-									commandFormat.createFields(commands!)
+									subcommandFormatting.createFields(commands!)
 								)
 						)
 					);
@@ -228,8 +210,14 @@ const help = new CCommand()
 					methods.sendCustomEmbed((embed) =>
 						embed
 							.setDescription(
-								`${bold(commandFormat.title(command!))}\n`
-									.concat(commandFormat.description(command!))
+								`${bold(
+									subcommandFormatting.title(command!)
+								)}\n`
+									.concat(
+										subcommandFormatting.description(
+											command!
+										)
+									)
 									.concat(
 										command!.commands
 											? `\n\n${bold(
@@ -239,7 +227,9 @@ const help = new CCommand()
 									)
 							)
 							.addFields(
-								commandFormat.createFields(command!.commands)
+								subcommandFormatting.createFields(
+									command!.commands
+								)
 							)
 					);
 			})
