@@ -15,7 +15,9 @@ export default class CCSubcommandPreview {
 			.concat(
 				command.aliases.length !== 0
 					? `\n${quote(
-							`Alias(es): ${command.aliases
+							`Alias${
+								command.aliases.length > 1 ? "es" : ""
+							}: ${command.aliases
 								.map((a) => bold(inlineCode(a)))
 								.join(" ")}`
 					  )}`
