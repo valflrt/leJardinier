@@ -1,24 +1,11 @@
-import {
-	EmbedFieldData,
-	MessageActionRow,
-	MessageButton,
-	MessageEmbed,
-} from "discord.js";
-import {
-	bold,
-	hyperlink,
-	inlineCode,
-	italic,
-	quote,
-	underscore,
-} from "@discordjs/builders";
+import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { bold, hyperlink, italic, underscore } from "@discordjs/builders";
 
 import CCommand from "../../lib/commandManager/classes/command";
-
 import commandList from "..";
 
+import SubcommandPreview from "../../lib/commandManager/formatting/subcommand";
 import reactions from "../../assets/reactions";
-import { subcommandFormatting } from "../../utils";
 
 const help = new CCommand()
 	.setName("help")
@@ -44,7 +31,7 @@ const help = new CCommand()
 						.concat("\n")
 						.concat(`Here are some commands you can start with:`)
 				)
-				.addFields(subcommandFormatting.createFields(help.commands))
+				.addFields(SubcommandPreview.createFields(help.commands))
 		);
 	})
 
@@ -52,6 +39,7 @@ const help = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("commands")
+			.addAlias("cmds")
 			.setDescription("Displays every available command")
 			.setExecution(async (messageInstance) => {
 				let { methods } = messageInstance;
@@ -90,7 +78,7 @@ const help = new CCommand()
 									})`
 								)
 								.addFields(
-									subcommandFormatting.createFields(commands!)
+									SubcommandPreview.createFields(commands)
 								)
 						)
 					);
@@ -192,6 +180,7 @@ const help = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("command")
+			.addAlias("cmd")
 			.setDescription("Get help about one command")
 			.addParameter((p) => p.setName("command name").setRequired(true))
 			.setExecution(async (messageInstance) => {
@@ -202,22 +191,17 @@ const help = new CCommand()
 						`You need to specify the name of the command you're looking for...`
 					);
 
-				let command = commandList.get(commandParameters);
+				let command = commandList.find(commandParameters.split(/\./g));
 
 				if (!command)
 					return methods.sendTextEmbed(`Unknown command...`);
-				else
+				else {
+					let preview = new SubcommandPreview(command);
 					methods.sendCustomEmbed((embed) =>
 						embed
 							.setDescription(
-								`${bold(
-									subcommandFormatting.title(command!)
-								)}\n`
-									.concat(
-										subcommandFormatting.description(
-											command!
-										)
-									)
+								`${bold(preview.title)}\n`
+									.concat(preview.description)
 									.concat(
 										command!.commands
 											? `\n\n${bold(
@@ -227,11 +211,12 @@ const help = new CCommand()
 									)
 							)
 							.addFields(
-								subcommandFormatting.createFields(
+								SubcommandPreview.createFields(
 									command!.commands
 								)
 							)
 					);
+				}
 			})
 	)
 
