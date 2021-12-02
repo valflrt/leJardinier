@@ -4,7 +4,7 @@ import { bold, hyperlink, italic, underscore } from "@discordjs/builders";
 import CCommand from "../../lib/commandManager/classes/command";
 import commandList from "..";
 
-import SubcommandPreview from "../../lib/commandManager/formatting/subcommand";
+import CSubcommandPreview from "../../lib/commandManager/formatting/subcommand";
 import reactions from "../../assets/reactions";
 
 const help = new CCommand()
@@ -31,7 +31,7 @@ const help = new CCommand()
 						.concat("\n")
 						.concat(`Here are some commands you can start with:`)
 				)
-				.addFields(SubcommandPreview.createFields(help.commands))
+				.addFields(CSubcommandPreview.createFields(help.commands))
 		);
 	})
 
@@ -78,7 +78,7 @@ const help = new CCommand()
 									})`
 								)
 								.addFields(
-									SubcommandPreview.createFields(commands)
+									CSubcommandPreview.createFields(commands)
 								)
 						)
 					);
@@ -196,7 +196,7 @@ const help = new CCommand()
 				if (!command)
 					return methods.sendTextEmbed(`Unknown command...`);
 				else {
-					let preview = new SubcommandPreview(command);
+					let preview = new CSubcommandPreview(command);
 					methods.sendCustomEmbed((embed) =>
 						embed
 							.setDescription(
@@ -211,7 +211,7 @@ const help = new CCommand()
 									)
 							)
 							.addFields(
-								SubcommandPreview.createFields(
+								CSubcommandPreview.createFields(
 									command!.commands
 								)
 							)
