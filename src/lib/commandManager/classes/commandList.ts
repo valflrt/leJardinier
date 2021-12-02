@@ -35,7 +35,7 @@ export default class CCommandList {
 			currentLevel: CCommand[] = [],
 			i: number
 		): CCommand | null => {
-			let command = currentLevel.find((c) => c.identifier === pattern[i]);
+			let command = currentLevel.find((c) => c.equals(pattern[i]));
 			if (i === pattern.length - 1 && command) return command!;
 			else if (command && command.commands.length !== 0) {
 				return loop(command.commands, i + 1);
