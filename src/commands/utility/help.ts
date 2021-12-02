@@ -1,51 +1,73 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import { bold, hyperlink, inlineCode, underscore } from "@discordjs/builders";
+import {
+	EmbedFieldData,
+	MessageActionRow,
+	MessageButton,
+	MessageEmbed,
+} from "discord.js";
+import {
+	bold,
+	hyperlink,
+	inlineCode,
+	italic,
+	quote,
+	underscore,
+} from "@discordjs/builders";
 
-import { Command } from "../../bot/command";
-import { ICommand } from "../../types";
+import CCommand from "../../lib/commandManager/classes/command";
 
 import commandList from "..";
 
 import reactions from "../../assets/reactions";
+import { subcommandFormatting } from "../../utils";
 
-const help = new Command({
-	name: "help",
-	description: "Display help panel",
-	execution: async (messageInstance) => {
+const help = new CCommand()
+	.setName("help")
+	.setDescription("Display help panel")
+	.setExecution(async (messageInstance) => {
 		let { methods } = messageInstance;
-		methods.sendTextEmbed(
-			`Here is what you can do to get help:\n`
-				.concat(
-					` - ${inlineCode(
-						`lj!help commands`
-					)} gives the command list\n`
+		methods.sendCustomEmbed((embed) =>
+			embed
+				.setDescription(
+					`Hello I'm ${bold(
+						"Le Jardinier"
+					)} ${reactions.smile.random()}\n`
+						.concat(
+							`I am an utility discord bot developed by <@${
+								"564012236851511298" /* my discord id */
+							}>.\n`
+						)
+						.concat(
+							italic(
+								`"le jardinier" means "the gardener" in french.\n`
+							)
+						)
+						.concat("\n")
+						.concat(`Here are some commands you can start with:`)
 				)
-				.concat(
-					` - ${inlineCode(
-						`lj!help command [command name]`
-					)} gives information about one command\n`
-				)
-				.concat(
-					` - ${inlineCode(
-						`lj!help website`
-					)} gives the link to my website where there is information about me`
-				)
+				.addFields(subcommandFormatting.createFields(help.commands))
 		);
-	},
-	commands: [
-		new Command({
-			name: "commands",
-			description: "Displays every available command",
-			execution: async (messageInstance) => {
+	})
+
+	// help.commands
+	.addSubcommand((c) =>
+		c
+			.setName("commands")
+			.setDescription("Displays every available command")
+			.setExecution(async (messageInstance) => {
 				let { methods } = messageInstance;
 
-				/*const format = (array: ICommand[], newArray: ICommand[][] = [], i: number = 0): any => {
+				/*
+				const format = (
+					array: CCommand[],
+					newArray: CCommand[][] = [],
+					i: number = 0
+				): any => {
 					if (!newArray[i]) newArray.push([]);
-		
+
 					if (newArray[i].length !== 5)
 						newArray[i].push(array.shift()!);
 					else i++;
-		
+
 					if (array.length === 0) return newArray;
 					else return format(array, newArray, i);
 				};
@@ -56,23 +78,24 @@ const help = new Command({
 				let index = 0;
 				let categories = commandList.categories;
 
-				let pages: MessageEmbed[] = categories.map((category, i) =>
-					methods.returnCustomEmbed((embed: MessageEmbed) => {
-						embed.setDescription(
-							`${bold(category.name)} (page ${i + 1} of ${
-								categories.length
-							})`
-						);
-						let fields = category.commands.map(
-							(command: ICommand) => ({
-								name: `${inlineCode(command.syntax!)}`,
-								value: `${command.description}`,
-							})
-						);
-						embed.addFields(...fields);
-						return embed;
-					})
-				);
+				let pages: MessageEmbed[] = [];
+				let i = 0;
+				categories.forEach((commands, name) => {
+					pages.push(
+						methods.returnCustomEmbed((embed) =>
+							embed
+								.setDescription(
+									`${bold(name)} (page ${i + 1} of ${
+										categories.size
+									})`
+								)
+								.addFields(
+									subcommandFormatting.createFields(commands!)
+								)
+						)
+					);
+					i++;
+				});
 
 				let row = new MessageActionRow().addComponents(
 					new MessageButton()
@@ -99,12 +122,12 @@ const help = new Command({
 					if (i.user.bot) return;
 					index =
 						i.customId === "n"
-							? index !== categories.length - 1
+							? index !== categories.size - 1
 								? index + 1
 								: 0
 							: index !== 0
 							? index - 1
-							: categories.length - 1;
+							: categories.size - 1;
 					await i.update({ embeds: [pages[index]] });
 				});
 
@@ -121,8 +144,8 @@ const help = new Command({
 						});
 				});
 
-				/* this code took so long to make that i want to keep it...
-				
+				/*
+				this code took so long to make that i want to keep it...
 				await sent.react("⬅️");
 				await sent.react("➡️");
 				await sent.react("❌");
@@ -162,51 +185,62 @@ const help = new Command({
 					await sent.reactions.removeAll();
 				});
 				*/
-			},
-		}),
-		new Command({
-			name: "command",
-			description: `Get help about one command`,
-			arguments: `[command name]`,
-			execution: async (messageInstance) => {
-				let { methods, commandArgs } = messageInstance;
+			})
+	)
 
-				if (!commandArgs)
+	// help.command
+	.addSubcommand((c) =>
+		c
+			.setName("command")
+			.setDescription("Get help about one command")
+			.addParameter((p) => p.setName("command name").setRequired(true))
+			.setExecution(async (messageInstance) => {
+				let { methods, commandParameters } = messageInstance;
+
+				if (!commandParameters)
 					return methods.sendTextEmbed(
 						`You need to specify the name of the command you're looking for...`
 					);
 
-				if (!commandList.has(commandArgs))
+				let command = commandList.get(commandParameters);
+
+				if (!command)
 					return methods.sendTextEmbed(`Unknown command...`);
 				else
-					methods.sendCustomEmbed((embed: MessageEmbed) => {
-						let command = commandList.get(commandArgs!)!;
-
-						embed.setDescription(`${bold(
-							inlineCode(command.syntax!)
-						)}
-					${command.description}${
-							command.commands
-								? `\n\n${bold(underscore(`Subcommands:`))}\n`
-								: ""
-						}`);
-
-						command.commands?.forEach((command) =>
-							embed.addField(
-								`   ${inlineCode(command.syntax!)}`,
-								`   ${command.description}`
+					methods.sendCustomEmbed((embed) =>
+						embed
+							.setDescription(
+								`${bold(
+									subcommandFormatting.title(command!)
+								)}\n`
+									.concat(
+										subcommandFormatting.description(
+											command!
+										)
+									)
+									.concat(
+										command!.commands
+											? `\n\n${bold(
+													underscore(`Subcommands:`)
+											  )}\n`
+											: ""
+									)
 							)
-						);
+							.addFields(
+								subcommandFormatting.createFields(
+									command!.commands
+								)
+							)
+					);
+			})
+	)
 
-						return embed;
-					});
-			},
-		}),
-		new Command({
-			name: "website",
-			description: `Get my website link`,
-			syntax: `website`,
-			execution: async (messageInstance) => {
+	// help.website
+	.addSubcommand((c) =>
+		c
+			.setName("website")
+			.setDescription("Get my website link")
+			.setExecution(async (messageInstance) => {
 				let { methods } = messageInstance;
 				methods.sendTextEmbed(
 					`Click ${hyperlink(
@@ -216,9 +250,7 @@ const help = new Command({
 						`to get to my website ${reactions.smile.random()}`
 					)
 				);
-			},
-		}),
-	],
-});
+			})
+	);
 
 export default help;

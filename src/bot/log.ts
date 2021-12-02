@@ -1,7 +1,8 @@
 import chalk from "chalk";
 import Discord from "discord.js";
 
-import { ICommand } from "../types";
+import CCommand from "../lib/commandManager/classes/command";
+
 import config from "../config";
 
 class Logger {
@@ -128,38 +129,39 @@ class CommandLogger extends Logger {
 	}
 
 	/**
-	 * sets time to measure command execution time
-	 * @returns {number} current date (time)
+	 * sets time to measure command execution time and returns current date (time)
 	 */
 	public startTimer = (): number => (this.startTime = Date.now());
 
 	/**
 	 * returns elapsed time
-	 * @returns {string} elapsed time
 	 */
 	public getElapsedTime = (): string =>
 		`${(Date.now() - this.startTime) / 1000}ms`;
 
 	/**
 	 * logs a success message when a command executed correctly
-	 * @param command {ICommand} command object
+	 * @param command command object
 	 */
-	public executed = (command: ICommand) =>
+	public executed = (command: CCommand) =>
 		this.success(
 			`Successfully executed command ${chalk.underline.bold(
-				command.syntax
+				command.wholeIdentifier
 			)} in ${this.getElapsedTime()}`
 		);
 
 	/**
 	 * logs a failure message
-	 * @param command {ICommand} command object
+	 * @param command command object
 	 * @param err error to log
 	 */
-	public executionFailed = (command: ICommand, err: any) =>
+	public executionFailed = (command: CCommand, err: any) => {
 		this.error(
-			`Failed to execute ${chalk.underline.bold(command.syntax)}:\n${err}`
+			`Failed to execute ${chalk.underline.bold(
+				command.identifier
+			)}:\n${err}`
 		);
+	};
 }
 
 class DatabaseLogger extends Logger {

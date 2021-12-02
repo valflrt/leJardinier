@@ -1,45 +1,39 @@
 import { Client, Message, MessageEmbed } from "discord.js";
+import { hyperlink } from "@discordjs/builders";
+
+import CCommand from "../lib/commandManager/classes/command";
+import CMessageContent from "../lib/commandManager/classes/messageContent";
 
 //import { guildManager, userManager, statManager } from "./database";
 import ReplyMethods from "./methods";
 import log from "./log";
 
-import { ICommand } from "../types";
-import commands from "../commands";
-
+import commandList from "../commands";
 import config from "../config";
+import reactions from "../assets/reactions";
 
 class MessageInstance {
 	public message: Message;
 	public bot: Client;
 
 	public methods: ReplyMethods;
-	public command: ICommand | undefined;
-	public commandArgs: string | null;
+	public command: CCommand | null;
+	public commandParameters: string;
 
 	constructor(message: Message, bot: Client) {
 		this.message = message;
 		this.bot = bot;
 
-		this.command = commands.fetch(this.message.content);
-		this.commandArgs = this.command
-			? this.message.content
-					.replace(
-						new RegExp(
-							`^${config.prefix}.+${this.command!.name}`,
-							"g"
-						),
-						""
-					)
-					.trim()
-			: null;
+		let messageContent = new CMessageContent(this.message.content);
+
+		this.command = commandList.find(messageContent.commandPattern);
+		this.commandParameters = messageContent.parameters;
 
 		this.methods = new ReplyMethods(this);
 	}
 
 	/**
 	 * returns a boolean whether a command has been found or not
-	 * @returns {boolean}
 	 */
 	get hasCommand(): boolean {
 		return this.command ? true : false;
@@ -47,15 +41,13 @@ class MessageInstance {
 
 	/**
 	 * returns a boolean whether the message content starts with the prefix or not
-	 * @returns {boolean}
 	 */
 	get hasPrefix(): boolean {
 		return this.message.content.startsWith(config.prefix);
 	}
 
 	/**
-	 * returns a new formatted MessageEmbed
-	 * @returns {MessageEmbed}
+	 * returns a new preformatted MessageEmbed
 	 */
 	get embed(): MessageEmbed {
 		return new MessageEmbed()
@@ -63,14 +55,13 @@ class MessageInstance {
 				this.bot.user!.username,
 				"https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp"
 			)
-			.setFooter(this.command ? this.command.syntax! : "")
+			.setFooter(this.command ? this.command.wholeIdentifier! : "")
 			.setColor("#49a013")
 			.setTimestamp();
 	}
 
 	/**
-	 * executes the current command
-	 * @returns {Promise<void>}
+	 * executes the current command and returns a Promise
 	 */
 	public async execute(): Promise<void> {
 		if (!this.command) return log.logger.error(`Command does not exist`);
@@ -83,6 +74,18 @@ class MessageInstance {
 			log.command.executed(this.command!);
 		} catch (err) {
 			log.command.executionFailed(this.command!, err);
+			this.methods.sendCustomEmbed((embed) =>
+				embed
+					.setDescription(
+						`I failed to execute this command.${reactions.error.random()}\n`.concat(
+							`If you know github and know how to use it please create a new ${hyperlink(
+								"issue",
+								"https://github.com/valflrt/lejardinier-typescript/issues/new"
+							)} so the developer can fix the problem`
+						)
+					)
+					.setColor("RED")
+			);
 		}
 	}
 

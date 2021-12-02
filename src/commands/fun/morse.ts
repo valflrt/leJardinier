@@ -1,31 +1,33 @@
 import { MessageEmbed } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
 
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 
 import morseTable from "../../assets/morse.table";
 
-const morse = new Command({
-	name: "morse",
-	description: `Morse code utility command`,
-	execution: async (messageInstance) => {
+const morse = new CCommand()
+	.setName("morse")
+	.setDescription(`Morse code utility command`)
+	.setExecution(async (messageInstance) => {
 		let { methods } = messageInstance;
 
 		methods.sendTextEmbed(
 			`Use ${inlineCode(
-				`lj!morse encode`
+				morse.commands.find((c) => c.name === "encode")!.syntax
 			)} to encode text to Morse code`.concat(
-				`Use ${inlineCode(`lj!morse table`)} to get Morse code table`
+				`Use ${
+					morse.commands.find((c) => c.name === "table")!.syntax
+				} to get Morse code table`
 			)
 		);
-	},
-	commands: [
-		new Command({
-			name: "encode",
-			description: `Encode text to Morse code`,
-			arguments: `[sentence]`,
-			execution: async (messageInstance) => {
-				let { methods, commandArgs } = messageInstance;
+	})
+	.addSubcommand((c) =>
+		c
+			.setName("encode")
+			.setDescription("Encode text to Morse code")
+			.addParameter((p) => p.setName("sentence").setRequired(true))
+			.setExecution(async (messageInstance) => {
+				let { methods, commandParameters } = messageInstance;
 
 				const encode = (text: string, morse: string[] = []): string => {
 					let char = text.charAt(0);
@@ -42,10 +44,10 @@ const morse = new Command({
 				};
 
 				methods.sendTextEmbed(
-					commandArgs
+					commandParameters.length !== 0
 						? encode(
-								commandArgs
-									?.toLowerCase()
+								commandParameters
+									.toLowerCase()
 									.replace(
 										/[^abcdefghijklmopqrstuvwxyz\s]/g,
 										""
@@ -53,21 +55,20 @@ const morse = new Command({
 						  )
 						: "You need to give some text to convert to morse..."
 				);
-			},
-		}),
-		new Command({
-			name: "table",
-			description: `Gives the Morse table`,
-			execution: async (messageInstance) => {
+			})
+	)
+	.addSubcommand((c) =>
+		c
+			.setName("table")
+			.setDescription("Gives the Morse table")
+			.setExecution(async (messageInstance) => {
 				let { methods } = messageInstance;
 
 				methods.sendCustomEmbed((embed: MessageEmbed) =>
 					embed.setDescription(`Here is the morse table\n
 					${morseTable.map((char) => `${char[0]}: ${inlineCode(char[1])}`).join("\n")}`)
 				);
-			},
-		}),
-	],
-});
+			})
+	);
 
 export default morse;

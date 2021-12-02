@@ -11,7 +11,7 @@ export default class LeJardinier {
 
 	/**
 	 * Creates client object
-	 * @param options {ClientOptions}
+	 * @param options client options
 	 */
 	constructor(options: ClientOptions) {
 		this.bot = new Client(options);
@@ -48,7 +48,7 @@ export default class LeJardinier {
 
 	/**
 	 * listener for event "messageCreate"
-	 * @param message {Message} message object
+	 * @param message message object
 	 */
 	private onMessageCreate = async (message: Message) => {
 		// checks if something is wrong with the message
@@ -78,10 +78,9 @@ export default class LeJardinier {
 	};
 
 	/**
-	 * sets bot listeners (once bot started)
+	 * sets bot listeners (once bot started: prevents too early event calls)
 	 */
 	private setListeners() {
-		this.bot!.on("messageCreate", this.onMessageCreate);
 		this.bot!.on("messageCreate", this.onMessageCreate);
 		this.bot!.on("guildMemberAdd", this.onMemberAdd);
 	}

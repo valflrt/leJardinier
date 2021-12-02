@@ -1,16 +1,15 @@
-import { Command } from "../../bot/command";
+import CCommand from "../../lib/commandManager/classes/command";
 
 import { linkButton } from "../../bot/interactions";
-
 import reactions from "../../assets/reactions";
 
-const invite = new Command({
-	name: "invite",
-	description: "Get bot invitation link",
-	execution: async (messageInstance) => {
+const invite = new CCommand()
+	.setName("invite")
+	.setDescription("Get bot invitation link")
+	.setExecution(async (messageInstance) => {
 		let { methods, bot } = messageInstance;
 		methods.sendTextEmbed(
-			`The button below allows you to add me in your server ${reactions.smile.random()}`,
+			`Click the button bellow to add me in your server ${reactions.smile.random()}`,
 			{
 				components: [
 					linkButton(
@@ -23,7 +22,6 @@ const invite = new Command({
 				],
 			}
 		);
-	},
-});
+	});
 
 export default invite;
