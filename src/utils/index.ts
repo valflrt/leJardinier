@@ -1,5 +1,5 @@
 import { EmbedFieldData } from "discord.js";
-import { bold, inlineCode, quote } from "@discordjs/builders";
+import { blockQuote, bold, inlineCode, quote } from "@discordjs/builders";
 
 import CCommand from "../lib/commandManager/classes/command";
 
@@ -36,22 +36,3 @@ export function memoryUsage() {
 		1000
 	).toFixed(2)}MB`;
 }
-
-export const subcommandFormatting = {
-	title: (command: CCommand) => `${bold(command.name)}`,
-	description: (command: CCommand) =>
-		`${quote(command.description)}\n`.concat(
-			quote(`Usage: ${bold(inlineCode(command.syntax!))}`)
-		),
-	fullCommand: (command: CCommand) =>
-		subcommandFormatting
-			.title(command)
-			.concat(`\n${subcommandFormatting.description(command)}`),
-	createFields: (commands: CCommand[]) =>
-		commands.map(
-			(command): EmbedFieldData => ({
-				name: `${subcommandFormatting.title(command)}`,
-				value: subcommandFormatting.description(command),
-			})
-		),
-};
