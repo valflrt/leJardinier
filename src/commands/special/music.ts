@@ -9,7 +9,7 @@ import { PlaylistModel } from "../../database/models/playlist";
 import * as Music from "../../bot/music";
 
 import reactions from "../../assets/reactions";
-import CSubcommandPreview from "../../lib/commandManager/formatting/subcommand";
+import CSubcommandPreview from "../../lib/formatting/subcommand";
 
 const music = new CCommand()
 	.setName("music")

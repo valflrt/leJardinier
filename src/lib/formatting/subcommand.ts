@@ -1,7 +1,7 @@
 import { EmbedFieldData } from "discord.js";
 import { bold, inlineCode, quote } from "@discordjs/builders";
 
-import CCommand from "../classes/command";
+import CCommand from "../commandManager/classes/command";
 
 export default class CCSubcommandPreview {
 	public title: string;

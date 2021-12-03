@@ -4,7 +4,7 @@ import { bold, hyperlink, italic, underscore } from "@discordjs/builders";
 import CCommand from "../../lib/commandManager/classes/command";
 import commandList from "..";
 
-import CSubcommandPreview from "../../lib/commandManager/formatting/subcommand";
+import CSubcommandPreview from "../../lib/formatting/subcommand";
 import reactions from "../../assets/reactions";
 
 const help = new CCommand()
