@@ -61,9 +61,8 @@ export default class LeJardinier {
 				)
 			);
 
-		log.bot.message(message); // logs every message
-
 		let messageInstance = new MessageInstance(message, this.bot!);
+		log.bot.message(message, messageInstance); // logs every message
 
 		if (messageInstance.hasCommand === true) {
 			messageInstance.execute();
