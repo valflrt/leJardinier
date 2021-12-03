@@ -9,16 +9,16 @@ const reverse = new CCommand()
 	.setDescription("Reverses the specified text")
 	.setExecution(async (messageInstance) => {
 		let { methods, commandParameters } = messageInstance;
-		const reverse = (text: string, acc: string[] = []): string => {
+		const reverseText = (text: string, acc: string[] = []): string => {
 			let char = text.charAt(0);
 			acc.unshift(char);
 			if (text.length !== 0)
-				return reverse(text.substring(1, text.length), acc);
+				return reverseText(text.substring(1, text.length), acc);
 			else return acc.join("");
 		};
 		methods.sendTextEmbed(
 			`Here is you reversed text ${reactions.smile.random()}\n`.concat(
-				inlineCode(reverse(commandParameters))
+				inlineCode(reverseText(commandParameters))
 			)
 		);
 	});
