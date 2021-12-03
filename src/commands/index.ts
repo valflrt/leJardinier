@@ -12,6 +12,7 @@ import invite from "./utility/invite";
 import hey from "./fun/hey";
 import trueOrFalse from "./fun/trueorfalse";
 import percentage from "./fun/percentage";
+import choose from "./fun/choose";
 import reverse from "./fun/reverse";
 import morse from "./fun/morse";
 
@@ -35,6 +36,7 @@ commandList
 	.addCommand(() => hey, "Fun")
 	.addCommand(() => trueOrFalse, "Fun")
 	.addCommand(() => percentage, "Fun")
+	.addCommand(() => choose, "Fun")
 	.addCommand(() => reverse, "Fun")
 	.addCommand(() => morse, "Fun")
 	.addCommand(() => profilePicture, "User Information")
