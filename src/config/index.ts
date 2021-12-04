@@ -4,6 +4,6 @@ export const secrets = _secrets;
 
 export default {
 	prefix: "lj!",
-	version: "3.0",
+	version: "3.2",
 	secrets,
 };
