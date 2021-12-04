@@ -119,17 +119,11 @@ const help = new CCommand()
 					await i.update({ embeds: [pages[index]] });
 				});
 
-				collector.on("end", async (collected, reason) => {
+				collector.on("end", async () => {
 					row.components.forEach((c) => c.setDisabled());
-					if (reason === "time")
-						await sent.editWithTextEmbed(
-							`Display has timeout (1 min)`,
-							{ components: [row] }
-						);
-					else
-						await sent.editWithTextEmbed(`Display closed`, {
-							components: [row],
-						});
+					await sent.editWithTextEmbed(`The display has expired`, {
+						components: [row],
+					});
 				});
 
 				/*
