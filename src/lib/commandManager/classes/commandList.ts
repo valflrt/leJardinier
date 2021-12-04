@@ -27,7 +27,7 @@ export default class CCommandList {
 
 	/**
 	 * finds and returns a command in the list using a command pattern generated
-	 * by class CMessageContent. if the command isn't found, returns null
+	 * by class CMessageParser. if the command isn't found, returns null
 	 * @param pattern command call pattern in the form
 	 */
 	public find(pattern: string[]): CCommand | null {
