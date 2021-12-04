@@ -103,7 +103,7 @@ const help = new CCommand()
 				let collector = sent.createMessageComponentCollector({
 					filter: (button) =>
 						button.customId === "p" || button.customId === "n",
-					time: 60000,
+					idle: 2 * 10e5, // 20 seconds
 				});
 
 				collector.on("collect", async (i) => {
