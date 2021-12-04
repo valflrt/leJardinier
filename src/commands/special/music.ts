@@ -9,7 +9,7 @@ import { PlaylistModel } from "../../database/models/playlist";
 import * as Music from "../../bot/music";
 
 import reactions from "../../assets/reactions";
-import { subcommandFormatting } from "../../utils";
+import CSubcommandPreview from "../../lib/formatting/subcommand";
 
 const music = new CCommand()
 	.setName("music")
@@ -23,7 +23,7 @@ const music = new CCommand()
 						`Here are the available commands:`
 					)
 				)
-				.setFields(subcommandFormatting.createFields(music.commands))
+				.setFields(CSubcommandPreview.createFields(music.commands))
 		);
 	})
 
@@ -53,7 +53,7 @@ const music = new CCommand()
 							`Use this command to add a song to the playlist:`
 						)
 						.addFields(
-							subcommandFormatting.createFields(
+							CSubcommandPreview.createFields(
 								music.commands.find(
 									(c) => c.identifier === "add"
 								)!.commands

@@ -27,7 +27,7 @@ export default class CCommandList {
 
 	/**
 	 * finds and returns a command in the list using a command pattern generated
-	 * by class CMessageContent. if the command isn't found, returns null
+	 * by class CMessageParser. if the command isn't found, returns null
 	 * @param pattern command call pattern in the form
 	 */
 	public find(pattern: string[]): CCommand | null {
@@ -35,7 +35,7 @@ export default class CCommandList {
 			currentLevel: CCommand[] = [],
 			i: number
 		): CCommand | null => {
-			let command = currentLevel.find((c) => c.identifier === pattern[i]);
+			let command = currentLevel.find((c) => c.equals(pattern[i]));
 			if (i === pattern.length - 1 && command) return command!;
 			else if (command && command.commands.length !== 0) {
 				return loop(command.commands, i + 1);

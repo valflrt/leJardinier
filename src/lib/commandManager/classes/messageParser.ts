@@ -1,6 +1,6 @@
 import config from "../../../config";
 
-export default class CMessageContent {
+export default class CMessageParser {
 	public readonly commandPattern: string[] = [];
 	public readonly parameters: string;
 

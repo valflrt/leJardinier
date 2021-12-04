@@ -2,7 +2,7 @@ import { Client, Message, MessageEmbed } from "discord.js";
 import { hyperlink } from "@discordjs/builders";
 
 import CCommand from "../lib/commandManager/classes/command";
-import CMessageContent from "../lib/commandManager/classes/messageContent";
+import CMessageParser from "../lib/commandManager/classes/messageParser";
 
 //import { guildManager, userManager, statManager } from "./database";
 import ReplyMethods from "./methods";
@@ -24,7 +24,7 @@ class MessageInstance {
 		this.message = message;
 		this.bot = bot;
 
-		let messageContent = new CMessageContent(this.message.content);
+		let messageContent = new CMessageParser(this.message.content);
 
 		this.command = commandList.find(messageContent.commandPattern);
 		this.commandParameters = messageContent.parameters;

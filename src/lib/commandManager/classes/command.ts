@@ -6,7 +6,8 @@ import config from "../../../config";
 
 export default class CCommand {
 	private _name!: string;
-	private _identifier: string = "";
+	private _identifier!: string;
+	private _aliases: string[] = [];
 	private _description!: string;
 	private _parameters: CCommandParameter[] = [];
 	private _parent: CCommand | null = null;
@@ -34,8 +35,16 @@ export default class CCommand {
 		return this;
 	}
 	/**
+	 * adds a command alias
+	 * @param alias command alias
+	 */
+	public addAlias(alias: string): CCommand {
+		this.aliases.push(alias.toLowerCase().trim());
+		return this;
+	}
+	/**
 	 * sets command description
-	 * @param description
+	 * @param description command description
 	 */
 	public setDescription(description: string): CCommand {
 		this.description = description;
@@ -78,6 +87,13 @@ export default class CCommand {
 		return this;
 	}
 
+	public equals(item: string): boolean {
+		return this.identifier === item ||
+			!!this.aliases.find((a) => a === item)
+			? true
+			: false;
+	}
+
 	// setters and getters
 
 	public set name(v: string) {
@@ -85,6 +101,10 @@ export default class CCommand {
 	}
 	public get name(): string {
 		return this._name;
+	}
+
+	public get aliases(): string[] {
+		return this._aliases;
 	}
 
 	public set identifier(v: string) {

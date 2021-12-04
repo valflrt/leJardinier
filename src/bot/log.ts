@@ -2,6 +2,7 @@ import chalk from "chalk";
 import Discord from "discord.js";
 
 import CCommand from "../lib/commandManager/classes/command";
+import MessageInstance from "./message";
 
 import config from "../config";
 
@@ -86,7 +87,12 @@ class BotLogger extends Logger {
 	 * if the same user sent several messages it doesn't logging their username
 	 * @param message discord message object
 	 */
-	public message = (message: Discord.Message) => {
+	public message = (
+		message: Discord.Message,
+		messageInstance: MessageInstance
+	) => {
+		if (!messageInstance.hasCommand) return;
+
 		let embeds: number = message.embeds.length;
 		let attachments: number = message.attachments.toJSON().length;
 		let isSystem = message.system;
