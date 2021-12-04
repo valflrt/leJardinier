@@ -9,7 +9,6 @@ const percentage = new CCommand()
 	.addParameter((p) => p.setName("sentence").setRequired(false))
 	.setExecution(async (messageInstance) => {
 		let { methods, commandParameters } = messageInstance;
-		console.log(commandParameters);
 		methods.sendTextEmbed(
 			`My answer is ${bold(
 				inlineCode(
