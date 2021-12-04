@@ -1,7 +1,7 @@
 import LeJardinier from "./bot/bot";
 import log from "./bot/log";
 
-log.system.starting();
+log.logger.startupSequence();
 
 new LeJardinier({
 	intents: [

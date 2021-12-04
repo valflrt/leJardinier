@@ -33,7 +33,7 @@ export default class LeJardinier {
 			await database.connect();
 			log.database.connectionSuccess();
 		} catch (e) {
-			log.database.connectionFailed(e);
+			log.database.connectionFailure(e);
 		}
 
 		bot.user!.setActivity({
@@ -41,7 +41,7 @@ export default class LeJardinier {
 			type: "WATCHING",
 		});
 
-		log.bot.connected(bot.user!.tag, bot.user!.id);
+		log.logger.connectionSuccess(bot.user!.tag, bot.user!.id);
 
 		this.setListeners();
 	};
@@ -55,14 +55,14 @@ export default class LeJardinier {
 		if (message.author.bot) return; // skip if the author is a bot
 		if (!message.author || !message.guild)
 			// logs a message if guild or author is undefined
-			return log.bot.error(
+			return log.logger.error(
 				(!message.author ? "author is undefined" : "").concat(
 					!message.guild ? "guild is undefined" : ""
 				)
 			);
 
 		let messageInstance = new MessageInstance(message, this.bot!);
-		log.bot.message(message, messageInstance); // logs every message
+		log.message.message(message, messageInstance); // logs every message
 
 		if (messageInstance.hasCommand === true) {
 			messageInstance.execute();

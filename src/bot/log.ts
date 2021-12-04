@@ -6,7 +6,7 @@ import MessageInstance from "./message";
 
 import config from "../config";
 
-class Logger {
+class BaseLogger {
 	protected mainColor: string = "#abf7a7";
 	protected successColor: string = "#41f45e";
 	protected errorColor: string = "#ee7474";
@@ -45,40 +45,47 @@ class Logger {
 	 */
 	protected output = (str: string, color: string = this.mainColor) =>
 		console.log(
-			`${chalk.bgHex(color)(" ")} ${str} `.replace(
-				/\n/g,
-				`\n${chalk.bgHex(color)(" ")} `
+			`${chalk.bgHex(color)(" ")} `.concat(
+				str.replace(/\n/g, `\n${chalk.bgHex(color)(" ")} `)
 			)
 		);
 }
 
-class SystemLogger extends Logger {
+class Logger extends BaseLogger {
 	/**
-	 * logs init sequence
+	 * logs startup sequence
 	 */
-	public starting = () => {
+	public startupSequence() {
 		this.clear();
 		this.write(
-			` ${chalk.hex("#abf7a7").bold`Le Jardinier`} ${chalk
+			` ${chalk.hex("#abf7a7").bold("Le Jardinier")} ${chalk
 				.rgb(200, 220, 210)
 				.italic(`v${config.version}`)} 🍀 ${chalk.rgb(
 				200,
 				220,
 				210
-			)(`by valflrt`)}`
+			)("by valflrt")}`
 		);
 		this.newLine(2);
 		this.log(`Starting...`);
-	};
+	}
+
+	/**
+	 * logs connection success message
+	 * @param tag bot's tag (username#0000)
+	 * @param id bot's id (discord snowflake)
+	 */
+	public connectionSuccess(tag: string, id: string) {
+		this.success(
+			`Successfully logged in as ${chalk.underline(
+				tag
+			)} ${chalk.grey.italic(`(id: ${id})`)}`
+		);
+	}
 }
 
-class BotLogger extends Logger {
-	private lastChatlogUser: string;
-
-	constructor() {
-		super();
-		this.lastChatlogUser = "";
-	}
+class MessageLogger extends Logger {
+	private lastUser: string | null = null;
 
 	/**
 	 * logs messages (username#0000: [message content])
@@ -105,98 +112,91 @@ class BotLogger extends Logger {
 		);
 
 		if (isSystem) return;
-		else if (this.lastChatlogUser !== message.author.id) {
+		else if (this.lastUser !== message.author.id) {
 			this.newLine();
 			this.log(`${chalk.bold(message.author.tag)}:\n${text}`);
 		} else if (message.content) this.log(text);
 
-		this.lastChatlogUser = message.author.id;
+		this.lastUser = message.author.id;
 	};
-
-	/**
-	 * logs a success message when the bot connected
-	 * @param tag bot's tag (username#0000)
-	 * @param id bot's id (discord snowflake)
-	 */
-	public connected = (tag: string, id: string) =>
-		this.success(
-			`Successfully logged in as ${chalk.underline(
-				tag
-			)} ${chalk.grey.italic(`(id: ${id})`)}`
-		);
 }
 
 class CommandLogger extends Logger {
-	private startTime: number;
-
-	constructor() {
-		super();
-		this.startTime = Date.now();
-	}
+	private timestamp: number = 0;
 
 	/**
 	 * sets time to measure command execution time and returns current date (time)
 	 */
-	public startTimer = (): number => (this.startTime = Date.now());
+	public setTimestamp() {
+		this.timestamp = Date.now();
+	}
 
 	/**
 	 * returns elapsed time
 	 */
-	public getElapsedTime = (): string =>
-		`${(Date.now() - this.startTime) / 1000}ms`;
+	public getElapsedTime() {
+		`${(Date.now() - this.timestamp) / 1000}ms`;
+	}
 
 	/**
-	 * logs a success message when a command executed correctly
+	 * logs successful command execution message
 	 * @param command command object
 	 */
-	public executed = (command: CCommand) =>
+	public executionSuccess(command: CCommand) {
 		this.success(
 			`Successfully executed command ${chalk.underline.bold(
 				command.wholeIdentifier
 			)} in ${this.getElapsedTime()}`
 		);
+	}
 
 	/**
-	 * logs a failure message
+	 * logs execution fail message
 	 * @param command command object
 	 * @param err error to log
 	 */
-	public executionFailed = (command: CCommand, err: any) => {
+	public executionFailure(command: CCommand, err: any) {
 		this.error(
 			`Failed to execute ${chalk.underline.bold(
 				command.identifier
 			)}:\n${err}`
 		);
-	};
+	}
 }
 
 class DatabaseLogger extends Logger {
-	public connectionSuccess = () =>
+	public connectionSuccess() {
 		this.success(`Successfully connected to database`);
-	public connectionFailed = (err: any) =>
+	}
+	public connectionFailure(err: any) {
 		this.error(`Failed to connect to database:\n${err}`);
+	}
 
-	public userAddedSuccessfully = () =>
+	public userAdditionSuccess() {
 		this.success(`User added successfully`);
-	public failedToAddUser = (err: any) =>
+	}
+	public userAdditionFailure(err: any) {
 		this.error(`Failed to add user:\n${err}`);
+	}
 
-	public statAddedSuccessfully = () =>
+	public statAdditionSuccess() {
 		this.success(`Stat added successfully`);
-	public failedToAddStat = (err: any) =>
+	}
+	public statAdditionFailure(err: any) {
 		this.error(`Failed to add stat:\n${err}`);
+	}
 }
 
+export const baseLogger = new BaseLogger();
 export const logger = new Logger();
-export const system = new SystemLogger();
-export const bot = new BotLogger();
+export const message = new MessageLogger();
 export const command = new CommandLogger();
 export const database = new DatabaseLogger();
 
 export default {
+	baseLogger,
 	logger,
-	system,
-	bot,
+	message,
 	command,
 	database,
 };

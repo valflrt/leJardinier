@@ -66,14 +66,14 @@ class MessageInstance {
 	public async execute(): Promise<void> {
 		if (!this.command) return log.logger.error(`Command does not exist`);
 
-		log.command.startTimer();
+		log.command.setTimestamp();
 		await this.message.channel.sendTyping();
 
 		try {
 			await this.command!.execution(this);
-			log.command.executed(this.command!);
+			log.command.executionSuccess(this.command!);
 		} catch (err) {
-			log.command.executionFailed(this.command!, err);
+			log.command.executionFailure(this.command!, err);
 			this.methods.sendCustomEmbed((embed) =>
 				embed
 					.setDescription(
