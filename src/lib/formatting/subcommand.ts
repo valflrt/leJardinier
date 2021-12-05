@@ -3,7 +3,7 @@ import { bold, inlineCode, quote } from "@discordjs/builders";
 
 import CCommand from "../commandManager/classes/command";
 
-export default class CCSubcommandPreview {
+export default class CSubcommandPreview {
 	public title: string;
 	public description: string;
 	public whole: string;
@@ -28,7 +28,7 @@ export default class CCSubcommandPreview {
 
 	public static createFields(commands: CCommand[]) {
 		return commands.map((command): EmbedFieldData => {
-			let preview = new CCSubcommandPreview(command);
+			let preview = new CSubcommandPreview(command);
 			return { name: preview.title, value: preview.description };
 		});
 	}
