@@ -5,6 +5,7 @@ import TExecutionFunction from "../types/executionFunction";
 import config from "../../../config";
 import CSubcommandPreview from "../../formatting/subcommand";
 import { bold, underscore } from "@discordjs/builders";
+import ICommandSettings from "../types/commandSettings";
 
 export default class CCommand {
 	private _name!: string;
@@ -13,6 +14,7 @@ export default class CCommand {
 	private _description!: string;
 	private _parameters: CCommandParameter[] = [];
 	private _parent: CCommand | null = null;
+	private _settings: ICommandSettings = {};
 
 	private _execution!: TExecutionFunction;
 
@@ -72,6 +74,18 @@ export default class CCommand {
 		this.parent = parent;
 		return this;
 	}
+	/**
+	 * sets command settings
+	 * @param settings command settings
+	 */
+	public setSettings(settings: ICommandSettings = {}) {
+		this.settings = settings;
+		return this;
+	}
+	/**
+	 * sets the command execution
+	 * @param execution command execution function
+	 */
 	public setExecution(execution: TExecutionFunction): CCommand {
 		this.execution = execution;
 		return this;
@@ -88,7 +102,6 @@ export default class CCommand {
 		this.commands.push(command);
 		return this;
 	}
-
 	/**
 	 * returns true if a command equals an other using identifier (including aliases)
 	 * @param identifier other command identifier
@@ -101,15 +114,13 @@ export default class CCommand {
 	}
 
 	/**
-	 * finalizes the command creation
+	 * adds an help subcommand
 	 */
-	public addHelpSubcommand() {
+	public addHelpCommand() {
 		this.addSubcommand((c) =>
 			c
 				.setName("help")
-				.setDescription(
-					`Get help about command ${this.wholeIdentifier}`
-				)
+				.setSettings({ hidden: true })
 				.setExecution(async (messageInstance) => {
 					let { methods } = messageInstance;
 
@@ -186,6 +197,13 @@ export default class CCommand {
 	}
 	public get parent(): CCommand | null {
 		return this._parent;
+	}
+
+	public set settings(v: ICommandSettings) {
+		this._settings = v;
+	}
+	public get settings(): ICommandSettings {
+		return this._settings;
 	}
 
 	public set execution(v: TExecutionFunction) {
