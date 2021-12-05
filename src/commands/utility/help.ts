@@ -1,5 +1,11 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import { bold, hyperlink, italic, underscore } from "@discordjs/builders";
+import {
+	bold,
+	hyperlink,
+	inlineCode,
+	italic,
+	underscore,
+} from "@discordjs/builders";
 
 import CCommand from "../../lib/commandManager/classes/command";
 import commandList from "..";
@@ -34,6 +40,77 @@ const help = new CCommand()
 				.addFields(CSubcommandPreview.createFields(help.commands))
 		);
 	})
+
+	// help.usage
+	.addSubcommand((c) =>
+		c
+			.setName("usage")
+			.setDescription("Gives information on how to use the bot")
+			.setExecution(async (messageInstance) => {
+				let { methods } = messageInstance;
+				methods.sendCustomEmbed((embed) =>
+					embed
+						.setTitle(
+							underscore(
+								bold(
+									`Here are some instructions to be able to use me efficiently`
+								)
+							)
+						)
+						.setDescription(
+							bold("1/ Command calls\n")
+								.concat(
+									`First, you need to know how to call a command.\n`
+								)
+								.concat(
+									italic(
+										"(yes it's dumb because you just did, but I think a reminder could help some people)"
+									)
+								)
+								.concat("\n\n")
+								.concat(
+									`To do so, you will need to write: ${inlineCode(
+										`[prefix][command identifier] [?parameters]`
+									)}\n`
+								)
+								.concat(`Here are some examples:\n`)
+								.concat(`• ${inlineCode("lj!hey")}\n`)
+								.concat(
+									`• ${inlineCode(
+										"lj!morse.encode this is an example"
+									)}`
+								)
+								.concat("\n\n")
+								.concat(bold("2/ Hierarchy system\n"))
+								.concat(
+									`I use a specific command hierarchy system: a "dotted" hierarchy.\n`
+								)
+								.concat(
+									`That is to say the whole "path" to a command is called a ${bold(
+										"command identifier"
+									)} and looks like:\n`
+								)
+								.concat(
+									`${inlineCode(
+										"[command name].[subcommand name].[sub-subcommand name].[...]"
+									)}`
+								)
+								.concat("\n\n")
+								.concat(`Examples:\n`)
+								.concat(
+									`• ${inlineCode(
+										"morse.table"
+									)} is the identifier for the subcommand "table" of the command "morse"\n`
+								)
+								.concat(
+									`• ${inlineCode(
+										"music.add.search"
+									)} is the identifier for the sub-subcommand "search" of the subcommand "add" of the command "music"`
+								)
+						)
+				);
+			})
+	)
 
 	// help.commands
 	.addSubcommand((c) =>
