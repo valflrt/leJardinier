@@ -23,6 +23,6 @@ const invite = new CCommand()
 			}
 		);
 	})
-	.export();
+	.addHelpSubcommand();
 
 export default invite;

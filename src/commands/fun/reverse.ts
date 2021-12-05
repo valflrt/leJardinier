@@ -22,6 +22,6 @@ const reverse = new CCommand()
 			)
 		);
 	})
-	.export();
+	.addHelpSubcommand();
 
 export default reverse;

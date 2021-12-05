@@ -14,6 +14,6 @@ const hey = new CCommand()
 			)
 		);
 	})
-	.export();
+	.addHelpSubcommand();
 
 export default hey;

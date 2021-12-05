@@ -103,7 +103,7 @@ export default class CCommand {
 	/**
 	 * finalizes the command creation
 	 */
-	public export() {
+	public addHelpSubcommand() {
 		this.addSubcommand((c) =>
 			c
 				.setName("help")

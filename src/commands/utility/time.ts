@@ -12,6 +12,6 @@ const Ctime = new CCommand()
 			`It is ${time(new Date(), "t")} ${reactions.smile.random()}`
 		);
 	})
-	.export();
+	.addHelpSubcommand();
 
 export default Ctime;

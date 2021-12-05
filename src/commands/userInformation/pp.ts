@@ -21,6 +21,6 @@ const profilePicture = new CCommand()
 				.setImage(member!.displayAvatarURL({ size: 300 }))
 		);
 	})
-	.export();
+	.addHelpSubcommand();
 
 export default profilePicture;

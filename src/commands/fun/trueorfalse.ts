@@ -20,6 +20,6 @@ const trueOrFalse = new CCommand()
 			)
 		);
 	})
-	.export();
+	.addHelpSubcommand();
 
 export default trueOrFalse;

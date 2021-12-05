@@ -168,7 +168,7 @@ const help = new CCommand()
 				});
 				*/
 			})
-			.export()
+			.addHelpSubcommand()
 	)
 
 	// help.command
@@ -213,7 +213,7 @@ const help = new CCommand()
 					);
 				}
 			})
-			.export()
+			.addHelpSubcommand()
 	)
 
 	// help.website
@@ -232,8 +232,8 @@ const help = new CCommand()
 					)
 				);
 			})
-			.export()
+			.addHelpSubcommand()
 	)
-	.export();
+	.addHelpSubcommand();
 
 export default help;
