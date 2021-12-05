@@ -62,7 +62,6 @@ const music = new CCommand()
 						)
 				);
 			})
-			.addHelpCommand()
 
 			// add.yturl
 			.addSubcommand((c) =>
@@ -114,6 +113,7 @@ const music = new CCommand()
 								)
 						);
 					})
+					.addHelpCommand()
 			)
 
 			// add.search
@@ -178,8 +178,8 @@ const music = new CCommand()
 								)
 						);
 					})
+					.addHelpCommand()
 			)
-			.addHelpCommand()
 	)
 
 	// skip
