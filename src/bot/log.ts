@@ -125,17 +125,10 @@ class CommandLogger extends Logger {
 	private timestamp: number = 0;
 
 	/**
-	 * sets time to measure command execution time and returns current date (time)
+	 * sets timestamp to measure command execution time
 	 */
 	public setTimestamp() {
 		this.timestamp = Date.now();
-	}
-
-	/**
-	 * returns elapsed time
-	 */
-	public getElapsedTime() {
-		`${(Date.now() - this.timestamp) / 1000}ms`;
 	}
 
 	/**
@@ -146,7 +139,7 @@ class CommandLogger extends Logger {
 		this.success(
 			`Successfully executed command ${chalk.underline.bold(
 				command.wholeIdentifier
-			)} in ${this.getElapsedTime()}`
+			)} in ${this.elapsedTime}`
 		);
 	}
 
@@ -161,6 +154,13 @@ class CommandLogger extends Logger {
 				command.identifier
 			)}:\n${err}`
 		);
+	}
+
+	/**
+	 * returns elapsed time
+	 */
+	public get elapsedTime(): string {
+		return `${(Date.now() - this.timestamp) / 1000}ms`;
 	}
 }
 
