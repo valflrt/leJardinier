@@ -10,7 +10,7 @@ First, you'll need to download/clone this repository from github. Then run `npm 
 
 In order to get the code working, you'll need to get:
 
--   a bot token ([learn more](https://www.writebots.com/discord-bot-token/)).
+-   a bot token ([learn more](https://discordjs.guide/preparations/setting-up-a-bot-application.html#your-token)).
 -   a youtube API key ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 -   a mongoDB database URI
 
