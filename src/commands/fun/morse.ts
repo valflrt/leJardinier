@@ -45,7 +45,7 @@ const morse = new CCommand()
 					return encode(text.slice(1), morse);
 				};
 
-				if (commandParameters.length !== 0)
+				if (commandParameters.length === 0)
 					methods.sendTextEmbed(
 						"You need to give some text to convert to morse..."
 					);
