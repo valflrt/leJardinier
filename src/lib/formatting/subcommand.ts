@@ -26,10 +26,12 @@ export default class CSubcommandPreview {
 		this.whole = this.title.concat(`\n${this.description}`);
 	}
 
-	public static createFields(commands: CCommand[]) {
-		return commands.map((command): EmbedFieldData => {
-			let preview = new CSubcommandPreview(command);
-			return { name: preview.title, value: preview.description };
-		});
+	public static createFields(commands: CCommand[]): EmbedFieldData[] {
+		return commands
+			.filter((c) => !c.settings.hidden)
+			.map((command): EmbedFieldData => {
+				let preview = new CSubcommandPreview(command);
+				return { name: preview.title, value: preview.description };
+			});
 	}
 }
