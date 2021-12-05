@@ -168,6 +168,7 @@ const help = new CCommand()
 				});
 				*/
 			})
+			.export()
 	)
 
 	// help.command
@@ -212,6 +213,7 @@ const help = new CCommand()
 					);
 				}
 			})
+			.export()
 	)
 
 	// help.website
@@ -230,6 +232,7 @@ const help = new CCommand()
 					)
 				);
 			})
+			.export()
 	)
 	.export();
 

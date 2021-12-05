@@ -38,6 +38,7 @@ const music = new CCommand()
 				await player.join();
 				await player.play();
 			})
+			.export()
 	)
 
 	// add
@@ -61,6 +62,7 @@ const music = new CCommand()
 						)
 				);
 			})
+			.export()
 
 			// add.yturl
 			.addSubcommand((c) =>
@@ -112,6 +114,7 @@ const music = new CCommand()
 								)
 						);
 					})
+					.export()
 			)
 
 			// add.search
@@ -177,6 +180,7 @@ const music = new CCommand()
 						);
 					})
 			)
+			.export()
 	)
 
 	// skip
@@ -199,6 +203,7 @@ const music = new CCommand()
 				);
 				await player.play();
 			})
+			.export()
 	)
 
 	// stop
@@ -214,6 +219,7 @@ const music = new CCommand()
 					`${reactions.success.random()} Stopped playing !`
 				);
 			})
+			.export()
 	)
 
 	// playlist
@@ -244,6 +250,7 @@ const music = new CCommand()
 					`Here is the current playlist:\n`.concat(songs)
 				);
 			})
+			.export()
 	)
 
 	// clear
@@ -262,6 +269,7 @@ const music = new CCommand()
 					`${reactions.success.random()} Playlist cleared`
 				);
 			})
+			.export()
 	)
 
 	// remove
@@ -307,6 +315,7 @@ const music = new CCommand()
 					)
 				);
 			})
+			.export()
 	)
 	.export();
 

@@ -84,7 +84,7 @@ export default class CCommand {
 	 */
 	public addSubcommand(config: (command: CCommand) => CCommand): CCommand {
 		let command = config(new CCommand());
-		command.setParent(this).export();
+		command.setParent(this);
 		this.commands.push(command);
 		return this;
 	}
@@ -161,9 +161,9 @@ export default class CCommand {
 	 * @example lj!help.command.name
 	 */
 	public get wholeIdentifier(): string {
-		return `${this.parent ? `${this.parent.wholeIdentifier}.` : ""}${
-			this._identifier
-		}`;
+		return `${
+			this.parent !== null ? `${this.parent.wholeIdentifier}.` : ""
+		}${this.identifier}`;
 	}
 
 	public set description(v: string) {
