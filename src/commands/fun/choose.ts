@@ -9,7 +9,7 @@ const choose = new CCommand()
 	.setDescription("Chooses one of the items specified")
 	.setExecution(async (messageInstance) => {
 		let { methods, commandParameters } = messageInstance;
-		let items = commandParameters.split(/\s{0,}\|\s{0,}/g);
+		let items = commandParameters.split(/\s*\|\s*/g);
 		let item = randomItem(...items);
 		methods.sendTextEmbed(
 			`I choose: ${
