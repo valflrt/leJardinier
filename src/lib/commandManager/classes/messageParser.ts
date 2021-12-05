@@ -14,6 +14,12 @@ export default class CMessageParser {
 				new RegExp(`^((?:${config.prefix}\\w+)(\\.\\w*)* *)`, "g"),
 				""
 			)
+			/**
+			 * the two lines bellow remove accented characters
+			 * (don't ask me how I don't know: i found it on stack overflow)
+			 */
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
 			.trim();
 	}
 }
