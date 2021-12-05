@@ -56,7 +56,7 @@ const morse = new CCommand()
 						: "You need to give some text to convert to morse..."
 				);
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 	.addSubcommand((c) =>
 		c
@@ -70,8 +70,7 @@ const morse = new CCommand()
 					${morseTable.map((char) => `${char[0]}: ${inlineCode(char[1])}`).join("\n")}`)
 				);
 			})
-			.addHelpSubcommand()
-	)
-	.addHelpSubcommand();
+			.addHelpCommand()
+	);
 
 export default morse;

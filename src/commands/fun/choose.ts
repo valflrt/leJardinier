@@ -19,6 +19,6 @@ const choose = new CCommand()
 			}`
 		);
 	})
-	.addHelpSubcommand();
+	.addHelpCommand();
 
 export default choose;

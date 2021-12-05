@@ -38,7 +38,7 @@ const music = new CCommand()
 				await player.join();
 				await player.play();
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 
 	// add
@@ -62,7 +62,7 @@ const music = new CCommand()
 						)
 				);
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 
 			// add.yturl
 			.addSubcommand((c) =>
@@ -114,7 +114,7 @@ const music = new CCommand()
 								)
 						);
 					})
-					.addHelpSubcommand()
+					.addHelpCommand()
 			)
 
 			// add.search
@@ -180,7 +180,7 @@ const music = new CCommand()
 						);
 					})
 			)
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 
 	// skip
@@ -203,7 +203,7 @@ const music = new CCommand()
 				);
 				await player.play();
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 
 	// stop
@@ -219,7 +219,7 @@ const music = new CCommand()
 					`${reactions.success.random()} Stopped playing !`
 				);
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 
 	// playlist
@@ -250,7 +250,7 @@ const music = new CCommand()
 					`Here is the current playlist:\n`.concat(songs)
 				);
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 
 	// clear
@@ -269,7 +269,7 @@ const music = new CCommand()
 					`${reactions.success.random()} Playlist cleared`
 				);
 			})
-			.addHelpSubcommand()
+			.addHelpCommand()
 	)
 
 	// remove
@@ -315,8 +315,7 @@ const music = new CCommand()
 					)
 				);
 			})
-			.addHelpSubcommand()
-	)
-	.addHelpSubcommand();
+			.addHelpCommand()
+	);
 
 export default music;

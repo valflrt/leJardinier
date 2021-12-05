@@ -26,6 +26,6 @@ const percentage = new CCommand()
 			)
 		);
 	})
-	.addHelpSubcommand();
+	.addHelpCommand();
 
 export default percentage;
