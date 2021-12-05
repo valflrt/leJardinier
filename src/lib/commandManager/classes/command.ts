@@ -119,7 +119,7 @@ export default class CCommand {
 	 * @example lj!help.command.name
 	 */
 	public get wholeIdentifier(): string {
-		return `${this._parent ? `${this._parent.wholeIdentifier}.` : ""}${
+		return `${this.parent ? `${this.parent.wholeIdentifier}.` : ""}${
 			this._identifier
 		}`;
 	}
