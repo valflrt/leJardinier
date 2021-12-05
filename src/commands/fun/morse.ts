@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { inlineCode } from "@discordjs/builders";
+import { codeBlock, inlineCode } from "@discordjs/builders";
 
 import CCommand from "../../lib/commandManager/classes/command";
 
@@ -30,31 +30,31 @@ const morse = new CCommand()
 				let { methods, commandParameters } = messageInstance;
 
 				const encode = (text: string, morse: string[] = []): string => {
-					let char = text.charAt(0);
+					if (text.length === 0) return morse.join(" ");
 
-					let morseLetter = morseTable.find(
-						(item) => item[0] === char
+					let char = text[0];
+
+					let tableItem = morseTable.find(
+						(item) => char.search(item[0]) !== -1
 					);
+					let morseLetter = !tableItem ? "?" : tableItem[1];
 
-					if (morseLetter) morse.push(morseLetter[1]);
-					else if (char === " ") morse.push("|");
+					if (char === " ") morse.push(" ");
+					else morse.push(morseLetter);
 
-					if (text.length === 0) return morse.join("  ");
-					else return encode(text.slice(1), morse);
+					return encode(text.slice(1), morse);
 				};
 
-				methods.sendTextEmbed(
-					commandParameters.length !== 0
-						? encode(
-								commandParameters
-									.toLowerCase()
-									.replace(
-										/[^abcdefghijklmopqrstuvwxyz\s]/g,
-										""
-									)
-						  )
-						: "You need to give some text to convert to morse..."
-				);
+				if (commandParameters.length !== 0)
+					methods.sendTextEmbed(
+						"You need to give some text to convert to morse..."
+					);
+				else
+					methods.sendTextEmbed(
+						"Here is your morse encoded text:".concat(
+							codeBlock(encode(commandParameters.toLowerCase()))
+						)
+					);
 			})
 			.addHelpCommand()
 	)
