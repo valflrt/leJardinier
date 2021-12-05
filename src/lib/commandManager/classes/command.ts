@@ -3,6 +3,8 @@ import TCommandParameterConfig from "../types/commandParameterConfig";
 import TExecutionFunction from "../types/executionFunction";
 
 import config from "../../../config";
+import CSubcommandPreview from "../../formatting/subcommand";
+import { bold, underscore } from "@discordjs/builders";
 
 export default class CCommand {
 	private _name!: string;
@@ -82,16 +84,56 @@ export default class CCommand {
 	 */
 	public addSubcommand(config: (command: CCommand) => CCommand): CCommand {
 		let command = config(new CCommand());
-		command.setParent(this);
+		command.setParent(this).export();
 		this.commands.push(command);
 		return this;
 	}
 
-	public equals(item: string): boolean {
-		return this.identifier === item ||
-			!!this.aliases.find((a) => a === item)
+	/**
+	 * returns true if a command equals an other using identifier (including aliases)
+	 * @param identifier other command identifier
+	 */
+	public equals(identifier: string): boolean {
+		return this.identifier === identifier ||
+			!!this.aliases.find((a) => a === identifier)
 			? true
 			: false;
+	}
+
+	/**
+	 * finalizes the command creation
+	 */
+	public export() {
+		this.addSubcommand((c) =>
+			c
+				.setName("help")
+				.setDescription(
+					`Get help about command ${this.wholeIdentifier}`
+				)
+				.setExecution(async (messageInstance) => {
+					let { methods } = messageInstance;
+
+					let preview = new CSubcommandPreview(this);
+					methods.sendCustomEmbed((embed) =>
+						embed
+							.setDescription(
+								`${bold(preview.title)}\n`
+									.concat(preview.description)
+									.concat(
+										this.commands
+											? `\n\n${bold(
+													underscore(`Subcommands:`)
+											  )}\n`
+											: ""
+									)
+							)
+							.addFields(
+								CSubcommandPreview.createFields(this.commands)
+							)
+					);
+				})
+		);
+		return this;
 	}
 
 	// setters and getters
