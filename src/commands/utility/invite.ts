@@ -9,7 +9,7 @@ const invite = new CCommand()
 	.setExecution(async (messageInstance) => {
 		let { methods, bot } = messageInstance;
 		methods.sendTextEmbed(
-			`Click the button bellow to add me in your server ${reactions.smile.random()}`,
+			`Click the button bellow so I can hop in your server ${reactions.smile.random()}`,
 			{
 				components: [
 					linkButton(
