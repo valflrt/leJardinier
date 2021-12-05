@@ -21,6 +21,7 @@ const reverse = new CCommand()
 				inlineCode(reverseText(commandParameters).join(""))
 			)
 		);
-	});
+	})
+	.export();
 
 export default reverse;

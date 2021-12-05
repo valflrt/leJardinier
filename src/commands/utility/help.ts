@@ -230,6 +230,7 @@ const help = new CCommand()
 					)
 				);
 			})
-	);
+	)
+	.export();
 
 export default help;

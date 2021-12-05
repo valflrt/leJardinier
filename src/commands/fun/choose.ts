@@ -18,6 +18,7 @@ const choose = new CCommand()
 					: item
 			}`
 		);
-	});
+	})
+	.export();
 
 export default choose;

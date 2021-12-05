@@ -11,6 +11,7 @@ const Ctime = new CCommand()
 		methods.sendTextEmbed(
 			`It is ${time(new Date(), "t")} ${reactions.smile.random()}`
 		);
-	});
+	})
+	.export();
 
 export default Ctime;

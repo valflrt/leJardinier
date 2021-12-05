@@ -69,6 +69,7 @@ const morse = new CCommand()
 					${morseTable.map((char) => `${char[0]}: ${inlineCode(char[1])}`).join("\n")}`)
 				);
 			})
-	);
+	)
+	.export();
 
 export default morse;

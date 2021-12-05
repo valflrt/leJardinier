@@ -25,6 +25,7 @@ const percentage = new CCommand()
 					: ""
 			)
 		);
-	});
+	})
+	.export();
 
 export default percentage;

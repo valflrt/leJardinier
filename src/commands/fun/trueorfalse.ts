@@ -19,6 +19,7 @@ const trueOrFalse = new CCommand()
 					: ""
 			)
 		);
-	});
+	})
+	.export();
 
 export default trueOrFalse;

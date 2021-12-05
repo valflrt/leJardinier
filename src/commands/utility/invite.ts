@@ -22,6 +22,7 @@ const invite = new CCommand()
 				],
 			}
 		);
-	});
+	})
+	.export();
 
 export default invite;

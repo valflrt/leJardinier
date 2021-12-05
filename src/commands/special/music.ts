@@ -307,6 +307,7 @@ const music = new CCommand()
 					)
 				);
 			})
-	);
+	)
+	.export();
 
 export default music;

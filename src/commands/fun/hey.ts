@@ -13,6 +13,7 @@ const hey = new CCommand()
 				`${message.author.toString()} ${reactions.smile.random()}`
 			)
 		);
-	});
+	})
+	.export();
 
 export default hey;

@@ -20,6 +20,7 @@ const profilePicture = new CCommand()
 				)
 				.setImage(member!.displayAvatarURL({ size: 300 }))
 		);
-	});
+	})
+	.export();
 
 export default profilePicture;
