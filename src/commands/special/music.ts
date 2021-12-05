@@ -114,7 +114,6 @@ const music = new CCommand()
 								)
 						);
 					})
-					.addHelpCommand()
 			)
 
 			// add.search
