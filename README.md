@@ -25,6 +25,14 @@ Finally, to start the code, run:
 
 You can also use `npm run lint` to lint the code in `src/`:
 
+### Dockerfile
+
+To build the docker image you need to have docker installed.
+
+Run `docker build -t [tag of your choice] -f ./Dockerfile .` to build the image.
+
+_Note: For the docker build to success, you need to first follow the instructions in the Configuration section._
+
 ### Notes
 
 -   You need to have nodejs, npm and npx installed on your computer (npm and npx are usually automatically installed with nodejs)
