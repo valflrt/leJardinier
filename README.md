@@ -16,6 +16,8 @@ In order to get the code working, you'll need to get:
 
 Then add those in [secrets.example.ts](./src/config/secrets.example.ts) and then rename this file to `secrets.ts`.
 
+Finally, don't forget to configure the bot prefix in [local.ts](./src/config/local.ts) (same method: editing [local.example.ts](./src/config/local.example.ts) and renaming it to `local.ts`)
+
 ### Starting
 
 Finally, to start the code, run:
