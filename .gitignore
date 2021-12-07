@@ -1,8 +1,8 @@
 node_modules
 
-secrets.ts
+src\config\local.ts
+src\config\secrets.ts
 
 dist
 
-.vscode
-.VSCodeCounter
+.vscode*
