@@ -10,7 +10,7 @@ import { playlistManager } from "./database";
 import MessageInstance from "./message";
 
 import { logger } from "./log";
-import { secrets } from "../config";
+import config from "../config";
 import reactions from "../assets/reactions";
 
 export class Song {
@@ -202,6 +202,6 @@ export const youtubeSearch = async (searchString: string) =>
 				.concat(`part=snippet`)
 				.concat(`&q=${searchString}`)
 				.concat(`&type=video`)
-				.concat(`&key=${secrets.youtube}`)
+				.concat(`&key=${config.secrets.youtubeApiKey}`)
 		)
 	).data.items[0];

@@ -1,9 +1,12 @@
-import _secrets from "./secrets";
+import secrets from "./secrets";
+import local from "./local";
 
-export const secrets = _secrets;
+import { IConfig } from "../types";
 
-export default {
-	prefix: "lj!",
-	version: "3.2",
+const config: IConfig = {
+	version: "v3.2",
+	local,
 	secrets,
 };
+
+export default config;

@@ -1,6 +1,6 @@
 import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
-import config, { secrets } from "../config";
+import config from "../config";
 
 import database /* , { userManager } */ from "./database";
 import log from "./log";
@@ -21,7 +21,7 @@ export default class LeJardinier {
 	 * makes the client login and sets function for event "ready" (= starts the bot)
 	 */
 	public start() {
-		this.bot!.login(secrets.token!);
+		this.bot!.login(config.secrets.token!);
 		this.bot!.once("ready", this.onReady);
 	}
 
@@ -37,7 +37,7 @@ export default class LeJardinier {
 		}
 
 		bot.user!.setActivity({
-			name: `${config.prefix}help`,
+			name: `${config.local.prefix}help`,
 			type: "WATCHING",
 		});
 

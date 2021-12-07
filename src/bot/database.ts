@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { secrets } from "../config";
+import config from "../config";
 
 import { IGuildSchema, GuildModel } from "../database/models/guild";
 import { IUserSchema, UserModel } from "../database/models/user";
@@ -107,7 +107,7 @@ export const userManager = new UserManager();
 export const statManager = new StatManager();
 export const playlistManager = new PlaylistManager();
 
-export const connect = () => mongoose.connect(secrets.database);
+export const connect = () => mongoose.connect(config.secrets.databaseURI);
 
 export default {
 	connect,

@@ -35,3 +35,19 @@ export interface SentMessage extends Message {
 		options?: ReplyMessageOptions
 	) => Promise<Message>;
 }
+
+export interface IConfig {
+	version: `v${string}`;
+	local: ILocalConfig;
+	secrets: ISecrets;
+}
+
+export interface ILocalConfig {
+	prefix: string;
+}
+
+export interface ISecrets {
+	token: string;
+	youtubeApiKey: string;
+	databaseURI: string;
+}
