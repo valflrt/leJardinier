@@ -1,7 +1,7 @@
 node_modules
 
-src\config\local.ts
-src\config\secrets.ts
+local.ts
+secrets.ts
 
 dist
 
