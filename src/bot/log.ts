@@ -60,7 +60,7 @@ class Logger extends BaseLogger {
 		this.write(
 			` ${chalk.hex("#abf7a7").bold("Le Jardinier")} ${chalk
 				.rgb(200, 220, 210)
-				.italic(`v${config.version}`)} 🍀 ${chalk.rgb(
+				.italic(`${config.version}`)} 🍀 ${chalk.rgb(
 				200,
 				220,
 				210
