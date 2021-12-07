@@ -218,7 +218,7 @@ export default class CCommand {
 	}
 
 	public get syntax(): string {
-		return `${config.prefix}${this.wholeIdentifier}${
+		return `${config.local.prefix}${this.wholeIdentifier}${
 			this.parameters.length !== 0 ? " " : ""
 		}${this.parameters
 			.map((p) => `[${p.required !== true ? "?" : ""}${p.name}]`)
