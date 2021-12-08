@@ -1,10 +1,16 @@
-import { MessageActionRow, MessageButton, Permissions } from "discord.js";
+import {
+	GuildMember,
+	MessageActionRow,
+	MessageButton,
+	Permissions,
+} from "discord.js";
 import reactions from "../../assets/reactions";
 import CCommand from "../../lib/commandManager/classes/command";
 
 const kick = new CCommand()
 	.setName("kick")
 	.setDescription("Kicks one or more member(s).")
+	.addParameter((p) => p.setName("member").setRequired(true))
 	.setExecution(async (messageInstance) => {
 		let { methods, message } = messageInstance;
 
@@ -13,10 +19,10 @@ const kick = new CCommand()
 			return methods.sendTextEmbed(
 				`${reactions.error.random()} You do not have the permission to kick members`
 			);
-		let mentions = message.mentions.members;
-		if (!mentions)
+		let memberToKick = message.mentions.members?.first();
+		if (!memberToKick)
 			return methods.sendTextEmbed(
-				`You need to mention the members you want to kick`
+				`You need to mention the member you want to kick`
 			);
 
 		let row = new MessageActionRow().addComponents(
@@ -31,19 +37,51 @@ const kick = new CCommand()
 		);
 
 		let sent = await methods.sendTextEmbed(
-			`Are you really sure you want to kick:\n`.concat(
-				mentions.map((m) => m.toString()).join(", ")
-			),
+			`Are you really sure you want to kick ${memberToKick.toString()}`,
 			{
 				components: [row],
 			}
 		);
 
-		sent.awaitMessageComponent({});
+		let interaction = await sent.awaitMessageComponent({
+			componentType: "BUTTON",
+			time: 3e5,
+		});
 
-		mentions.forEach((m) => (m.kickable ? m.kick() : null));
-
-		methods.sendTextEmbed(``);
+		row.components.forEach((c) => c.setDisabled());
+		if (interaction.customId === "y") {
+			memberToKick
+				.kick()
+				.then(() =>
+					interaction.update({
+						embeds: [
+							methods.returnTextEmbed(
+								`Kicked successfully ${memberToKick!.toString()}`
+							),
+						],
+						components: [row],
+					})
+				)
+				.catch(() =>
+					interaction.update({
+						embeds: [
+							methods.returnTextEmbed(
+								`Failed to kick ${memberToKick!.toString()}`
+							),
+						],
+						components: [row],
+					})
+				);
+		} else if (interaction.customId === "n")
+			interaction.update({
+				embeds: [methods.returnTextEmbed("Aborted")],
+				components: [row],
+			});
+		else
+			interaction.update({
+				embeds: [methods.returnTextEmbed("Kick has timeout")],
+				components: [row],
+			});
 	})
 	.addHelpCommand();
 

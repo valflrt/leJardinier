@@ -8,6 +8,9 @@ import invite from "./utility/invite";
 //import register from "./utility/register";
 //import unregister from "./utility/unregister";
 
+// moderation commands
+import kick from "./moderation/kick";
+
 // fun commands
 import hey from "./fun/hey";
 import trueOrFalse from "./fun/trueorfalse";
@@ -31,6 +34,7 @@ commandList
 	.addCommand(() => help, "Utility")
 	.addCommand(() => time, "Utility")
 	.addCommand(() => invite, "Utility")
+	.addCommand(() => kick, "Moderation")
 	//.addCommand(() => register, "Utility")
 	//.addCommand(() => unregister, "Utility")
 	.addCommand(() => hey, "Fun")
