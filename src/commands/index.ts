@@ -9,7 +9,9 @@ import invite from "./utility/invite";
 //import unregister from "./utility/unregister";
 
 // moderation commands
+import autorole from "./moderation/autorole";
 import kick from "./moderation/kick";
+import ban from "./moderation/ban";
 
 // fun commands
 import hey from "./fun/hey";
@@ -34,7 +36,9 @@ commandList
 	.addCommand(() => help, "Utility")
 	.addCommand(() => time, "Utility")
 	.addCommand(() => invite, "Utility")
+	.addCommand(() => autorole, "Moderation")
 	.addCommand(() => kick, "Moderation")
+	.addCommand(() => ban, "Moderation")
 	//.addCommand(() => register, "Utility")
 	//.addCommand(() => unregister, "Utility")
 	.addCommand(() => hey, "Fun")
