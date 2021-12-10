@@ -64,6 +64,10 @@ body {
 	justify-content: flex-start;
 }
 
+.topbar > .title > * {
+	display: inline-block;
+}
+
 .topbar > .title > h1 {
 	margin: 0;
 }
@@ -81,7 +85,7 @@ body {
 }
 
 .topbar > .buttons > * {
-	margin: 10px 0;
+	margin: 0 10px;
 }
 
 .topbar > .buttons > .github {
