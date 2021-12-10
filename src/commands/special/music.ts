@@ -3,7 +3,7 @@ import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../lib/commandManager/classes/command";
 
-import { playlistManager } from "../../bot/database";
+import database from "../../bot/database";
 import { PlaylistModel } from "../../database/models/playlist";
 
 import * as Music from "../../bot/music";
@@ -259,7 +259,7 @@ const music = new CCommand()
 			.setDescription(`Clear the current playlist`)
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
-				let cleared = await playlistManager.clear(message.guildId!);
+				let cleared = await database.playlists.clear(message.guildId!);
 				if (cleared === null)
 					return methods.sendTextEmbed(
 						`${reactions.success.random()} Playlist already empty`

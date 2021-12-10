@@ -6,7 +6,7 @@ import axios from "axios";
 import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
 import { SentMessage } from "../types";
 
-import { playlistManager } from "./database";
+import database from "./database";
 import MessageInstance from "./message";
 
 import { logger } from "./log";
@@ -31,7 +31,7 @@ export class Song {
 	}
 
 	public save = async (guildId: string) =>
-		playlistManager.add(guildId, (await this.fetchSong())!);
+		database.playlists.add(guildId, (await this.fetchSong())!);
 
 	private fetchSong = async (): Promise<MoreVideoDetails | undefined> =>
 		(await ytdl.getBasicInfo(this.commandArgs!))?.videoDetails;
@@ -177,14 +177,14 @@ export class GuildPlayer {
 	}
 
 	private async getNextSong() {
-		this.currentSong = await playlistManager.getFirst(
+		this.currentSong = await database.playlists.getFirst(
 			this.messageInstance.message.guildId!
 		);
 		return this.currentSong;
 	}
 
 	public async skipSong() {
-		await playlistManager.removeFirst(
+		await database.playlists.removeFirst(
 			this.messageInstance.message.guildId!
 		);
 	}
