@@ -217,6 +217,6 @@ p.code-block {
 	overflow-y: auto;
 	overflow-x: hidden;
 	border-radius: 4px;
-	padding: 2px 2px;
+	padding: 8px;
 	background: #dbdbdb;
 }
