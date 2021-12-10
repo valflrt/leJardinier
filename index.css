@@ -96,7 +96,7 @@ justify-content: stretch;
 	}
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 800px) {
 	.topbar>.buttons {
 position: fixed;
 bottom: 100px;
