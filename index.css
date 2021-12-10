@@ -207,10 +207,9 @@ a.button {
 i.inline-code {
 	font-style: inherit;
 	text-decoration: inherit;
+	margin: 2px 5px;
 	padding: 2px 5px;
 	border-radius: 4px;
 	background: #dbdbdb;
-	display: inline-block;
-	white-space: nowrap;
-	word-break: keep-all;
+	display: inline;
 }
