@@ -97,7 +97,7 @@ justify-content: stretch;
 }
 
 @media screen and (max-width: 500px) {
-	.topbar>.github {
+	.topbar>.buttons {
 position: fixed;
 bottom: 100px;
 right: 20px;
