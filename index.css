@@ -205,4 +205,6 @@ i.inline-code {
 	padding: 1px;
 	border-radius: 8px;
 	background: #dbdbdb;
+	break-inside: avoid;
+	word-break: keep-all;
 }
