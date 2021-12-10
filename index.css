@@ -80,8 +80,8 @@ body {
 	justify-content: flex-start;
 }
 
-.topbar > .buttons:first-child {
-	margin-right: 20px;
+.topbar > .buttons > * {
+	margin: 10px 0;
 }
 
 .topbar > .buttons > .github {
