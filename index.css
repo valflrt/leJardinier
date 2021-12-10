@@ -212,4 +212,5 @@ i.inline-code {
 	background: #dbdbdb;
 	display: inline-block;
 	white-space: nowrap;
+	word-break: keep-all;
 }
