@@ -216,7 +216,7 @@ i.inline-code {
 p.code-block {
 	overflow-y: hidden;
 	overflow-x: auto;
-	display: inline-block;
+	display: block;
 	border-radius: 5px;
 	padding: 8px;
 	background: #dbdbdb;
