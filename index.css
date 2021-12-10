@@ -75,14 +75,14 @@ body {
 }
 
 .topbar > .buttons:first-child {
-	padding-right: 20px;
+	margin-right: 20px;
 }
 
-.topbar > .buttons > .github > a {
+.topbar > .buttons > .github {
 	background: #050910;
 }
 
-.topbar > .buttons > .invite > a {
+.topbar > .buttons > .invite {
 	background: #5865f2;
 }
 
