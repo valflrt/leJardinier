@@ -198,3 +198,11 @@ a.button {
 	background-color: var(--color-85ba6a);
 	border: 1px solid var(--color-0b2e2f);
 }
+
+i.inline-code {
+	font-style: inherit;
+	text-decoration: inherit;
+	padding: 5px;
+	border-radius: 8px;
+	background: #c4c4c4;
+}

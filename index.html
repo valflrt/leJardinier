@@ -25,7 +25,7 @@
   <body>
     <div class="topbar">
       <div class="title">
-        <img src="pp.png" alt="" />
+        <img src="pp.png" alt="le jardinier" />
         <a href="">
           <h1>Le Jardinier</h1>
         </a>
@@ -53,15 +53,46 @@
 
         <h2>How to use</h2>
 
-        <h2>Developer's Notes</h2>
-
+        <h3>1/ Command calls</h3>
+        <p>First, you need to know how to call a command.</p>
         <p>
-          Heyo I'm valflrt !<br />
-          I hope you enjoy my bot, I tried my best to make it friendly.<br />
+          To do so, you will need to write a message that looks like:
+          <i class="inline-code">[prefix][command identifier] [?parameters]</i>
         </p>
+        <p>Here are some examples:</p>
+        <ul class="dot">
+          <li><i class="inline-code">lj!hey</i></li>
+          <li><i class="inline-code">lj!morse.encode this is an example</i></li>
+        </ul>
+
+        <h3>2/ Hierarchy system</h3>
+
+        <p>I use a specific command hierarchy system: a "dotted" hierarchy.</p>
+        <p>
+          That is to say the whole "path" to a command is called a
+          <b>command identifier</b> and looks like:
+          <i class="inline-code"
+            >[command name].[subcommand name].[sub-subcommand name].[...]</i
+          >
+        </p>
+        <p>Examples:</p>
+
+        <ul class="dot">
+          <li>
+            <i class="inline-code">morse.table</i> is the identifier for the
+            subcommand "table" of the command "morse"
+          </li>
+          <li>
+            <i class="inline-code">music.add.search</i>is the identifier for the
+            sub-subcommand "search" of the subcommand "add" of the command
+            "music"
+          </li>
+        </ul>
 
         <details>
-          <summary><h3>Developement Notes</h3></summary>
+          <summary>
+            <h3>Developement Notes</h3>
+          </summary>
           <h4>Changelog</h4>
 
           <a
