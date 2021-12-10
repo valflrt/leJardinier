@@ -112,8 +112,7 @@ export const connect = () => mongoose.connect(config.secrets.databaseURI);
 export default {
 	connect,
 
-	guildManager,
-	userManager,
-	statManager,
-	playlistManager,
+	guilds: guildManager,
+	users: userManager,
+	playlists: playlistManager,
 };
