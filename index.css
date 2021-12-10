@@ -202,9 +202,10 @@ a.button {
 i.inline-code {
 	font-style: inherit;
 	text-decoration: inherit;
-	padding: 1px;
-	border-radius: 8px;
+	padding: 5px;
+	border-radius: 4px;
 	background: #dbdbdb;
+	display: inline-block;
 	break-inside: avoid;
 	word-break: keep-all;
 }
