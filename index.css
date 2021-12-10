@@ -214,10 +214,10 @@ i.inline-code {
 }
 
 p.code-block {
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow-y: hidden;
+	overflow-x: auto;
 	display: inline-block;
-	border-radius: 4px;
+	border-radius: 5px;
 	padding: 8px;
 	background: #dbdbdb;
 }
