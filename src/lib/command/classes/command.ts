@@ -124,19 +124,10 @@ export default class CCommand {
 				.setExecution(async (messageInstance) => {
 					let { methods } = messageInstance;
 
-					let preview = new CSubcommandPreview(this);
 					methods.sendCustomEmbed((embed) =>
 						embed
 							.setDescription(
-								`${bold(preview.title)}\n`
-									.concat(preview.description)
-									.concat(
-										this.commands.length !== 0
-											? `\n\n${bold(
-													underscore(`Subcommands:`)
-											  )}\n`
-											: ""
-									)
+								new CSubcommandPreview(this).fullPreview
 							)
 							.addFields(
 								CSubcommandPreview.createFields(this.commands)
@@ -215,6 +206,13 @@ export default class CCommand {
 
 	public get commands(): CCommand[] {
 		return this._commands;
+	}
+	public get commandCount(): number {
+		let count = 0;
+		this.commands.forEach((c) =>
+			!c.settings.hidden ? (count += 1) : null
+		);
+		return count;
 	}
 
 	public get syntax(): string {

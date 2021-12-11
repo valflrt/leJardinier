@@ -268,19 +268,10 @@ const help = new CCommand()
 				if (!command)
 					return methods.sendTextEmbed(`Unknown command...`);
 				else {
-					let preview = new CSubcommandPreview(command);
 					methods.sendCustomEmbed((embed) =>
 						embed
 							.setDescription(
-								`${bold(preview.title)}\n`
-									.concat(preview.description)
-									.concat(
-										command!.commands.length !== 0
-											? `\n\n${bold(
-													underscore(`Subcommands:`)
-											  )}\n`
-											: ""
-									)
+								new CSubcommandPreview(command!).fullPreview
 							)
 							.addFields(
 								CSubcommandPreview.createFields(
