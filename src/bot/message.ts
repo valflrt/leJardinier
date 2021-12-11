@@ -1,8 +1,8 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 import { hyperlink } from "@discordjs/builders";
 
-import CCommand from "../lib/commandManager/classes/command";
-import CMessageParser from "../lib/commandManager/classes/messageParser";
+import CCommand from "../lib/command/classes/command";
+import CMessageParser from "../lib/command/classes/messageParser";
 
 //import { guildManager, userManager, statManager } from "./database";
 import ReplyMethods from "./methods";

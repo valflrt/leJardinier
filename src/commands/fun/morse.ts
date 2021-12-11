@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { codeBlock, inlineCode } from "@discordjs/builders";
 
-import CCommand from "../../lib/commandManager/classes/command";
+import CCommand from "../../lib/command/classes/command";
 
 import morseTable from "../../assets/morseTable";
 

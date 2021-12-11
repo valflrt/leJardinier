@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
-import CCommand from "../../lib/commandManager/classes/command";
+import CCommand from "../../lib/command/classes/command";
 
 import database from "../../bot/database";
 import { PlaylistModel } from "../../lib/database/models/playlist";

@@ -1,7 +1,7 @@
 import { EmbedFieldData } from "discord.js";
 import { blockQuote, bold, inlineCode, quote } from "@discordjs/builders";
 
-import CCommand from "../lib/commandManager/classes/command";
+import CCommand from "../lib/command/classes/command";
 
 /**
  * return one of the given items randomly

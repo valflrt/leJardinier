@@ -1,7 +1,7 @@
 import { Permissions } from "discord.js";
 import { italic } from "@discordjs/builders";
 
-import CCommand from "../../lib/commandManager/classes/command";
+import CCommand from "../../lib/command/classes/command";
 
 const autorole = new CCommand()
 	.setName("autorole")

@@ -1,4 +1,4 @@
-import CCommand from "../../lib/commandManager/classes/command";
+import CCommand from "../../lib/command/classes/command";
 
 import { linkButton } from "../../bot/interactions";
 import reactions from "../../assets/reactions";
