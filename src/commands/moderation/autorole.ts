@@ -46,14 +46,12 @@ const autorole = new CCommand()
 
 		let collector = reference.createReactionCollector({
 			filter: (r) => {
-				console.log(r.me);
 				return emoji === r.emoji.toString() && r.me;
 			},
 		});
 
 		collector.on("collect", async (r, user) => {
 			if (user.bot) return;
-			console.log(r);
 			(await message.guild!.members.fetch(user.id)).roles.add(
 				roleMention!.id
 			);

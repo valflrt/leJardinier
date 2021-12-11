@@ -71,8 +71,6 @@ const morse = new CCommand()
 			.setExecution(async (messageInstance) => {
 				let { methods, commandParameters } = messageInstance;
 
-				console.log(commandParameters);
-
 				const decode = (
 					chars: string[],
 					decoded: string[] = []
