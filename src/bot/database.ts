@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 import config from "../config";
 
-import { IGuildSchema, GuildModel } from "../database/models/guild";
-import { IUserSchema, UserModel } from "../database/models/user";
-import { IStatSchema, StatModel } from "../database/models/stat";
-import { PlaylistModel } from "../database/models/playlist";
+import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
+import { IUserSchema, UserModel } from "../lib/database/models/user";
+import { IStatSchema, StatModel } from "../lib/database/models/stat";
+import { PlaylistModel } from "../lib/database/models/playlist";
 import { MoreVideoDetails } from "ytdl-core";
 
 class GuildManager {

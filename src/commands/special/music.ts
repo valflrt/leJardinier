@@ -4,7 +4,7 @@ import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 import CCommand from "../../lib/commandManager/classes/command";
 
 import database from "../../bot/database";
-import { PlaylistModel } from "../../database/models/playlist";
+import { PlaylistModel } from "../../lib/database/models/playlist";
 
 import * as Music from "../../bot/music";
 
