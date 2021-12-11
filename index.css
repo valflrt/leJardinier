@@ -71,6 +71,7 @@ body {
 .topbar > .title > h1 {
   margin: 0;
   margin-right: 10px;
+  font-family: "Pacifico";
 }
 
 .topbar > .title > img {
