@@ -5,8 +5,8 @@ import config from "../config";
 import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
 import { IUserSchema, UserModel } from "../lib/database/models/user";
 import { IStatSchema, StatModel } from "../lib/database/models/stat";
-import { PlaylistModel } from "../lib/database/models/playlist";
 import { MoreVideoDetails } from "ytdl-core";
+import { PlaylistSchema } from "../lib/database/models/playlist";
 
 class GuildManager {
 	public find = async (id: string) => {
@@ -70,35 +70,39 @@ class StatManager {
 
 class PlaylistManager {
 	public add = async (guildId: string, song: MoreVideoDetails) => {
-		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist)
-			playlist = new PlaylistModel({
+		let guild = await GuildModel.findOne({ id: guildId });
+		if (!guild)
+			guild = new GuildModel({
 				guildId,
 				song,
 			});
-		playlist.songs!.push(song);
-		return playlist.save();
+		if (!guild.playlist) {
+			guild.playlist = { songs: [] };
+		}
+		guild.playlist.songs!.push(song);
+		return guild.save();
 	};
 
 	public getFirst = async (guildId: string) => {
-		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist) return undefined;
-		if (playlist.songs?.length === 0) return null;
-		return playlist.songs![0];
+		let guild = await GuildModel.findOne({ id: guildId });
+		if (!guild || !guild.playlist) return undefined;
+		if (guild.playlist.songs!.length === 0) return null;
+		return guild.playlist.songs![0];
 	};
 
 	public removeFirst = async (guildId: string) => {
-		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist) return;
-		playlist.songs!.shift();
-		return await playlist.save();
+		let guild = await GuildModel.findOne({ id: guildId });
+		if (!guild || !guild.playlist) return;
+		guild.playlist.songs!.shift();
+		return await guild.save();
 	};
 
 	public clear = async (guildId: string) => {
-		let playlist = await PlaylistModel.findOne({ guildId });
-		if (!playlist || playlist.songs!.length === 0) return null;
-		playlist.songs! = [];
-		return await playlist.save();
+		let guild = await GuildModel.findOne({ guildId });
+		if (!guild || !guild.playlist || guild.playlist.songs!.length === 0)
+			return null;
+		guild.playlist.songs! = [];
+		return await guild.save();
 	};
 }
 
