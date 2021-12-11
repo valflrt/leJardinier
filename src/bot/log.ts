@@ -77,9 +77,9 @@ class Logger extends BaseLogger {
 	 */
 	public connectionSuccess(tag: string, id: string) {
 		this.success(
-			`Successfully logged in as ${chalk.underline(
-				tag
-			)} ${chalk.grey.italic(`(id: ${id})`)}`
+			`Successfully logged in as ${chalk.underline(tag)} ${chalk.grey(
+				`(id: ${id})`
+			)}`
 		);
 	}
 }
