@@ -131,7 +131,7 @@ export default class CCommand {
 								`${bold(preview.title)}\n`
 									.concat(preview.description)
 									.concat(
-										this.commands
+										this.commands.length !== 0
 											? `\n\n${bold(
 													underscore(`Subcommands:`)
 											  )}\n`

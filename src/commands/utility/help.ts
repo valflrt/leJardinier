@@ -275,7 +275,7 @@ const help = new CCommand()
 								`${bold(preview.title)}\n`
 									.concat(preview.description)
 									.concat(
-										command!.commands
+										command!.commands.length !== 0
 											? `\n\n${bold(
 													underscore(`Subcommands:`)
 											  )}\n`
