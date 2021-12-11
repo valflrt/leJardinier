@@ -1,12 +1,12 @@
 import { EmbedFieldData } from "discord.js";
-import { bold, inlineCode, quote } from "@discordjs/builders";
+import { bold, inlineCode, quote, underscore } from "@discordjs/builders";
 
 import CCommand from "../command/classes/command";
 
 export default class CSubcommandPreview {
 	public title: string;
 	public description: string;
-	public whole: string;
+	public fullPreview: string;
 
 	constructor(command: CCommand) {
 		this.title = `${bold(command.name)}`;
@@ -23,7 +23,13 @@ export default class CSubcommandPreview {
 					  )}`
 					: ""
 			);
-		this.whole = this.title.concat(`\n${this.description}`);
+		this.fullPreview = `${bold(this.title)}\n`
+			.concat(this.description)
+			.concat(
+				command.commandCount !== 0
+					? `\n\n${bold(underscore(`Subcommands:`))}\n`
+					: ""
+			);
 	}
 
 	public static createFields(commands: CCommand[]): EmbedFieldData[] {
