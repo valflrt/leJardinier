@@ -2,7 +2,7 @@ import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
 import config from "../config";
 
-import database /* , { userManager } */ from "./database";
+import database /* , { userManager } */ from "../lib/database";
 import log from "./log";
 import MessageInstance from "./message";
 
@@ -60,6 +60,8 @@ export default class LeJardinier {
 					!message.guild ? "guild is undefined" : ""
 				)
 			);
+
+		if (!message.content.startsWith(config.local.prefix)) return;
 
 		let messageInstance = new MessageInstance(message, this.bot!);
 		log.message.message(message, messageInstance); // logs every message
