@@ -14,9 +14,9 @@ In order to get the code working, you'll need to get:
 -   a youtube API key ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 -   a mongoDB database URI
 
-Then add those in [secrets.example.ts](./src/config/secrets.example.ts) and then rename this file to `secrets.ts`.
+Then add those in [`secrets.example.ts`](./src/config/secrets.example.ts) and then rename this file to `secrets.ts`.
 
-Finally, don't forget to configure the bot prefix in [local.ts](./src/config/local.ts) (same method: editing [local.example.ts](./src/config/local.example.ts) and renaming it to `local.ts`)
+Finally, don't forget to configure the bot prefix in [`local.ts`](./src/config/local.ts) (same method: editing [`local.example.ts`](./src/config/local.example.ts) and renaming it to `local.ts`)
 
 ### Starting
 
@@ -39,7 +39,7 @@ _Note: For the docker build to success, you need to first follow the instruction
 
 -   You need to have nodejs, npm and npx installed on your computer (npm and npx are usually automatically installed with nodejs)
 -   If you find a bug or have a suggestion, please create an issue so I can take a look at it.
--   [typescript.ts](./typescript.ts) is useless, I added it because my code editor put an error and adding this file was the way to fix it...
+-   [`typescript.ts`](./typescript.ts) is useless, I added it because my code editor put an error and adding this file was the way to fix it...
 -   _Don't mind my code it can be fucked up sometimes..._
 
 ### References
