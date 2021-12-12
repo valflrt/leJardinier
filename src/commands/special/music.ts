@@ -31,6 +31,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("play")
+			.addAlias("p")
 			.setDescription("Start playing music from the current playlist")
 			.setExecution(async (messageInstance) => {
 				let player = new Music.GuildPlayer(messageInstance);
@@ -67,7 +68,8 @@ const music = new CCommand()
 			.addSubcommand((c) =>
 				c
 					.setName("youtube url")
-					.setIdentifier("yturl")
+					.setIdentifier("youtubeurl")
+					.addAlias("url")
 					.setDescription(
 						"Add a song to the current playlist from a youtube url"
 					)
@@ -116,6 +118,96 @@ const music = new CCommand()
 					.addHelpCommand()
 			)
 
+			// music.playlisturl
+			.addSubcommand((c) =>
+				c
+					.setName("playlist url")
+					.setIdentifier("playlisturl")
+					.addAlias("plurl")
+					.setDescription(
+						"Adds multiples songs from a youtube playlist url. (20 items maximum in the playlist)"
+					)
+					.setExecution(async (messageInstance) => {
+						let { methods, message, commandParameters } =
+							messageInstance;
+
+						if (commandParameters.length === 0)
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} You need to specify the playlist url !`
+							);
+
+						let sent = await methods.sendTextEmbed(
+							`Looking for your playlist...`
+						);
+
+						let playlist = await Music.fetchPlaylist(
+							commandParameters
+						);
+
+						if (playlist === null)
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} Invalid url, please use a proper url !`
+							);
+						if (playlist === undefined)
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} Couldn't find the playlist !`
+							);
+
+						let playlistItems = await Music.fetchPlaylistItems(
+							playlist.id
+						);
+
+						let songs = playlistItems!.map(
+							(s) => new Music.Song(s.contentDetails.videoId)
+						);
+
+						let found = await Promise.all(
+							songs.map((s) => s.found)
+						);
+
+						if (found.some((s) => !s))
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} Some songs of the playlist are unavailable ! Please try again later...`
+							);
+
+						songs.forEach(
+							async (s) => await s.save(message.guildId!)
+						);
+
+						let details = await Promise.all(
+							songs.map((s) => s.details)
+						);
+
+						sent.editWithCustomEmbed((embed) =>
+							embed
+								.setDescription(
+									`${reactions.success.random()} Songs found ${reactions.smile.random()}\n`.concat(
+										`Added:\n`.concat(
+											details
+												.map((d, i) =>
+													bold(
+														hyperlink(
+															d!.title,
+															d!.video_url
+														)
+													)
+												)
+												.join("\n")
+												.concat(
+													`\nFrom: ${hyperlink(
+														playlist.snippet.title,
+														`https://www.youtube.com/playlist?list=${playlist.id}`
+													)}`
+												)
+										)
+									)
+								)
+								.addFields()
+						);
+					})
+					.addHelpCommand()
+			)
+
 			// add.search
 			.addSubcommand((c) =>
 				c
@@ -130,9 +222,9 @@ const music = new CCommand()
 						let { methods, message, commandParameters } =
 							messageInstance;
 
-						if (!commandParameters)
+						if (commandParameters.length === 0)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} You need to specify text to search for`
+								`${reactions.error.random()} You need to specify text to search for ! `
 							);
 
 						let sent = await methods.sendTextEmbed(
@@ -225,7 +317,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("playlist")
-			.setIdentifier("pl")
+			.addAlias("pl")
 			.setDescription("Display the current playlist")
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
@@ -261,6 +353,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("clear")
+			.addAlias("cl")
 			.setDescription(`Clear the current playlist`)
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
@@ -280,7 +373,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("remove")
-			.setIdentifier("rm")
+			.addAlias("rm")
 			.setDescription("Removes one song the current playlist")
 			.addParameter((p) => p.setName("song id").setRequired(true))
 			.setExecution(async (messageInstance) => {

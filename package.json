@@ -1,5 +1,5 @@
 {
-	"name": "lejardinier-typescript",
+	"name": "lejardinier",
 	"main": "index.js",
 	"scripts": {
 		"start": "npx ts-node src/index.ts",
