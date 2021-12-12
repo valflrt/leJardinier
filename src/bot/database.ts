@@ -8,8 +8,9 @@ import { IStatSchema, StatModel } from "../lib/database/models/stat";
 import { MoreVideoDetails } from "ytdl-core";
 
 class GuildManager {
-	public find = async (id: string) => {
-		return await GuildModel.findOne({ id });
+	public get = async (id: string) => {
+		let guild = await GuildModel.findOne({ id });
+		return guild ? guild : null;
 	};
 
 	public exists = async (id: string): Promise<boolean> => {
@@ -21,8 +22,9 @@ class GuildManager {
 		return await GuildModel.findOneAndRemove({ id });
 	};
 
-	public add = async (guild: IGuildSchema) => {
-		return await new GuildModel(guild).save();
+	public add = async (guildObject: IGuildSchema) => {
+		let guild = await new GuildModel(guildObject).save();
+		return guild ? guild : null;
 	};
 }
 
@@ -69,31 +71,31 @@ class StatManager {
 
 class PlaylistManager {
 	public add = async (guildId: string, song: MoreVideoDetails) => {
-		let guild = await database.guilds.find(guildId);
+		let guild = await database.guilds.get(guildId);
 		if (!guild)
 			guild = await database.guilds.add({
 				id: guildId,
 			});
-		guild.playlist!.songs!.push(song);
-		return guild.save();
+		guild!.playlist!.songs!.push(song);
+		return await guild!.save();
 	};
 
 	public getFirst = async (guildId: string) => {
-		let guild = await GuildModel.findOne({ id: guildId });
+		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist) return undefined;
-		if (guild.playlist.songs!.length === 0) return null;
+		if (guild.playlist.songs?.length === 0) return null;
 		return guild.playlist.songs![0];
 	};
 
 	public removeFirst = async (guildId: string) => {
-		let guild = await GuildModel.findOne({ id: guildId });
+		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist) return;
 		guild.playlist.songs!.shift();
 		return await guild.save();
 	};
 
 	public clear = async (guildId: string) => {
-		let guild = await GuildModel.findOne({ guildId });
+		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist || guild.playlist.songs!.length === 0)
 			return null;
 		guild.playlist.songs! = [];
@@ -101,19 +103,14 @@ class PlaylistManager {
 	};
 }
 
-export const guildManager = new GuildManager();
-export const userManager = new UserManager();
-export const statManager = new StatManager();
-export const playlistManager = new PlaylistManager();
-
-export const connect = () => mongoose.connect(config.secrets.databaseURI);
+const connect = () => mongoose.connect(config.secrets.databaseURI);
 
 const database = {
 	connect,
 
-	guilds: guildManager,
-	users: userManager,
-	playlists: playlistManager,
+	guilds: new GuildManager(),
+	users: new UserManager(),
+	playlists: new PlaylistManager(),
 };
 
 export default database;

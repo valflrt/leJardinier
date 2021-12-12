@@ -300,7 +300,7 @@ const music = new CCommand()
 						)
 					);
 
-				let guild = await database.guilds.find(message.guildId!);
+				let guild = await database.guilds.get(message.guildId!);
 				if (!guild || !guild.playlist)
 					return methods.sendTextEmbed(
 						`${reactions.success.random()} Current playlist is empty`
