@@ -31,6 +31,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("play")
+			.addAlias("p")
 			.setDescription("Start playing music from the current playlist")
 			.setExecution(async (messageInstance) => {
 				let player = new Music.GuildPlayer(messageInstance);
@@ -67,7 +68,8 @@ const music = new CCommand()
 			.addSubcommand((c) =>
 				c
 					.setName("youtube url")
-					.setIdentifier("yturl")
+					.setIdentifier("youtubeurl")
+					.addAlias("url")
 					.setDescription(
 						"Add a song to the current playlist from a youtube url"
 					)
@@ -225,7 +227,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("playlist")
-			.setIdentifier("pl")
+			.addAlias("pl")
 			.setDescription("Display the current playlist")
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
@@ -256,6 +258,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("clear")
+			.addAlias("cl")
 			.setDescription(`Clear the current playlist`)
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
@@ -275,7 +278,7 @@ const music = new CCommand()
 	.addSubcommand((c) =>
 		c
 			.setName("remove")
-			.setIdentifier("rm")
+			.addAlias("rm")
 			.setDescription("Removes one song the current playlist")
 			.addParameter((p) => p.setName("song id").setRequired(true))
 			.setExecution(async (messageInstance) => {
