@@ -63,6 +63,7 @@ const music = new CCommand()
 						)
 				);
 			})
+			.addHelpCommand()
 
 			// add.yturl
 			.addSubcommand((c) =>
@@ -205,7 +206,6 @@ const music = new CCommand()
 								.addFields()
 						);
 					})
-					.addHelpCommand()
 			)
 
 			// add.search
@@ -347,70 +347,76 @@ const music = new CCommand()
 				);
 			})
 			.addHelpCommand()
-	)
 
-	// clear
-	.addSubcommand((c) =>
-		c
-			.setName("clear")
-			.addAlias("cl")
-			.setDescription(`Clear the current playlist`)
-			.setExecution(async (messageInstance) => {
-				let { methods, message } = messageInstance;
-				let cleared = await database.playlists.clear(message.guildId!);
-				if (cleared === null)
-					return methods.sendTextEmbed(
-						`${reactions.success.random()} Playlist already empty`
-					);
-				methods.sendTextEmbed(
-					`${reactions.success.random()} Playlist cleared`
-				);
-			})
-			.addHelpCommand()
-	)
+			// clear
+			.addSubcommand((c) =>
+				c
+					.setName("clear")
+					.addAlias("cl")
+					.setDescription(`Clear the current playlist`)
+					.setExecution(async (messageInstance) => {
+						let { methods, message } = messageInstance;
+						let cleared = await database.playlists.clear(
+							message.guildId!
+						);
+						if (cleared === null)
+							return methods.sendTextEmbed(
+								`${reactions.success.random()} Playlist already empty`
+							);
+						methods.sendTextEmbed(
+							`${reactions.success.random()} Playlist cleared`
+						);
+					})
+					.addHelpCommand()
+			)
 
-	// remove
-	.addSubcommand((c) =>
-		c
-			.setName("remove")
-			.addAlias("rm")
-			.setDescription("Removes one song the current playlist")
-			.addParameter((p) => p.setName("song id").setRequired(true))
-			.setExecution(async (messageInstance) => {
-				let { methods, message, commandParameters } = messageInstance;
+			// remove
+			.addSubcommand((c) =>
+				c
+					.setName("remove")
+					.addAlias("rm")
+					.setDescription("Removes one song the current playlist")
+					.addParameter((p) => p.setName("song id").setRequired(true))
+					.setExecution(async (messageInstance) => {
+						let { methods, message, commandParameters } =
+							messageInstance;
 
-				if (!commandParameters)
-					return methods.sendTextEmbed(
-						`${reactions.error.random()} You need to specify an id !`
-					);
+						if (!commandParameters)
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} You need to specify an id !`
+							);
 
-				let songId = +commandParameters;
+						let songId = +commandParameters;
 
-				if (!songId || !Number.isInteger(songId))
-					return methods.sendTextEmbed(
-						`${reactions.error.random()} Incorrect id !\n`.concat(
-							`Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
-						)
-					);
+						if (!songId || !Number.isInteger(songId))
+							return methods.sendTextEmbed(
+								`${reactions.error.random()} Incorrect id !\n`.concat(
+									`Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
+								)
+							);
 
-				let guild = await database.guilds.get(message.guildId!);
-				if (!guild || !guild.playlist)
-					return methods.sendTextEmbed(
-						`${reactions.success.random()} Current playlist is empty`
-					);
+						let guild = await database.guilds.get(message.guildId!);
+						if (!guild || !guild.playlist)
+							return methods.sendTextEmbed(
+								`${reactions.success.random()} Current playlist is empty`
+							);
 
-				let removed = guild.playlist.songs!.splice(songId - 1, 1)[0];
-				await guild.save();
+						let removed = guild.playlist.songs!.splice(
+							songId - 1,
+							1
+						)[0];
+						await guild.save();
 
-				methods.sendTextEmbed(
-					`${reactions.success.random()} Removed\n`.concat(
-						`${inlineCode(` ${songId} `)} ${inlineCode(
-							removed.title
-						)}`
-					)
-				);
-			})
-			.addHelpCommand()
+						methods.sendTextEmbed(
+							`${reactions.success.random()} Removed\n`.concat(
+								`${inlineCode(` ${songId} `)} ${inlineCode(
+									removed.title
+								)}`
+							)
+						);
+					})
+					.addHelpCommand()
+			)
 	);
 
 export default music;
