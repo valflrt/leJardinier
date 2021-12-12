@@ -6,7 +6,7 @@ import axios from "axios";
 import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
 import { SentMessage } from "../types";
 
-import database from "../lib/database";
+import database from "./database";
 import MessageInstance from "../bot/message";
 
 import { logger } from "../bot/log";

@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-import config from "../../config";
+import config from "../config";
 
-import { IGuildSchema, GuildModel } from "./models/guild";
-import { IUserSchema, UserSchema } from "./models/user";
-import { IStatSchema } from "./models/stat";
+import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
+import { IUserSchema, UserSchema } from "../lib/database/models/user";
+import { IStatSchema } from "../lib/database/models/stat";
 import { MoreVideoDetails } from "ytdl-core";
-import log from "../../bot/log";
+import log from "../bot/log";
 
 class CGuildManager {
 	public async get(id: string) {

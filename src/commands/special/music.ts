@@ -3,7 +3,7 @@ import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../lib/command/classes/command";
 
-import database from "../../lib/database";
+import database from "../../middlewares/database";
 import { GuildModel } from "../../lib/database/models/guild";
 
 import * as Music from "../../middlewares/music";

@@ -2,7 +2,7 @@ import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
 import config from "../config";
 
-import database /* , { userManager } */ from "../lib/database";
+import database /* , { userManager } */ from "../middlewares/database";
 import log from "./log";
 import MessageInstance from "./message";
 
