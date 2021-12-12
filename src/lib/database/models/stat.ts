@@ -13,5 +13,3 @@ export const StatSchema = new mongoose.Schema<IStatSchema>({
 	messageCount: { type: Number, default: 1 },
 	coins: { type: Number, default: 0 },
 });
-
-export const StatModel = mongoose.model<IStatSchema>("Stat", StatSchema);

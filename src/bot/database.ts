@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import config from "../config";
 
 import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
-import { IUserSchema, UserModel } from "../lib/database/models/user";
-import { IStatSchema, StatModel } from "../lib/database/models/stat";
+import { IUserSchema } from "../lib/database/models/user";
+import { IStatSchema } from "../lib/database/models/stat";
 import { MoreVideoDetails } from "ytdl-core";
 
 class GuildManager {
@@ -28,7 +28,7 @@ class GuildManager {
 	};
 }
 
-class UserManager {
+/* class UserManager {
 	public find = async (id: string) => {
 		return await UserModel.findOne({ id });
 	};
@@ -67,7 +67,7 @@ class StatManager {
 	public add = async (stat: IStatSchema) => {
 		return await new StatModel(stat).save();
 	};
-}
+} */
 
 class PlaylistManager {
 	public add = async (guildId: string, song: MoreVideoDetails) => {
@@ -109,7 +109,7 @@ const database = {
 	connect,
 
 	guilds: new GuildManager(),
-	users: new UserManager(),
+	/* users: new UserManager(), */
 	playlists: new PlaylistManager(),
 };
 
