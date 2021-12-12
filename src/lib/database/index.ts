@@ -3,74 +3,92 @@ import mongoose from "mongoose";
 import config from "../../config";
 
 import { IGuildSchema, GuildModel } from "./models/guild";
-import { IUserSchema } from "./models/user";
+import { IUserSchema, UserSchema } from "./models/user";
 import { IStatSchema } from "./models/stat";
 import { MoreVideoDetails } from "ytdl-core";
+import log from "../../bot/log";
 
-class GuildManager {
-	public get = async (id: string) => {
+class CGuildManager {
+	public async get(id: string) {
 		let guild = await GuildModel.findOne({ id });
 		return guild ? guild : null;
-	};
+	}
 
-	public exists = async (id: string): Promise<boolean> => {
+	public async exists(id: string): Promise<boolean> {
 		let doc = await GuildModel.findOne({ id });
 		return doc ? true : false;
-	};
+	}
 
-	public remove = async (id: string) => {
+	public async remove(id: string) {
 		return await GuildModel.findOneAndRemove({ id });
-	};
+	}
 
-	public add = async (guildObject: IGuildSchema) => {
+	public async add(guildObject: IGuildSchema) {
 		let guild = await new GuildModel(guildObject).save();
 		return guild ? guild : null;
-	};
+	}
 }
 
-/* class UserManager {
-	public find = async (id: string) => {
-		return await UserModel.findOne({ id });
-	};
+class CUserManager {
+	public async get(guildId: string, userId: string) {
+		let guild = await database.guilds.get(guildId);
+		if (!guild) return null;
+		let user = guild.users!.find((u) => u.id === userId);
+		if (!user) return null;
+		return user;
+	}
 
-	public exists = async (id: string): Promise<boolean> => {
-		let doc = await UserModel.findOne({ id });
-		return doc ? true : false;
-	};
+	public async exists(guildId: string, userId: string): Promise<boolean> {
+		return (await database.users.get(guildId, userId)) ? true : false;
+	}
 
-	public remove = async (id: string) => {
-		return await UserModel.findOneAndRemove({ id });
-	};
+	public async remove(guildId: string, userId: string) {
+		let guild = await database.guilds.get(guildId);
+		if (!guild)
+			return log.baseLogger.error("Couldn't find (and remove) user");
+		let user = guild.users!.find((u) => u.id === userId);
+		if (!user)
+			return log.baseLogger.error("Couldn't find (and remove) user");
+		guild.users! = guild.users!.filter((u) => !(u.id === userId));
+		return await guild.save();
+	}
 
-	public add = async (user: IUserSchema) => {
-		return await new UserModel(user).save();
-	};
-}
+	public async add(guildId: string, userSchema: IUserSchema) {
+		let guild = await database.guilds.get(guildId);
+		if (!guild) return log.baseLogger.error("Couldn't create user");
+		guild.users!.push(userSchema);
+		return await guild.save();
+	}
 
-class StatManager {
-	public find = async (userId: string, guildId: string) => {
-		return await StatModel.findOne({ userId, guildId });
-	};
-
-	public exists = async (
+	public async update(
+		guildId: string,
 		userId: string,
-		guildId: string
-	): Promise<boolean> => {
-		let doc = await StatModel.findOne({ userId, guildId });
-		return doc ? true : false;
-	};
+		userSchema: IUserSchema
+	) {
+		let guild = await database.guilds.get(guildId);
+		if (!guild) return null;
+		let user = guild.users!.find((u) => u.id === userId);
+		if (!user) return null;
+		user = userSchema;
+		return guild.save();
+	}
 
-	public remove = async (userId: string, guildId: string) => {
-		return await StatModel.findOneAndRemove({ userId, guildId });
-	};
+	public async updateStats(
+		guildId: string,
+		userId: string,
+		statsSchema: IStatSchema
+	) {
+		let guild = await database.guilds.get(guildId);
+		if (!guild) return null;
+		let user = guild.users!.find((u) => u.id === userId);
+		if (!user) return null;
+		user.stats = statsSchema;
+		return guild.save();
+	}
+}
 
-	public add = async (stat: IStatSchema) => {
-		return await new StatModel(stat).save();
-	};
-} */
-
-class PlaylistManager {
-	public add = async (guildId: string, song: MoreVideoDetails) => {
+class CPlaylistManager {
+	public async add(guildId: string, song: MoreVideoDetails) {
 		let guild = await database.guilds.get(guildId);
 		if (!guild)
 			guild = await database.guilds.add({
@@ -78,29 +96,29 @@ class PlaylistManager {
 			});
 		guild!.playlist!.songs!.push(song);
 		return await guild!.save();
-	};
+	}
 
-	public getFirst = async (guildId: string) => {
+	public async getFirst(guildId: string) {
 		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist) return undefined;
 		if (guild.playlist.songs?.length === 0) return null;
 		return guild.playlist.songs![0];
-	};
+	}
 
-	public removeFirst = async (guildId: string) => {
+	public async removeFirst(guildId: string) {
 		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist) return;
 		guild.playlist.songs!.shift();
 		return await guild.save();
-	};
+	}
 
-	public clear = async (guildId: string) => {
+	public async clear(guildId: string) {
 		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist || guild.playlist.songs!.length === 0)
 			return null;
 		guild.playlist.songs! = [];
 		return await guild.save();
-	};
+	}
 }
 
 const connect = () => mongoose.connect(config.secrets.databaseURI);
@@ -108,9 +126,9 @@ const connect = () => mongoose.connect(config.secrets.databaseURI);
 const database = {
 	connect,
 
-	guilds: new GuildManager(),
-	/* users: new UserManager(), */
-	playlists: new PlaylistManager(),
+	guilds: new CGuildManager(),
+	users: new CUserManager(),
+	playlists: new CPlaylistManager(),
 };
 
 export default database;
