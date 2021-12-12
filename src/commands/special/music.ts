@@ -6,7 +6,7 @@ import CCommand from "../../lib/command/classes/command";
 import database from "../../lib/database";
 import { GuildModel } from "../../lib/database/models/guild";
 
-import * as Music from "../../bot/music";
+import * as Music from "../../middlewares/music";
 
 import reactions from "../../assets/reactions";
 import CSubcommandPreview from "../../lib/formatting/subcommand";

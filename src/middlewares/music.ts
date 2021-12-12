@@ -7,9 +7,9 @@ import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
 import { SentMessage } from "../types";
 
 import database from "../lib/database";
-import MessageInstance from "./message";
+import MessageInstance from "../bot/message";
 
-import { logger } from "./log";
+import { logger } from "../bot/log";
 import config from "../config";
 import reactions from "../assets/reactions";
 
