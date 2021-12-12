@@ -6,7 +6,6 @@ import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
 import { IUserSchema, UserModel } from "../lib/database/models/user";
 import { IStatSchema, StatModel } from "../lib/database/models/stat";
 import { MoreVideoDetails } from "ytdl-core";
-import { PlaylistSchema } from "../lib/database/models/playlist";
 
 class GuildManager {
 	public find = async (id: string) => {
@@ -70,16 +69,12 @@ class StatManager {
 
 class PlaylistManager {
 	public add = async (guildId: string, song: MoreVideoDetails) => {
-		let guild = await GuildModel.findOne({ id: guildId });
+		let guild = await database.guilds.find(guildId);
 		if (!guild)
-			guild = new GuildModel({
-				guildId,
-				song,
+			guild = await database.guilds.add({
+				id: guildId,
 			});
-		if (!guild.playlist) {
-			guild.playlist = { songs: [] };
-		}
-		guild.playlist.songs!.push(song);
+		guild.playlist!.songs!.push(song);
 		return guild.save();
 	};
 
@@ -113,10 +108,12 @@ export const playlistManager = new PlaylistManager();
 
 export const connect = () => mongoose.connect(config.secrets.databaseURI);
 
-export default {
+const database = {
 	connect,
 
 	guilds: guildManager,
 	users: userManager,
 	playlists: playlistManager,
 };
+
+export default database;

@@ -1,10 +1,10 @@
-import { MessageEmbed } from "discord.js";
+import { GuildManager, MessageEmbed } from "discord.js";
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../lib/command/classes/command";
 
 import database from "../../bot/database";
-import { PlaylistModel } from "../../lib/database/models/playlist";
+import { GuildModel } from "../../lib/database/models/guild";
 
 import * as Music from "../../bot/music";
 
@@ -230,14 +230,19 @@ const music = new CCommand()
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
-				let playlist = await PlaylistModel.findOne({
-					guildId: message.guildId!,
+				let guild = await GuildModel.findOne({
+					id: message.guildId!,
 				});
-				if (!playlist || !playlist.songs || playlist.songs.length === 0)
+				if (
+					!guild ||
+					!guild.playlist!.songs ||
+					!guild.playlist!.songs ||
+					guild.playlist!.songs.length === 0
+				)
 					return methods.sendTextEmbed(`The playlist is empty !`);
 
-				let songs = playlist
-					.songs!.map(
+				let songs = guild
+					.playlist!.songs.map(
 						(song, i) =>
 							`${inlineCode(` ${i + 1} `)} ${inlineCode(
 								song.title
@@ -295,16 +300,14 @@ const music = new CCommand()
 						)
 					);
 
-				let playlist = await PlaylistModel.findOne({
-					guildId: message.guildId!,
-				});
-				if (!playlist)
+				let guild = await database.guilds.find(message.guildId!);
+				if (!guild || !guild.playlist)
 					return methods.sendTextEmbed(
 						`${reactions.success.random()} Current playlist is empty`
 					);
 
-				let removed = playlist.songs!.splice(songId - 1, 1)[0];
-				await playlist.save();
+				let removed = guild.playlist.songs!.splice(songId - 1, 1)[0];
+				await guild.save();
 
 				methods.sendTextEmbed(
 					`${reactions.success.random()} Removed\n`.concat(
