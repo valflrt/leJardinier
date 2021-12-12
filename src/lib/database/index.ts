@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-import config from "../config";
+import config from "../../config";
 
-import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
-import { IUserSchema } from "../lib/database/models/user";
-import { IStatSchema } from "../lib/database/models/stat";
+import { IGuildSchema, GuildModel } from "./models/guild";
+import { IUserSchema } from "./models/user";
+import { IStatSchema } from "./models/stat";
 import { MoreVideoDetails } from "ytdl-core";
 
 class GuildManager {
