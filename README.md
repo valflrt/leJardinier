@@ -20,10 +20,10 @@ Finally, don't forget to configure the bot prefix in [`local.ts`](./src/config/l
 
 ### Starting
 
-Finally, to start the code, run:
+Finally, to start the code, you can choose to run one of the commands below:
 
--   `npm start`: normal start
--   `npm run dev`: development start (with nodemon: restarting when code changes)
+-   `npm start`: for normal start
+-   `npm run dev`: for development start (with nodemon: restarting when code changes)
 
 You can also use `npm run lint` to lint the code in `src/`:
 
