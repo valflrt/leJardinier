@@ -1,7 +1,7 @@
 import { GuildManager, MessageEmbed } from "discord.js";
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 
 import database from "../../managers/database";
 import { GuildModel } from "../../lib/database/models/guild";

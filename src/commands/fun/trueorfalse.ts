@@ -1,6 +1,6 @@
 import { bold, inlineCode, quote } from "@discordjs/builders";
 
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 import * as utils from "../../utils";
 
 const trueOrFalse = new CCommand()

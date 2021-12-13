@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import Discord from "discord.js";
 
-import CCommand from "../lib/command/classes/command";
+import CCommand from "../managers/commands/classes/command";
 import MessageInstance from "./message";
 
 import config from "../config";

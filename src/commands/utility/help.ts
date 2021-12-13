@@ -7,7 +7,7 @@ import {
 	underscore,
 } from "@discordjs/builders";
 
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 import commandList from "..";
 
 import CSubcommandPreview from "../../lib/formatting/subcommand";

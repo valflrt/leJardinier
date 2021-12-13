@@ -1,4 +1,4 @@
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 import * as utils from "../../utils";
 
 import reactions from "../../assets/reactions";

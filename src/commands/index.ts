@@ -1,4 +1,4 @@
-import CCommandList from "../lib/command/classes/commandList";
+import CCommandList from "../managers/commands/classes/commandList";
 //import CommandList from "../bot/command.list";
 
 // utility commands
