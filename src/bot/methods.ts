@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 
 import MessageInstance from "./message";
-import { SentMessage } from "../types";
+import { SentMessage } from "../lib/types";
 
 export default class ReplyMethods {
 	private message: Message;
