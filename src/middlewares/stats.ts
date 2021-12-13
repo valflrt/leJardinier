@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
 
-import database from "./database";
+import database from "../managers/database";
 
-export const onMessage = (message: Message) => {
+export const updateMessageStats = (message: Message) => {
 	database.users.updateStats(
 		message.guildId!,
 		message.author.id,

@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { Command } from "../../bot/command";
-import { statManager } from "../../middlewares/database";
+import { statManager } from "../../managers/database";
 
 const stats = new Command({
 	name: "stats",

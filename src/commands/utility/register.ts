@@ -1,7 +1,7 @@
 import { inlineCode } from "@discordjs/builders";
 
 import { Command } from "../../bot/command";
-import { guildManager, userManager } from "../../middlewares/database";
+import { guildManager, userManager } from "../../managers/database";
 
 const register = new Command({
 	name: "register",
