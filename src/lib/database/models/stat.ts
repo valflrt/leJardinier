@@ -8,7 +8,7 @@ export interface IStatSchema {
 }
 
 export const StatSchema = new mongoose.Schema<IStatSchema>({
-	level: { type: Number, default: 0 },
+	level: { type: Number, default: 1 },
 	xp: { type: Number, default: 0 },
 	messageCount: { type: Number, default: 0 },
 	coins: { type: Number, default: 0 },

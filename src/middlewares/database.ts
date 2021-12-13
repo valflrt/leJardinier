@@ -76,13 +76,13 @@ class CUserManager {
 	public async updateStats(
 		guildId: string,
 		userId: string,
-		statsSchema: IStatSchema
+		statsConfig: (currentStats: IStatSchema) => IStatSchema
 	) {
 		let guild = await database.guilds.get(guildId);
 		if (!guild) return null;
 		let user = guild.users!.find((u) => u.id === userId);
 		if (!user) return null;
-		user.stats = statsSchema;
+		user.stats = statsConfig(user.stats);
 		return guild.save();
 	}
 }
