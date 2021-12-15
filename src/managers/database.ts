@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import config from "../config";
 
 import { IGuildSchema, GuildModel } from "../lib/database/models/guild";
-import { IUserSchema, UserSchema } from "../lib/database/models/user";
+import { IUserSchema } from "../lib/database/models/user";
 import { IStatSchema } from "../lib/database/models/stat";
 import { MoreVideoDetails } from "ytdl-core";
 import log from "../bot/log";
@@ -20,7 +20,7 @@ class CGuildManager {
 	}
 
 	public async remove(id: string) {
-		return await GuildModel.findOneAndRemove({ id });
+		return GuildModel.findOneAndRemove({ id });
 	}
 
 	public async add(guildObject: IGuildSchema) {
@@ -50,14 +50,14 @@ class CUserManager {
 		if (!user)
 			return log.baseLogger.error("Couldn't find (and remove) user");
 		guild.users! = guild.users!.filter((u) => !(u.id === userId));
-		return await guild.save();
+		return guild.save();
 	}
 
 	public async add(guildId: string, userSchema: IUserSchema) {
 		let guild = await database.guilds.get(guildId);
 		if (!guild) return log.baseLogger.error("Couldn't create user");
 		guild.users!.push(userSchema);
-		return await guild.save();
+		return guild.save();
 	}
 
 	public async update(
@@ -79,10 +79,10 @@ class CUserManager {
 		statsConfig: (currentStats: IStatSchema) => IStatSchema
 	) {
 		let guild = await database.guilds.get(guildId);
-		if (!guild) return null;
+		if (!guild) return "ug"; // unknown guild
 		let user = guild.users!.find((u) => u.id === userId);
-		if (!user) return null;
-		user.stats = statsConfig(user.stats);
+		if (!user) return "uu"; // unknown user
+		user.stats = statsConfig(user.stats!);
 		return guild.save();
 	}
 }
@@ -95,7 +95,7 @@ class CPlaylistManager {
 				id: guildId,
 			});
 		guild!.playlist!.songs!.push(song);
-		return await guild!.save();
+		return guild!.save();
 	}
 
 	public async getFirst(guildId: string) {
@@ -109,7 +109,7 @@ class CPlaylistManager {
 		let guild = await database.guilds.get(guildId);
 		if (!guild || !guild.playlist) return;
 		guild.playlist.songs!.shift();
-		return await guild.save();
+		return guild.save();
 	}
 
 	public async clear(guildId: string) {
@@ -117,7 +117,7 @@ class CPlaylistManager {
 		if (!guild || !guild.playlist || guild.playlist.songs!.length === 0)
 			return null;
 		guild.playlist.songs! = [];
-		return await guild.save();
+		return guild.save();
 	}
 }
 

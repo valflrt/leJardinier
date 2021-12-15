@@ -2,8 +2,8 @@ import { Message } from "discord.js";
 
 import database from "../managers/database";
 
-export const updateMessageStats = (message: Message) => {
-	database.users.updateStats(
+export const onMessage = async (message: Message) => {
+	let update = await database.users.updateStats(
 		message.guildId!,
 		message.author.id,
 		(currentStats) => {
@@ -22,4 +22,12 @@ export const updateMessageStats = (message: Message) => {
 			};
 		}
 	);
+
+	if (update === "ug") await database.guilds.add({ id: message.guildId! });
+	if (update === "uu")
+		await database.users.add(message.guildId!, {
+			id: message.author.id,
+		});
+
+	onMessage(message);
 };
