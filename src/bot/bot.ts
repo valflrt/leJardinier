@@ -1,11 +1,13 @@
 import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
-import config from "../config";
-
-import database /* , { userManager } */ from "../managers/database";
-import * as databaseMiddleware from "../middlewares/database";
-import log from "./log";
 import MessageInstance from "./message";
+
+import buildDatabase from "../managers/database/database";
+import * as databaseMiddleware from "../middlewares/database";
+
+import log from "./log";
+
+import config from "../config";
 
 export default class LeJardinier {
 	private bot?: Client;
@@ -31,7 +33,7 @@ export default class LeJardinier {
 	 */
 	private onReady = async (bot: Client) => {
 		try {
-			await database.connect();
+			await buildDatabase();
 			log.database.connectionSuccess();
 		} catch (e) {
 			log.database.connectionFailure(e);
