@@ -2,7 +2,7 @@ import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
 import MessageInstance from "./message";
 
-import buildDatabase from "../managers/database/database";
+import { buildDatabase } from "../managers/database";
 import * as databaseMiddleware from "../middlewares/database";
 
 import log from "./log";
