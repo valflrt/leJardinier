@@ -322,19 +322,14 @@ const music = new CCommand()
 			.setExecution(async (messageInstance) => {
 				let { methods, message } = messageInstance;
 
-				let guild = await GuildModel.findOne({
+				let guild = await database.guilds.findOne({
 					id: message.guildId!,
 				});
-				if (
-					!guild ||
-					!guild.playlist!.songs ||
-					!guild.playlist!.songs ||
-					guild.playlist!.songs.length === 0
-				)
+				if (!guild || guild.playlist!.length === 0)
 					return methods.sendTextEmbed(`The playlist is empty !`);
 
 				let songs = guild
-					.playlist!.songs.map(
+					.playlist!.map(
 						(song, i) =>
 							`${inlineCode(` ${i + 1} `)} ${inlineCode(
 								song.title
@@ -356,16 +351,16 @@ const music = new CCommand()
 					.setDescription(`Clear the current playlist`)
 					.setExecution(async (messageInstance) => {
 						let { methods, message } = messageInstance;
-						let cleared = await database.playlists.clear(
-							message.guildId!
+						let cleared = await database.guilds.updateOne(
+							{
+								id: message.guildId!,
+							},
+							{ playlist: [] }
 						);
-						if (cleared === null)
+						if (cleared.ok === 1)
 							return methods.sendTextEmbed(
-								`${reactions.success.random()} Playlist already empty`
+								`${reactions.success.random()} Playlist cleared`
 							);
-						methods.sendTextEmbed(
-							`${reactions.success.random()} Playlist cleared`
-						);
 					})
 					.addHelpCommand()
 			)
@@ -395,17 +390,22 @@ const music = new CCommand()
 								)
 							);
 
-						let guild = await database.guilds.get(message.guildId!);
-						if (!guild || !guild.playlist)
+						let guild = await database.guilds.findOne({
+							id: message.guildId!,
+						});
+						if (!guild)
 							return methods.sendTextEmbed(
 								`${reactions.success.random()} Current playlist is empty`
 							);
 
-						let removed = guild.playlist.songs!.splice(
-							songId - 1,
-							1
-						)[0];
-						await guild.save();
+						let removed = guild.playlist!.splice(songId - 1, 1)[0];
+
+						await database.guilds.updateOne(
+							{
+								id: message.guildId!,
+							},
+							{ playlist: guild.playlist! }
+						);
 
 						methods.sendTextEmbed(
 							`${reactions.success.random()} Removed\n`.concat(
