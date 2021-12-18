@@ -9,7 +9,7 @@ import { GuildModel } from "../../lib/database/models/guild";
 import * as Music from "../../middlewares/music";
 
 import reactions from "../../assets/reactions";
-import CSubcommandPreview from "../../lib/formatting/subcommand";
+import CSubcommandPreview from "../../middlewares/formatting/subcommand";
 
 const music = new CCommand()
 	.setName("music")

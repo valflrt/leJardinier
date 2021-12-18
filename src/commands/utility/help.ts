@@ -10,7 +10,7 @@ import {
 import CCommand from "../../managers/commands/classes/command";
 import commandList from "..";
 
-import CSubcommandPreview from "../../lib/formatting/subcommand";
+import CSubcommandPreview from "../../middlewares/formatting/subcommand";
 import reactions from "../../assets/reactions";
 
 const help = new CCommand()
