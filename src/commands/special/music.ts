@@ -1,10 +1,8 @@
-import { GuildManager, MessageEmbed } from "discord.js";
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
 
 import database from "../../managers/database";
-import { GuildModel } from "../../lib/database/models/guild";
 
 import * as Music from "../../middlewares/music";
 
@@ -101,7 +99,7 @@ const music = new CCommand()
 
 						let songDetails = (await song.details)!;
 
-						sent.editWithCustomEmbed((embed: MessageEmbed) =>
+						sent.editWithCustomEmbed((embed) =>
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
@@ -257,7 +255,7 @@ const music = new CCommand()
 
 						let songDetails = (await song.details)!;
 
-						sent.editWithCustomEmbed((embed: MessageEmbed) =>
+						sent.editWithCustomEmbed((embed) =>
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(

@@ -9,7 +9,7 @@ import { SentMessage } from "../lib/types";
 import database from "../managers/database";
 import MessageInstance from "../bot/message";
 
-import { logger } from "../bot/log";
+import * as log from "../bot/log";
 import config from "../config";
 import reactions from "../assets/reactions";
 
@@ -30,11 +30,19 @@ export class Song {
 		return this.fetchSong();
 	}
 
-	public save = async (guildId: string) =>
-		database.playlists.add(guildId, (await this.fetchSong())!);
+	public async save(guildId: string) {
+		let guild = await database.guilds.findOne({ id: guildId });
+		if (!guild)
+			return log.system.error(
+				"Failed to add song to the playlist: Guild not found !"
+			);
+		guild!.playlist!.push((await this.fetchSong())!);
+		database.guilds.updateOne({ id: guildId }, guild);
+	}
 
-	private fetchSong = async (): Promise<MoreVideoDetails | undefined> =>
-		(await ytdl.getBasicInfo(this.commandArgs!))?.videoDetails;
+	private async fetchSong(): Promise<MoreVideoDetails | undefined> {
+		return (await ytdl.getBasicInfo(this.commandArgs!))?.videoDetails;
+	}
 }
 
 class PlayerManager {
@@ -165,7 +173,7 @@ export class GuildPlayer {
 			methods.sendTextEmbed(
 				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
 			);
-			logger.error(`Audio connection crashed: ${err}`);
+			log.system.error(`Audio connection crashed: ${err}`);
 		});
 
 		return;
@@ -177,16 +185,22 @@ export class GuildPlayer {
 	}
 
 	private async getNextSong() {
-		this.currentSong = await database.playlists.getFirst(
-			this.messageInstance.message.guildId!
-		);
+		this.currentSong = (
+			await database.guilds.findOne({
+				id: this.messageInstance.message.guildId!,
+			})
+		)?.playlist!.shift();
 		return this.currentSong;
 	}
 
 	public async skipSong() {
-		await database.playlists.removeFirst(
-			this.messageInstance.message.guildId!
-		);
+		let guild = await database.guilds.findOne({
+			id: this.messageInstance.message.guildId!,
+		});
+		if (!guild)
+			return log.system.error(
+				"Failed to skip song: Guild not found !"
+			) as void;
 	}
 
 	public destroy() {
