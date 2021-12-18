@@ -1,7 +1,15 @@
-import { Db } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 
 import GuildManager from "./managers/guild";
 import MemberManager from "./managers/member";
+
+import config from "../../config";
+
+export const buildDatabase = async (): Promise<void> => {
+	const client = new MongoClient(config.secrets.databaseURI);
+	await client.connect();
+	database.associate(client.db("lejardinier"));
+};
 
 export class DatabaseManagers {
 	public guilds!: GuildManager;
@@ -14,5 +22,4 @@ export class DatabaseManagers {
 }
 
 const database = new DatabaseManagers();
-
 export default database;
