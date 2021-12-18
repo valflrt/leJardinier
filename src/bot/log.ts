@@ -187,14 +187,14 @@ class DatabaseLogger extends Logger {
 	}
 }
 
-export const baseLogger = new BaseLogger();
+export const system = new BaseLogger();
 export const logger = new Logger();
 export const message = new MessageLogger();
 export const command = new CommandLogger();
 export const database = new DatabaseLogger();
 
 export default {
-	baseLogger,
+	system,
 	logger,
 	message,
 	command,
