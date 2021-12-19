@@ -21,17 +21,17 @@ export default class ReplyMethods {
 	 * replies to the call message
 	 * @param options message options
 	 */
-	public reply = (options: string | MessagePayload | ReplyMessageOptions) => {
+	public reply(options: string | MessagePayload | ReplyMessageOptions) {
 		return this.message.reply(options);
-	};
+	}
 
 	/**
 	 * sends a message in the current channel
 	 * @param options messages options
 	 */
-	public send = (options: string | MessagePayload | ReplyMessageOptions) => {
+	public send(options: string | MessagePayload | ReplyMessageOptions) {
 		return this.message.channel.send(options);
-	};
+	}
 
 	/**
 	 * sends an already created MessageEmbed
