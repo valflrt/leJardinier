@@ -3,7 +3,7 @@ import TCommandParameterConfig from "../types/commandParameterConfig";
 import TExecutionFunction from "../types/executionFunction";
 
 import config from "../../../config";
-import CSubcommandPreview from "../../formatting/subcommand";
+import CSubcommandPreview from "../../../middlewares/formatting/subcommand";
 import { bold, underscore } from "@discordjs/builders";
 import ICommandSettings from "../types/commandSettings";
 

@@ -7,7 +7,9 @@ class ReactionCollection {
 		this.emotes = emotes;
 	}
 
-	public random = () => randomItem(...this.emotes);
+	public get random(): string {
+		return randomItem(...this.emotes);
+	}
 }
 
 export default {

@@ -1,4 +1,4 @@
-import { ISecrets } from "../types";
+import { ISecrets } from "../lib/types";
 
 const secrets: ISecrets = {
 	token: "bot token",

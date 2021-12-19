@@ -1,6 +1,6 @@
 import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import reactions from "../../assets/reactions";
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 
 const kick = new CCommand()
 	.setName("kick")
@@ -12,7 +12,7 @@ const kick = new CCommand()
 		let guildMember = await message.guild?.members.fetch(message.author.id);
 		if (!guildMember?.permissions.has(Permissions.FLAGS.KICK_MEMBERS))
 			return methods.sendTextEmbed(
-				`${reactions.error.random()} You do not have the permission to kick members`
+				`${reactions.error.random} You do not have the permission to kick members`
 			);
 		let memberToKick = message.mentions.members?.first();
 		if (!memberToKick)

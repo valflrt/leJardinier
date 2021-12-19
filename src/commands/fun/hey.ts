@@ -1,4 +1,4 @@
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 import * as utils from "../../utils";
 
 import reactions from "../../assets/reactions";
@@ -10,7 +10,7 @@ const hey = new CCommand()
 		let { methods, message } = messageInstance;
 		methods.sendTextEmbed(
 			`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} `.concat(
-				`${message.author.toString()} ${reactions.smile.random()}`
+				`${message.author.toString()} ${reactions.smile.random}`
 			)
 		);
 	})

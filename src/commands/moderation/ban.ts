@@ -1,6 +1,6 @@
 import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import reactions from "../../assets/reactions";
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 
 const ban = new CCommand()
 	.setName("ban")
@@ -12,7 +12,7 @@ const ban = new CCommand()
 		let guildMember = await message.guild?.members.fetch(message.author.id);
 		if (!guildMember?.permissions.has(Permissions.FLAGS.BAN_MEMBERS))
 			return methods.sendTextEmbed(
-				`${reactions.error.random()} You do not have the permission to ban members`
+				`${reactions.error.random} You do not have the permission to ban members`
 			);
 		let memberToBan = message.mentions.members?.first();
 		if (!memberToBan)

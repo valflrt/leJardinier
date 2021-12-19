@@ -1,4 +1,4 @@
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 
 import { linkButton } from "../../bot/interactions";
 import reactions from "../../assets/reactions";
@@ -9,7 +9,7 @@ const invite = new CCommand()
 	.setExecution(async (messageInstance) => {
 		let { methods, bot } = messageInstance;
 		methods.sendTextEmbed(
-			`Click the button bellow if you want me to hop in your server ${reactions.smile.random()}`,
+			`Click the button bellow if you want me to hop in your server ${reactions.smile.random}`,
 			{
 				components: [
 					linkButton(

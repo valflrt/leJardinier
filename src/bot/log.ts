@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import Discord from "discord.js";
 
-import CCommand from "../lib/command/classes/command";
+import CCommand from "../managers/commands/classes/command";
 import MessageInstance from "./message";
 
 import config from "../config";
@@ -187,14 +187,14 @@ class DatabaseLogger extends Logger {
 	}
 }
 
-export const baseLogger = new BaseLogger();
-export const logger = new Logger();
-export const message = new MessageLogger();
-export const command = new CommandLogger();
-export const database = new DatabaseLogger();
+const system = new BaseLogger();
+const logger = new Logger();
+const message = new MessageLogger();
+const command = new CommandLogger();
+const database = new DatabaseLogger();
 
 export default {
-	baseLogger,
+	system,
 	logger,
 	message,
 	command,

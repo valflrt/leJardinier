@@ -3,7 +3,7 @@ import {
 	MessageEmbed,
 	ReplyMessageOptions,
 } from "discord.js/typings/index.js";
-import MessageInstance from "./bot/message";
+import MessageInstance from "../bot/message";
 
 export interface ICommand {
 	name: string;

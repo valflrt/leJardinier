@@ -7,10 +7,10 @@ import {
 	underscore,
 } from "@discordjs/builders";
 
-import CCommand from "../../lib/command/classes/command";
+import CCommand from "../../managers/commands/classes/command";
 import commandList from "..";
 
-import CSubcommandPreview from "../../lib/formatting/subcommand";
+import CSubcommandPreview from "../../middlewares/formatting/subcommand";
 import reactions from "../../assets/reactions";
 
 const help = new CCommand()
@@ -21,9 +21,9 @@ const help = new CCommand()
 		methods.sendCustomEmbed((embed) =>
 			embed
 				.setDescription(
-					`Hello I'm ${bold(
-						"Le Jardinier"
-					)} ${reactions.smile.random()}\n`
+					`Hello I'm ${bold("Le Jardinier")} ${
+						reactions.smile.random
+					}\n`
 						.concat(
 							`I am an utility discord bot developed by <@${
 								"564012236851511298" /* my discord id */
@@ -296,7 +296,7 @@ const help = new CCommand()
 						`here`,
 						`https://valflrt.github.io/lejardinier-typescript/`
 					)} `.concat(
-						`to get to my website ${reactions.smile.random()}`
+						`to get to my website ${reactions.smile.random}`
 					)
 				);
 			})

@@ -1,10 +1,13 @@
 import { Client, ClientOptions, GuildMember, Message } from "discord.js";
 
-import config from "../config";
-
-import database /* , { userManager } */ from "./database";
-import log from "./log";
 import MessageInstance from "./message";
+
+import database, { buildDatabase } from "../managers/database";
+import databaseMiddleware from "../middlewares/database";
+
+import log from "./log";
+
+import config from "../config";
 
 export default class LeJardinier {
 	private bot?: Client;
@@ -30,7 +33,7 @@ export default class LeJardinier {
 	 */
 	private onReady = async (bot: Client) => {
 		try {
-			await database.connect();
+			await buildDatabase();
 			log.database.connectionSuccess();
 		} catch (e) {
 			log.database.connectionFailure(e);
@@ -54,7 +57,7 @@ export default class LeJardinier {
 		// checks if something is wrong with the message
 		if (message.author.bot) return; // skip if the author is a bot
 		if (!message.author || !message.guild)
-			// logs a message if guild or author is undefined
+			// logs an error if guild or author is undefined
 			return log.logger.error(
 				(!message.author ? "author is undefined" : "").concat(
 					!message.guild ? "guild is undefined" : ""
@@ -62,7 +65,11 @@ export default class LeJardinier {
 			);
 
 		let messageInstance = new MessageInstance(message, this.bot!);
-		log.message.message(message, messageInstance); // logs every message
+
+		databaseMiddleware.listeners.onMessage(messageInstance);
+
+		if (!message.content.startsWith(config.local.prefix)) return;
+		log.message.message(message, messageInstance); // logs every command
 
 		if (messageInstance.hasCommand === true) {
 			messageInstance.execute();
@@ -72,15 +79,28 @@ export default class LeJardinier {
 	};
 
 	private onMemberAdd = async (member: GuildMember) => {
-		/*if ((await userManager.exists(member.user.id)) === false)
-			userManager.add(member.user);*/
+		let foundMember = await database.members.findOne({
+			userId: member.id,
+			guildId: member.guild.id,
+		});
+		if (!foundMember)
+			await database.members.createOne({
+				userId: member.id,
+				guildId: member.guild.id,
+			});
 	};
 
 	/**
-	 * sets bot listeners (once bot started: prevents too early event calls)
+	 * sets bot listeners (once bot started: prevents too early event calls and
+	 * error resulting of it)
 	 */
 	private setListeners() {
 		this.bot!.on("messageCreate", this.onMessageCreate);
 		this.bot!.on("guildMemberAdd", this.onMemberAdd);
+		this.bot!.on("interactionCreate", (i) => {
+			// TODO: use this for command autorole
+			i.isButton();
+			console.log(i);
+		});
 	}
 }
