@@ -79,12 +79,12 @@ export default class LeJardinier {
 	};
 
 	private onMemberAdd = async (member: GuildMember) => {
-		let foundMember = database.members.findOne({
+		let foundMember = await database.members.findOne({
 			userId: member.id,
 			guildId: member.guild.id,
 		});
 		if (!foundMember)
-			database.members.createOne({
+			await database.members.createOne({
 				userId: member.id,
 				guildId: member.guild.id,
 			});
