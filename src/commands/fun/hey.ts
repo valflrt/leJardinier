@@ -10,7 +10,7 @@ const hey = new CCommand()
 		let { methods, message } = messageInstance;
 		methods.sendTextEmbed(
 			`${utils.randomItem("Hey", "Hii", "Heyaa", "Yo")} `.concat(
-				`${message.author.toString()} ${reactions.smile.random()}`
+				`${message.author.toString()} ${reactions.smile.random}`
 			)
 		);
 	})

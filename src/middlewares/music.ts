@@ -89,7 +89,7 @@ export class GuildPlayer {
 
 		if (!message.member?.voice.channel)
 			return methods.sendTextEmbed(
-				`${reactions.error.random()} You need to be in a voice channel`
+				`${reactions.error.random} You need to be in a voice channel`
 			);
 		this.audioChannel = message.member!.voice.channel;
 
@@ -98,7 +98,7 @@ export class GuildPlayer {
 		);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
 			return methods.sendTextEmbed(
-				`${reactions.error.random()} I am not allowed to join voice channels !\n`.concat(
+				`${reactions.error.random} I am not allowed to join voice channels !\n`.concat(
 					`Please contact the moderator of this guild.`
 				)
 			);
@@ -154,7 +154,7 @@ export class GuildPlayer {
 					embed
 						.setThumbnail(this.currentSong!.thumbnails[0].url)
 						.setDescription(
-							`${reactions.success.random()} Now playing ${bold(
+							`${reactions.success.random} Now playing ${bold(
 								hyperlink(
 									this.currentSong!.title,
 									this.currentSong!.video_url
@@ -171,7 +171,7 @@ export class GuildPlayer {
 
 		this.player.on("error", (err) => {
 			methods.sendTextEmbed(
-				`${reactions.error.random()} An unknown error occurred (connection might have crashed)`
+				`${reactions.error.random} An unknown error occurred (connection might have crashed)`
 			);
 			log.system.error(`Audio connection crashed: ${err}`);
 		});

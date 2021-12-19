@@ -17,7 +17,7 @@ const music = new CCommand()
 		methods.sendCustomEmbed((embed) =>
 			embed
 				.setDescription(
-					`You can play some good tunes with this command ${reactions.smile.random()}\n`.concat(
+					`You can play some good tunes with this command ${reactions.smile.random}\n`.concat(
 						`Here are the available commands:`
 					)
 				)
@@ -81,7 +81,7 @@ const music = new CCommand()
 
 						if (commandParameters.length === 0)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} You must specify the video url`
+								`${reactions.error.random} You must specify the video url`
 							);
 
 						let sent = await methods.sendTextEmbed(
@@ -92,7 +92,7 @@ const music = new CCommand()
 
 						if (!(await song.found))
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} Song not found please check your youtube url`
+								`${reactions.error.random} Song not found please check your youtube url`
 							);
 
 						await song.save(message.guildId!);
@@ -103,7 +103,7 @@ const music = new CCommand()
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Song found ${reactions.smile.random()}\n`.concat(
+									`${reactions.success.random} Song found ${reactions.smile.random}\n`.concat(
 										`Added ${bold(
 											hyperlink(
 												songDetails.title,
@@ -132,7 +132,7 @@ const music = new CCommand()
 
 						if (commandParameters.length === 0)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} You need to specify the playlist url !`
+								`${reactions.error.random} You need to specify the playlist url !`
 							);
 
 						let sent = await methods.sendTextEmbed(
@@ -145,11 +145,11 @@ const music = new CCommand()
 
 						if (playlist === null)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} Invalid url, please use a proper url !`
+								`${reactions.error.random} Invalid url, please use a proper url !`
 							);
 						if (playlist === undefined)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} Couldn't find the playlist !`
+								`${reactions.error.random} Couldn't find the playlist !`
 							);
 
 						let playlistItems = await Music.fetchPlaylistItems(
@@ -166,7 +166,7 @@ const music = new CCommand()
 
 						if (found.some((s) => !s))
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} Some songs of the playlist are unavailable ! Please try again later...`
+								`${reactions.error.random} Some songs of the playlist are unavailable ! Please try again later...`
 							);
 
 						songs.forEach(
@@ -180,7 +180,7 @@ const music = new CCommand()
 						sent.editWithCustomEmbed((embed) =>
 							embed
 								.setDescription(
-									`${reactions.success.random()} Songs found ${reactions.smile.random()}\n`.concat(
+									`${reactions.success.random} Songs found ${reactions.smile.random}\n`.concat(
 										`Added:\n`.concat(
 											details
 												.map((d, i) =>
@@ -222,7 +222,7 @@ const music = new CCommand()
 
 						if (commandParameters.length === 0)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} You need to specify text to search for ! `
+								`${reactions.error.random} You need to specify text to search for ! `
 							);
 
 						let sent = await methods.sendTextEmbed(
@@ -233,8 +233,8 @@ const music = new CCommand()
 
 						if (!data)
 							return sent.editWithTextEmbed(
-								`${reactions.error.random()} No results !\n`.concat(
-									`Please try another youtube search ${reactions.smile.random()}`
+								`${reactions.error.random} No results !\n`.concat(
+									`Please try another youtube search ${reactions.smile.random}`
 								)
 							);
 
@@ -246,8 +246,8 @@ const music = new CCommand()
 
 						if (!(await song.found))
 							return sent.editWithTextEmbed(
-								`${reactions.error.random()} Couldn't find song information !\n`.concat(
-									`Please retry ${reactions.smile.random()}`
+								`${reactions.error.random} Couldn't find song information !\n`.concat(
+									`Please retry ${reactions.smile.random}`
 								)
 							);
 
@@ -259,7 +259,7 @@ const music = new CCommand()
 							embed
 								.setThumbnail(songDetails.thumbnails[0].url)
 								.setDescription(
-									`${reactions.success.random()} Added ${bold(
+									`${reactions.success.random} Added ${bold(
 										hyperlink(
 											songDetails.title,
 											songDetails.video_url
@@ -282,13 +282,13 @@ const music = new CCommand()
 				let player = Music.playerManager.get(message.guildId!);
 				if (!player?.initialized)
 					return methods.sendTextEmbed(
-						`${reactions.error.random()} You need to use ${inlineCode(
+						`${reactions.error.random} You need to use ${inlineCode(
 							`lj!music play`
 						)} before skipping a song !`
 					);
 				await player.skipSong();
 				await methods.sendTextEmbed(
-					`${reactions.success.random()} Song skipped !`
+					`${reactions.success.random} Song skipped !`
 				);
 				await player.play();
 			})
@@ -305,7 +305,7 @@ const music = new CCommand()
 
 				Music.playerManager.get(message.guildId!)?.destroy();
 				methods.sendTextEmbed(
-					`${reactions.success.random()} Stopped playing !`
+					`${reactions.success.random} Stopped playing !`
 				);
 			})
 			.addHelpCommand()
@@ -357,7 +357,7 @@ const music = new CCommand()
 						);
 						if (cleared.ok === 1)
 							return methods.sendTextEmbed(
-								`${reactions.success.random()} Playlist cleared`
+								`${reactions.success.random} Playlist cleared`
 							);
 					})
 					.addHelpCommand()
@@ -376,14 +376,14 @@ const music = new CCommand()
 
 						if (!commandParameters)
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} You need to specify an id !`
+								`${reactions.error.random} You need to specify an id !`
 							);
 
 						let songId = +commandParameters;
 
 						if (!songId || !Number.isInteger(songId))
 							return methods.sendTextEmbed(
-								`${reactions.error.random()} Incorrect id !\n`.concat(
+								`${reactions.error.random} Incorrect id !\n`.concat(
 									`Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
 								)
 							);
@@ -393,7 +393,7 @@ const music = new CCommand()
 						});
 						if (!guild)
 							return methods.sendTextEmbed(
-								`${reactions.success.random()} Current playlist is empty`
+								`${reactions.success.random} Current playlist is empty`
 							);
 
 						let removed = guild.playlist!.splice(songId - 1, 1)[0];
@@ -406,7 +406,7 @@ const music = new CCommand()
 						);
 
 						methods.sendTextEmbed(
-							`${reactions.success.random()} Removed\n`.concat(
+							`${reactions.success.random} Removed\n`.concat(
 								`${inlineCode(` ${songId} `)} ${inlineCode(
 									removed.title
 								)}`

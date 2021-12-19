@@ -9,7 +9,7 @@ const Ctime = new CCommand()
 	.setExecution(async (messageInstance) => {
 		let { methods } = messageInstance;
 		methods.sendTextEmbed(
-			`It is ${time(new Date(), "t")} ${reactions.smile.random()}`
+			`It is ${time(new Date(), "t")} ${reactions.smile.random}`
 		);
 	})
 	.addHelpCommand();
