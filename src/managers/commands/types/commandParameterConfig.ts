@@ -1,7 +1,7 @@
 import CCommandParameter from "../classes/commandParameter";
 
 type TCommandParameterConfig = (
-    parameter: CCommandParameter
+  parameter: CCommandParameter
 ) => CCommandParameter;
 
 export default TCommandParameterConfig;
