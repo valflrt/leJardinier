@@ -85,8 +85,7 @@ export default class LeJardinier {
   };
 
   public onInteractionCreate(i: Interaction) {
-    i.isButton();
-    console.log(i);
+    databaseMiddleware.listeners.onInteraction(i);
   }
 
   private onMemberAdd = async (member: GuildMember) => {
