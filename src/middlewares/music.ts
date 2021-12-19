@@ -9,7 +9,7 @@ import { SentMessage } from "../lib/types";
 import database from "../managers/database";
 import MessageInstance from "../bot/message";
 
-import * as log from "../bot/log";
+import log from "../bot/log";
 import config from "../config";
 import reactions from "../assets/reactions";
 
