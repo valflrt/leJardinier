@@ -1,3 +1,3 @@
 export default interface ICommandSettings {
-	hidden?: boolean;
+    hidden?: boolean;
 }

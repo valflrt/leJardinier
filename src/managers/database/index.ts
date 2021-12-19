@@ -6,19 +6,19 @@ import MemberManager from "./managers/member";
 import config from "../../config";
 
 export const buildDatabase = async (): Promise<void> => {
-	const client = new MongoClient(config.secrets.databaseURI);
-	await client.connect();
-	database.associate(client.db("lejardinier"));
+    const client = new MongoClient(config.secrets.databaseURI);
+    await client.connect();
+    database.associate(client.db("lejardinier"));
 };
 
 export class DatabaseManagers {
-	public guilds!: GuildManager;
-	public members!: MemberManager;
+    public guilds!: GuildManager;
+    public members!: MemberManager;
 
-	public associate(database: Db) {
-		this.guilds = new GuildManager(database, "guilds");
-		this.members = new MemberManager(database, "members");
-	}
+    public associate(database: Db) {
+        this.guilds = new GuildManager(database, "guilds");
+        this.members = new MemberManager(database, "members");
+    }
 }
 
 const database = new DatabaseManagers();

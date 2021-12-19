@@ -1,7 +1,7 @@
 import { ILocalConfig } from "../lib/types";
 
 const local: ILocalConfig = {
-	prefix: "prefix",
+    prefix: "prefix",
 };
 
 export default local;
