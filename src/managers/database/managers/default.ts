@@ -105,7 +105,7 @@ export default class DefaultManager<Schema> {
 	): Promise<ModifyResult<unknown>> {
 		return this.collection.findOneAndUpdate(
 			filter,
-			mix(new this.schemaConstructor(), update),
+			{ $set: mix(new this.schemaConstructor(), update) },
 			options
 		);
 	}
