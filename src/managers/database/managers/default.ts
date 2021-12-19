@@ -145,7 +145,7 @@ export default class DefaultManager<Schema> {
 	 * updates an entry and if not found creates one
 	 * @param filter filter to find target entry
 	 * @param update update to apply to the target entry
-	 * @param doc if not found object to create the new entry with
+	 * @param doc if not found, object to create the new entry with
 	 * @param options update options
 	 */
 	public async updateOrCreateOne(
@@ -153,14 +153,16 @@ export default class DefaultManager<Schema> {
 		update: Partial<Schema>,
 		doc: Schema,
 		options: FindOneAndUpdateOptions = {}
-	): Promise<ModifyResult<unknown>> {
-		let foundEntry = await this.findOne(filter);
-		if (!foundEntry) await this.createOne(doc);
-		return this.collection.findOneAndUpdate(
-			filter,
-			{ $set: mix(new this.schemaConstructor(), update) },
-			options
-		);
+	): Promise<ModifyResult<unknown> | InsertOneResult<unknown>> {
+		let targetEntry = await this.findOne(filter);
+		if (!targetEntry)
+			return await this.createOne(mix(new this.schemaConstructor(), doc));
+		else
+			return this.collection.findOneAndUpdate(
+				filter,
+				{ $set: mix(new this.schemaConstructor(), update) },
+				options
+			);
 	}
 
 	/**
