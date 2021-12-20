@@ -1,31 +1,8 @@
-import { MessageEmbed } from "discord.js";
+import CCommand from "../../managers/commands/classes/command";
 
-import { Command } from "../../bot/command";
-import { statManager } from "../../managers/database";
-
-const stats = new Command({
-  name: "stats",
-  description: "Get stats",
-  arguments: `[?mention]`,
-  execution: async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
-    let stats =
-      message.mentions.members?.size !== 0
-        ? await statManager.find(
-            message.mentions.members!.first()!.id,
-            message.guild!.id
-          )
-        : await statManager.find(message.author.id, message.guild!.id);
-
-    if (!stats) return methods.sendTextEmbed(`Unknown user`);
-
-    methods.sendCustomEmbed((embed: MessageEmbed) =>
-      embed
-        .setDescription(`${message.author.toString()}`)
-        .addField(`messages sent:`, `${stats!.messageCount}`)
-    );
-  },
-});
+const stats = new CCommand()
+  .setName("stats")
+  .setDescription("Gives user stats")
+  .setExecution(async (messageInstance) => {});
 
 export default stats;
