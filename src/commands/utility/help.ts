@@ -62,7 +62,7 @@ const help = new CCommand()
                 .concat("\n\n")
                 .concat(
                   `To do so, you will need to write: ${inlineCode(
-                    `[prefix][command identifier] [?parameters]`
+                    `[prefix][command namespace] [?parameters]`
                   )}\n`
                 )
                 .concat(`Here are some examples:\n`)
@@ -75,12 +75,17 @@ const help = new CCommand()
                 )
                 .concat(
                   `That is to say the whole "path" to a command is called a ${bold(
-                    "command identifier"
-                  )} and looks like:\n`
+                    "command namespace"
+                  )} `
+                )
+                .concat(
+                  `and is composed of ${bold(
+                    "command identifiers"
+                  )} separated by dots:\n`
                 )
                 .concat(
                   `${inlineCode(
-                    "[command name].[subcommand name].[sub-subcommand name].[...]"
+                    "[command identifier].[subcommand identifier].[sub-subcommand identifier].[...]"
                   )}`
                 )
                 .concat("\n\n")
@@ -88,12 +93,12 @@ const help = new CCommand()
                 .concat(
                   `• ${inlineCode(
                     "morse.table"
-                  )} is the identifier for the subcommand "table" of the command "morse"\n`
+                  )} is the namespace for the subcommand "table" of the command "morse"\n`
                 )
                 .concat(
                   `• ${inlineCode(
                     "music.add.search"
-                  )} is the identifier for the sub-subcommand "search" of the subcommand "add" of the command "music"`
+                  )} is the namespace for the sub-subcommand "search" of the subcommand "add" of the command "music"`
                 )
             )
         );

@@ -26,18 +26,19 @@ export default class CCommand {
    */
   public setName(name: string): CCommand {
     this.name = name;
-    this.identifier = name;
+    if (!this.identifier) this.identifier = name;
     return this;
   }
+
   /**
-   * sets command identifier
-   * note: If not specified identifier set to command name
+   * sets command identifier, if not specified identifier set to command name
    * @param identifier command identifier: what is used to call the command in discord.
    */
   public setIdentifier(identifier: string): CCommand {
     this._identifier = identifier;
     return this;
   }
+
   /**
    * adds a command alias
    * @param alias command alias
@@ -46,6 +47,7 @@ export default class CCommand {
     this.aliases.push(alias.toLowerCase().trim());
     return this;
   }
+
   /**
    * sets command description
    * @param description command description
@@ -54,6 +56,7 @@ export default class CCommand {
     this.description = description;
     return this;
   }
+
   /**
    * adds a command parameter
    * @param config function taking a new CCommandParameter as only argument, used to
@@ -66,6 +69,7 @@ export default class CCommand {
     this.parameters.push(config(new CCommandParameter()));
     return this;
   }
+
   /**
    * sets the command parent
    * @param parent command parent
@@ -74,6 +78,7 @@ export default class CCommand {
     this.parent = parent;
     return this;
   }
+
   /**
    * sets command settings
    * @param settings command settings
@@ -82,6 +87,7 @@ export default class CCommand {
     this.settings = settings;
     return this;
   }
+
   /**
    * sets the command execution
    * @param execution command execution function
@@ -90,6 +96,7 @@ export default class CCommand {
     this.execution = execution;
     return this;
   }
+
   /**
    * adds a subcommand
    * @param config function taking a new CCommand as only argument, used to configure
@@ -102,6 +109,7 @@ export default class CCommand {
     this.commands.push(command);
     return this;
   }
+
   /**
    * returns true if a command equals an other using identifier (including aliases)
    * @param identifier other command identifier
@@ -154,12 +162,12 @@ export default class CCommand {
     return this._identifier;
   }
   /**
-   * returns an identifier in the form:
-   * [command prefix][parent commands identifiers separated by dots][current command identifier]
-   * @example lj!help.command.name
+   * returns an namespace in the form:
+   * [parent commands namespace separated by dots][current command identifier]
+   * @example help.command.name
    */
-  public get wholeIdentifier(): string {
-    return `${this.parent !== null ? `${this.parent.wholeIdentifier}.` : ""}${
+  public get namespace(): string {
+    return `${this.parent !== null ? `${this.parent.namespace}.` : ""}${
       this.identifier
     }`;
   }
@@ -210,7 +218,7 @@ export default class CCommand {
   }
 
   public get syntax(): string {
-    return `${config.local.prefix}${this.wholeIdentifier}${
+    return `${config.local.prefix}${this.namespace}${
       this.parameters.length !== 0 ? " " : ""
     }${this.parameters
       .map((p) => `[${p.required !== true ? "?" : ""}${p.name}]`)

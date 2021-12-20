@@ -46,11 +46,11 @@ export default class CCommandList {
   }
 
   /**
-   * finds and returns a command using an identifier
-   * @param identifier string that contains the "path" to the command
+   * finds and returns a command using an namespace
+   * @param namespace string that contains the "path" to the command
    */
-  public get(identifier: string): CCommand | null {
-    let command = this.commands.find((c) => c.wholeIdentifier === identifier);
+  public get(namespace: string): CCommand | null {
+    let command = this.commands.find((c) => c.namespace === namespace);
     return command ? command : null;
   }
 

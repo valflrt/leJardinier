@@ -137,7 +137,7 @@ class CommandLogger extends Logger {
   public executionSuccess(command: CCommand) {
     this.success(
       `Successfully executed command ${chalk.underline.bold(
-        command.wholeIdentifier
+        command.namespace
       )} in ${this.elapsedTime}`
     );
   }
@@ -149,7 +149,7 @@ class CommandLogger extends Logger {
    */
   public executionFailure(command: CCommand, err: any) {
     this.error(
-      `Failed to execute ${chalk.underline.bold(command.identifier)}:\n${err}`
+      `Failed to execute ${chalk.underline.bold(command.namespace)}:\n${err}`
     );
   }
 
