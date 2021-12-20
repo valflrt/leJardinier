@@ -4,7 +4,7 @@ import local from "./local";
 import { IConfig } from "../lib/types";
 
 const config: IConfig = {
-  version: "v3.2.4",
+  version: "v3.3.0",
   local,
   secrets,
 };
