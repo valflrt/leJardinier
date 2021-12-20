@@ -66,7 +66,7 @@
         <h3>1/ Command calls</h3>
         <p>First, you need to know how to call a command.</p>
         <p>To do so, you will need to write a message that looks like:</p>
-        <p class="code-block">[prefix][command identifier] [?parameters]</p>
+        <p class="code-block">[prefix][command namespace] [parameters]</p>
         <p>Here are some examples:</p>
         <ul class="dot">
           <li><i class="inline-code">lj!hey</i></li>
@@ -79,7 +79,8 @@
 
         <p>
           That is to say the whole "path" to a command is called a
-          <b>command identifier</b> and looks like:
+          <b>command namespace</b> and is composed of
+          <b>command identifiers</b> separated by dots:
         </p>
         <p class="code-block">
           [command name].[subcommand name].[sub-subcommand name].[...]
@@ -89,11 +90,11 @@
 
         <ul class="dot">
           <li>
-            <i class="inline-code">morse.table</i> is the identifier for the
+            <i class="inline-code">morse.table</i> is the namespace for the
             subcommand "table" of the command "morse"
           </li>
           <li>
-            <i class="inline-code">music.add.search</i>is the identifier for the
+            <i class="inline-code">music.add.search</i>is the namespace for the
             sub-subcommand "search" of the subcommand "add" of the command
             "music"
           </li>
