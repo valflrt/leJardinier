@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Installation
+        run: "npm install"
+      - name: Copying config files (fakes)
+        run: "cp src/main/config/local.example.ts src/main/config/local.ts"
+        run: "cp src/main/config/secrets.example.ts src/main/config/secrets.ts"
+      - name: Build
+        run: "npm run build"
