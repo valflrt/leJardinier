@@ -1,6 +1,6 @@
 *
 
-!src/
+!src/main/
 !tsconfig.json
 !package.json
 !package-lock.json

@@ -1,10 +1,10 @@
 {
   "name": "lejardinier",
-  "main": "index.js",
   "scripts": {
-    "start": "npx ts-node src/index.ts",
+    "start": "npx ts-node src/main/index.ts",
+    "dev": "npx nodemon --config nodemon.json src/main/index.ts",
     "prod": "npx tsc && node --max-old-space-size=8192 dist/index.js",
-    "dev": "npx nodemon --config nodemon.json src/index.ts",
+    "build": "npx tsc",
     "lint": "npx prettier src/ --write --config .prettierrc"
   },
   "repository": {
