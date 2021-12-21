@@ -23,4 +23,6 @@ jobs:
               with:
                   node-version: "16"
             - run: "npm install"
+            - run: "cp src/main/config/local.example.ts src/main/config/local.ts"
+            - run: "cp src/main/config/secrets.example.ts src/main/config/secrets.ts"
             - run: "npm run build"
