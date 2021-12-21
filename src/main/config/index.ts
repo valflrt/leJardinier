@@ -1,7 +1,7 @@
 import secrets from "./secrets";
 import local from "./local";
 
-import { IConfig } from "../lib/types";
+import { IConfig } from "../declarations/types";
 
 const config: IConfig = {
   version: "v3.3.1",

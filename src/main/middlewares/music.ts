@@ -4,7 +4,7 @@ import ytdl, { MoreVideoDetails } from "ytdl-core";
 import axios from "axios";
 
 import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
-import { SentMessage } from "../lib/types";
+import { SentMessage } from "../declarations/types";
 
 import database from "../managers/database";
 import MessageInstance from "../bot/message";

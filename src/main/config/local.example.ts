@@ -1,4 +1,4 @@
-import { ILocalConfig } from "../lib/types";
+import { ILocalConfig } from "../declarations/types";
 
 const local: ILocalConfig = {
   prefix: "prefix",
