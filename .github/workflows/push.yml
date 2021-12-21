@@ -15,7 +15,8 @@ jobs:
       - name: Installation
         run: "npm install"
       - name: Copying config files (fakes)
-        run: "cp src/main/config/local.example.ts src/main/config/local.ts &&" \
-          "cp src/main/config/secrets.example.ts src/main/config/secrets.ts"
+        run: |
+          cp src/main/config/local.example.ts src/main/config/local.ts
+          cp src/main/config/secrets.example.ts src/main/config/secrets.ts
       - name: Build
         run: "npm run build"
