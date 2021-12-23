@@ -20,5 +20,5 @@ jobs:
           cp src/main/config/secrets.example.ts src/main/config/secrets.ts
       - name: Tests and Build
         run: |
-        npm run test
-        npm run build
+          npm run test
+          npm run build
