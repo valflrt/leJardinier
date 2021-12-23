@@ -1,12 +1,9 @@
 import CCommandList from "../managers/commands/classes/commandList";
-//import CommandList from "../bot/command.list";
 
 // utility commands
 import help from "./utility/help";
 import time from "./utility/time";
 import invite from "./utility/invite";
-//import register from "./utility/register";
-//import unregister from "./utility/unregister";
 
 // moderation commands
 import autorole from "./moderation/autorole";
@@ -39,8 +36,6 @@ commandList
   .addCommand(() => autorole, "Moderation")
   .addCommand(() => kick, "Moderation")
   .addCommand(() => ban, "Moderation")
-  //.addCommand(() => register, "Utility")
-  //.addCommand(() => unregister, "Utility")
   .addCommand(() => hey, "Fun")
   .addCommand(() => trueOrFalse, "Fun")
   .addCommand(() => percentage, "Fun")
