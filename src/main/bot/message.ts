@@ -88,15 +88,6 @@ class MessageInstance {
       );
     }
   }
-
-  /*private beforeExecute = async () => {
-		let guildExists = await guildManager.exists(this.message.guild!.id);
-		if (this.command!.requiresDB === true && guildExists === false) {
-			this.methods
-				.sendTextEmbed(`This command requires registering the guild
-				Use \`${commands.get("register")!.syntax}\` for more information.`);
-		}
-	};*/
 }
 
 export default MessageInstance;
