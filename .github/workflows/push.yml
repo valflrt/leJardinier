@@ -18,5 +18,5 @@ jobs:
         run: |
           cp src/main/config/local.example.ts src/main/config/local.ts
           cp src/main/config/secrets.example.ts src/main/config/secrets.ts
-      - name: Build and Tests
+      - name: Tests and Build
         run: "npm run build"
