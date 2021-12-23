@@ -52,7 +52,7 @@ class MorseFormatter {
 
 export const morseFormatter = new MorseFormatter();
 
-export class SubcmdPreviewGenerator {
+export class CommandPreview {
   public title: string;
   public description: string;
   public fullPreview: string;
@@ -83,7 +83,7 @@ export class SubcmdPreviewGenerator {
     return commands
       .filter((c) => !c.settings.hidden)
       .map((command): EmbedFieldData => {
-        let preview = new SubcmdPreviewGenerator(command);
+        let preview = new CommandPreview(command);
         return { name: preview.title, value: preview.description };
       });
   }

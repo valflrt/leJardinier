@@ -1,7 +1,7 @@
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
-import { SubcmdPreviewGenerator } from "../../formatters";
+import { CommandPreview } from "../../formatters";
 
 import database from "../../managers/database";
 
@@ -21,7 +21,7 @@ const music = new CCommand()
             `Here are the available commands:`
           )
         )
-        .setFields(SubcmdPreviewGenerator.createFields(music.commands))
+        .setFields(CommandPreview.createFields(music.commands))
     );
   })
 
@@ -51,7 +51,7 @@ const music = new CCommand()
           embed
             .setDescription(`Use this command to add a song to the playlist:`)
             .addFields(
-              SubcmdPreviewGenerator.createFields(
+              CommandPreview.createFields(
                 music.commands.find((c) => c.identifier === "add")!.commands
               )
             )

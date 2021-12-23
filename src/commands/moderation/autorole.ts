@@ -2,7 +2,7 @@ import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import { italic } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
-import { SubcmdPreviewGenerator } from "../../formatters";
+import { CommandPreview } from "../../formatters";
 
 import database from "../../managers/database";
 import reactions from "../../assets/reactions";
@@ -16,7 +16,7 @@ const autorole = new CCommand()
     methods.sendCustomEmbed((embed) =>
       embed
         .setDescription("Here are the commands to use:")
-        .addFields(SubcmdPreviewGenerator.createFields(autorole.commands))
+        .addFields(CommandPreview.createFields(autorole.commands))
     );
   })
 
