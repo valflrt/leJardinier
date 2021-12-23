@@ -16,8 +16,8 @@ jobs:
         run: npm install
       - name: Copying fake config files
         run: |
-          cp src/main/config/local.example.ts src/main/config/local.ts
-          cp src/main/config/secrets.example.ts src/main/config/secrets.ts
+          cp src/config/local.example.ts src/config/local.ts
+          cp src/config/secrets.example.ts src/config/secrets.ts
       - name: Tests and Build
         run: |
           npm run test
