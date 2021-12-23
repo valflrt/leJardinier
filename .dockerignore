@@ -1,6 +1,7 @@
 *
 
-!src/main/**/*.ts
+!src/**/*.ts
+src/**/*.test.ts
 !tsconfig.json
 !package.json
 !package-lock.json

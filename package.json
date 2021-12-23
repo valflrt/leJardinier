@@ -1,8 +1,8 @@
 {
   "name": "lejardinier",
   "scripts": {
-    "start": "npx ts-node src/main/index.ts",
-    "dev": "npx nodemon --config nodemon.json src/main/index.ts",
+    "start": "npx ts-node src/index.ts",
+    "dev": "npx nodemon --config nodemon.json src/index.ts",
     "prod": "npx tsc && node --max-old-space-size=8192 dist/index.js",
     "test": "npx mocha --config .mocharc.json",
     "build": "npx tsc",
