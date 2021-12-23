@@ -1,69 +1,19 @@
+import { StageChannel, VoiceChannel } from "discord.js";
 import * as voice from "@discordjs/voice";
 import { bold, hyperlink } from "@discordjs/builders";
+
 import ytdl, { MoreVideoDetails } from "ytdl-core";
-import axios from "axios";
+import playerManager from "./playerManager";
 
-import { MessageEmbed, StageChannel, VoiceChannel } from "discord.js";
-import { SentMessage } from "../declarations/types";
+import MessageInstance from "../../bot/message";
+import { SentMessage } from "../../declarations/types";
 
-import database from "../managers/database";
-import MessageInstance from "../bot/message";
+import database from "../../managers/database";
 
-import log from "../bot/log";
-import config from "../config";
-import reactions from "../assets/reactions";
+import reactions from "../../assets/reactions";
+import log from "../../bot/log";
 
-export class Song {
-  private commandArgs: string;
-
-  constructor(commandArgs: string) {
-    this.commandArgs = commandArgs;
-  }
-
-  get found(): Promise<boolean> {
-    return new Promise<boolean>(async (resolve, reject) =>
-      (await this.fetchSong()) ? resolve(true) : reject(false)
-    );
-  }
-
-  get details(): Promise<MoreVideoDetails | undefined> {
-    return this.fetchSong();
-  }
-
-  public async save(guildId: string) {
-    let guild = await database.guilds.findOne({ id: guildId });
-    if (!guild)
-      return log.system.error(
-        "Failed to add song to the playlist: Guild not found !"
-      );
-    guild!.playlist!.push((await this.fetchSong())!);
-    database.guilds.updateOne({ id: guildId }, guild);
-  }
-
-  private async fetchSong(): Promise<MoreVideoDetails | undefined> {
-    return (await ytdl.getBasicInfo(this.commandArgs!))?.videoDetails;
-  }
-}
-
-class PlayerManager {
-  private players: GuildPlayer[] = [];
-
-  register(guildPlayer: GuildPlayer) {
-    this.players.push(guildPlayer);
-  }
-
-  get(guildId: string): GuildPlayer | undefined {
-    return this.players.find((player) => player.guildId === guildId);
-  }
-
-  remove(guildId: string) {
-    this.players = this.players.filter((player) => player.guildId !== guildId);
-  }
-}
-
-export const playerManager = new PlayerManager();
-
-export class GuildPlayer {
+export default class GuildPlayer {
   public guildId: string;
   public initialized: boolean = false;
 
@@ -145,7 +95,7 @@ export class GuildPlayer {
     });
 
     this.player.on(voice.AudioPlayerStatus.Playing, () => {
-      this.currentSongMessage?.editWithCustomEmbed((embed: MessageEmbed) =>
+      this.currentSongMessage?.editWithCustomEmbed((embed) =>
         embed
           .setThumbnail(this.currentSong!.thumbnails[0].url)
           .setDescription(
@@ -198,47 +148,3 @@ export class GuildPlayer {
     playerManager.remove(this.guildId);
   }
 }
-
-export const youtubeSearch = async (searchString: string) =>
-  (
-    await axios.get(
-      `https://youtube.googleapis.com/youtube/v3/search?`
-        .concat(`part=snippet`)
-        .concat(`&q=${searchString}`)
-        .concat(`&type=video`)
-        .concat(`&key=${config.secrets.youtubeApiKey}`)
-    )
-  ).data.items[0];
-
-export const fetchPlaylistItems = async (playlistId: string) => {
-  let response = await axios.get(
-    [
-      `https://youtube.googleapis.com/youtube/v3/playlistItems?`,
-      `part=contentDetails`,
-      `playlistId=${playlistId}`,
-      `alt=json`,
-      `key=${config.secrets.youtubeApiKey}`,
-    ].join("&")
-  );
-  if (!response.data) return undefined;
-  return response.data.items as any[];
-};
-
-export const fetchPlaylist = async (url: string) => {
-  let playlistId = url
-    .split(/&/g)
-    .find((s) => s.startsWith("list="))
-    ?.replace(/^list=/g, "");
-  if (!playlistId) return null;
-  let response = await axios.get(
-    [
-      `https://youtube.googleapis.com/youtube/v3/playlists?`,
-      `part=snippet`,
-      `id=${playlistId}`,
-      `alt=json`,
-      `key=${config.secrets.youtubeApiKey}`,
-    ].join("&")
-  );
-  if (!response) return undefined;
-  return response.data.items[0];
-};
