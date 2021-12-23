@@ -3,6 +3,7 @@ import { codeBlock, inlineCode } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
 
+import { morseFormatter } from "../../formatters";
 import morseTable from "../../assets/morseTable";
 
 const morse = new CCommand()
@@ -29,21 +30,6 @@ const morse = new CCommand()
       .setExecution(async (messageInstance) => {
         let { methods, commandParameters } = messageInstance;
 
-        const encode = (text: string, morse: string[] = []): string => {
-          if (text.length === 0) return morse.join(" ");
-
-          let char = text[0];
-
-          let tableItem = morseTable.find(
-            (item) => char.search(item[0]) !== -1
-          );
-          let morseLetter = !tableItem ? "?" : tableItem[1];
-
-          morse.push(morseLetter);
-
-          return encode(text.slice(1), morse);
-        };
-
         if (commandParameters.length === 0)
           methods.sendTextEmbed(
             "You need to give some text to convert to Morse Code..."
@@ -51,13 +37,7 @@ const morse = new CCommand()
         else
           methods.sendTextEmbed(
             "Here is your Morse encoded text:".concat(
-              codeBlock(
-                commandParameters
-                  .split(/\s+/g)
-                  .map((w) => encode(w))
-                  .join(" / ")
-                  .toLowerCase()
-              )
+              codeBlock(morseFormatter.encode(commandParameters))
             )
           );
       })
@@ -71,32 +51,12 @@ const morse = new CCommand()
       .setExecution(async (messageInstance) => {
         let { methods, commandParameters } = messageInstance;
 
-        const decode = (chars: string[], decoded: string[] = []): string => {
-          if (chars.length === 0) return decoded.join("");
-
-          let char = chars[0];
-
-          let tableItem = morseTable.find((item) => item[1] === char);
-          let letter = !tableItem ? "?" : tableItem[2];
-
-          decoded.push(letter);
-
-          return decode(chars.slice(1), decoded);
-        };
-
         if (commandParameters.length === 0)
           methods.sendTextEmbed("You need to give some Morse to decode...");
         else
           methods.sendTextEmbed(
             "Here is your decoded text:".concat(
-              codeBlock(
-                commandParameters
-                  .split(/\s\/\s/g)
-                  .map((w) => decode(w.split(/\s/g)))
-                  .join(" ")
-                  .toLowerCase()
-                  .trim()
-              )
+              codeBlock(morseFormatter.decode(commandParameters))
             )
           );
       })
