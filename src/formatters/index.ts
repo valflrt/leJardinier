@@ -53,12 +53,12 @@ class MorseFormatter {
 export const morseFormatter = new MorseFormatter();
 
 export class CommandPreview {
-  public title: string;
+  public name: string;
   public description: string;
   public fullPreview: string;
 
   constructor(command: CCommand) {
-    this.title = `${bold(command.name)}`;
+    this.name = `${bold(command.name)}`;
     this.description = quote(`${command.description}\n`)
       .concat(quote(`Usage: ${bold(inlineCode(command.syntax!))}`))
       .concat(
@@ -70,7 +70,7 @@ export class CommandPreview {
             )}`
           : ""
       );
-    this.fullPreview = `${bold(this.title)}\n`
+    this.fullPreview = `${bold(this.name)}\n`
       .concat(this.description)
       .concat(
         command.commandCount !== 0
@@ -84,7 +84,7 @@ export class CommandPreview {
       .filter((c) => !c.settings.hidden)
       .map((command): EmbedFieldData => {
         let preview = new CommandPreview(command);
-        return { name: preview.title, value: preview.description };
+        return { name: preview.name, value: preview.description };
       });
   }
 }
