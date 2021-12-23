@@ -4,7 +4,7 @@
     "start": "npx ts-node src/main/index.ts",
     "dev": "npx nodemon --config nodemon.json src/main/index.ts",
     "prod": "npx tsc && node --max-old-space-size=8192 dist/index.js",
-    "test": "npx mocha src/test/*",
+    "test": "npx mocha -r ts-node/register src/test/**/*.ts",
     "build": "npx tsc",
     "lint": "npx prettier src/ --write --config .prettierrc"
   },
