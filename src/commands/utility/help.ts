@@ -10,7 +10,7 @@ import {
 import CCommand from "../../managers/commands/classes/command";
 import commandList from "..";
 
-import CSubcommandPreview from "../../middlewares/formatting/subcommand";
+import { SubcmdPreviewGenerator } from "../../formatters";
 import reactions from "../../assets/reactions";
 
 const help = new CCommand()
@@ -31,7 +31,7 @@ const help = new CCommand()
             .concat("\n")
             .concat(`Here are some commands you can start with:`)
         )
-        .addFields(CSubcommandPreview.createFields(help.commands))
+        .addFields(SubcmdPreviewGenerator.createFields(help.commands))
     );
   })
 
@@ -145,7 +145,7 @@ const help = new CCommand()
                 .setDescription(
                   `${bold(name)} (page ${i + 1} of ${categories.size})`
                 )
-                .addFields(CSubcommandPreview.createFields(commands))
+                .addFields(SubcmdPreviewGenerator.createFields(commands))
             )
           );
           i++;
@@ -258,8 +258,8 @@ const help = new CCommand()
         else {
           methods.sendCustomEmbed((embed) =>
             embed
-              .setDescription(new CSubcommandPreview(command!).fullPreview)
-              .addFields(CSubcommandPreview.createFields(command!.commands))
+              .setDescription(new SubcmdPreviewGenerator(command!).fullPreview)
+              .addFields(SubcmdPreviewGenerator.createFields(command!.commands))
           );
         }
       })
