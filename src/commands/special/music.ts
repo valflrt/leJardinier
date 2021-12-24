@@ -4,8 +4,13 @@ import CCommand from "../../managers/commands/classes/command";
 import { CommandPreview } from "../../formatters";
 
 import database from "../../managers/database";
+import youtubeAPI from "../../managers/api/youtube";
 
-import * as Music from "../../middlewares/music";
+import GuildPlayer from "../../middlewares/music/guildPlayer";
+import playerManager from "../../middlewares/music/playerManager";
+import Song from "../../middlewares/music/song";
+
+import * as Music from "../../middlewares/music/music";
 
 import reactions from "../../assets/reactions";
 
@@ -32,8 +37,8 @@ const music = new CCommand()
       .addAlias("p")
       .setDescription("Start playing music from the current playlist")
       .setExecution(async (messageInstance) => {
-        let player = new Music.GuildPlayer(messageInstance);
-        Music.playerManager.register(player);
+        let player = new GuildPlayer(messageInstance);
+        playerManager.register(player);
         await player.join();
         await player.play();
       })
@@ -79,7 +84,7 @@ const music = new CCommand()
 
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
-            let song = new Music.Song(commandParameters);
+            let song = new Song(commandParameters);
 
             if (!(await song.found))
               return methods.sendTextEmbed(
@@ -140,7 +145,7 @@ const music = new CCommand()
             let playlistItems = await Music.fetchPlaylistItems(playlist.id);
 
             let songs = playlistItems!.map(
-              (s) => new Music.Song(s.contentDetails.videoId)
+              (s) => new Song(s.contentDetails.videoId)
             );
 
             let found = await Promise.all(songs.map((s) => s.found));
@@ -192,9 +197,11 @@ const music = new CCommand()
 
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
-            let data = await Music.youtubeSearch(commandParameters);
+            let data = await youtubeAPI.searchVideo(commandParameters);
 
-            if (!data)
+            //let data = await Music.youtubeSearch(commandParameters);
+
+            if (!data?.id?.videoId)
               return sent.editWithTextEmbed(
                 `${reactions.error.random} No results !\n`.concat(
                   `Please try another youtube search ${reactions.smile.random}`
@@ -203,7 +210,7 @@ const music = new CCommand()
 
             await sent.editWithTextEmbed(`Song found ! Loading data...`);
 
-            let song = new Music.Song(data.id.videoId);
+            let song = new Song(data.id.videoId);
 
             if (!(await song.found))
               return sent.editWithTextEmbed(
@@ -237,7 +244,7 @@ const music = new CCommand()
       .setDescription(`Skip current song`)
       .setExecution(async (messageInstance) => {
         let { methods, message } = messageInstance;
-        let player = Music.playerManager.get(message.guildId!);
+        let player = playerManager.get(message.guildId!);
         if (!player?.initialized)
           return methods.sendTextEmbed(
             `${reactions.error.random} You need to use ${inlineCode(
@@ -261,7 +268,7 @@ const music = new CCommand()
       .setExecution(async (messageInstance) => {
         let { methods, message } = messageInstance;
 
-        Music.playerManager.get(message.guildId!)?.destroy();
+        playerManager.get(message.guildId!)?.destroy();
         methods.sendTextEmbed(`${reactions.success.random} Stopped playing !`);
       })
       .addHelpCommand()
