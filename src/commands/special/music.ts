@@ -210,8 +210,6 @@ const music = new CCommand()
             let song = new Song();
             await song.fetchWithId(video.id.videoId);
 
-            console.log(video, song);
-
             if (!song.found)
               return sent.editWithTextEmbed(
                 `${reactions.error.random} Couldn't find this song !\n`.concat(
