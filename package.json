@@ -31,7 +31,6 @@
     "@google-cloud/local-auth": "^1.0.1",
     "axios": "^0.21.4",
     "chalk": "^3.0.0",
-    "decompose-url": "^0.1.2",
     "discord.js": "^13.1.0",
     "ffmpeg-static": "^4.4.0",
     "googleapis": "^92.0.0",
