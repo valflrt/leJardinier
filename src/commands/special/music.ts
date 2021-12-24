@@ -84,8 +84,8 @@ const music = new CCommand()
 
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
-            let song = new Song(commandParameters);
-            await song.fetch();
+            let song = new Song();
+            await song.fetchWithURL(commandParameters);
 
             if (!song.found)
               return methods.sendTextEmbed(
@@ -134,8 +134,8 @@ const music = new CCommand()
 
             let songs = await Promise.all(
               playlistItems!.map(async (s) => {
-                let song = new Song(s.contentDetails.videoId);
-                await song.fetch();
+                let song = new Song();
+                await song.fetchWithId(s.contentDetails.videoId);
                 return song;
               })
             );
@@ -207,8 +207,10 @@ const music = new CCommand()
 
             await sent.editWithTextEmbed(`Song found ! Loading data...`);
 
-            let song = new Song(video.id.videoId);
-            await song.fetch();
+            let song = new Song();
+            await song.fetchWithId(video.id.videoId);
+
+            console.log(video, song);
 
             if (!song.found)
               return sent.editWithTextEmbed(
