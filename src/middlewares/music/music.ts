@@ -2,17 +2,6 @@ import axios from "axios";
 
 import config from "../../config";
 
-export const youtubeSearch = async (searchString: string) =>
-  (
-    await axios.get(
-      `https://youtube.googleapis.com/youtube/v3/search?`
-        .concat(`part=snippet`)
-        .concat(`&q=${searchString}`)
-        .concat(`&type=video`)
-        .concat(`&key=${config.secrets.youtubeApiKey}`)
-    )
-  ).data.items[0];
-
 export const fetchPlaylistItems = async (playlistId: string) => {
   let response = await axios.get(
     [
