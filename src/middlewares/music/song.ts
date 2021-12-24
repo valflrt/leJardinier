@@ -11,13 +11,8 @@ import log from "../../bot/log";
 import reactions from "../../assets/reactions";
 
 export default class Song {
-  private urlOrId: string;
   public found: boolean = false;
   public videoDetails: VideoDetails | null = null;
-
-  constructor(urlOrId: string) {
-    this.urlOrId = urlOrId;
-  }
 
   public async save(guildId: string) {
     let guild = await database.guilds.findOne({ id: guildId });
@@ -48,8 +43,15 @@ export default class Song {
     );
   }
 
-  public async fetch(): Promise<VideoDetails | null> {
-    let details = await youtubeAPI.getVideoInfo(this.urlOrId);
+  public async fetchWithURL(url: string): Promise<VideoDetails | null> {
+    let details = await youtubeAPI.getVideoInfoFromURL(url);
+    this.found = !!details;
+    this.videoDetails = details ?? null;
+    return details ?? null;
+  }
+
+  public async fetchWithId(id: string): Promise<VideoDetails | null> {
+    let details = await youtubeAPI.getVideoInfoFromVideoId(id);
     this.found = !!details;
     this.videoDetails = details ?? null;
     return details ?? null;
