@@ -44,18 +44,18 @@ class YoutubeAPI {
     return firstItem;
   }
 
-  async getVideoFromUrl(url: string): Promise<youtube_v3.Schema$Video | null> {
+  async getVideoInfo(url: string): Promise<youtube_v3.Schema$Video | null> {
     let id = getVideoId(url);
     if (!id) return null;
     let res = await youtube.videos.list({
       key: config.secrets.youtubeApiKey,
-      part: ["id", "snippet"],
-      id: [""],
+      part: ["id", "snippet", ""],
+      id: [id],
       maxResults: 1,
     });
     if (res.status !== 200) return null;
     let firstItem = res.data.items?.shift();
-    if (!firstItem) return null;
+    if (!firstItem?.snippet) return null;
     return firstItem;
   }
 }

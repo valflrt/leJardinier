@@ -2,7 +2,7 @@ import { StageChannel, VoiceChannel } from "discord.js";
 import * as voice from "@discordjs/voice";
 import { bold, hyperlink } from "@discordjs/builders";
 
-import ytdl, { MoreVideoDetails } from "ytdl-core";
+import ytdl from "ytdl-core";
 import playerManager from "./playerManager";
 
 import MessageInstance from "../../bot/message";
@@ -12,6 +12,7 @@ import database from "../../managers/database";
 
 import reactions from "../../assets/reactions";
 import log from "../../bot/log";
+import { VideoDetails } from "./types";
 
 export default class GuildPlayer {
   public guildId: string;
@@ -25,7 +26,7 @@ export default class GuildPlayer {
   private currentSongMessage?: SentMessage;
 
   public audioChannel?: VoiceChannel | StageChannel;
-  public currentSong: MoreVideoDetails | null | undefined = null;
+  public currentSong: VideoDetails | null = null;
 
   constructor(messageInstance: MessageInstance) {
     this.guildId = messageInstance.message.guildId!;
@@ -75,10 +76,15 @@ export default class GuildPlayer {
 
     this.initPlayer();
 
+    if (!this.currentSong!.id)
+      return this.currentSongMessage?.editWithTextEmbed(
+        `Couldn't read this song !`
+      );
+
     this.connection!.once(voice.VoiceConnectionStatus.Ready, async () => {
       this.player!.play(
         await this.createResource(
-          ytdl(this.currentSong!.video_url, { filter: "audioonly" })
+          ytdl(this.currentSong!.id!, { filter: "audioonly" })
         )
       );
       this.connection!.subscribe(this.player!);
@@ -97,10 +103,17 @@ export default class GuildPlayer {
     this.player.on(voice.AudioPlayerStatus.Playing, () => {
       this.currentSongMessage?.editWithCustomEmbed((embed) =>
         embed
-          .setThumbnail(this.currentSong!.thumbnails[0].url)
+          .setThumbnail(
+            this.currentSong!.snippet?.thumbnails?.default?.url ?? ""
+          )
           .setDescription(
             `${reactions.success.random} Now playing ${bold(
-              hyperlink(this.currentSong!.title, this.currentSong!.video_url)
+              hyperlink(
+                this.currentSong!.snippet?.title ?? "unknown",
+                this.currentSong!.id
+                  ? `https://youtu.be/${this.currentSong!.id!}`
+                  : ""
+              )
             )}`
           )
       );
@@ -127,11 +140,12 @@ export default class GuildPlayer {
   }
 
   private async getNextSong() {
-    this.currentSong = (
+    let songFromDb = (
       await database.guilds.findOne({
         id: this.messageInstance.message.guildId!,
       })
     )?.playlist!.shift();
+    this.currentSong = songFromDb ?? null;
     return this.currentSong;
   }
 

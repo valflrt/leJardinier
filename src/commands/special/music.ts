@@ -85,27 +85,15 @@ const music = new CCommand()
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
             let song = new Song(commandParameters);
+            await song.fetch();
 
-            if (!(await song.found))
+            if (!song.found)
               return methods.sendTextEmbed(
                 `${reactions.error.random} Song not found please check your youtube url`
               );
 
             await song.save(message.guildId!);
-
-            let songDetails = (await song.details)!;
-
-            sent.editWithCustomEmbed((embed) =>
-              embed
-                .setThumbnail(songDetails.thumbnails[0].url)
-                .setDescription(
-                  `${reactions.success.random} Song found ${reactions.smile.random}\n`.concat(
-                    `Added ${bold(
-                      hyperlink(songDetails.title, songDetails.video_url)
-                    )}`
-                  )
-                )
-            );
+            await song.editEmbed(sent);
           })
           .addHelpCommand()
       )
@@ -144,20 +132,22 @@ const music = new CCommand()
 
             let playlistItems = await Music.fetchPlaylistItems(playlist.id);
 
-            let songs = playlistItems!.map(
-              (s) => new Song(s.contentDetails.videoId)
+            let songs = await Promise.all(
+              playlistItems!.map(async (s) => {
+                let song = new Song(s.contentDetails.videoId);
+                await song.fetch();
+                return song;
+              })
             );
 
-            let found = await Promise.all(songs.map((s) => s.found));
-
-            if (found.some((s) => !s))
+            if (songs.some((s) => !s))
               return methods.sendTextEmbed(
                 `${reactions.error.random} Some songs of the playlist are unavailable ! Please try again later...`
               );
 
             songs.forEach(async (s) => await s.save(message.guildId!));
 
-            let details = await Promise.all(songs.map((s) => s.details));
+            let details = songs.map((s) => s.videoDetails);
 
             sent.editWithCustomEmbed((embed) =>
               embed
@@ -165,7 +155,14 @@ const music = new CCommand()
                   `${reactions.success.random} Songs found ${reactions.smile.random}\n`.concat(
                     `Added:\n`.concat(
                       details
-                        .map((d, i) => bold(hyperlink(d!.title, d!.video_url)))
+                        .map((d, i) =>
+                          bold(
+                            hyperlink(
+                              d?.snippet?.title ?? "unknown",
+                              d?.id ? `https://youtu.be/${d?.id}` : ""
+                            )
+                          )
+                        )
                         .join("\n")
                         .concat(
                           `\nFrom: ${hyperlink(
@@ -197,11 +194,11 @@ const music = new CCommand()
 
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
-            let data = await youtubeAPI.searchVideo(commandParameters);
+            let video = await youtubeAPI.searchVideo(commandParameters);
 
             //let data = await Music.youtubeSearch(commandParameters);
 
-            if (!data?.id?.videoId)
+            if (!video?.id?.videoId)
               return sent.editWithTextEmbed(
                 `${reactions.error.random} No results !\n`.concat(
                   `Please try another youtube search ${reactions.smile.random}`
@@ -210,28 +207,20 @@ const music = new CCommand()
 
             await sent.editWithTextEmbed(`Song found ! Loading data...`);
 
-            let song = new Song(data.id.videoId);
+            let song = new Song(video.id.videoId);
+            await song.fetch();
 
-            if (!(await song.found))
+            if (!song.found)
               return sent.editWithTextEmbed(
-                `${reactions.error.random} Couldn't find song information !\n`.concat(
-                  `Please retry ${reactions.smile.random}`
+                `${reactions.error.random} Couldn't find this song !\n`.concat(
+                  `Please retry with new keywords ${reactions.smile.random}`
                 )
               );
 
             await song.save(message.guildId!);
 
-            let songDetails = (await song.details)!;
-
-            sent.editWithCustomEmbed((embed) =>
-              embed
-                .setThumbnail(songDetails.thumbnails[0].url)
-                .setDescription(
-                  `${reactions.success.random} Added ${bold(
-                    hyperlink(songDetails.title, songDetails.video_url)
-                  )}`
-                )
-            );
+            await song.save(message.guildId!);
+            await song.editEmbed(sent);
           })
           .addHelpCommand()
       )
@@ -291,7 +280,10 @@ const music = new CCommand()
 
         let songs = guild
           .playlist!.map(
-            (song, i) => `${inlineCode(` ${i + 1} `)} ${inlineCode(song.title)}`
+            (song, i) =>
+              `${inlineCode(` ${i + 1} `)} ${inlineCode(
+                song.snippet?.title ?? "unknown"
+              )}`
           )
           .join("\n");
 
@@ -364,7 +356,9 @@ const music = new CCommand()
 
             methods.sendTextEmbed(
               `${reactions.success.random} Removed\n`.concat(
-                `${inlineCode(` ${songId} `)} ${inlineCode(removed.title)}`
+                `${inlineCode(` ${songId} `)} ${inlineCode(
+                  removed.snippet?.title ?? "unknown"
+                )}`
               )
             );
           })
