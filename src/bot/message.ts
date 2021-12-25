@@ -5,7 +5,7 @@ import CCommand from "../managers/commands/classes/command";
 import CMessageParser from "../managers/commands/classes/messageParser";
 
 //import { guildManager, userManager, statManager } from "./database";
-import ReplyMethods from "./methods";
+import ReplyMethods from "../builders/replyMethods";
 import log from "./log";
 
 import commandList from "../commands";
