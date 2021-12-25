@@ -16,9 +16,9 @@ In order to get the code working, you'll need to get:
 -   a youtube API key ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 -   a mongoDB database URI
 
-Then add those in [`secrets.example.ts`](./src/main/config/secrets.example.ts) and then rename this file to `secrets.ts`.
+Then add those in [`secrets.example.ts`](./src/config/secrets.example.ts) and then rename this file to `secrets.ts`.
 
-Finally, don't forget to configure the bot prefix in [`local.ts`](./src/main/config/local.ts) (same method: editing [`local.example.ts`](./src/main/config/local.example.ts) and renaming it to `local.ts`)
+Finally, don't forget to configure the bot prefix in [`local.ts`](./src/config/local.ts) (same method: editing [`local.example.ts`](./src/config/local.example.ts) and renaming it to `local.ts`)
 
 ### Starting
 
@@ -46,4 +46,4 @@ _Note: For the docker build to success, you need to first follow the instruction
 
 ### References
 
--   [website](https://valflrt.github.io/lejardinier-typescript/) (github pages)
+-   [website](https://valflrt.github.io/lejardinier/) (github pages)
