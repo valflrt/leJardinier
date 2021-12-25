@@ -4,11 +4,11 @@
 
 This is simple simple discord bot made in typescript with discord.js.
 
-### Installation
+## Installation
 
 First, you'll need to download/clone this repository from github. Then run `npm install` in the project directory.
 
-### Configuration
+## Configuration
 
 In order to get the code working, you'll need to get:
 
@@ -20,7 +20,7 @@ Then add those in [`secrets.example.ts`](./src/config/secrets.example.ts) and th
 
 Finally, don't forget to configure the bot prefix in `local.ts` (same method: editing [`local.example.ts`](./src/config/local.example.ts) and renaming it to `local.ts`)
 
-### Starting
+## Starting
 
 Finally, to start the code, you can choose to run one of the commands below:
 
@@ -29,21 +29,23 @@ Finally, to start the code, you can choose to run one of the commands below:
 
 You can also use `npm run lint` to lint the code in `src/`:
 
-### Dockerfile
+## Docker
 
 To build the docker image you need to have docker installed.
 
 Run `docker build -t [tag of your choice] -f ./Dockerfile .` to build the image.
 
-_Note: For the docker build to success, you need to first follow the instructions in the Configuration section._
+Notes:
+- You may need to run this command as admninistrator.
+- For the docker build to success, you need to first follow the instructions in the Configuration section.
 
-### Notes
+## Notes
 
 -   You need to have nodejs, npm and npx installed on your computer (npm and npx are usually automatically installed with nodejs)
 -   If you find a bug or have a suggestion, please create an issue so I can take a look at it.
 -   [`typescript.ts`](./typescript.ts) is useless, I added it because my code editor put an error and adding this file was the way to fix it...
 -   _Don't mind my code it can be fucked up sometimes..._
 
-### References
+## More Information
 
--   [website](https://valflrt.github.io/lejardinier/) (github pages)
+-   [leJardinier website](https://valflrt.github.io/lejardinier/) (github pages)
