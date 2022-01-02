@@ -2,7 +2,7 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build)
 
-This is simple simple discord bot made in typescript with discord.js.
+Le Jardinier is simple simple discord bot made with typescript and using discord.js.
 
 ## Installation
 
