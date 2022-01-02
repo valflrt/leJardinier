@@ -1,4 +1,4 @@
-# Le Jardinier (typescript)
+# Le Jardinier
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build)
 
