@@ -16,9 +16,9 @@ In order to get the code working, you'll need to get:
 -   a youtube API key ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 -   a mongoDB database URI
 
-Then add those in [`secrets.example.ts`](./src/config/secrets.example.ts) and then rename this file to `secrets.ts`.
+Next, add those in [`secrets.example.ts`](./src/config/secrets.example.ts) and then rename this file to `secrets.ts`.
 
-Finally, don't forget to configure the bot prefix in `local.ts` (same method: editing [`local.example.ts`](./src/config/local.example.ts) and renaming it to `local.ts`)
+You also need to set the bot prefix in `local.ts` (same method: editing [`local.example.ts`](./src/config/local.example.ts) and renaming it to `local.ts`)
 
 ## Starting
 
