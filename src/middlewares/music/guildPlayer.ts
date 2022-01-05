@@ -10,9 +10,10 @@ import { SentMessage } from "../../declarations/types";
 
 import database from "../../managers/database";
 
+import { Track } from "./classes/track";
+
 import reactions from "../../assets/reactions";
 import log from "../../bot/log";
-import { VideoDetails } from "./types";
 
 export default class GuildPlayer {
   public guildId: string;
@@ -22,11 +23,12 @@ export default class GuildPlayer {
 
   private connection?: voice.VoiceConnection;
   private player?: voice.AudioPlayer;
+  private stream?: voice.AudioResource;
 
   private currentSongMessage?: SentMessage;
 
   public audioChannel?: VoiceChannel | StageChannel;
-  public currentSong: VideoDetails | null = null;
+  public currentSong: Track | null = null;
 
   constructor(messageInstance: MessageInstance) {
     this.guildId = messageInstance.message.guildId!;
@@ -82,11 +84,7 @@ export default class GuildPlayer {
       );
 
     this.connection!.once(voice.VoiceConnectionStatus.Ready, async () => {
-      this.player!.play(
-        await this.createResource(
-          ytdl(this.currentSong!.id!, { filter: "audioonly" })
-        )
-      );
+      this.player!.play(await this.createResource(this.currentSong!.id!));
       this.connection!.subscribe(this.player!);
     });
   }
@@ -103,24 +101,21 @@ export default class GuildPlayer {
     this.player.on(voice.AudioPlayerStatus.Playing, () => {
       this.currentSongMessage?.editWithCustomEmbed((embed) =>
         embed
-          .setThumbnail(
-            this.currentSong!.snippet?.thumbnails?.default?.url ?? ""
-          )
+          .setThumbnail(this.currentSong!.snippet!.thumbnails!.default!.url!)
           .setDescription(
             `${reactions.success.random} Now playing ${bold(
               hyperlink(
-                this.currentSong!.snippet?.title ?? "unknown",
-                this.currentSong!.id
-                  ? `https://youtu.be/${this.currentSong!.id!}`
-                  : ""
+                this.currentSong!.snippet!.title!,
+                `https://youtu.be/${this.currentSong!.id!}`
               )
             )}`
           )
       );
     });
 
+    // TODO: replace this listener with another
     this.player.on(voice.AudioPlayerStatus.Idle, async () => {
-      await this.skipSong();
+      await this.removeFirstSong();
       await this.play();
     });
 
@@ -134,9 +129,18 @@ export default class GuildPlayer {
     return;
   }
 
-  private async createResource(resource: any) {
-    let { stream, type } = await voice.demuxProbe(resource);
-    return voice.createAudioResource(stream, { inputType: type });
+  private async createResource(videoId: string): Promise<voice.AudioResource> {
+    return new Promise((resolve, reject) => {
+      let resource = ytdl(videoId, {
+        filter: "audioonly",
+        quality: "lowestvideo",
+      });
+      resource.once("readable", async () => {
+        let { stream, type } = await voice.demuxProbe(resource);
+        resolve(voice.createAudioResource(stream, { inputType: type }));
+      });
+      resource.on("error", () => reject());
+    });
   }
 
   private async getNextSong() {
@@ -144,20 +148,35 @@ export default class GuildPlayer {
       await database.guilds.findOne({
         id: this.messageInstance.message.guildId!,
       })
-    )?.playlist!.shift();
+    )?.playlist![0];
     this.currentSong = songFromDb ?? null;
     return this.currentSong;
   }
 
-  public async skipSong() {
+  public async removeFirstSong() {
     let guild = await database.guilds.findOne({
       id: this.messageInstance.message.guildId!,
     });
-    if (!guild)
-      return log.system.error("Failed to skip song: Guild not found !") as void;
+    if (!guild) {
+      log.system.error("Failed to skip song: Guild not found !");
+      return;
+    }
+    guild.playlist!.shift();
+    if (guild.playlist!.length === 0) return;
+    await database.guilds.updateOne(
+      {
+        id: this.messageInstance.message.guildId!,
+      },
+      { playlist: guild.playlist! }
+    );
+    return;
   }
 
-  public destroy() {
+  public stopPlaying() {
+    this.player?.stop();
+  }
+
+  public destroyConnection() {
     this.connection?.destroy();
     playerManager.remove(this.guildId);
   }
