@@ -99,7 +99,11 @@ const music = new CCommand()
             await sent.editWithEmbed(
               track
                 .generateEmbed(messageInstance)
-                .setDescription(track.generateTrackURL())
+                .setDescription(
+                  `${
+                    reactions.success.random
+                  } Added ${track.generateTrackURL()}`
+                )
             );
           })
           .addHelpCommand()
@@ -130,10 +134,12 @@ const music = new CCommand()
 
             if (!playlist)
               return methods.sendTextEmbed(
-                `${reactions.error.random} Couldn't find the playlist !`.concat(
+                `${reactions.error.random} Couldn't find the playlist !\n`.concat(
                   `Your url may be invalid.`
                 )
               );
+
+            await playlist.saveTracksToDB(message.guildId!);
 
             sent.editWithCustomEmbed((embed) =>
               embed
@@ -189,7 +195,11 @@ const music = new CCommand()
             await sent.editWithEmbed(
               track
                 .generateEmbed(messageInstance)
-                .setDescription(track.generateTrackURL())
+                .setDescription(
+                  `${
+                    reactions.success.random
+                  } Added ${track.generateTrackURL()}`
+                )
             );
           })
           .addHelpCommand()
@@ -245,7 +255,7 @@ const music = new CCommand()
         let guild = await database.guilds.findOne({
           id: message.guildId!,
         });
-        if (!guild || guild.playlist!.length === 0)
+        if (!guild?.playlist || guild.playlist!.length === 0)
           return methods.sendTextEmbed(`The playlist is empty !`);
 
         let tracksPreview = guild
