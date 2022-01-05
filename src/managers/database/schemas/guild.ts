@@ -1,9 +1,9 @@
-import { VideoDetails } from "../../../middlewares/music/types";
+import { ITrack } from "../../../middlewares/music/classes/track";
 
 import AutoroleSchema from "./autorole";
 
 export default class GuildSchema {
   public id!: string;
-  public playlist?: VideoDetails[] = [];
+  public playlist?: ITrack[] = [];
   public autorole?: AutoroleSchema | null = null;
 }
