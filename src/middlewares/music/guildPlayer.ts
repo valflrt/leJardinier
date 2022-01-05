@@ -35,6 +35,9 @@ export default class GuildPlayer {
     this.messageInstance = messageInstance;
   }
 
+  /**
+   * Makes the bot join the channel where the member is
+   */
   public async join() {
     let { methods, message, bot } = this.messageInstance;
 
@@ -65,6 +68,9 @@ export default class GuildPlayer {
       methods.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
   }
 
+  /**
+   * Makes the not start playing the current track
+   */
   public async play() {
     let { methods } = this.messageInstance;
 
@@ -89,6 +95,9 @@ export default class GuildPlayer {
     });
   }
 
+  /**
+   * Initilializes the audio player
+   */
   private initPlayer() {
     let { methods } = this.messageInstance;
 
@@ -129,6 +138,7 @@ export default class GuildPlayer {
     return;
   }
 
+<<<<<<< HEAD
   private async createResource(videoId: string): Promise<voice.AudioResource> {
     return new Promise((resolve, reject) => {
       let resource = ytdl(videoId, {
@@ -141,8 +151,20 @@ export default class GuildPlayer {
       });
       resource.on("error", () => reject());
     });
+=======
+  /**
+   * automatically creates audio resource readable by the audio player
+   * @param videoId the video id to find the youtube video stream
+   */
+  private async createResource(resource: any) {
+    let { stream, type } = await voice.demuxProbe(resource);
+    return voice.createAudioResource(stream, { inputType: type });
+>>>>>>> 6561e8ba93302e95f80b088434233615e5b33fa5
   }
 
+  /**
+   * returns the first song in the database
+   */
   private async getNextSong() {
     let songFromDb = (
       await database.guilds.findOne({
@@ -153,7 +175,14 @@ export default class GuildPlayer {
     return this.currentSong;
   }
 
+<<<<<<< HEAD
   public async removeFirstSong() {
+=======
+  /**
+   * Removes the first song in the database
+   */
+  public async skipSong() {
+>>>>>>> 6561e8ba93302e95f80b088434233615e5b33fa5
     let guild = await database.guilds.findOne({
       id: this.messageInstance.message.guildId!,
     });
@@ -176,7 +205,16 @@ export default class GuildPlayer {
     this.player?.stop();
   }
 
+<<<<<<< HEAD
   public destroyConnection() {
+=======
+  /**
+   * disconnects current connection and player
+   */
+  public disconnect() {
+    this.player?.stop();
+    this.connection?.disconnect();
+>>>>>>> 6561e8ba93302e95f80b088434233615e5b33fa5
     this.connection?.destroy();
     playerManager.remove(this.guildId);
   }
