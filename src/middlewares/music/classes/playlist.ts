@@ -2,9 +2,11 @@ import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
 import youtubeAPI from "../../../managers/api/youtube";
-import PreTrack, { Track } from "./track";
+import PreTrack, { ITrack, Track } from "./track";
 
 import regexps from "../../../assets/regexp";
+import database from "../../../managers/database";
+import log from "../../../bot/log";
 
 export interface IPlaylist {
   title: string;
@@ -31,6 +33,8 @@ export default class PrePlaylist implements Partial<IPlaylist> {
 
     let playlistDetails = await youtubeAPI.fetchPlaylistDetails(id);
     if (playlistDetails === null) return null;
+
+    console.log("setDetails result:", await this.setDetails(playlistDetails));
 
     return (await this.setDetails(playlistDetails)) ? new Playlist(this) : null;
   }
@@ -70,13 +74,14 @@ export default class PrePlaylist implements Partial<IPlaylist> {
 
     // Creates a PreTrack promise array to be evaluated
     let preTracks = playlistItems?.map((item) =>
-      new PreTrack().fromID(item.id ?? "")
+      new PreTrack().fromID(item.contentDetails?.videoId ?? "")
     );
 
-    // When all tracks loaded create a new array of Track or null
-    let tracks = await Promise.all(preTracks);
-    // If there is one item that is null reject playlist creation
-    if (tracks.some((s) => !s)) return false;
+    // When all tracks loaded create a new array of Track settled status or null
+    let settledTracks = await Promise.all(preTracks);
+    /* // If there is one item that is null reject playlist creation
+    if (settledTracks.some((s) => !s || s.status === "rejected")) return false; */
+    this.tracks = settledTracks.filter((track) => !!track) as Track[];
 
     // if every property was found returns true
     return true;
@@ -112,5 +117,15 @@ export class Playlist extends PrePlaylist implements IPlaylist {
    */
   public generatePlaylistURL(): string {
     return bold(hyperlink(this.title, this.playlistURL));
+  }
+
+  public async saveTracksToDB(guildId: string) {
+    let guild = await database.guilds.findOne({ id: guildId });
+    if (!guild?.playlist)
+      return log.system.error(
+        "Failed to add song to the playlist: Guild not found !"
+      );
+    guild.playlist.push(...this.tracks.map((track) => track as ITrack));
+    database.guilds.updateOne({ id: guildId }, guild);
   }
 }
