@@ -11,6 +11,9 @@ import { Interaction } from "discord.js";
 const onMessage = async (messageInstance: MessageInstance) => {
   let { methods, message } = messageInstance;
 
+  let guild = await database.guilds.findOne({ id: message.guildId! });
+  if (!guild) await database.guilds.createOne({ id: message.guildId! });
+
   let member = await database.members.findOne({
     userId: message.author.id,
     guildId: message.guildId!,
