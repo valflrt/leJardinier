@@ -34,8 +34,6 @@ export default class PrePlaylist implements Partial<IPlaylist> {
     let playlistDetails = await youtubeAPI.fetchPlaylistDetails(id);
     if (playlistDetails === null) return null;
 
-    console.log("setDetails result:", await this.setDetails(playlistDetails));
-
     return (await this.setDetails(playlistDetails)) ? new Playlist(this) : null;
   }
 
@@ -79,8 +77,6 @@ export default class PrePlaylist implements Partial<IPlaylist> {
 
     // When all tracks loaded create a new array of Track settled status or null
     let settledTracks = await Promise.all(preTracks);
-    /* // If there is one item that is null reject playlist creation
-    if (settledTracks.some((s) => !s || s.status === "rejected")) return false; */
     this.tracks = settledTracks.filter((track) => !!track) as Track[];
 
     // if every property was found returns true
