@@ -1,16 +1,15 @@
 import { bold, inlineCode, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
-import { CommandPreview } from "../../formatters";
 
 import database from "../../managers/database";
 import youtubeAPI from "../../managers/api/youtube";
 
 import GuildPlayer from "../../middlewares/music/guildPlayer";
 import playerManager from "../../middlewares/music/playerManager";
-import Song from "../../middlewares/music/song";
 
-import * as Music from "../../middlewares/music/music";
+import PrePlaylist from "../../middlewares/music/classes/playlist";
+import PreTrack from "../../middlewares/music/classes/track";
 
 import reactions from "../../assets/reactions";
 
@@ -26,7 +25,9 @@ const music = new CCommand()
             `Here are the available commands:`
           )
         )
-        .setFields(CommandPreview.createFields(music.commands))
+        .setFields(
+          methods.formatters.CommandPreview.createFields(music.commands)
+        )
     );
   })
 
@@ -56,7 +57,7 @@ const music = new CCommand()
           embed
             .setDescription(`Use this command to add a song to the playlist:`)
             .addFields(
-              CommandPreview.createFields(
+              methods.formatters.CommandPreview.createFields(
                 music.commands.find((c) => c.identifier === "add")!.commands
               )
             )
@@ -84,16 +85,22 @@ const music = new CCommand()
 
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
-            let song = new Song();
-            await song.fetchWithURL(commandParameters);
+            let track = await new PreTrack().fromURL(commandParameters);
 
-            if (!song.found)
+            if (!track)
               return methods.sendTextEmbed(
-                `${reactions.error.random} Song not found please check your youtube url`
+                `${reactions.error.random} Couldn't find the song you're looking for ! `.concat(
+                  `You could try checking your url or giving another one`
+                )
               );
 
-            await song.save(message.guildId!);
-            await song.editEmbed(sent);
+            await track.saveToDB(message.guildId!);
+
+            await sent.editWithEmbed(
+              track
+                .generateEmbed(messageInstance)
+                .setDescription(track.generateTrackURL())
+            );
           })
           .addHelpCommand()
       )
@@ -119,58 +126,20 @@ const music = new CCommand()
               `Looking for your playlist...`
             );
 
-            let playlist = await Music.fetchPlaylist(commandParameters);
+            let playlist = await new PrePlaylist().fromURL(commandParameters);
 
-            if (playlist === null)
+            if (!playlist)
               return methods.sendTextEmbed(
-                `${reactions.error.random} Invalid url, please use a proper url !`
+                `${reactions.error.random} Couldn't find the playlist !`.concat(
+                  `Your url may be invalid.`
+                )
               );
-            if (playlist === undefined)
-              return methods.sendTextEmbed(
-                `${reactions.error.random} Couldn't find the playlist !`
-              );
-
-            let playlistItems = await Music.fetchPlaylistItems(playlist.id);
-
-            let songs = await Promise.all(
-              playlistItems!.map(async (s) => {
-                let song = new Song();
-                await song.fetchWithId(s.contentDetails.videoId);
-                return song;
-              })
-            );
-
-            if (songs.some((s) => !s))
-              return methods.sendTextEmbed(
-                `${reactions.error.random} Some songs of the playlist are unavailable ! Please try again later...`
-              );
-
-            songs.forEach(async (s) => await s.save(message.guildId!));
-
-            let details = songs.map((s) => s.videoDetails);
 
             sent.editWithCustomEmbed((embed) =>
               embed
                 .setDescription(
-                  `${reactions.success.random} Songs found ${reactions.smile.random}\n`.concat(
-                    `Added:\n`.concat(
-                      details
-                        .map((d, i) =>
-                          bold(
-                            hyperlink(
-                              d?.snippet?.title ?? "unknown",
-                              d?.id ? `https://youtu.be/${d?.id}` : ""
-                            )
-                          )
-                        )
-                        .join("\n")
-                        .concat(
-                          `\nFrom: ${hyperlink(
-                            playlist.snippet.title,
-                            `https://www.youtube.com/playlist?list=${playlist.id}`
-                          )}`
-                        )
-                    )
+                  `${reactions.success.random} Tracks found ${reactions.smile.random}\n`.concat(
+                    `Added:\n`.concat(playlist!.generatePreview())
                   )
                 )
                 .addFields()
@@ -194,33 +163,34 @@ const music = new CCommand()
 
             let sent = await methods.sendTextEmbed(`Looking for your song...`);
 
-            let video = await youtubeAPI.searchVideo(commandParameters);
+            let videoSearchData = await youtubeAPI.searchVideo(
+              commandParameters
+            );
 
-            //let data = await Music.youtubeSearch(commandParameters);
-
-            if (!video?.id?.videoId)
+            if (!videoSearchData?.id?.videoId)
               return sent.editWithTextEmbed(
                 `${reactions.error.random} No results !\n`.concat(
                   `Please try another youtube search ${reactions.smile.random}`
                 )
               );
 
-            await sent.editWithTextEmbed(`Song found ! Loading data...`);
+            await sent.editWithTextEmbed(`Song found ! Loading details...`);
 
-            let song = new Song();
-            await song.fetchWithId(video.id.videoId);
+            let track = await new PreTrack().fromID(videoSearchData.id.videoId);
 
-            if (!song.found)
+            if (!track)
               return sent.editWithTextEmbed(
-                `${reactions.error.random} Couldn't find this song !\n`.concat(
-                  `Please retry with new keywords ${reactions.smile.random}`
+                `${reactions.error.random} Couldn't fetch video information !\n`.concat(
+                  `This video could be unavailable...`
                 )
               );
 
-            await song.save(message.guildId!);
-
-            await song.save(message.guildId!);
-            await song.editEmbed(sent);
+            await track.saveToDB(message.guildId!);
+            await sent.editWithEmbed(
+              track
+                .generateEmbed(messageInstance)
+                .setDescription(track.generateTrackURL())
+            );
           })
           .addHelpCommand()
       )
@@ -240,7 +210,7 @@ const music = new CCommand()
               `lj!music play`
             )} before skipping a song !`
           );
-        await player.skipSong();
+        await player.removeFirstSong();
         await methods.sendTextEmbed(
           `${reactions.success.random} Song skipped !`
         );
@@ -257,7 +227,7 @@ const music = new CCommand()
       .setExecution(async (messageInstance) => {
         let { methods, message } = messageInstance;
 
-        playerManager.get(message.guildId!)?.destroy();
+        playerManager.get(message.guildId!)?.destroyConnection();
         methods.sendTextEmbed(`${reactions.success.random} Stopped playing !`);
       })
       .addHelpCommand()
@@ -278,16 +248,18 @@ const music = new CCommand()
         if (!guild || guild.playlist!.length === 0)
           return methods.sendTextEmbed(`The playlist is empty !`);
 
-        let songs = guild
+        let tracksPreview = guild
           .playlist!.map(
             (song, i) =>
-              `${inlineCode(` ${i + 1} `)} ${inlineCode(
-                song.snippet?.title ?? "unknown"
+              `${bold(`#${i + 1}`)}: ${bold(
+                hyperlink(song.title, song.videoURL)
               )}`
           )
           .join("\n");
 
-        methods.sendTextEmbed(`Here is the current playlist:\n`.concat(songs));
+        methods.sendTextEmbed(
+          `Here is the current playlist:\n`.concat(tracksPreview)
+        );
       })
       .addHelpCommand()
 
@@ -328,9 +300,9 @@ const music = new CCommand()
                 `${reactions.error.random} You need to specify an id !`
               );
 
-            let songId = +commandParameters;
+            let videoID = +commandParameters;
 
-            if (!songId || !Number.isInteger(songId))
+            if (!videoID || !Number.isInteger(videoID))
               return methods.sendTextEmbed(
                 `${reactions.error.random} Incorrect id !\n`.concat(
                   `Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
@@ -345,7 +317,7 @@ const music = new CCommand()
                 `${reactions.success.random} Current playlist is empty`
               );
 
-            let removed = guild.playlist!.splice(songId - 1, 1)[0];
+            let removed = guild.playlist!.splice(videoID - 1, 1)[0];
 
             await database.guilds.updateOne(
               {
@@ -355,9 +327,9 @@ const music = new CCommand()
             );
 
             methods.sendTextEmbed(
-              `${reactions.success.random} Removed\n`.concat(
-                `${inlineCode(` ${songId} `)} ${inlineCode(
-                  removed.snippet?.title ?? "unknown"
+              `${reactions.success.random} Removed `.concat(
+                `${bold(`#${videoID}`)}: ${bold(
+                  hyperlink(removed.title, removed.videoURL)
                 )}`
               )
             );
