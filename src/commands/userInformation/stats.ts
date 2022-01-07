@@ -18,117 +18,137 @@ const stats = new CCommand()
     let XP = member.stats!.xp!;
     let levelMaxXP = Math.floor(5 ** 1.1 * member.stats!.level!);
 
-    const canvas = Canvas.createCanvas(700, 250);
+    let width = 400;
+    let height = 150;
+
+    const canvas = Canvas.createCanvas(width, height);
     const ctx = canvas.getContext("2d");
+
+    ctx.textBaseline = "middle";
 
     // frame
 
+    let linePad = 10;
+
+    let frameRadius = 5;
+
     ctx.beginPath();
+    ctx.moveTo(0, frameRadius);
+    ctx.arcTo(0, 0, linePad, 0, frameRadius); // top left corner
+    // alt method: ctx.arc(width - radiusPad, radiusPad, borderRadius, -Math.PI / 2, Math.PI);
+    ctx.lineTo(width - linePad, 0); // top line
+    ctx.arcTo(width, 0, width, linePad, frameRadius); // top right corner
+    ctx.lineTo(width, height - linePad); // right line
+    ctx.arcTo(width, height, width - linePad, height, frameRadius); // bottom right corner
+    ctx.lineTo(linePad, height); // bottom line
+    ctx.arcTo(0, height, 0, height - linePad, frameRadius); // bottom left corner
+    ctx.lineTo(0, linePad); // left line
     ctx.fillStyle = "rgba(20, 20, 20, 0.2)";
-    ctx.lineTo(20, 0);
-    ctx.lineTo(680, 0);
-    ctx.arc(690, 10, 10, 0, Math.PI * 2, false);
-    ctx.lineTo(700, 20);
-    ctx.lineTo(700, 230);
-    ctx.arc(690, 240, 10, 0, Math.PI * 2, true);
-    ctx.lineTo(680, 250);
-    ctx.lineTo(20, 250);
-    ctx.arc(10, 240, 10, 0, Math.PI * 2, true);
-    ctx.lineTo(0, 230);
-    ctx.lineTo(0, 20);
-    ctx.arc(10, 10, 10, 0, Math.PI * 2, true);
     ctx.fill();
     ctx.closePath();
 
-    // main x coordinate for text
-
-    let basex = 210;
-
     // display username
 
-    let fontSize = 60;
+    let tagX = 55; // x coordinate to write the user tag
+    let leftMargin = 110;
+    let tagFontSize = 30;
 
-    do {
-      ctx.font = `bold ${(fontSize -= 5)}px Sans`;
-    } while (basex + ctx.measureText("valflrt#8436").width > canvas.width);
+    ctx.font = `bold ${tagFontSize}px Sans`;
+    while (
+      leftMargin + ctx.measureText(message.author.tag).width >
+      width - 20
+    ) {
+      tagFontSize -= 0.1;
+      ctx.font = `bold ${tagFontSize}px Sans`;
+    }
 
     ctx.fillStyle = "#ffffff";
-    ctx.fillText("valflrt", basex, 115);
+    ctx.fillText(message.author.username, leftMargin, tagX);
     ctx.fillStyle = "#878787";
-    ctx.fillText("#8436", ctx.measureText("valflrt").width + basex, 114);
+    ctx.fillText(
+      `#${message.author.discriminator}`,
+      ctx.measureText(message.author.username).width + leftMargin,
+      tagX
+    );
 
     // display level
 
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 28px Sans";
-    ctx.fillText(`Level ${member.stats.level}`, basex, 149);
+    ctx.font = "18px Sans";
+    ctx.fillText(`Level ${member.stats.level}`, leftMargin + 2, 82);
 
     // main values to draw the line graph
 
-    let lineStart = basex + 6;
-    let lineEnd = lineStart + 300;
-    let lineLength = Math.abs(lineStart - lineEnd);
-    let lineTop = 160;
-    let lineBottom = 176;
-    let lineMiddle = Math.round((lineTop + lineBottom) / 2);
-    let radius = Math.abs(lineTop - lineBottom) / 2;
+    let barHeight = 8;
+    let barHalfHeight = barHeight / 2;
+    let barLength = 200;
+    let barStart = leftMargin + barHalfHeight;
+    let barEnd = barStart + barLength;
+    let barTop = 95;
+    let barBottom = barTop + barHeight;
+    let barMiddle = barTop + barHalfHeight;
 
-    // display xp
+    // display xp at the end of the bar
 
-    ctx.font = "bold 24px Sans";
-    ctx.fillText(`${XP}/${levelMaxXP}`, lineEnd + 20, 175);
+    ctx.font = "bold 14px Sans";
+    ctx.fillText(`${XP}/${levelMaxXP}`, barEnd + 12, barMiddle);
 
-    // display xp line graph bg
+    // display xp bar graph bg
 
     ctx.beginPath();
     ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-    ctx.lineTo(lineStart, lineTop);
-    ctx.lineTo(lineEnd, lineTop);
-    ctx.arc(lineEnd, lineMiddle, radius, 0, Math.PI * 2, false);
-    ctx.lineTo(lineEnd, lineBottom);
-    ctx.lineTo(lineStart, lineBottom);
-    ctx.arc(lineStart, lineMiddle, radius, 0, Math.PI * 2, true);
+    ctx.lineTo(barStart, barTop);
+    ctx.lineTo(barEnd, barTop);
+    ctx.arc(barEnd, barMiddle, barHalfHeight, -Math.PI / 2, Math.PI / 2); // right end
+    ctx.lineTo(barEnd, barBottom);
+    ctx.lineTo(barStart, barBottom);
+    ctx.arc(barStart, barMiddle, barHalfHeight, Math.PI / 2, -Math.PI / 2); // left end
     ctx.fill();
     ctx.closePath();
 
     // display xp line graph
 
-    let xpEnd = (XP / levelMaxXP) * lineLength + lineStart;
+    let xpBarEnd = (XP / levelMaxXP) * barLength + barStart;
 
     ctx.beginPath();
     ctx.fillStyle = "#4CE821";
-    ctx.lineTo(lineStart, lineTop);
-    ctx.lineTo(xpEnd, lineTop);
-    ctx.arc(xpEnd, lineMiddle, radius, 0, Math.PI * 2, false);
-    ctx.lineTo(xpEnd, lineBottom);
-    ctx.lineTo(lineStart, lineBottom);
-    ctx.arc(lineStart, lineMiddle, radius, 0, Math.PI * 2, true);
+    ctx.lineTo(barStart, barTop);
+    ctx.lineTo(xpBarEnd, barTop);
+    ctx.arc(xpBarEnd, barMiddle, barHalfHeight, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(xpBarEnd, barBottom);
+    ctx.lineTo(barStart, barBottom);
+    ctx.arc(barStart, barMiddle, barHalfHeight, Math.PI / 2, -Math.PI / 2);
     ctx.fill();
     ctx.closePath();
 
     // crop around avatar image
 
+    let avatarRadius = 31;
     ctx.beginPath();
-    ctx.arc(120, 125, 62, 0, Math.PI * 2);
+    ctx.arc(60, height / 2, avatarRadius, 0, Math.PI * 2);
     ctx.closePath();
     ctx.clip();
 
-    let avatarURL = message.author.avatarURL({ format: "png", size: 128 });
+    let avatarURL = message.author.avatarURL({ format: "png", size: 64 });
     if (avatarURL) {
       const avatar = await Canvas.loadImage(avatarURL);
-      ctx.drawImage(avatar, 56, 61);
+      ctx.drawImage(
+        avatar,
+        60 - avatarRadius,
+        height / 2 - avatarRadius,
+        64,
+        64
+      );
     } else {
       ctx.rect(56, 61, 128, 128);
       ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
       ctx.fill();
     }
 
-    const statsImage = new MessageAttachment(canvas.toBuffer(), "stats.png");
-
     new MessageEmbed();
 
     methods.send({
-      files: [statsImage],
+      files: [new MessageAttachment(canvas.toBuffer(), "stats.png")],
       embeds: [
         methods.returnCustomEmbed((embed) =>
           embed.setImage("attachment://stats.png")
