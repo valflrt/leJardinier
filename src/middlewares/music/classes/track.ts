@@ -13,14 +13,14 @@ export interface ITrack {
   title: string;
   videoID: string;
   thumbnailsURL: string;
-  videoURL: `https://youtu.be/${string}`;
+  videoURL: `https://www.youtube.com/watch?v=${string}`;
 }
 
 export default class PreTrack {
   public title?: string;
   public videoID?: string;
   public thumbnailsURL?: string;
-  public videoURL?: `https://youtu.be/${string}`;
+  public videoURL?: `https://www.youtube.com/watch?v=${string}`;
 
   /**
    * Fetches and creates the track object from an url and returns it (if
@@ -63,7 +63,7 @@ export default class PreTrack {
 
     if (!videoDetails.id) return false;
     this.videoID = videoDetails.id;
-    this.videoURL = `https://youtu.be/${this.videoID!}`;
+    this.videoURL = `https://www.youtube.com/watch?v=${this.videoID!}`;
 
     if (!videoDetails.snippet.thumbnails?.default?.url) return false;
     this.thumbnailsURL = videoDetails.snippet.thumbnails.default.url;
@@ -76,7 +76,7 @@ export class Track extends PreTrack {
   public title: string;
   public videoID: string;
   public thumbnailsURL: string;
-  public videoURL: `https://youtu.be/${string}`;
+  public videoURL: `https://www.youtube.com/watch?v=${string}`;
 
   constructor(track: PreTrack) {
     super();
@@ -94,7 +94,7 @@ export class Track extends PreTrack {
     let guild = await database.guilds.findOne({ id: guildId });
     if (!guild?.playlist)
       return log.system.error(
-        "Failed to add song to the playlist: Guild not found !"
+        "Failed to add track to the playlist: Guild not found !"
       );
     guild.playlist.push(this as ITrack);
     database.guilds.updateOne({ id: guildId }, guild);

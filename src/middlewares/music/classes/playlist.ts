@@ -119,7 +119,7 @@ export class Playlist extends PrePlaylist implements IPlaylist {
     let guild = await database.guilds.findOne({ id: guildId });
     if (!guild?.playlist)
       return log.system.error(
-        "Failed to add song to the playlist: Guild not found !"
+        "Failed to add track to the playlist: Guild not found !"
       );
     guild.playlist.push(...this.tracks.map((track) => track as ITrack));
     database.guilds.updateOne({ id: guildId }, guild);
