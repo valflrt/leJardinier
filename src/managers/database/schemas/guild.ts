@@ -1,9 +1,9 @@
-import { MoreVideoDetails } from "ytdl-core";
+import { ITrack } from "../../../middlewares/music/classes/track";
 
 import AutoroleSchema from "./autorole";
 
 export default class GuildSchema {
   public id!: string;
-  public playlist?: MoreVideoDetails[] = [];
+  public playlist?: ITrack[] = [];
   public autorole?: AutoroleSchema | null = null;
 }

@@ -20,7 +20,7 @@ import morse from "./fun/morse";
 
 // user commands
 import profilePicture from "./userInformation/pp";
-//import stats from "./userInformation/stats";
+import stats from "./userInformation/stats";
 
 // entertainment commands
 import music from "./special/music";
@@ -43,7 +43,7 @@ commandList
   .addCommand(() => reverse, "Fun")
   .addCommand(() => morse, "Fun")
   .addCommand(() => profilePicture, "User Information")
-  //.addCommand(() => stats, "User Information")
+  .addCommand(() => stats, "User Information")
   .addCommand(() => music, "Special");
 
 export default commandList;

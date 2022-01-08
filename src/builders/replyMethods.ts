@@ -5,12 +5,16 @@ import {
   ReplyMessageOptions,
 } from "discord.js";
 
-import MessageInstance from "./message";
+import MessageInstance from "../bot/message";
 import { SentMessage } from "../declarations/types";
+
+import formatters from "./replyFormatters";
 
 export default class ReplyMethods {
   private message: Message;
   private messageInstance: MessageInstance;
+
+  public formatters = formatters;
 
   constructor(messageInstance: MessageInstance) {
     this.message = messageInstance.message;

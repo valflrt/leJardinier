@@ -5,7 +5,7 @@ import CCommand from "../managers/commands/classes/command";
 import CMessageParser from "../managers/commands/classes/messageParser";
 
 //import { guildManager, userManager, statManager } from "./database";
-import ReplyMethods from "./methods";
+import ReplyMethods from "../builders/replyMethods";
 import log from "./log";
 
 import commandList from "../commands";
@@ -72,8 +72,8 @@ class MessageInstance {
     try {
       await this.command!.execution(this);
       log.command.executionSuccess(this.command!);
-    } catch (err) {
-      log.command.executionFailure(this.command!, err);
+    } catch (e) {
+      log.command.executionFailure(this.command!, e);
       this.methods.sendCustomEmbed((embed) =>
         embed
           .setDescription(
@@ -86,6 +86,7 @@ class MessageInstance {
           )
           .setColor("RED")
       );
+      throw e;
     }
   }
 }

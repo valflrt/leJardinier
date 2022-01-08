@@ -3,7 +3,6 @@ import TCommandParameterConfig from "../types/commandParameterConfig";
 import TExecutionFunction from "../types/executionFunction";
 
 import config from "../../../config";
-import { CommandPreview } from "../../../formatters";
 import { bold, underscore } from "@discordjs/builders";
 import ICommandSettings from "../types/commandSettings";
 
@@ -134,8 +133,12 @@ export default class CCommand {
 
           methods.sendCustomEmbed((embed) =>
             embed
-              .setDescription(new CommandPreview(this).fullPreview)
-              .addFields(CommandPreview.createFields(this.commands))
+              .setDescription(
+                new methods.formatters.CommandPreview(this).fullPreview
+              )
+              .addFields(
+                methods.formatters.CommandPreview.createFields(this.commands)
+              )
           );
         })
     );

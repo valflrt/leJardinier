@@ -1,8 +1,160 @@
+import { MessageAttachment, MessageEmbed } from "discord.js";
+import Canvas from "canvas";
+
 import CCommand from "../../managers/commands/classes/command";
+import database from "../../managers/database";
 
 const stats = new CCommand()
   .setName("stats")
   .setDescription("Gives user stats")
-  .setExecution(async (messageInstance) => {});
+  .setExecution(async (messageInstance) => {
+    let { methods, message } = messageInstance;
+
+    let member = await database.members.findOne({ userId: message.author.id });
+
+    if (!member?.stats)
+      return methods.sendTextEmbed(`Couldn't find your stats !`);
+
+    let XP = member.stats!.xp!;
+    let levelMaxXP = Math.floor(5 ** 1.1 * member.stats!.level!);
+
+    let width = 400;
+    let height = 150;
+
+    const canvas = Canvas.createCanvas(width, height);
+    const ctx = canvas.getContext("2d");
+
+    ctx.textBaseline = "middle";
+
+    // frame
+
+    let linePad = 10;
+
+    let frameRadius = 5;
+
+    ctx.beginPath();
+    ctx.moveTo(0, frameRadius);
+    ctx.arcTo(0, 0, linePad, 0, frameRadius); // top left corner
+    // alt method: ctx.arc(width - radiusPad, radiusPad, borderRadius, -Math.PI / 2, Math.PI);
+    ctx.lineTo(width - linePad, 0); // top line
+    ctx.arcTo(width, 0, width, linePad, frameRadius); // top right corner
+    ctx.lineTo(width, height - linePad); // right line
+    ctx.arcTo(width, height, width - linePad, height, frameRadius); // bottom right corner
+    ctx.lineTo(linePad, height); // bottom line
+    ctx.arcTo(0, height, 0, height - linePad, frameRadius); // bottom left corner
+    ctx.lineTo(0, linePad); // left line
+    ctx.fillStyle = "rgba(20, 20, 20, 0.2)";
+    ctx.fill();
+    ctx.closePath();
+
+    // display username
+
+    let tagX = 55; // x coordinate to write the user tag
+    let leftMargin = 110;
+    let tagFontSize = 30;
+
+    ctx.font = `bold ${tagFontSize}px Sans`;
+    while (
+      leftMargin + ctx.measureText(message.author.tag).width >
+      width - 20
+    ) {
+      tagFontSize -= 0.1;
+      ctx.font = `bold ${tagFontSize}px Sans`;
+    }
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(message.author.username, leftMargin, tagX);
+    ctx.fillStyle = "#878787";
+    ctx.fillText(
+      `#${message.author.discriminator}`,
+      ctx.measureText(message.author.username).width + leftMargin,
+      tagX
+    );
+
+    // display level
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "18px Sans";
+    ctx.fillText(`Level ${member.stats.level}`, leftMargin + 2, 82);
+
+    // main values to draw the line graph
+
+    let barHeight = 8;
+    let barHalfHeight = barHeight / 2;
+    let barLength = 200;
+    let barStart = leftMargin + barHalfHeight;
+    let barEnd = barStart + barLength;
+    let barTop = 95;
+    let barBottom = barTop + barHeight;
+    let barMiddle = barTop + barHalfHeight;
+
+    // display xp at the end of the bar
+
+    ctx.font = "bold 14px Sans";
+    ctx.fillText(`${XP}/${levelMaxXP}`, barEnd + 12, barMiddle);
+
+    // display xp bar graph bg
+
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+    ctx.lineTo(barStart, barTop);
+    ctx.lineTo(barEnd, barTop);
+    ctx.arc(barEnd, barMiddle, barHalfHeight, -Math.PI / 2, Math.PI / 2); // right end
+    ctx.lineTo(barEnd, barBottom);
+    ctx.lineTo(barStart, barBottom);
+    ctx.arc(barStart, barMiddle, barHalfHeight, Math.PI / 2, -Math.PI / 2); // left end
+    ctx.fill();
+    ctx.closePath();
+
+    // display xp line graph
+
+    let xpBarEnd = (XP / levelMaxXP) * barLength + barStart;
+
+    ctx.beginPath();
+    ctx.fillStyle = "#4CE821";
+    ctx.lineTo(barStart, barTop);
+    ctx.lineTo(xpBarEnd, barTop);
+    ctx.arc(xpBarEnd, barMiddle, barHalfHeight, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(xpBarEnd, barBottom);
+    ctx.lineTo(barStart, barBottom);
+    ctx.arc(barStart, barMiddle, barHalfHeight, Math.PI / 2, -Math.PI / 2);
+    ctx.fill();
+    ctx.closePath();
+
+    // crop around avatar image
+
+    let avatarRadius = 31;
+    ctx.beginPath();
+    ctx.arc(60, height / 2, avatarRadius, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+
+    let avatarURL = message.author.avatarURL({ format: "png", size: 64 });
+    if (avatarURL) {
+      const avatar = await Canvas.loadImage(avatarURL);
+      ctx.drawImage(
+        avatar,
+        60 - avatarRadius,
+        height / 2 - avatarRadius,
+        64,
+        64
+      );
+    } else {
+      ctx.rect(56, 61, 128, 128);
+      ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
+      ctx.fill();
+    }
+
+    new MessageEmbed();
+
+    methods.send({
+      files: [new MessageAttachment(canvas.toBuffer(), "stats.png")],
+      embeds: [
+        methods.returnCustomEmbed((embed) =>
+          embed.setImage("attachment://stats.png")
+        ),
+      ],
+    });
+  });
 
 export default stats;
