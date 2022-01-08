@@ -68,8 +68,8 @@ const onMessage = async (messageInstance: MessageInstance) => {
 };
 
 const onInteraction = async (i: Interaction) => {
-  if (i.isButton() && i.customId === "autorole") {
-    let guild = await database.guilds.findOne({ id: i.guildId });
+  if (i.isButton() && i.customId === "autorole" && i.guildId) {
+    let guild = await database.guilds.findOne({ id: i.guildId! });
     if (!guild?.autorole || i.message.id !== guild.autorole.messageId)
       return i.reply({ content: `Failed to issue role !`, ephemeral: true });
     (await i.guild!.members.fetch(i.user.id)).roles.add(guild.autorole.roleId);
