@@ -1,4 +1,5 @@
-import { bold, inlineCode, hyperlink } from "@discordjs/builders";
+import { EmbedFieldData } from "discord.js";
+import { bold, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
 
@@ -55,7 +56,9 @@ const music = new CCommand()
         let { methods } = messageInstance;
         methods.sendCustomEmbed((embed) =>
           embed
-            .setDescription(`Use this command to add a song to the playlist:`)
+            .setDescription(
+              `Use this command to add a song to the playlist from youtube:`
+            )
             .addFields(
               methods.formatters.CommandPreview.createFields(
                 music.commands.find((c) => c.identifier === "add")!.commands
@@ -210,19 +213,17 @@ const music = new CCommand()
   .addSubcommand((c) =>
     c
       .setName("skip")
-      .setDescription(`Skip current song`)
+      .setDescription(`Skip current track`)
       .setExecution(async (messageInstance) => {
         let { methods, message } = messageInstance;
         let player = playerManager.get(message.guildId!);
         if (!player?.initialized)
           return methods.sendTextEmbed(
-            `${reactions.error.random} You need to use ${inlineCode(
-              `lj!music play`
-            )} before skipping a song !`
+            `${reactions.error.random} You can't skip now !`
           );
-        await player.removeFirstSong();
+        await player.removeFirstTrack();
         await methods.sendTextEmbed(
-          `${reactions.success.random} Song skipped !`
+          `${reactions.success.random} Track skipped !`
         );
         await player.play();
       })
@@ -258,17 +259,17 @@ const music = new CCommand()
         if (!guild?.playlist || guild.playlist!.length === 0)
           return methods.sendTextEmbed(`The playlist is empty !`);
 
-        let tracksPreview = guild
-          .playlist!.map(
-            (song, i) =>
-              `${bold(`#${i + 1}`)}: ${bold(
-                hyperlink(song.title, song.videoURL)
-              )}`
-          )
-          .join("\n");
+        let tracksPreview = guild.playlist!.map((track, i): EmbedFieldData => {
+          return {
+            name: bold(`#${i + 1}`),
+            value: bold(hyperlink(track.title, track.videoURL)),
+          };
+        });
 
-        methods.sendTextEmbed(
-          `Here is the current playlist:\n`.concat(tracksPreview)
+        methods.sendCustomEmbed((embed) =>
+          embed
+            .setDescription(`Here is the current playlist:`)
+            .addFields(tracksPreview)
         );
       })
       .addHelpCommand()
@@ -300,8 +301,8 @@ const music = new CCommand()
         c
           .setName("remove")
           .addAlias("rm")
-          .setDescription("Removes one song the current playlist")
-          .addParameter((p) => p.setName("song id").setRequired(true))
+          .setDescription("Removes a track the current playlist")
+          .addParameter((p) => p.setName("track id").setRequired(true))
           .setExecution(async (messageInstance) => {
             let { methods, message, commandParameters } = messageInstance;
 
@@ -310,7 +311,7 @@ const music = new CCommand()
                 `${reactions.error.random} You need to specify an id !`
               );
 
-            let videoID = +commandParameters;
+            let videoID = +(+commandParameters); // used to make sure the number is positive
 
             if (!videoID || !Number.isInteger(videoID))
               return methods.sendTextEmbed(
