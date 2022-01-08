@@ -1,6 +1,6 @@
 # Le Jardinier
 
-![workflow "push" status](https://github.com/valflrt/lejardinier/actions/workflows/push.yml/badge.svg)
+[![Build](https://github.com/valflrt/lejardinier/actions/workflows/push.yml/badge.svg)](https://github.com/valflrt/lejardinier/actions/workflows/push.yml)
 
 Le Jardinier is simple simple discord bot made with typescript and using discord.js.
 
