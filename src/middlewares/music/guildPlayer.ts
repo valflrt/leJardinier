@@ -10,7 +10,7 @@ import { SentMessage } from "../../declarations/types";
 
 import database from "../../managers/database";
 
-import { Track } from "./classes/track";
+import { ITrack } from "./classes/track";
 
 import reactions from "../../assets/reactions";
 import log from "../../bot/log";
@@ -22,13 +22,17 @@ export default class GuildPlayer {
   private messageInstance: MessageInstance;
 
   private connection?: voice.VoiceConnection;
+  private connectionReady: boolean = false;
+
   private player?: voice.AudioPlayer;
-  private stream?: voice.AudioResource;
+  private playerReady: boolean = false;
 
-  private currentSongMessage?: SentMessage;
+  private stream?: voice.AudioResource | null;
 
-  public audioChannel?: VoiceChannel | StageChannel;
-  public currentSong: Track | null = null;
+  private currentTrackMessage?: SentMessage;
+
+  public audioChannel?: VoiceChannel | StageChannel | null;
+  public currentTrack: ITrack | null = null;
 
   constructor(messageInstance: MessageInstance) {
     this.guildId = messageInstance.message.guildId!;
@@ -41,19 +45,27 @@ export default class GuildPlayer {
   public async join() {
     let { methods, message, bot } = this.messageInstance;
 
+    let contactMod = `Maybe you should contact a moderator of this server.`;
+
     if (!message.member?.voice.channel)
       return methods.sendTextEmbed(
-        `${reactions.error.random} You need to be in a voice channel`
+        `${reactions.error.random} You need to be in a voice channel !`
       );
     this.audioChannel = message.member!.voice.channel;
 
     let permissions = this.audioChannel!.permissionsFor(
       this.audioChannel!.guild.me!
     );
-    if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
+    if (!permissions.has("CONNECT"))
       return methods.sendTextEmbed(
-        `${reactions.error.random} I am not allowed to join voice channels !\n`.concat(
-          `Please contact the moderator of this guild.`
+        `${reactions.error.random} I am not allowed to join this voice channel !`.concat(
+          contactMod
+        )
+      );
+    if (!permissions.has("SPEAK"))
+      return methods.sendTextEmbed(
+        `${reactions.error.random} I am not allowed to speak in this voice channel !\n`.concat(
+          contactMod
         )
       );
 
@@ -74,63 +86,82 @@ export default class GuildPlayer {
   public async play() {
     let { methods } = this.messageInstance;
 
-    this.currentSongMessage = await methods.sendTextEmbed(`Loading audio...`);
+    this.currentTrackMessage = await methods.sendTextEmbed(`Loading audio...`);
 
-    await this.getNextSong();
-    if (!this.currentSong)
-      return this.currentSongMessage?.editWithTextEmbed(
+    await this.getNextTrack();
+    if (!this.currentTrack)
+      return this.currentTrackMessage?.editWithTextEmbed(
         `The playlist is empty !`
       );
 
     this.initPlayer();
+    await this.initConnection();
 
-    if (!this.currentSong!.id)
-      return this.currentSongMessage?.editWithTextEmbed(
-        `Couldn't read this song !`
+    let failedFn = async () => {
+      await methods.sendTextEmbed(
+        `${reactions.error.random} Couldn't play current track. Skipping...`
       );
+      await this.skip();
+      this.play();
+    };
 
-    this.connection!.once(voice.VoiceConnectionStatus.Ready, async () => {
-      this.player!.play(await this.createResource(this.currentSong!.id!));
-      this.connection!.subscribe(this.player!);
+    if (!this.currentTrack.videoID) return failedFn();
+
+    this.stream = await this.createResource(this.currentTrack!.videoID);
+    if (!this.stream) return failedFn();
+
+    this.player!.play(this.stream);
+    this.connection!.subscribe(this.player!);
+  }
+
+  private initConnection(): Promise<void> {
+    return new Promise((resolve) => {
+      if (this.connectionReady) return resolve();
+      this.connection!.once(voice.VoiceConnectionStatus.Ready, () => {
+        this.connectionReady = true;
+        resolve();
+      });
     });
   }
 
   /**
-   * Initilializes the audio player
+   * Initializes the audio player
    */
   private initPlayer() {
     let { methods } = this.messageInstance;
 
-    this.player = voice.createAudioPlayer({
-      behaviors: {
-        noSubscriber: voice.NoSubscriberBehavior.Pause,
-      },
-    });
+    if (!this.player?.checkPlayable())
+      this.player = voice.createAudioPlayer({
+        behaviors: {
+          noSubscriber: voice.NoSubscriberBehavior.Pause,
+        },
+      });
 
-    this.player.on(voice.AudioPlayerStatus.Playing, () => {
-      this.currentSongMessage?.editWithCustomEmbed((embed) =>
-        embed
-          .setThumbnail(this.currentSong!.snippet!.thumbnails!.default!.url!)
-          .setDescription(
-            `${reactions.success.random} Now playing ${bold(
-              hyperlink(
-                this.currentSong!.snippet!.title!,
-                `https://youtu.be/${this.currentSong!.id!}`
-              )
-            )}`
-          )
-      );
-    });
+    if (!this.playerReady)
+      this.player.on(voice.AudioPlayerStatus.Playing, () => {
+        this.currentTrackMessage?.editWithCustomEmbed((embed) =>
+          embed
+            .setThumbnail(this.currentTrack!.thumbnailsURL)
+            .setDescription(
+              `${reactions.success.random} Now playing ${bold(
+                hyperlink(this.currentTrack!.title, this.currentTrack!.videoURL)
+              )}`
+            )
+        );
+      });
 
-    // TODO: replace this listener with another
     this.player.on(voice.AudioPlayerStatus.Idle, async () => {
-      await this.removeFirstSong();
-      await this.play();
+      if (this.stream?.ended) {
+        await this.skip();
+        this.play();
+      }
     });
 
-    this.player.on("error", (err) => {
+    this.player.on("error", async (err) => {
       methods.sendTextEmbed(
-        `${reactions.error.random} An unknown error occurred (connection might have crashed)`
+        `${reactions.error.random} An unknown error occurred (connection might have crashed).\n`.concat(
+          `Playing next track...`
+        )
       );
       log.system.error(`Audio connection crashed: ${err}`);
     });
@@ -138,56 +169,44 @@ export default class GuildPlayer {
     return;
   }
 
-<<<<<<< HEAD
-  private async createResource(videoId: string): Promise<voice.AudioResource> {
-    return new Promise((resolve, reject) => {
+  private async createResource(
+    videoId: string
+  ): Promise<voice.AudioResource | null> {
+    return new Promise((resolve) => {
       let resource = ytdl(videoId, {
+        quality: "highestaudio",
         filter: "audioonly",
-        quality: "lowestvideo",
       });
       resource.once("readable", async () => {
         let { stream, type } = await voice.demuxProbe(resource);
         resolve(voice.createAudioResource(stream, { inputType: type }));
       });
-      resource.on("error", () => reject());
+      resource.on("error", (e) => {
+        console.log(e);
+        resolve(null);
+      });
     });
-=======
-  /**
-   * automatically creates audio resource readable by the audio player
-   * @param videoId the video id to find the youtube video stream
-   */
-  private async createResource(resource: any) {
-    let { stream, type } = await voice.demuxProbe(resource);
-    return voice.createAudioResource(stream, { inputType: type });
->>>>>>> 6561e8ba93302e95f80b088434233615e5b33fa5
   }
 
   /**
-   * returns the first song in the database
+   * returns the first track in the database
    */
-  private async getNextSong() {
-    let songFromDb = (
+  private async getNextTrack() {
+    let trackFromDB = (
       await database.guilds.findOne({
         id: this.messageInstance.message.guildId!,
       })
     )?.playlist![0];
-    this.currentSong = songFromDb ?? null;
-    return this.currentSong;
+    this.currentTrack = trackFromDB ?? null;
+    return this.currentTrack;
   }
 
-<<<<<<< HEAD
-  public async removeFirstSong() {
-=======
-  /**
-   * Removes the first song in the database
-   */
-  public async skipSong() {
->>>>>>> 6561e8ba93302e95f80b088434233615e5b33fa5
+  public async removeFirstTrack() {
     let guild = await database.guilds.findOne({
       id: this.messageInstance.message.guildId!,
     });
     if (!guild) {
-      log.system.error("Failed to skip song: Guild not found !");
+      log.system.error("Failed to skip track: Guild not found !");
       return;
     }
     guild.playlist!.shift();
@@ -201,20 +220,22 @@ export default class GuildPlayer {
     return;
   }
 
+  private async skip() {
+    await this.removeFirstTrack();
+    let nextTrack = await this.getNextTrack();
+    if (!nextTrack)
+      return this.messageInstance.methods.sendTextEmbed(
+        `The playlist is empty !`
+      );
+    this.currentTrack = nextTrack;
+    await this.play();
+  }
+
   public stopPlaying() {
     this.player?.stop();
   }
 
-<<<<<<< HEAD
   public destroyConnection() {
-=======
-  /**
-   * disconnects current connection and player
-   */
-  public disconnect() {
-    this.player?.stop();
-    this.connection?.disconnect();
->>>>>>> 6561e8ba93302e95f80b088434233615e5b33fa5
     this.connection?.destroy();
     playerManager.remove(this.guildId);
   }
