@@ -14,7 +14,7 @@ First you need to set the bot prefix in [`local.example.ts`](./src/config/local.
 
 In order to get the code working, you'll need to get:
 
-- a **bot token** ([learn more](https://discordjs.guide/preparations/setting-up-a-bot-application.html#your-token)).
+- a **bot token** ([learn more](https://discordjs.guide/preparations/setting-up-a-bot-application.html)).
 - a **youtube API key** ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 - a **mongoDB database URI**
 
