@@ -4,7 +4,7 @@ import Discord from "discord.js";
 import CCommand from "../managers/commands/classes/command";
 import MessageInstance from "./message";
 
-import config from "../config";
+import version from "../config/version";
 
 class BaseLogger {
   protected mainColor: string = "#abf7a7";
@@ -59,11 +59,7 @@ class Logger extends BaseLogger {
     this.write(
       ` ${chalk.hex("#abf7a7").bold("Le Jardinier")} ${chalk
         .rgb(200, 220, 210)
-        .italic(`${config.version}`)} 🍀 ${chalk.rgb(
-        200,
-        220,
-        210
-      )("by valflrt")}`
+        .italic(`${version}`)} 🍀 ${chalk.rgb(200, 220, 210)("by valflrt")}`
     );
     this.newLine(2);
     this.log(`Starting...`);

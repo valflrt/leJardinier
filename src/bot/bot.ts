@@ -13,7 +13,7 @@ import databaseMiddleware from "../middlewares/database";
 
 import log from "./log";
 
-import config from "../config";
+import config from "../config/index.secret";
 
 export default class LeJardinier {
   private bot?: Client;

@@ -1,7 +1,7 @@
 import { google, youtube_v3 } from "googleapis";
 import regexps from "../../assets/regexp";
 
-import config from "../../config";
+import config from "../../config/index.secret";
 
 let youtube = google.youtube("v3");
 

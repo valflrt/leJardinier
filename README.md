@@ -6,11 +6,37 @@ Le Jardinier is simple simple discord bot made with typescript and using discord
 
 ## Installation
 
-First, you'll need to download/clone this repository from github then, run `npm install` in the project directory.
+First, you'll need to download/clone this repository from github.
+Then, run `npm install` in the project directory to install the dependencies.
 
 ## Configuration
 
-First you need to set the bot prefix in [`local.example.ts`](./src/config/local.example.ts) and rename this file to local.ts.
+Duplicate [`index.example.ts`](./src/config/index.example.ts) (in the same directory) and renamed the duplicate to `index.secret.ts`.
+
+In this file you will find this:
+
+```typescript
+const config: IConfig = {
+  local: {
+    prefix: "prefix",
+  },
+  secrets: {
+    token: "bot token",
+    youtubeApiKey: "youtube api key",
+    databaseURI: "mongodb database URI",
+  },
+};
+```
+
+You need to set the bot prefix in the newly created config file (`index.secret.ts`).
+
+```typescript
+...
+local: {
+  prefix: "prefix", // here
+},
+...
+```
 
 In order to get the code working, you'll need to get:
 
@@ -18,7 +44,17 @@ In order to get the code working, you'll need to get:
 - a **youtube API key** ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 - a **mongoDB database URI**
 
-And to add these in [`secrets.example.ts`](./src/config/secrets.example.ts) and to rename this file to `secrets.ts`.
+And to add these in the config file.
+
+```typescript
+...
+secrets: {
+  token: "bot token", // here
+  youtubeApiKey: "youtube api key", // here
+  databaseURI: "mongodb database URI", // and here
+},
+...
+```
 
 You're done with configuration !
 

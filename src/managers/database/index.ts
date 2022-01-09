@@ -3,7 +3,7 @@ import { MongoClient, Db } from "mongodb";
 import GuildManager from "./managers/guild";
 import MemberManager from "./managers/member";
 
-import config from "../../config";
+import config from "../../config/index.secret";
 
 export const buildDatabase = async (): Promise<void> => {
   const client = new MongoClient(config.secrets.databaseURI);
