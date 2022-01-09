@@ -51,11 +51,12 @@ class MessageInstance {
    */
   get embed(): MessageEmbed {
     return new MessageEmbed()
-      .setAuthor(
-        this.bot.user!.username,
-        "https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp"
-      )
-      .setFooter(this.command ? this.command.namespace! : "")
+      .setAuthor({
+        name: this.bot.user!.username,
+        iconURL:
+          "https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp",
+      })
+      .setFooter({ text: this.command ? this.command.namespace! : "" })
       .setColor("#49a013")
       .setTimestamp();
   }
