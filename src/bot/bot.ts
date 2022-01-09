@@ -95,11 +95,10 @@ export default class LeJardinier {
     };
     database.members.updateOrCreateOne(doc, doc, doc);
     /**
-     * doc ! doc ! doc !
-     * who's that ?
-     * it's a document ehe
-     *
-     * i'm alright don't worry
+     * that came right to mind
+     * - doc ! doc ! doc !
+     * - who's that ?
+     * - it's a document ehe
      */
   };
 
