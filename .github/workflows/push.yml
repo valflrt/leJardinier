@@ -12,10 +12,8 @@ jobs:
           node-version: "16"
       - name: Installation
         run: npm install
-      - name: Copying fake config files
-        run: |
-          cp src/config/local.example.ts src/config/local.ts
-          cp src/config/secrets.example.ts src/config/secrets.ts
+      - name: Copying fake config file
+        run: cp src/config/index.example.ts src/config/index.secret.ts
       - name: Tests and Build
         run: |
           npm run test
