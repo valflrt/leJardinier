@@ -3,14 +3,16 @@ import { bold, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
 
-import database from "../../managers/database";
-import youtubeAPI from "../../managers/api/youtube";
+import PrePlaylist from "../../middlewares/music/classes/playlist";
+import PreTrack from "../../middlewares/music/classes/track";
 
 import GuildPlayer from "../../middlewares/music/guildPlayer";
 import playerManager from "../../middlewares/music/playerManager";
 
-import PrePlaylist from "../../middlewares/music/classes/playlist";
-import PreTrack from "../../middlewares/music/classes/track";
+import database from "../../managers/database";
+import youtubeAPI from "../../managers/api/youtube";
+
+import log from "../../bot/log";
 
 import reactions from "../../assets/reactions";
 
@@ -41,8 +43,10 @@ const music = new CCommand()
       .setExecution(async (messageInstance) => {
         let player = new GuildPlayer(messageInstance);
         playerManager.register(player);
-        await player.join();
-        await player.play();
+        await player
+          .join()
+          .then(() => player.play())
+          .catch((e) => log.system.error(e));
       })
       .addHelpCommand()
   )
@@ -238,7 +242,8 @@ const music = new CCommand()
       .setExecution(async (messageInstance) => {
         let { methods, message } = messageInstance;
 
-        playerManager.get(message.guildId!)?.destroyConnection();
+        let player = playerManager.get(message.guildId!);
+
         methods.sendTextEmbed(`${reactions.success.random} Stopped playing !`);
       })
       .addHelpCommand()

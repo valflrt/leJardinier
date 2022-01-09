@@ -42,42 +42,52 @@ export default class GuildPlayer {
   /**
    * Makes the bot join the channel where the member is
    */
-  public async join() {
+  public join() {
     let { methods, message, bot } = this.messageInstance;
 
-    let contactMod = `Maybe you should contact a moderator of this server.`;
+    return new Promise<void>((resolve, reject) => {
+      let contactMod = `Maybe you should contact a moderator of this server.`;
 
-    if (!message.member?.voice.channel)
-      return methods.sendTextEmbed(
-        `${reactions.error.random} You need to be in a voice channel !`
-      );
-    this.audioChannel = message.member!.voice.channel;
+      if (!message.member || !message.member.voice.channel) {
+        methods.sendTextEmbed(
+          `${reactions.error.random} You need to be in a voice channel !`
+        );
+        return reject("User is not in a voice channel");
+      }
+      this.audioChannel = message.member!.voice.channel;
 
-    let permissions = this.audioChannel!.permissionsFor(
-      this.audioChannel!.guild.me!
-    );
-    if (!permissions.has("CONNECT"))
-      return methods.sendTextEmbed(
-        `${reactions.error.random} I am not allowed to join this voice channel !`.concat(
-          contactMod
-        )
+      let permissions = this.audioChannel!.permissionsFor(
+        this.audioChannel!.guild.me!
       );
-    if (!permissions.has("SPEAK"))
-      return methods.sendTextEmbed(
-        `${reactions.error.random} I am not allowed to speak in this voice channel !\n`.concat(
-          contactMod
-        )
-      );
+      if (!permissions.has("CONNECT")) {
+        methods.sendTextEmbed(
+          `${reactions.error.random} I am not allowed to join this voice channel !`.concat(
+            contactMod
+          )
+        );
+        return reject("Bot is not allowed to join channel");
+      }
+      if (!permissions.has("SPEAK")) {
+        methods.sendTextEmbed(
+          `${reactions.error.random} I am not allowed to speak in this voice channel !\n`.concat(
+            contactMod
+          )
+        );
+        return reject("Bot is not speak in join channel");
+      }
 
-    this.connection = voice.joinVoiceChannel({
-      guildId: this.audioChannel!.guildId,
-      channelId: this.audioChannel!.id,
-      adapterCreator: this.audioChannel!.guild
-        .voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
+      this.connection = voice.joinVoiceChannel({
+        guildId: this.audioChannel!.guildId,
+        channelId: this.audioChannel!.id,
+        adapterCreator: this.audioChannel!.guild
+          .voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
+      });
+
+      if (!this.audioChannel?.members.has(bot.user!.id))
+        methods.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
+
+      resolve();
     });
-
-    if (!this.audioChannel?.members.has(bot.user!.id))
-      methods.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
   }
 
   /**
@@ -117,6 +127,7 @@ export default class GuildPlayer {
   private initConnection(): Promise<void> {
     return new Promise((resolve) => {
       if (this.connectionReady) return resolve();
+      if (!this.connection) return;
       this.connection!.once(voice.VoiceConnectionStatus.Ready, () => {
         this.connectionReady = true;
         resolve();

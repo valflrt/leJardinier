@@ -43,7 +43,7 @@ commandList
   .addCommand(() => reverse, "Fun")
   .addCommand(() => morse, "Fun")
   .addCommand(() => profilePicture, "User Information")
-  .addCommand(() => stats, "User Information")
-  .addCommand(() => music, "Special");
+  .addCommand(() => stats, "User Information");
+//.addCommand(() => music, "Special");
 
 export default commandList;
