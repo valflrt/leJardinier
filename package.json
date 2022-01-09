@@ -13,7 +13,7 @@
     "url": "https://github.com/valflrt/lejardinier"
   },
   "author": "valflrt",
-  "license": "ISC",
+  "license": "GNU",
   "devDependencies": {
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.0.0",
