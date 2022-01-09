@@ -1,6 +1,8 @@
 # Le Jardinier
 
-[![Build](https://github.com/valflrt/lejardinier/actions/workflows/push.yml/badge.svg)](https://github.com/valflrt/lejardinier/actions/workflows/push.yml)
+[![build](https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build)](https://github.com/valflrt/lejardinier/actions/workflows/push.yml)
+
+[![discord](https://img.shields.io/discord/774689668309450833?color=rgb%2888%2C%20101%2C%20242%29&label=discord&logo=discord&logoColor=%23fff)](https://discord.gg/8PA9M2rqgd)
 
 Le Jardinier is simple simple discord bot made with typescript and using discord.js.
 
