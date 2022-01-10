@@ -1,20 +1,20 @@
 import { EmbedFieldData } from "discord.js";
 import { bold, hyperlink } from "@discordjs/builders";
 
-import CCommand from "../../managers/commands/classes/command";
+import CCommand from "../../../managers/commands/classes/command";
 
-import PrePlaylist from "../../middlewares/music/classes/playlist";
-import PreTrack from "../../middlewares/music/classes/track";
+import PrePlaylist from "../../../middlewares/music/classes/playlist";
+import PreTrack from "../../../middlewares/music/classes/track";
 
-import GuildPlayer from "../../middlewares/music/guildPlayer";
-import playerManager from "../../middlewares/music/playerManager";
+import GuildPlayer from "../../../middlewares/music/guildPlayer";
+import playerManager from "../../../middlewares/music/playerManager";
 
-import database from "../../managers/database";
-import youtubeAPI from "../../managers/api/youtube";
+import database from "../../../managers/database";
+import youtubeAPI from "../../../managers/api/youtube";
 
-import log from "../../bot/log";
+import log from "../../../bot/log";
 
-import reactions from "../../assets/reactions";
+import reactions from "../../../assets/reactions";
 
 const music = new CCommand()
   .setName("music")
