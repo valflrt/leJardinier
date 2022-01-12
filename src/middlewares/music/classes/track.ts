@@ -30,7 +30,7 @@ export default class PreTrack {
   public async fromURL(url: string): Promise<Track | null> {
     let match = regexps.extractYoutubeVideoID.exec(url);
     if (!match) return null;
-    let id = match[1];
+    let id = match[2];
 
     let videoDetails = await youtubeAPI.fetchVideoDetails(id);
     if (!videoDetails) return null;
@@ -78,7 +78,7 @@ export class Track extends PreTrack {
   public thumbnailsURL: string;
   public videoURL: `https://www.youtube.com/watch?v=${string}`;
 
-  constructor(track: PreTrack) {
+  constructor(track: PreTrack | ITrack) {
     super();
     this.title = track.title!;
     this.videoID = track.videoID!;
