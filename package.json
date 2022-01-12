@@ -37,6 +37,6 @@
     "googleapis": "^92.0.0",
     "mongodb": "^4.2.2",
     "tweetnacl": "^1.0.3",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.10.0"
   }
 }
