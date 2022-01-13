@@ -3,7 +3,7 @@ import CCommand from "../../../../../managers/commands/classes/command";
 import music from "../..";
 
 // subcommands imports
-import videoUrl from "./subcommands/videourl";
+import videoUrl from "./subcommands/videoUrl";
 import playlistUrl from "./subcommands/playlistUrl";
 import search from "./subcommands/search";
 
