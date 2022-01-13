@@ -101,8 +101,8 @@ export default class CCommand {
    * a CCommand
    * note: you can do the same as explained in CCommand#addParameter
    */
-  public addSubcommand(config: (command: CCommand) => CCommand): CCommand {
-    let command = config(new CCommand());
+  public addSubcommand(subcommand: (command: CCommand) => CCommand): CCommand {
+    let command = subcommand(new CCommand());
     command.setParent(this);
     this.commands.push(command);
     return this;
