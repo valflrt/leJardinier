@@ -12,7 +12,7 @@ import ban from "./commands/ban";
 
 // fun commands
 import hey from "./commands/hey";
-import trueOrFalse from "./commands/trueorfalse";
+import trueOrFalse from "./commands/trueOrFalse";
 import percentage from "./commands/percentage";
 import choose from "./commands/choose";
 import reverse from "./commands/reverse";
