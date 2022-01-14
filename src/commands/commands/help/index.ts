@@ -7,10 +7,10 @@ import {
   underscore,
 } from "@discordjs/builders";
 
-import CCommand from "../../managers/commands/classes/command";
-import commandList from "..";
+import CCommand from "../../../managers/commands/classes/command";
+import commandList from "../..";
 
-import reactions from "../../assets/reactions";
+import reactions from "../../../assets/reactions";
 
 const help = new CCommand()
   .setName("help")

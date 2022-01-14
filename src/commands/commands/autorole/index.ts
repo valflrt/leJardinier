@@ -1,10 +1,10 @@
 import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import { italic } from "@discordjs/builders";
 
-import CCommand from "../../managers/commands/classes/command";
+import CCommand from "../../../managers/commands/classes/command";
 
-import database from "../../managers/database";
-import reactions from "../../assets/reactions";
+import database from "../../../managers/database";
+import reactions from "../../../assets/reactions";
 
 // subcommands imports
 import set from "./subcommands/set";
