@@ -11,7 +11,7 @@ Then, run `npm install` in the project directory to install the dependencies.
 
 ## Configuration
 
-Duplicate [`index.example.ts`](./src/config/index.example.ts) (in the same directory) and renamed the duplicate to `index.secret.ts`.
+Duplicate [`index.example.ts`](./src/config/index.example.ts) and renamed the duplicate to `index.secret.ts` (it has to be in the same directory as the original file).
 
 In this file you will find this:
 
