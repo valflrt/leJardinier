@@ -1,29 +1,29 @@
 import CCommandList from "../managers/commands/classes/commandList";
 
 // utility commands
-import help from "./utility/help";
-import time from "./utility/time";
-import invite from "./utility/invite";
+import help from "./commands/help";
+import time from "./commands/time";
+import invite from "./commands/invite";
 
 // moderation commands
-import autorole from "./moderation/autorole";
-import kick from "./moderation/kick";
-import ban from "./moderation/ban";
+import autorole from "./commands/autorole";
+import kick from "./commands/kick";
+import ban from "./commands/ban";
 
 // fun commands
-import hey from "./fun/hey";
-import trueOrFalse from "./fun/trueorfalse";
-import percentage from "./fun/percentage";
-import choose from "./fun/choose";
-import reverse from "./fun/reverse";
-import morse from "./fun/morse";
+import hey from "./commands/hey";
+import trueOrFalse from "./commands/trueorfalse";
+import percentage from "./commands/percentage";
+import choose from "./commands/choose";
+import reverse from "./commands/reverse";
+import morse from "./commands/morse";
 
 // user commands
-import profilePicture from "./userInformation/pp";
-import stats from "./userInformation/stats";
+import profilePicture from "./commands/pp";
+import stats from "./commands/stats";
 
-// entertainment commands
-import music from "./special/music";
+// music command
+import music from "./commands/music";
 
 // exporting commands object
 
@@ -44,6 +44,6 @@ commandList
   .addCommand(() => morse, "Fun")
   .addCommand(() => profilePicture, "User Information")
   .addCommand(() => stats, "User Information")
-  .addCommand(() => music, "Special");
+  .addCommand(() => music, "Music");
 
 export default commandList;
