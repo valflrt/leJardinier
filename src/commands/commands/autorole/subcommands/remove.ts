@@ -2,6 +2,8 @@ import CCommand from "../../../../managers/commands/classes/command";
 
 import database from "../../../../managers/database";
 
+import reactions from "../../../../assets/reactions";
+
 const remove = new CCommand()
   .setName("remove")
   .addAlias("rm")

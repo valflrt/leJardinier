@@ -1,4 +1,5 @@
 import { MessageActionRow, MessageButton } from "discord.js";
+import { italic } from "@discordjs/builders";
 
 import CCommand from "../../../../managers/commands/classes/command";
 
