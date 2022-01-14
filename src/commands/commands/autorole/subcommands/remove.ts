@@ -1,6 +1,6 @@
-import CCommand from "../../../../managers/commands/classes/command.ts";
+import CCommand from "../../../../../managers/commands/classes/command";
 
-import database from "../../../../managers/database";
+import database from "../../../../../managers/database";
 
 const remove = new CCommand()
   .setName("remove")
