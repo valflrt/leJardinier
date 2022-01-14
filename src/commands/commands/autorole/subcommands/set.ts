@@ -1,8 +1,8 @@
 import { MessageActionRow, MessageButton } from "discord.js";
 
-import CCommand from "../../../../../managers/commands/classes/command";
+import CCommand from "../../../../managers/commands/classes/command";
 
-import database from "../../../../../managers/database";
+import database from "../../../../managers/database";
 
 const set = new CCommand()
   .setName("set")
