@@ -214,9 +214,7 @@ export default class CCommand {
     return this._commands;
   }
   public get commandCount(): number {
-    let count = 0;
-    this.commands.forEach((c) => (!c.settings.hidden ? (count += 1) : null));
-    return count;
+    return this.commands.filter((c) => !c.settings.hidden).length;
   }
 
   public get syntax(): string {
