@@ -11,6 +11,7 @@ import CCommand from "../../../managers/commands/classes/command";
 import commandList from "../..";
 
 import reactions from "../../../assets/reactions";
+import config from "../../../config/index.secret";
 
 const help = new CCommand()
   .setName("help")
@@ -67,8 +68,12 @@ const help = new CCommand()
                   )}\n`
                 )
                 .concat(`Here are some examples:\n`)
-                .concat(`• ${inlineCode("lj!hey")}\n`)
-                .concat(`• ${inlineCode("lj!morse.encode this is an example")}`)
+                .concat(`• ${inlineCode(`${config.local.prefix}hey`)}\n`)
+                .concat(
+                  `• ${inlineCode(
+                    `${config.local.prefix}morse.encode this is an example`
+                  )}`
+                )
                 .concat("\n\n")
                 .concat(bold("2/ Hierarchy system\n"))
                 .concat(
