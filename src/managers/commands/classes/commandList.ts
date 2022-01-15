@@ -28,7 +28,7 @@ export default class CCommandList {
   /**
    * finds and returns a command in the list using a command pattern generated
    * by class CMessageParser. if the command isn't found, returns null
-   * @param pattern command call pattern in the form
+   * @param pattern command call pattern
    */
   public find(pattern: string[]): CCommand | null {
     const loop = (
