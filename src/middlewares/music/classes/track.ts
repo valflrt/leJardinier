@@ -44,7 +44,7 @@ export default class PreTrack {
    * @param id video id
    */
   public async fromID(id: string): Promise<Track | null> {
-    //if (!regexps.verifyYoutubeVideoID.test(id)) return null;
+    if (!regexps.validateYoutubeVideoID.test(id)) return null;
 
     let videoDetails = await youtubeAPI.fetchVideoDetails(id);
     if (!videoDetails) return null;
