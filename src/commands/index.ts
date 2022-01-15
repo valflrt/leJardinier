@@ -12,7 +12,7 @@ import ban from "./commands/ban";
 
 // fun commands
 import hey from "./commands/hey";
-import trueOrFalse from "./commands/trueOrFalse";
+import boolean from "./commands/boolean";
 import percentage from "./commands/percentage";
 import choose from "./commands/choose";
 import reverse from "./commands/reverse";
@@ -37,7 +37,7 @@ commandList
   .addCommand(() => kick, "Moderation")
   .addCommand(() => ban, "Moderation")
   .addCommand(() => hey, "Fun")
-  .addCommand(() => trueOrFalse, "Fun")
+  .addCommand(() => boolean, "Fun")
   .addCommand(() => percentage, "Fun")
   .addCommand(() => choose, "Fun")
   .addCommand(() => reverse, "Fun")
