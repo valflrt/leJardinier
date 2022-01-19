@@ -24,6 +24,12 @@ describe("Morse tests", () => {
         ".... . .-.. .-.. --- / #"
       );
     });
+
+    it(`should encode capitalized letters`, () => {
+      expect(morseFormatter.encode(`F*CK IT`)).to.equal(
+        "..-. # -.-. -.- / .. -"
+      );
+    });
   });
 
   describe("Morse decoding tests", () => {

@@ -4,6 +4,7 @@ class MorseFormatter {
   // encode
   public encode(text: string): string {
     return text
+      .toLowerCase()
       .split(/\s+/g)
       .map((w) => this.encodeLoop(w))
       .join(" / ")
@@ -25,6 +26,7 @@ class MorseFormatter {
   // decode
   public decode(text: string): string {
     return text
+      .toLowerCase()
       .split(/\s\/\s/g)
       .map((w) => this.decodeLoop(w.split(/\s/g)))
       .join(" ")
