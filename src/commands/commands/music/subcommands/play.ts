@@ -1,7 +1,7 @@
 import CCommand from "../../../../managers/commands/classes/command";
 
-import controllersManager from "../../../../middlewares/music/voice/controllersManager";
-import MusicController from "../../../../middlewares/music/voice/controller";
+import controllersManager from "../../../../features/musicManager/voice/controllersManager";
+import MusicController from "../../../../features/musicManager/voice/controller";
 
 const play = new CCommand()
   .setName("play")

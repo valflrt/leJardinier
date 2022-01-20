@@ -1,7 +1,7 @@
 import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
-import youtubeAPI from "../../../features/apiManagers/youtube";
+import youtubeAPI from "../../apiManagers/youtube";
 import PreTrack, { ITrack, Track } from "./track";
 
 import regexps from "../../../assets/regexp";

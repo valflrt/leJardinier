@@ -1,7 +1,7 @@
 import { bold } from "@discordjs/builders";
 
 import CCommand from "../../../../managers/commands/classes/command";
-import { Track } from "../../../../middlewares/music/classes/track";
+import { Track } from "../../../../features/musicManager/classes/track";
 
 import database from "../../../../managers/database";
 

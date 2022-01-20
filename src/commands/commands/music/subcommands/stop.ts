@@ -1,6 +1,6 @@
 import CCommand from "../../../../managers/commands/classes/command";
 
-import controllersManager from "../../../../middlewares/music/voice/controllersManager";
+import controllersManager from "../../../../features/musicManager/voice/controllersManager";
 
 import reactions from "../../../../assets/reactions";
 

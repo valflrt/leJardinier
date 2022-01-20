@@ -1,6 +1,6 @@
 import CCommand from "../../../../../../managers/commands/classes/command";
 
-import PrePlaylist from "../../../../../../middlewares/music/classes/playlist";
+import PrePlaylist from "../../../../../../features/musicManager/classes/playlist";
 
 import reactions from "../../../../../../assets/reactions";
 

@@ -1,6 +1,6 @@
 import CCommand from "../../../../../../managers/commands/classes/command";
 
-import PreTrack from "../../../../../../middlewares/music/classes/track";
+import PreTrack from "../../../../../../features/musicManager/classes/track";
 
 import reactions from "../../../../../../assets/reactions";
 
