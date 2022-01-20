@@ -5,9 +5,9 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-const commands = new CCommand()
+const commands__cmd = new CCommand()
   .setName("commands")
-  .addAlias("cmds")
+  .addAlias("_cmds")
   .setDescription("Displays every available command")
   .setExecution(async (messageInstance) => {
     let { methods } = messageInstance;
@@ -133,4 +133,4 @@ const commands = new CCommand()
   })
   .addHelpCommand();
 
-export default commands;
+export default commands_cmd;

@@ -4,7 +4,7 @@ import CCommand from "../../features/commands/classes/command";
 
 import { randomItem } from "../../utils";
 
-const choose = new CCommand()
+const choose__cmd = new CCommand()
   .setName("choose")
   .setDescription("Chooses one of the items specified")
   .setExecution(async (messageInstance) => {
@@ -19,4 +19,4 @@ const choose = new CCommand()
   })
   .addHelpCommand();
 
-export default choose;
+export default choose_cmd;

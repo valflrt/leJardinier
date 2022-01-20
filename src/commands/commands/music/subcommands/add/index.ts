@@ -1,13 +1,13 @@
 import CCommand from "../../../../../features/commands/classes/command";
 
-import music from "../..";
+import music_cmd from "../..";
 
 // subcommands imports
-import videoUrl from "./subcommands/videoUrl";
-import playlistUrl from "./subcommands/playlistUrl";
-import search from "./subcommands/search";
+import videoUrl_cmd from "./subcommands/videoUrl";
+import playlistUrl_cmd from "./subcommands/playlistUrl";
+import search_cmd from "./subcommands/search";
 
-const add = new CCommand()
+const add__cmd = new CCommand()
   .setName("add")
   .setDescription("Adds a song to the playlist")
   .setExecution(async (messageInstance) => {
@@ -19,15 +19,15 @@ const add = new CCommand()
         )
         .addFields(
           methods.formatters.CommandPreview.createFields(
-            music.commands.find((c) => c.identifier === "add")!.commands
+            music_cmd.commands.find((c) => c.identifier === "add")!.commands
           )
         )
     );
   })
   .addHelpCommand()
 
-  .addSubcommand(() => videoUrl)
-  .addSubcommand(() => playlistUrl)
-  .addSubcommand(() => search);
+  .addSubcommand(() => videoUrl_cmd)
+  .addSubcommand(() => playlistUrl_cmd)
+  .addSubcommand(() => search_cmd);
 
-export default add;
+export default add_cmd;

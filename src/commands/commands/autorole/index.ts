@@ -1,16 +1,10 @@
-import { MessageActionRow, MessageButton, Permissions } from "discord.js";
-import { italic } from "@discordjs/builders";
-
 import CCommand from "../../../features/commands/classes/command";
 
-import database from "../../../features/database";
-import reactions from "../../../assets/reactions";
-
 // subcommands imports
-import set from "./subcommands/set";
-import remove from "./subcommands/remove";
+import set_cmd from "./subcommands/set";
+import remove_cmd from "./subcommands/remove";
 
-const autorole = new CCommand()
+const autorole__cmd = new CCommand()
   .setName("autorole")
   .setDescription("Autorole command")
   .setExecution((messageInstance) => {
@@ -20,13 +14,13 @@ const autorole = new CCommand()
       embed
         .setDescription("Here are the commands to use:")
         .addFields(
-          methods.formatters.CommandPreview.createFields(autorole.commands)
+          methods.formatters.CommandPreview.createFields(autorole_cmd.commands)
         )
     );
   })
 
-  .addSubcommand((c) => set)
+  .addSubcommand((c) => set_cmd)
   // remove
-  .addSubcommand((c) => remove);
+  .addSubcommand((c) => remove_cmd);
 
-export default autorole;
+export default autorole_cmd;

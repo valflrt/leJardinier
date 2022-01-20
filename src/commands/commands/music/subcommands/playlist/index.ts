@@ -6,9 +6,9 @@ import CCommand from "../../../../../features/commands/classes/command";
 import database from "../../../../../features/database";
 
 // subcommands imports
-import clear from "./subcommands/clear";
+import clear_cmd from "./subcommands/clear";
 
-const playlist = new CCommand()
+const playlist__cmd = new CCommand()
   .setName("playlist")
   .addAlias("pl")
   .setDescription("Display the current playlist")
@@ -36,6 +36,6 @@ const playlist = new CCommand()
   })
   .addHelpCommand()
 
-  .addSubcommand(() => clear);
+  .addSubcommand(() => clear_cmd);
 
-export default playlist;
+export default playlist_cmd;

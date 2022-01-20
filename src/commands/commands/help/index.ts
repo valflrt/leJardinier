@@ -5,12 +5,12 @@ import CCommand from "../../../features/commands/classes/command";
 import reactions from "../../../assets/reactions";
 
 // subcommands imports
-import usage from "./subcommands/usage";
-import commands from "./subcommands/commands";
-import command from "./subcommands/command";
-import website from "./subcommands/website";
+import usage_cmd from "./subcommands/usage";
+import commands_cmd from "./subcommands/commands";
+import command_cmd from "./subcommands/command";
+import website_cmd from "./subcommands/website";
 
-const help = new CCommand()
+const help__cmd = new CCommand()
   .setName("help")
   .setDescription("Display help panel")
   .setExecution(async (messageInstance) => {
@@ -29,14 +29,14 @@ const help = new CCommand()
             .concat(`Here are some commands you can start with:`)
         )
         .addFields(
-          methods.formatters.CommandPreview.createFields(help.commands)
+          methods.formatters.CommandPreview.createFields(help_cmd.commands)
         )
     );
   })
 
-  .addSubcommand(() => usage)
-  .addSubcommand(() => commands)
-  .addSubcommand(() => command)
-  .addSubcommand(() => website);
+  .addSubcommand(() => usage_cmd)
+  .addSubcommand(() => commands_cmd)
+  .addSubcommand(() => command_cmd)
+  .addSubcommand(() => website_cmd);
 
-export default help;
+export default help_cmd;

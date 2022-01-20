@@ -4,7 +4,7 @@ import database from "../../../../../../features/database";
 
 import reactions from "../../../../../../assets/reactions";
 
-const clear = new CCommand()
+const clear__cmd = new CCommand()
   .setName("clear")
   .addAlias("cl")
   .setDescription(`Clear the current playlist`)
@@ -23,4 +23,4 @@ const clear = new CCommand()
   })
   .addHelpCommand();
 
-export default clear;
+export default clear_cmd;

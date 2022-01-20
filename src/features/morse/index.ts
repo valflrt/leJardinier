@@ -1,8 +1,8 @@
 import morseTable from "../../assets/morseTable";
 
-class MorseEncoder {
+export default class Morse {
   // encode
-  public encode(text: string): string {
+  public static encode(text: string): string {
     return text
       .toLowerCase()
       .split(/\s+/g)
@@ -10,7 +10,7 @@ class MorseEncoder {
       .join(" / ")
       .toLowerCase();
   }
-  private encodeLoop(text: string, encoded: string[] = []): string {
+  private static encodeLoop(text: string, encoded: string[] = []): string {
     if (text.length === 0) return encoded.join(" ");
 
     let char = text[0];
@@ -24,7 +24,7 @@ class MorseEncoder {
   }
 
   // decode
-  public decode(text: string): string {
+  public static decode(text: string): string {
     return text
       .toLowerCase()
       .split(/\s\/\s/g)
@@ -33,7 +33,7 @@ class MorseEncoder {
       .toLowerCase()
       .trim();
   }
-  private decodeLoop(chars: string[], decoded: string[] = []): string {
+  private static decodeLoop(chars: string[], decoded: string[] = []): string {
     if (chars.length === 0) return decoded.join("");
 
     let char = chars[0];
@@ -46,7 +46,3 @@ class MorseEncoder {
     return this.decodeLoop(chars.slice(1), decoded);
   }
 }
-
-const morseEncoder = new MorseEncoder();
-
-export default morseEncoder;

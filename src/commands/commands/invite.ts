@@ -3,7 +3,7 @@ import CCommand from "../../features/commands/classes/command";
 import { linkButton } from "../../bot/interactions";
 import reactions from "../../assets/reactions";
 
-const invite = new CCommand()
+const invite__cmd = new CCommand()
   .setName("invite")
   .setDescription("Get bot invitation link")
   .setExecution(async (messageInstance) => {
@@ -25,4 +25,4 @@ const invite = new CCommand()
   })
   .addHelpCommand();
 
-export default invite;
+export default invite_cmd;

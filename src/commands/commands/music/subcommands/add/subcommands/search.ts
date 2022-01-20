@@ -6,7 +6,7 @@ import youtubeAPI from "../../../../../../features/apisHandlers/youtube";
 
 import reactions from "../../../../../../assets/reactions";
 
-const search = new CCommand()
+const search__cmd = new CCommand()
   .setName("search")
   .setDescription("Add a song to the playlist from youtube search")
   .addParameter((p) => p.setName("youtube search").setRequired(true))
@@ -51,4 +51,4 @@ const search = new CCommand()
   })
   .addHelpCommand();
 
-export default search;
+export default search_cmd;

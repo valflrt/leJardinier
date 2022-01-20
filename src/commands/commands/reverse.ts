@@ -2,7 +2,7 @@ import { inlineCode } from "@discordjs/builders";
 
 import CCommand from "../../features/commands/classes/command";
 
-const reverse = new CCommand()
+const reverse__cmd = new CCommand()
   .setName("reverse")
   .setDescription("Reverses the specified text")
   .setExecution(async (messageInstance) => {
@@ -24,4 +24,4 @@ const reverse = new CCommand()
   })
   .addHelpCommand();
 
-export default reverse;
+export default reverse_cmd;

@@ -4,7 +4,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import config from "../../../../config/index.secret";
 
-const usage = new CCommand()
+const usage__cmd = new CCommand()
   .setName("usage")
   .setDescription("Gives information on how to use the bot")
   .setExecution(async (messageInstance) => {
@@ -73,4 +73,4 @@ const usage = new CCommand()
     );
   });
 
-export default usage;
+export default usage_cmd;

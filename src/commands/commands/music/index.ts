@@ -3,14 +3,14 @@ import CCommand from "../../../features/commands/classes/command";
 import reactions from "../../../assets/reactions";
 
 // subcommands import
-import play from "./subcommands/play";
-import add from "./subcommands/add";
-import skip from "./subcommands/skip";
-import stop from "./subcommands/stop";
-import playlist from "./subcommands/playlist";
-import remove from "./subcommands/remove";
+import play_cmd from "./subcommands/play";
+import add_cmd from "./subcommands/add";
+import skip_cmd from "./subcommands/skip";
+import stop_cmd from "./subcommands/stop";
+import playlist_cmd from "./subcommands/playlist";
+import remove_cmd from "./subcommands/remove";
 
-const music = new CCommand()
+const music__cmd = new CCommand()
   .setName("music")
   .setDescription("Music command")
   .setExecution(async (messageInstance) => {
@@ -23,16 +23,16 @@ const music = new CCommand()
           )
         )
         .setFields(
-          methods.formatters.CommandPreview.createFields(music.commands)
+          methods.formatters.CommandPreview.createFields(music_cmd.commands)
         )
     );
   })
 
-  .addSubcommand(() => play)
-  .addSubcommand(() => add)
-  .addSubcommand(() => skip)
-  .addSubcommand(() => stop)
-  .addSubcommand(() => playlist)
-  .addSubcommand(() => remove);
+  .addSubcommand(() => play_cmd)
+  .addSubcommand(() => add_cmd)
+  .addSubcommand(() => skip_cmd)
+  .addSubcommand(() => stop_cmd)
+  .addSubcommand(() => playlist_cmd)
+  .addSubcommand(() => remove_cmd);
 
-export default music;
+export default music_cmd;

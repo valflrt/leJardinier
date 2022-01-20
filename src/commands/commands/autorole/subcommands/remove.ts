@@ -4,7 +4,7 @@ import database from "../../../../features/database";
 
 import reactions from "../../../../assets/reactions";
 
-const remove = new CCommand()
+const remove__cmd = new CCommand()
   .setName("remove")
   .addAlias("rm")
   .setDescription("Removes the current watcher")
@@ -33,4 +33,4 @@ const remove = new CCommand()
     methods.sendTextEmbed(`Autorole removed ${reactions.smile.random}`);
   });
 
-export default remove;
+export default remove_cmd;

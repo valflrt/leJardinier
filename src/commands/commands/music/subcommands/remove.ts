@@ -7,7 +7,7 @@ import database from "../../../../features/database";
 
 import reactions from "../../../../assets/reactions";
 
-const remove = new CCommand()
+const remove__cmd = new CCommand()
   .setName("remove")
   .addAlias("rm")
   .setDescription("Removes a track the current playlist")
@@ -54,4 +54,4 @@ const remove = new CCommand()
   })
   .addHelpCommand();
 
-export default remove;
+export default remove_cmd;

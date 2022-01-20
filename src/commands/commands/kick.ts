@@ -2,7 +2,7 @@ import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import reactions from "../../assets/reactions";
 import CCommand from "../../features/commands/classes/command";
 
-const kick = new CCommand()
+const kick__cmd = new CCommand()
   .setName("kick")
   .setDescription("Kicks one member.")
   .addParameter((p) => p.setName("member mention").setRequired(true))
@@ -80,4 +80,4 @@ const kick = new CCommand()
   })
   .addHelpCommand();
 
-export default kick;
+export default kick_cmd;

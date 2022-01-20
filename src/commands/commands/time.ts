@@ -3,7 +3,7 @@ import { time } from "@discordjs/builders";
 
 import reactions from "../../assets/reactions";
 
-const Ctime = new CCommand()
+const time__cmd = new CCommand()
   .setName("time")
   .setDescription("Get the time")
   .setExecution(async (messageInstance) => {
@@ -14,4 +14,4 @@ const Ctime = new CCommand()
   })
   .addHelpCommand();
 
-export default Ctime;
+export default time_cmd;

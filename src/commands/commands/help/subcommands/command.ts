@@ -2,9 +2,9 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-const command = new CCommand()
+const command__cmd = new CCommand()
   .setName("command")
-  .addAlias("cmd")
+  .addAlias("_cmd")
   .setDescription("Get help about one command")
   .addParameter((p) => p.setName("command name").setRequired(true))
   .setExecution(async (messageInstance) => {
@@ -32,4 +32,4 @@ const command = new CCommand()
   })
   .addHelpCommand();
 
-export default command;
+export default command_cmd;

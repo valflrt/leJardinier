@@ -3,7 +3,7 @@ import { bold, inlineCode, quote } from "@discordjs/builders";
 import CCommand from "../../features/commands/classes/command";
 import * as utils from "../../utils";
 
-const percentage = new CCommand()
+const percentage__cmd = new CCommand()
   .setName("percentage")
   .setDescription("Gives a random percentage")
   .addParameter((p) => p.setName("sentence").setRequired(false))
@@ -28,4 +28,4 @@ const percentage = new CCommand()
   })
   .addHelpCommand();
 
-export default percentage;
+export default percentage_cmd;

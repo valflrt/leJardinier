@@ -5,7 +5,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import database from "../../../../features/database";
 
-const set = new CCommand()
+const set__cmd = new CCommand()
   .setName("set")
   .setDescription(
     "Adds a watcher on a message".concat(
@@ -80,4 +80,4 @@ const set = new CCommand()
     await message.delete();
   });
 
-export default set;
+export default set_cmd;

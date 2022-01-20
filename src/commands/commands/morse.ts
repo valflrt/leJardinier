@@ -3,10 +3,10 @@ import { codeBlock, inlineCode } from "@discordjs/builders";
 
 import CCommand from "../../features/commands/classes/command";
 
-import morseEncoder from "../../features/morse";
+import Morse from "../../features/morse";
 import morseTable from "../../assets/morseTable";
 
-const morse = new CCommand()
+const morse__cmd = new CCommand()
   .setName("morse")
   .setDescription(`Morse code utility command`)
   .setExecution(async (messageInstance) => {
@@ -14,10 +14,10 @@ const morse = new CCommand()
 
     methods.sendTextEmbed(
       `Use ${inlineCode(
-        morse.commands.find((c) => c.name === "encode")!.syntax
+        morse_cmd.commands.find((c) => c.name === "encode")!.syntax
       )} to encode text to Morse code`.concat(
         `Use ${
-          morse.commands.find((c) => c.name === "table")!.syntax
+          morse_cmd.commands.find((c) => c.name === "table")!.syntax
         } to get Morse code table`
       )
     );
@@ -37,7 +37,7 @@ const morse = new CCommand()
         else
           methods.sendTextEmbed(
             "Here is your Morse encoded text:".concat(
-              codeBlock(morseEncoder.encode(commandParameters))
+              codeBlock(Morse.encode(commandParameters))
             )
           );
       })
@@ -56,7 +56,7 @@ const morse = new CCommand()
         else
           methods.sendTextEmbed(
             "Here is your decoded text:".concat(
-              codeBlock(morseEncoder.decode(commandParameters))
+              codeBlock(Morse.decode(commandParameters))
             )
           );
       })
@@ -77,4 +77,4 @@ const morse = new CCommand()
       .addHelpCommand()
   );
 
-export default morse;
+export default morse_cmd;

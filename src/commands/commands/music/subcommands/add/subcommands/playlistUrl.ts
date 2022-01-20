@@ -4,7 +4,7 @@ import PrePlaylist from "../../../../../../features/music/classes/playlist";
 
 import reactions from "../../../../../../assets/reactions";
 
-const playlistUrl = new CCommand()
+const playlistUrl__cmd = new CCommand()
   .setName("playlist url")
   .setIdentifier("playlisturl")
   .addAlias("plurl")
@@ -43,4 +43,4 @@ const playlistUrl = new CCommand()
     );
   });
 
-export default playlistUrl;
+export default playlistUrl_cmd;

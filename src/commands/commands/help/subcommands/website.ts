@@ -4,7 +4,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import reactions from "../../../../assets/reactions";
 
-const website = new CCommand()
+const website__cmd = new CCommand()
   .setName("website")
   .setDescription("Get my website link")
   .setExecution(async (messageInstance) => {
@@ -18,4 +18,4 @@ const website = new CCommand()
   })
   .addHelpCommand();
 
-export default website;
+export default website_cmd;
