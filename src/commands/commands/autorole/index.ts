@@ -3,7 +3,7 @@ import { italic } from "@discordjs/builders";
 
 import CCommand from "../../../managers/commands/classes/command";
 
-import database from "../../../managers/database";
+import database from "../../../features/databaseManager";
 import reactions from "../../../assets/reactions";
 
 // subcommands imports

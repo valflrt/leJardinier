@@ -3,7 +3,7 @@ import { bold, hyperlink } from "@discordjs/builders";
 
 import CCommand from "../../../../../managers/commands/classes/command";
 
-import database from "../../../../../managers/database";
+import database from "../../../../../features/databaseManager";
 
 // subcommands imports
 import clear from "./subcommands/clear";

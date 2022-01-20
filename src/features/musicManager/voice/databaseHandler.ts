@@ -1,4 +1,4 @@
-import database from "../../../managers/database";
+import database from "../../databaseManager";
 
 import { Track } from "../classes/track";
 

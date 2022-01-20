@@ -2,7 +2,7 @@ import { MessageAttachment, MessageEmbed } from "discord.js";
 import Canvas from "canvas";
 
 import CCommand from "../../managers/commands/classes/command";
-import database from "../../managers/database";
+import database from "../../features/databaseManager";
 
 const stats = new CCommand()
   .setName("stats")

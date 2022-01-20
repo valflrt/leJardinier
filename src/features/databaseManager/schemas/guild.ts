@@ -1,4 +1,4 @@
-import { ITrack } from "../../../features/musicManager/classes/track";
+import { ITrack } from "../../musicManager/classes/track";
 
 import AutoroleSchema from "./autorole";
 

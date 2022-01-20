@@ -5,7 +5,7 @@ import youtubeAPI from "../../apiManagers/youtube";
 import PreTrack, { ITrack, Track } from "./track";
 
 import regexps from "../../../assets/regexp";
-import database from "../../../managers/database";
+import database from "../../databaseManager";
 import log from "../../../bot/log";
 
 export interface IPlaylist {
