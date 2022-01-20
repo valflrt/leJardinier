@@ -32,7 +32,7 @@ YOUTUBE_API_KEY="youtube api key"
 DATABASE_URI="database uri"
 ```
 
-You need to set the bot prefix in the newly created config file (`index.secret.ts`).
+You need to set the bot prefix in the newly created config file (`.env`).
 
 ```
 PREFIX="here"
