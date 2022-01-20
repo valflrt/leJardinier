@@ -8,7 +8,7 @@ import database from "../../../../features/database";
 const set_cmd = new CCommand()
   .setName("set")
   .setDescription(
-    "Adds a watcher on a message".concat(
+    "Adds a watcher, on the replied message if specified.\n".concat(
       "When a specific mention is added by a member, they get a specific role"
     )
   )
