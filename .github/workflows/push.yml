@@ -13,8 +13,8 @@ jobs:
       - name: Installation
         run: npm install
       - name: Copying fake config file
-        run: cp src/config/index.example.ts src/config/index.secret.ts
-      - name: Tests and Build
-        run: |
-          npm run test
-          npm run build
+        run: cp .env.example .env
+      - name: Tests
+        run: npm run test
+      - name: Build
+        run: npm run test
