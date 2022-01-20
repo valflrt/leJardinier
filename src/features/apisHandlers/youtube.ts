@@ -1,6 +1,6 @@
 import { google, youtube_v3 } from "googleapis";
 
-import config from "../../config/index.secret";
+import config from "../../config";
 
 let youtube = google.youtube("v3");
 

@@ -9,7 +9,7 @@ import ReplyMethods from "../builders/replyMethods";
 import log from "./log";
 
 import commandList from "../commands";
-import config from "../config/index.secret";
+import config from "../config";
 import reactions from "../assets/reactions";
 
 class MessageInstance {

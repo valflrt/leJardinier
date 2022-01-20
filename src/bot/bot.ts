@@ -13,7 +13,7 @@ import databaseMiddleware from "./listeners/onInteraction";
 
 import log from "./log";
 
-import config from "../config/index.secret";
+import config from "../config";
 
 export default class LeJardinier {
   private bot?: Client;

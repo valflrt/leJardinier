@@ -1,4 +1,4 @@
-import config from "../../../config/index.secret";
+import config from "../../../config";
 
 export default class CMessageParser {
   public readonly commandPattern: string[] = [];

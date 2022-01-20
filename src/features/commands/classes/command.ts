@@ -2,7 +2,7 @@ import CCommandParameter from "./commandParameter";
 import TCommandParameterConfig from "../types/commandParameterConfig";
 import TExecutionFunction from "../types/executionFunction";
 
-import config from "../../../config/index.secret";
+import config from "../../../config";
 import ICommandSettings from "../types/commandSettings";
 
 export default class CCommand {

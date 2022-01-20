@@ -6,3 +6,4 @@ dist
 
 .github
 .vscode
+.env
