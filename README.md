@@ -21,30 +21,21 @@ Then, run `npm install` in the project directory to install the dependencies.
 
 ### Configuration
 
-Duplicate [`index.example.ts`](./src/config/index.example.ts) and renamed the duplicate to `index.secret.ts` (it has to be in the same directory as the original file).
+Duplicate [`.env.example`](./.env.example) and renamed the duplicate to `.env` (it has to be in the root directory).
 
 In this file you will find this:
 
-```typescript
-const config: IConfig = {
-  local: {
-    prefix: "prefix",
-  },
-  secrets: {
-    token: "bot token",
-    youtubeApiKey: "youtube api key",
-    databaseURI: "mongodb database URI",
-  },
-};
+```
+PREFIX="prefix"
+TOKEN="token"
+YOUTUBE_API_KEY="youtube api key"
+DATABASE_URI="database uri"
 ```
 
 You need to set the bot prefix in the newly created config file (`index.secret.ts`).
 
-```typescript
-...
-local: {
-  prefix: "prefix", // here
-},
+```
+PREFIX="here"
 ...
 ```
 
@@ -54,16 +45,13 @@ In order to get the code working, you'll need to get:
 - a **youtube API key** ([learn more](https://www.embedplus.com/how-to-create-a-youtube-api-key.aspx))
 - a **mongoDB database URI**
 
-And to add these in the config file.
+And to add these in the config file:
 
-```typescript
+```
 ...
-secrets: {
-  token: "bot token", // here
-  youtubeApiKey: "youtube api key", // here
-  databaseURI: "mongodb database URI", // and here
-},
-...
+TOKEN="here"
+YOUTUBE_API_KEY="here"
+DATABASE_URI="and here"
 ```
 
 You're done with configuration !
