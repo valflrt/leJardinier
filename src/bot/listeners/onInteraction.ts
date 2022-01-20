@@ -1,11 +1,11 @@
 import { inlineCode } from "@discordjs/builders";
 
-import MessageInstance from "../bot/message";
+import MessageInstance from "../message";
 
-import database from "../features/databaseManager";
-import { randomItem } from "../utils";
+import database from "../../features/databaseManager";
+import { randomItem } from "../../utils";
 
-import reactions from "../assets/reactions";
+import reactions from "../../assets/reactions";
 import { Interaction } from "discord.js";
 
 const onMessage = async (messageInstance: MessageInstance) => {

@@ -9,7 +9,7 @@ import {
 import MessageInstance from "./message";
 
 import database, { buildDatabase } from "../features/databaseManager";
-import databaseMiddleware from "../middlewares/database";
+import databaseMiddleware from "./listeners/onInteraction";
 
 import log from "./log";
 
