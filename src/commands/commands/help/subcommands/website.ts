@@ -4,7 +4,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import reactions from "../../../../assets/reactions";
 
-const website__cmd = new CCommand()
+const website_cmd = new CCommand()
   .setName("website")
   .setDescription("Get my website link")
   .setExecution(async (messageInstance) => {

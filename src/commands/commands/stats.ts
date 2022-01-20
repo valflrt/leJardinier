@@ -4,7 +4,7 @@ import Canvas from "canvas";
 import CCommand from "../../features/commands/classes/command";
 import database from "../../features/database";
 
-const stats__cmd = new CCommand()
+const stats_cmd = new CCommand()
   .setName("stats")
   .setDescription("Gives user stats")
   .setExecution(async (messageInstance) => {

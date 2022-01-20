@@ -4,7 +4,7 @@ import controllersManager from "../../../../features/music/voice/controllersMana
 
 import reactions from "../../../../assets/reactions";
 
-const skip__cmd = new CCommand()
+const skip_cmd = new CCommand()
   .setName("skip")
   .setDescription(`Skip current track`)
   .setExecution(async (messageInstance) => {

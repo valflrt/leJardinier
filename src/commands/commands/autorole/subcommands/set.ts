@@ -5,7 +5,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import database from "../../../../features/database";
 
-const set__cmd = new CCommand()
+const set_cmd = new CCommand()
   .setName("set")
   .setDescription(
     "Adds a watcher on a message".concat(

@@ -2,7 +2,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-const command__cmd = new CCommand()
+const command_cmd = new CCommand()
   .setName("command")
   .addAlias("_cmd")
   .setDescription("Get help about one command")

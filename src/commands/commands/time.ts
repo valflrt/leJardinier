@@ -3,7 +3,7 @@ import { time } from "@discordjs/builders";
 
 import reactions from "../../assets/reactions";
 
-const time__cmd = new CCommand()
+const time_cmd = new CCommand()
   .setName("time")
   .setDescription("Get the time")
   .setExecution(async (messageInstance) => {

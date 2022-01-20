@@ -3,7 +3,7 @@ import { bold, inlineCode, quote } from "@discordjs/builders";
 import CCommand from "../../features/commands/classes/command";
 import * as utils from "../../utils";
 
-const boolean__cmd = new CCommand()
+const boolean_cmd = new CCommand()
   .setName("boolean")
   .setIdentifier("bool")
   .setDescription(`Answers "true" or "false" randomly`)

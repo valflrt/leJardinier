@@ -8,7 +8,7 @@ import database from "../../../../../features/database";
 // subcommands imports
 import clear_cmd from "./subcommands/clear";
 
-const playlist__cmd = new CCommand()
+const playlist_cmd = new CCommand()
   .setName("playlist")
   .addAlias("pl")
   .setDescription("Display the current playlist")

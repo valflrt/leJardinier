@@ -6,7 +6,7 @@ import CCommand from "../../features/commands/classes/command";
 import Morse from "../../features/morse";
 import morseTable from "../../assets/morseTable";
 
-const morse__cmd = new CCommand()
+const morse_cmd = new CCommand()
   .setName("morse")
   .setDescription(`Morse code utility command`)
   .setExecution(async (messageInstance) => {

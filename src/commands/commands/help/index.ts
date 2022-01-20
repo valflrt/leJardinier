@@ -10,7 +10,7 @@ import commands_cmd from "./subcommands/commands";
 import command_cmd from "./subcommands/command";
 import website_cmd from "./subcommands/website";
 
-const help__cmd = new CCommand()
+const help_cmd = new CCommand()
   .setName("help")
   .setDescription("Display help panel")
   .setExecution(async (messageInstance) => {

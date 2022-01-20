@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 
 import CCommand from "../../features/commands/classes/command";
 
-const profilePicture__cmd = new CCommand()
+const profilePicture_cmd = new CCommand()
   .setName("profile picture")
   .setIdentifier("pp")
   .setDescription("Gives someone's profile picture")

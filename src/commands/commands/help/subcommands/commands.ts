@@ -5,7 +5,7 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-const commands__cmd = new CCommand()
+const commands_cmd = new CCommand()
   .setName("commands")
   .addAlias("_cmds")
   .setDescription("Displays every available command")

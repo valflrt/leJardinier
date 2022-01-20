@@ -10,7 +10,7 @@ import stop_cmd from "./subcommands/stop";
 import playlist_cmd from "./subcommands/playlist";
 import remove_cmd from "./subcommands/remove";
 
-const music__cmd = new CCommand()
+const music_cmd = new CCommand()
   .setName("music")
   .setDescription("Music command")
   .setExecution(async (messageInstance) => {

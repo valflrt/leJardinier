@@ -4,7 +4,7 @@ import PreTrack from "../../../../../../features/music/classes/track";
 
 import reactions from "../../../../../../assets/reactions";
 
-const videoUrl__cmd = new CCommand()
+const videoUrl_cmd = new CCommand()
   .setName("from video url")
   .setIdentifier("videourl")
   .addAlias("url")

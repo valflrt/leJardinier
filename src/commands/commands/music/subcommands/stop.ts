@@ -4,7 +4,7 @@ import controllersManager from "../../../../features/music/voice/controllersMana
 
 import reactions from "../../../../assets/reactions";
 
-const stop__cmd = new CCommand()
+const stop_cmd = new CCommand()
   .setName("stop")
   .setDescription("Stop the music")
   .setExecution(async (messageInstance) => {

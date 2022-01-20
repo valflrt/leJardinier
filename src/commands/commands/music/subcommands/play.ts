@@ -3,7 +3,7 @@ import CCommand from "../../../../features/commands/classes/command";
 import controllersManager from "../../../../features/music/voice/controllersManager";
 import MusicController from "../../../../features/music/voice/controller";
 
-const play__cmd = new CCommand()
+const play_cmd = new CCommand()
   .setName("play")
   .addAlias("p")
   .setDescription("Start playing music from the current playlist")

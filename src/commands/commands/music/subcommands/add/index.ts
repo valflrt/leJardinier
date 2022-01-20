@@ -7,7 +7,7 @@ import videoUrl_cmd from "./subcommands/videoUrl";
 import playlistUrl_cmd from "./subcommands/playlistUrl";
 import search_cmd from "./subcommands/search";
 
-const add__cmd = new CCommand()
+const add_cmd = new CCommand()
   .setName("add")
   .setDescription("Adds a song to the playlist")
   .setExecution(async (messageInstance) => {

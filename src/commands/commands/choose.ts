@@ -4,7 +4,7 @@ import CCommand from "../../features/commands/classes/command";
 
 import { randomItem } from "../../utils";
 
-const choose__cmd = new CCommand()
+const choose_cmd = new CCommand()
   .setName("choose")
   .setDescription("Chooses one of the items specified")
   .setExecution(async (messageInstance) => {

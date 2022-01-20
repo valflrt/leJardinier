@@ -3,7 +3,7 @@ import * as utils from "../../utils";
 
 import reactions from "../../assets/reactions";
 
-const hey__cmd = new CCommand()
+const hey_cmd = new CCommand()
   .setName("hey")
   .setDescription("Greet the bot")
   .setExecution(async (messageInstance) => {

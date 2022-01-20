@@ -4,7 +4,7 @@ import database from "../../../../../../features/database";
 
 import reactions from "../../../../../../assets/reactions";
 
-const clear__cmd = new CCommand()
+const clear_cmd = new CCommand()
   .setName("clear")
   .addAlias("cl")
   .setDescription(`Clear the current playlist`)

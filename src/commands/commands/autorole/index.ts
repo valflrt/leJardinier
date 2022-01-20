@@ -4,7 +4,7 @@ import CCommand from "../../../features/commands/classes/command";
 import set_cmd from "./subcommands/set";
 import remove_cmd from "./subcommands/remove";
 
-const autorole__cmd = new CCommand()
+const autorole_cmd = new CCommand()
   .setName("autorole")
   .setDescription("Autorole command")
   .setExecution((messageInstance) => {
