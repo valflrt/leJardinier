@@ -1,7 +1,7 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 
-import { morseFormatter } from ".";
+import morseEncoder from ".";
 
 describe("Morse tests", () => {
   describe("Morse encoding tests", () => {

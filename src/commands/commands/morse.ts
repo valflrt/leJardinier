@@ -3,7 +3,7 @@ import { codeBlock, inlineCode } from "@discordjs/builders";
 
 import CCommand from "../../managers/commands/classes/command";
 
-import { morseFormatter } from "../../formatters";
+import morseEncoder from "../../features/morseEncoder";
 import morseTable from "../../assets/morseTable";
 
 const morse = new CCommand()
@@ -37,7 +37,7 @@ const morse = new CCommand()
         else
           methods.sendTextEmbed(
             "Here is your Morse encoded text:".concat(
-              codeBlock(morseFormatter.encode(commandParameters))
+              codeBlock(morseEncoder.encode(commandParameters))
             )
           );
       })
@@ -56,7 +56,7 @@ const morse = new CCommand()
         else
           methods.sendTextEmbed(
             "Here is your decoded text:".concat(
-              codeBlock(morseFormatter.decode(commandParameters))
+              codeBlock(morseEncoder.decode(commandParameters))
             )
           );
       })

@@ -1,6 +1,6 @@
-import morseTable from "../assets/morseTable";
+import morseTable from "../../assets/morseTable";
 
-class MorseFormatter {
+class MorseEncoder {
   // encode
   public encode(text: string): string {
     return text
@@ -47,4 +47,6 @@ class MorseFormatter {
   }
 }
 
-export const morseFormatter = new MorseFormatter();
+const morseEncoder = new MorseEncoder();
+
+export default morseEncoder;
