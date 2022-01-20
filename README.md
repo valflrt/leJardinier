@@ -1,6 +1,21 @@
-# <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="64px" height="auto"> Le Jardinier
+<p align="center">
+  <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto" align="center">
 
-[![build](https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build)](https://github.com/valflrt/lejardinier/actions/workflows/push.yml) [![discord](https://img.shields.io/discord/774689668309450833?color=rgb%2888%2C%20101%2C%20242%29&label=discord&logo=discord&logoColor=%23fff)](https://discord.gg/8PA9M2rqgd)
+  <p align="center">
+    <a href="https://github.com/valflrt/lejardinier/actions/workflows/push.yml" align="center">
+      <img src="https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build" />
+    </a>
+    <a href="https://github.com/valflrt/lejardinier/blob/main/LICENSE" align="center">
+      <img src="https://img.shields.io/github/license/valflrt/lejardinier" />
+    </a>
+    <a href="https://discord.gg/8PA9M2rqgd" align="center">
+      <img src="https://img.shields.io/discord/774689668309450833?color=rgb%2888%2C%20101%2C%20242%29&label=discord&logo=discord&logoColor=%23fff" />
+    </a>
+    
+  </p>
+</p>
+
+# Le Jardinier
 
 Le Jardinier is simple simple discord bot made with typescript and using discord.js.
 
@@ -79,12 +94,16 @@ Notes:
 - You may need to run this command as administrator.
 - For the docker build to success, you need to first follow the instructions in the Configuration section.
 
+#
+
 ## Notes
 
 - You need to have **nodejs**, **npm** and **npx** installed on your computer (npm and npx are usually automatically installed with nodejs)
 - If you find a bug or have a suggestion, please create an issue so I can take a look at it.
 - [`typescript.ts`](./typescript.ts) is useless, I added it because my code editor put an error and adding this file was the way to fix it...
 - _Don't mind my code it can be fucked up sometimes..._
+
+#
 
 ## More Information
 
