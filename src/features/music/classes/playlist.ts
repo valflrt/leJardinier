@@ -1,11 +1,11 @@
 import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
-import youtubeAPI from "../../apiManagers/youtube";
+import youtubeAPI from "../../apisHandlers/youtube";
 import PreTrack, { ITrack, Track } from "./track";
 
 import regexps from "../../../assets/regexp";
-import database from "../../databaseManager";
+import database from "../../database";
 import log from "../../../bot/log";
 
 export interface IPlaylist {

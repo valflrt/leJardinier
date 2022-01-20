@@ -1,4 +1,4 @@
-import CCommandList from "../managers/commands/classes/commandList";
+import CCommandList from "../features/commands/classes/commandList";
 
 import help from "./commands/help";
 import time from "./commands/time";

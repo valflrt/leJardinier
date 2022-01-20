@@ -8,7 +8,7 @@ import {
 
 import MessageInstance from "./message";
 
-import database, { buildDatabase } from "../features/databaseManager";
+import database, { buildDatabase } from "../features/database";
 import databaseMiddleware from "./listeners/onInteraction";
 
 import log from "./log";

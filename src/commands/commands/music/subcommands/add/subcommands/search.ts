@@ -1,8 +1,8 @@
-import CCommand from "../../../../../../managers/commands/classes/command";
+import CCommand from "../../../../../../features/commands/classes/command";
 
-import PreTrack from "../../../../../../features/musicManager/classes/track";
+import PreTrack from "../../../../../../features/music/classes/track";
 
-import youtubeAPI from "../../../../../../features/apiManagers/youtube";
+import youtubeAPI from "../../../../../../features/apisHandlers/youtube";
 
 import reactions from "../../../../../../assets/reactions";
 

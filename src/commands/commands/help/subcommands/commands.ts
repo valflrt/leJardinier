@@ -1,7 +1,7 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { bold } from "@discordjs/builders";
 
-import CCommand from "../../../../managers/commands/classes/command";
+import CCommand from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 

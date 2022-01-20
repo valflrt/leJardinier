@@ -2,8 +2,8 @@ import { MessageEmbed } from "discord.js";
 import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
-import database from "../../databaseManager";
-import youtubeAPI from "../../apiManagers/youtube";
+import database from "../../database";
+import youtubeAPI from "../../apisHandlers/youtube";
 import log from "../../../bot/log";
 
 import regexps from "../../../assets/regexp";

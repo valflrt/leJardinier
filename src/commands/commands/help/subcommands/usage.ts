@@ -1,6 +1,6 @@
 import { bold, inlineCode, italic, underscore } from "@discordjs/builders";
 
-import CCommand from "../../../../managers/commands/classes/command";
+import CCommand from "../../../../features/commands/classes/command";
 
 import config from "../../../../config/index.secret";
 

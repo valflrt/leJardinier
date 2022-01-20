@@ -4,7 +4,7 @@ import * as voice from "@discordjs/voice";
 import ytdl from "ytdl-core";
 
 import controllersManager from "./controllersManager";
-import databaseHandler from "./databaseHandler";
+import databaseHandler from "./database";
 
 import MessageInstance from "../../../bot/message";
 import { SentMessage } from "../../../declarations/types";

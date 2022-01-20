@@ -1,4 +1,4 @@
-import CCommand from "../../managers/commands/classes/command";
+import CCommand from "../../features/commands/classes/command";
 import { time } from "@discordjs/builders";
 
 import reactions from "../../assets/reactions";

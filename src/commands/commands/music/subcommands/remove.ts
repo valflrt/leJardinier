@@ -1,9 +1,9 @@
 import { bold } from "@discordjs/builders";
 
-import CCommand from "../../../../managers/commands/classes/command";
-import { Track } from "../../../../features/musicManager/classes/track";
+import CCommand from "../../../../features/commands/classes/command";
+import { Track } from "../../../../features/music/classes/track";
 
-import database from "../../../../features/databaseManager";
+import database from "../../../../features/database";
 
 import reactions from "../../../../assets/reactions";
 

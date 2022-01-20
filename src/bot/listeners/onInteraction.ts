@@ -2,7 +2,7 @@ import { inlineCode } from "@discordjs/builders";
 
 import MessageInstance from "../message";
 
-import database from "../../features/databaseManager";
+import database from "../../features/database";
 import { randomItem } from "../../utils";
 
 import reactions from "../../assets/reactions";
