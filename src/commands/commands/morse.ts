@@ -3,7 +3,7 @@ import { codeBlock, inlineCode } from "@discordjs/builders";
 
 import CCommand from "../../features/commands/classes/command";
 
-import morseEncoder from "../../features/morseEncoder";
+import morseEncoder from "../../features/morse";
 import morseTable from "../../assets/morseTable";
 
 const morse = new CCommand()
