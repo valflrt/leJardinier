@@ -2,7 +2,7 @@ import CCommand from "../../../../../../features/commands/classes/command";
 
 import PreTrack from "../../../../../../features/music/classes/track";
 
-import youtubeAPI from "../../../../../../features/apisHandlers/youtube";
+import youtubeAPI from "../../../../../../features/apis/youtube";
 
 import reactions from "../../../../../../assets/reactions";
 

@@ -3,7 +3,7 @@ import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
 import database from "../../database";
-import youtubeAPI from "../../apisHandlers/youtube";
+import youtubeAPI from "../../apis/youtube";
 import log from "../../../bot/log";
 
 import regexps from "../../../assets/regexp";
