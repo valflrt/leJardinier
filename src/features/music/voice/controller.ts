@@ -11,6 +11,7 @@ import { SentMessage } from "../../../declarations/types";
 
 import reactions from "../../../assets/reactions";
 import TrackPlayer from "./player";
+import log from "../../../bot/log";
 
 export default class MusicController {
   public messageInstance: MessageInstance;
@@ -104,10 +105,11 @@ export default class MusicController {
 
     if (!track.videoID) return failedFn();
 
-    let resource = await this.createResource(track.videoID);
-    if (!resource) return failedFn();
-
-    player.play(resource);
+    await player.play(track.videoID).catch((e) => {
+      log.system.error(`Failed to play track:`);
+      console.log(e);
+      return failedFn();
+    });
     connection.subscribe(player.toObject());
   }
 
@@ -116,22 +118,6 @@ export default class MusicController {
    */
   public stopPlaying() {
     this.currentPlayer?.stop();
-  }
-
-  /**
-   *
-   * @param videoId video id of the video to fetch
-   */
-  private async createResource(
-    videoId: string
-  ): Promise<voice.AudioResource | null> {
-    let ytdlStream = ytdl(videoId, {
-      quality: "highestaudio",
-      filter: "audioonly",
-    });
-    if (!ytdlStream) return null;
-    let { stream, type } = await voice.demuxProbe(ytdlStream);
-    return voice.createAudioResource(stream, { inputType: type });
   }
 
   public async playNextTrack() {

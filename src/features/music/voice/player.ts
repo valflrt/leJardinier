@@ -6,6 +6,7 @@ import log from "../../../bot/log";
 
 import reactions from "../../../assets/reactions";
 import MusicController from "./controller";
+import ytdl from "ytdl-core";
 
 export default class TrackPlayer {
   private audioPlayer: voice.AudioPlayer;
@@ -21,8 +22,29 @@ export default class TrackPlayer {
     this.track = track;
   }
 
-  public play(resource: voice.AudioResource) {
-    if (this.audioPlayer.playable) this.audioPlayer.play(resource);
+  /**
+   * Creates an audio resource
+   * @param videoId video id of the video to fetch
+   */
+  public play(videoId: string) {
+    return new Promise<void>(async (resolve, reject) => {
+      let ytdlStream;
+      try {
+        ytdlStream = ytdl(videoId, {
+          quality: "lowest",
+          filter: "audioonly",
+        });
+        if (!ytdlStream) return reject(new Error("Stream unavailable"));
+        let { stream, type } = await voice.demuxProbe(ytdlStream);
+        if (this.audioPlayer.playable)
+          this.audioPlayer.play(
+            voice.createAudioResource(stream, { inputType: type })
+          );
+      } catch (e) {
+        return reject(e);
+      }
+      return resolve();
+    });
   }
 
   public stop() {
