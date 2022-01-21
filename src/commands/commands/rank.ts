@@ -5,7 +5,7 @@ import CCommand from "../../features/commands/classes/command";
 import database from "../../features/database";
 
 const rank_cmd = new CCommand()
-  .setName("stats")
+  .setName("rank")
   .setDescription("Gives your stats/rank or the ones of the mentioned member")
   .addParameter((p) => p.setName("member mention").setRequired(false))
   .setExecution(async (messageInstance) => {
