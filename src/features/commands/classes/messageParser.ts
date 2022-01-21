@@ -6,12 +6,12 @@ export default class CMessageParser {
 
   constructor(messageText: string) {
     this.commandPattern = messageText
-      .replace(new RegExp(`(^${config.local.prefix})|( .*$)`, "g"), "")
+      .replace(new RegExp(`(^${config.prefix})|( .*$)`, "g"), "")
       .trim()
       .split(/(?!^)\.(?!$)/g);
     this.parameters = messageText
       .replace(
-        new RegExp(`^((?:${config.local.prefix}\\w+)(\\.\\w*)* *)`, "g"),
+        new RegExp(`^((?:${config.prefix}\\w+)(\\.\\w*)* *)`, "g"),
         ""
       )
       /**

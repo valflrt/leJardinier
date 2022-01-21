@@ -9,7 +9,7 @@ import {
 import MessageInstance from "./message";
 
 import database, { buildDatabase } from "../features/database";
-import databaseMiddleware from "./listeners/onInteraction";
+import databaseMiddleware from "./listeners/functions";
 
 import log from "./log";
 
@@ -46,7 +46,7 @@ export default class LeJardinier {
     }
 
     bot.user!.setActivity({
-      name: `${config.local.prefix}help`,
+      name: `${config.prefix}help`,
       type: "WATCHING",
     });
 
@@ -74,7 +74,7 @@ export default class LeJardinier {
 
     databaseMiddleware.listeners.onMessage(messageInstance);
 
-    if (!message.content.startsWith(config.local.prefix)) return;
+    if (!message.content.startsWith(config.prefix)) return;
     log.message.message(message, messageInstance); // logs every command
 
     if (messageInstance.hasCommand === true) {

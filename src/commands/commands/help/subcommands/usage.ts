@@ -31,10 +31,10 @@ const usage_cmd = new CCommand()
               )}\n`
             )
             .concat(`Here are some examples:\n`)
-            .concat(`• ${inlineCode(`${config.local.prefix}hey`)}\n`)
+            .concat(`• ${inlineCode(`${config.prefix}hey`)}\n`)
             .concat(
               `• ${inlineCode(
-                `${config.local.prefix}morse.encode this is an example`
+                `${config.prefix}morse.encode this is an example`
               )}`
             )
             .concat("\n\n")

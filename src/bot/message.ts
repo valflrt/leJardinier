@@ -43,7 +43,7 @@ class MessageInstance {
    * returns a boolean whether the message content starts with the prefix or not
    */
   get hasPrefix(): boolean {
-    return this.message.content.startsWith(config.local.prefix);
+    return this.message.content.startsWith(config.prefix);
   }
 
   /**
