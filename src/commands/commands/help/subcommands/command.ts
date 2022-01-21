@@ -4,7 +4,7 @@ import commandList from "../../..";
 
 const command_cmd = new CCommand()
   .setName("command")
-  .addAlias("_cmd")
+  .addAlias("cmd")
   .setDescription("Get help about one command")
   .addParameter((p) => p.setName("command name").setRequired(true))
   .setExecution(async (messageInstance) => {

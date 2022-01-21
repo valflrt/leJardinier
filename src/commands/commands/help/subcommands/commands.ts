@@ -7,7 +7,7 @@ import commandList from "../../..";
 
 const commands_cmd = new CCommand()
   .setName("commands")
-  .addAlias("_cmds")
+  .addAlias("cmds")
   .setDescription("Displays every available command")
   .setExecution(async (messageInstance) => {
     let { methods } = messageInstance;
