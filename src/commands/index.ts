@@ -16,7 +16,7 @@ import reverse_cmd from "./commands/reverse";
 import morse_cmd from "./commands/morse";
 
 import profilePicture_cmd from "./commands/pp";
-import stats_cmd from "./commands/stats";
+import rank_cmd from "./commands/rank";
 
 import music_cmd from "./commands/music";
 
@@ -32,7 +32,7 @@ let commandList = new CCommandList()
   .addCommand(() => morse_cmd, "Fun")
   .addCommand(() => music_cmd, "Music")
   .addCommand(() => profilePicture_cmd, "User Information")
-  .addCommand(() => stats_cmd, "User Information")
+  .addCommand(() => rank_cmd, "User Information")
   .addCommand(() => autorole_cmd, "Moderation")
   .addCommand(() => kick_cmd, "Moderation")
   .addCommand(() => ban_cmd, "Moderation");
