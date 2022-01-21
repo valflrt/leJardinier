@@ -6,7 +6,7 @@ import database from "../../features/database";
 
 const rank_cmd = new CCommand()
   .setName("stats")
-  .setDescription("Gives user stats")
+  .setDescription("Gives user stats/rank")
   .setExecution(async (messageInstance) => {
     let { methods, message } = messageInstance;
 
