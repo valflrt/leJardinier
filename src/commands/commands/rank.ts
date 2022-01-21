@@ -6,11 +6,16 @@ import database from "../../features/database";
 
 const rank_cmd = new CCommand()
   .setName("stats")
-  .setDescription("Gives user stats/rank")
+  .setDescription("Gives your stats/rank or the ones of the mentioned member")
+  .addParameter((p) => p.setName("member mention").setRequired(false))
   .setExecution(async (messageInstance) => {
     let { methods, message } = messageInstance;
 
-    let member = await database.members.findOne({ userId: message.author.id });
+    let memberMention = message.mentions.members?.first();
+
+    let member = await database.members.findOne({
+      userId: memberMention?.id ?? message.author.id,
+    });
 
     if (!member?.stats)
       return methods.sendTextEmbed(`Couldn't find your stats !`);
