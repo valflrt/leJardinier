@@ -4,7 +4,6 @@ import { codeBlock } from "@discordjs/builders";
 import CCommand from "../features/commands/classes/command";
 import CMessageParser from "../features/commands/classes/messageParser";
 
-//import { guildManager, userManager, statManager } from "./database";
 import ReplyMethods from "../builders/replyMethods";
 import log from "./log";
 
