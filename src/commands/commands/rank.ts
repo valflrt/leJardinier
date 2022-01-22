@@ -19,7 +19,7 @@ const rank_cmd = new CCommand()
     });
 
     if (!member?.stats)
-      return methods.sendTextEmbed(`Couldn't find your stats !`);
+      return methods.sendTextEmbed(`Couldn't find user stats !`);
 
     let XP = member.stats!.xp!;
     let levelMaxXP = Math.floor(5 ** 1.1 * member.stats!.level!);
