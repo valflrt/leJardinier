@@ -1,5 +1,5 @@
 import { Client, Message, MessageEmbed } from "discord.js";
-import { hyperlink } from "@discordjs/builders";
+import { codeBlock } from "@discordjs/builders";
 
 import CCommand from "../features/commands/classes/command";
 import CMessageParser from "../features/commands/classes/messageParser";
@@ -78,11 +78,8 @@ class MessageInstance {
       this.methods.sendCustomEmbed((embed) =>
         embed
           .setDescription(
-            `I failed to execute this command.${reactions.error.random}\n`.concat(
-              `If you know github and know how to use it please create a new ${hyperlink(
-                "issue",
-                "https://github.com/valflrt/lejardinier-typescript/issues/new"
-              )} so the developer can fix the problem`
+            `${reactions.error.random} An error occurred while executing this command:\n`.concat(
+              codeBlock(`${e}`)
             )
           )
           .setColor("RED")
