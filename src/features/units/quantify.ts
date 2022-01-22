@@ -1,4 +1,4 @@
-const generateQuantified = {
+const quantify = {
   fromString: (toParse: string): string => {
     let number = Number.parseFloat(toParse);
 
@@ -30,4 +30,4 @@ const generateQuantified = {
   },
 };
 
-export default generateQuantified;
+export default quantify;
