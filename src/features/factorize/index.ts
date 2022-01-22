@@ -10,6 +10,7 @@ class Factorize {
     billion: /(?<=\d+)\d{9}(?<=(\.\d)?)/,
     million: /(?<=\d+)\d{6}(?<=(\.\d)?)/,
     thousand: /(?<=\d+)\d{3}(?<=(\.\d)?)/,
+    overflowFix: /(?<=\d+\.\d)\d+/,
   };
 
   /**
@@ -32,19 +33,19 @@ class Factorize {
       return this.rounders
         .billion(number)
         .toString()
-        .replace(this.regexps.billion, "")
+        .replace(this.regexps.overflowFix, "")
         .concat("B");
     } else if (this.regexps.million.test(string)) {
       return this.rounders
-        .billion(number)
+        .million(number)
         .toString()
-        .replace(this.regexps.million, "")
+        .replace(this.regexps.overflowFix, "")
         .concat("M");
     } else if (this.regexps.thousand.test(string)) {
       return this.rounders
-        .billion(number)
+        .thousand(number)
         .toString()
-        .replace(this.regexps.thousand, "")
+        .replace(this.regexps.overflowFix, "")
         .concat("K");
     } else return string;
   }
@@ -60,19 +61,19 @@ class Factorize {
       return this.rounders
         .billion(number)
         .toString()
-        .replace(this.regexps.billion, "")
+        .replace(this.regexps.overflowFix, "")
         .concat("B");
     } else if (this.regexps.million.test(string)) {
       return this.rounders
-        .billion(number)
+        .million(number)
         .toString()
-        .replace(this.regexps.million, "")
+        .replace(this.regexps.overflowFix, "")
         .concat("M");
     } else if (this.regexps.thousand.test(string)) {
       return this.rounders
-        .billion(number)
+        .thousand(number)
         .toString()
-        .replace(this.regexps.thousand, "")
+        .replace(this.regexps.overflowFix, "")
         .concat("K");
     } else return string;
   }
