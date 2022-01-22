@@ -3,7 +3,7 @@ import Canvas from "canvas";
 
 import CCommand from "../../features/commands/classes/command";
 import database from "../../features/database";
-import Factorize from "../../features/factorize/factorize";
+import Factorize from "../../features/factorize";
 
 const rank_cmd = new CCommand()
   .setName("rank")
