@@ -101,7 +101,7 @@ export default class DefaultManager<Schema> {
   public deleteOne(
     filter: Partial<Schema>,
     options: FindOneAndDeleteOptions = {}
-  ): Promise<ModifyResult<unknown>> {
+  ): Promise<ModifyResult<any>> {
     return this.collection.findOneAndDelete(filter, options);
   }
 
@@ -115,7 +115,7 @@ export default class DefaultManager<Schema> {
     filter: Partial<Schema>,
     replacement: Schema,
     options: FindOneAndReplaceOptions = {}
-  ): Promise<ModifyResult<unknown>> {
+  ): Promise<ModifyResult<any>> {
     return this.collection.findOneAndReplace(
       filter,
       mix(new this.schemaConstructor(), replacement),
@@ -133,7 +133,7 @@ export default class DefaultManager<Schema> {
     filter: Partial<Schema>,
     update: Partial<Schema>,
     options: FindOneAndUpdateOptions = {}
-  ): Promise<ModifyResult<unknown>> {
+  ): Promise<ModifyResult<any>> {
     return this.collection.findOneAndUpdate(
       filter,
       { $set: mix(new this.schemaConstructor(), update) },
@@ -153,7 +153,7 @@ export default class DefaultManager<Schema> {
     update: Partial<Schema>,
     doc: Schema,
     options: FindOneAndUpdateOptions = {}
-  ): Promise<ModifyResult<unknown> | InsertOneResult<unknown>> {
+  ): Promise<ModifyResult<any> | InsertOneResult<any>> {
     let targetEntry = await this.findOne(filter);
     if (!targetEntry)
       return await this.createOne(mix(new this.schemaConstructor(), doc));
