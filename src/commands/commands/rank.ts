@@ -14,15 +14,17 @@ const rank_cmd = new CCommand()
 
     let memberMention = message.mentions.members?.first();
 
-    let member = await database.members.findOne({
-      userId: memberMention?.id ?? message.author.id,
+    let member = memberMention?.user ?? message.author;
+
+    let memberFromDB = await database.members.findOne({
+      userId: member.id,
     });
 
-    if (!member?.stats)
+    if (!memberFromDB?.stats)
       return methods.sendTextEmbed(`Couldn't find user stats !`);
 
-    let XP = member.stats!.xp!;
-    let levelMaxXP = Math.floor(5 ** 1.1 * member.stats!.level!);
+    let XP = memberFromDB.stats!.xp!;
+    let levelMaxXP = Math.floor(5 ** 1.1 * memberFromDB.stats!.level!);
 
     let width = 400;
     let height = 150;
@@ -60,20 +62,17 @@ const rank_cmd = new CCommand()
     let tagFontSize = 30;
 
     ctx.font = `bold ${tagFontSize}px Sans`;
-    while (
-      leftMargin + ctx.measureText(message.author.tag).width >
-      width - 20
-    ) {
+    while (leftMargin + ctx.measureText(member.tag).width > width - 20) {
       tagFontSize -= 0.1;
       ctx.font = `bold ${tagFontSize}px Sans`;
     }
 
     ctx.fillStyle = "#ffffff";
-    ctx.fillText(message.author.username, leftMargin, tagX);
+    ctx.fillText(member.username, leftMargin, tagX);
     ctx.fillStyle = "#878787";
     ctx.fillText(
-      `#${message.author.discriminator}`,
-      ctx.measureText(message.author.username).width + leftMargin,
+      `#${member.discriminator}`,
+      ctx.measureText(member.username).width + leftMargin,
       tagX
     );
 
@@ -81,7 +80,7 @@ const rank_cmd = new CCommand()
 
     ctx.fillStyle = "#ffffff";
     ctx.font = "18px Sans";
-    ctx.fillText(`Level ${member.stats.level}`, leftMargin + 2, 82);
+    ctx.fillText(`Level ${memberFromDB.stats.level}`, leftMargin + 2, 82);
 
     // main values to draw the line graph
 
@@ -139,7 +138,7 @@ const rank_cmd = new CCommand()
     ctx.closePath();
     ctx.clip();
 
-    let avatarURL = message.author.avatarURL({ format: "png", size: 64 });
+    let avatarURL = member.avatarURL({ format: "png", size: 64 });
     if (avatarURL) {
       const avatar = await Canvas.loadImage(avatarURL);
       ctx.drawImage(
