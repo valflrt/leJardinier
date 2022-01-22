@@ -9,7 +9,7 @@ import {
 import MessageInstance from "./message";
 
 import database, { buildDatabase } from "../features/database";
-import databaseMiddleware from "./listeners/functions";
+import handlers from "./handlers";
 
 import log from "./log";
 
@@ -72,7 +72,7 @@ export default class LeJardinier {
 
     let messageInstance = new MessageInstance(message, this.bot!);
 
-    databaseMiddleware.listeners.onMessage(messageInstance);
+    handlers.databaseUpdate(messageInstance);
 
     if (!message.content.startsWith(config.prefix)) return;
     log.message.message(message, messageInstance); // logs every command
@@ -85,7 +85,7 @@ export default class LeJardinier {
   };
 
   public onInteractionCreate(i: Interaction) {
-    databaseMiddleware.listeners.onInteraction(i);
+    handlers.autoroleHandler(i);
   }
 
   private onMemberAdd = async (member: GuildMember) => {

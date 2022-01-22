@@ -6,9 +6,8 @@ import database from "../../features/database";
 import { randomItem } from "../../utils";
 
 import reactions from "../../assets/reactions";
-import { Interaction } from "discord.js";
 
-const onMessage = async (messageInstance: MessageInstance) => {
+const databaseUpdate = async (messageInstance: MessageInstance) => {
   let { methods, message } = messageInstance;
 
   let guild = await database.guilds.findOne({ id: message.guildId! });
@@ -67,33 +66,4 @@ const onMessage = async (messageInstance: MessageInstance) => {
   }
 };
 
-const onInteraction = async (i: Interaction) => {
-  if (i.isButton() && i.customId === "autorole" && i.guildId) {
-    let guild = await database.guilds.findOne({ id: i.guildId! });
-    if (!guild?.autorole || i.message.id !== guild.autorole.messageId)
-      return i.reply({ content: `Failed to issue role !`, ephemeral: true });
-    (await i.guild!.members.fetch(i.user.id)).roles
-      .add(guild.autorole.roleId)
-      .then(() =>
-        i.reply({
-          content: `Role issued ${reactions.smile.random}`,
-          ephemeral: true,
-        })
-      )
-      .catch(() =>
-        i.reply({
-          content: `Failed to issue role !`,
-          ephemeral: true,
-        })
-      );
-  }
-};
-
-const databaseMiddleware = {
-  listeners: {
-    onMessage,
-    onInteraction,
-  },
-};
-
-export default databaseMiddleware;
+export default databaseUpdate;
