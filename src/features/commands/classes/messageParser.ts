@@ -10,10 +10,7 @@ export default class CMessageParser {
       .trim()
       .split(/(?!^)\.(?!$)/g);
     this.parameters = messageText
-      .replace(
-        new RegExp(`^((?:${config.prefix}\\w+)(\\.\\w*)* *)`, "g"),
-        ""
-      )
+      .replace(new RegExp(`^((?:${config.prefix}\\w+)(\\.\\w*)* *)`, "g"), "")
       /**
        * the two lines bellow remove accented characters
        * (don't ask me how I don't know: i found it on stack overflow)
