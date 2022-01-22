@@ -5,7 +5,7 @@ import MemberManager from "./managers/member";
 
 import config from "../../config";
 
-export const buildDatabase = async (): Promise<void> => {
+export const connectDatabase = async (): Promise<void> => {
   const client = new MongoClient(config.secrets.databaseURI);
   await client.connect();
   database.associate(client.db("lejardinier"));

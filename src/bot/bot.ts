@@ -8,7 +8,7 @@ import {
 
 import MessageInstance from "./message";
 
-import database, { buildDatabase } from "../features/database";
+import database, { connectDatabase } from "../features/database";
 import handlers from "./handlers";
 
 import log from "./log";
@@ -16,7 +16,7 @@ import log from "./log";
 import config from "../config";
 
 export default class LeJardinier {
-  private bot?: Client;
+  private bot: Client;
 
   /**
    * Creates client object
@@ -29,8 +29,8 @@ export default class LeJardinier {
   /**
    * makes the client login and sets function for event "ready" (= starts the bot)
    */
-  public start() {
-    this.bot!.login(config.secrets.token!);
+  public async start() {
+    await this.bot!.login(config.secrets.token!);
     this.bot!.once("ready", this.onReady);
   }
 
@@ -38,8 +38,10 @@ export default class LeJardinier {
    * listener for event "ready"
    */
   private onReady = async (bot: Client) => {
+    this.bot = bot;
+
     try {
-      await buildDatabase();
+      await connectDatabase();
       log.database.connectionSuccess();
     } catch (e) {
       log.database.connectionFailure(e);
