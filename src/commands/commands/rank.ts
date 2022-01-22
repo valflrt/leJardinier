@@ -3,6 +3,7 @@ import Canvas from "canvas";
 
 import CCommand from "../../features/commands/classes/command";
 import database from "../../features/database";
+import quantify from "../../features/units/quantify";
 
 const rank_cmd = new CCommand()
   .setName("rank")
@@ -96,7 +97,11 @@ const rank_cmd = new CCommand()
     // display xp at the end of the bar
 
     ctx.font = "bold 14px Sans";
-    ctx.fillText(`${XP}/${levelMaxXP}`, barEnd + 12, barMiddle);
+    ctx.fillText(
+      `${quantify.fromNumber(XP)}/${quantify.fromNumber(levelMaxXP)}`,
+      barEnd + 12,
+      barMiddle
+    );
 
     // display xp bar graph bg
 
