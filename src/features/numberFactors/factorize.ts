@@ -1,4 +1,4 @@
-const quantify = {
+const factorize = {
   fromString: (toParse: string): string => {
     let number = Number.parseFloat(toParse);
 
@@ -30,4 +30,4 @@ const quantify = {
   },
 };
 
-export default quantify;
+export default factorize;

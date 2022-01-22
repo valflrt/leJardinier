@@ -3,7 +3,7 @@ import Canvas from "canvas";
 
 import CCommand from "../../features/commands/classes/command";
 import database from "../../features/database";
-import quantify from "../../features/units/quantify";
+import factorize from "../../features/numberFactors/factorize";
 
 const rank_cmd = new CCommand()
   .setName("rank")
@@ -97,7 +97,7 @@ const rank_cmd = new CCommand()
 
     ctx.font = "bold 14px Sans";
     ctx.fillText(
-      `${quantify.fromNumber(XP)}/${quantify.fromNumber(levelMaxXP)}`,
+      `${factorize.fromNumber(XP)}/${factorize.fromNumber(levelMaxXP)}`,
       barEnd + 12,
       barMiddle
     );
