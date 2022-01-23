@@ -6,33 +6,34 @@ import ytdl from "ytdl-core";
 import controllersManager from "./controllersManager";
 import databaseHandler from "./database";
 
-import MessageInstance from "../../../bot/message";
+import Context from "../../../bot/context";
 import { SentMessage } from "../../../declarations/types";
 
 import reactions from "../../../assets/reactions";
 import TrackPlayer from "./player";
 import log from "../../../bot/log";
+import lejardinier from "../../..";
 
 export default class MusicController {
-  public messageInstance: MessageInstance;
+  public context: Context;
 
   private currentPlayer: TrackPlayer | null = null;
   public currentTrackMessage?: SentMessage;
 
   public audioChannel?: VoiceChannel | StageChannel | null;
 
-  constructor(messageInstance: MessageInstance) {
-    this.messageInstance = messageInstance;
+  constructor(context: Context) {
+    this.context = context;
   }
 
   /**
    * Makes the bot join the channel where the member is
    */
   public async join(): Promise<boolean> {
-    let { methods, message, bot } = this.messageInstance;
+    let { message } = this.context;
 
     if (!message.member || !message.member.voice.channel) {
-      methods.sendTextEmbed(
+      message.sendTextEmbed(
         `${reactions.error.random} You need to be in a voice channel !`
       );
       return false;
@@ -44,14 +45,14 @@ export default class MusicController {
       this.audioChannel!.guild.me!
     );
     if (!permissions.has("CONNECT")) {
-      methods.sendTextEmbed(
+      message.sendTextEmbed(
         `${reactions.error.random} I am not allowed to join this voice channel !`
       );
       return false;
     }
 
     if (!permissions.has("SPEAK")) {
-      methods.sendTextEmbed(
+      message.sendTextEmbed(
         `${reactions.error.random} I am not allowed to speak in this voice channel !`
       );
       return false;
@@ -64,8 +65,8 @@ export default class MusicController {
         .voiceAdapterCreator as voice.DiscordGatewayAdapterCreator,
     });
 
-    if (!this.audioChannel?.members.has(bot.user!.id))
-      methods.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
+    if (!this.audioChannel?.members.has(lejardinier.client.user!.id))
+      message.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
 
     await voice.entersState(connection, voice.VoiceConnectionStatus.Ready, 3e4); // 6e4: 60s
 
@@ -76,27 +77,27 @@ export default class MusicController {
    * Makes the player start playing the current track
    */
   public async play() {
-    let { methods, message } = this.messageInstance;
+    let { message } = this.context;
 
     let joined = await this.join();
     if (!joined) return;
 
     let track = await databaseHandler.getFirstTrack(message.guildId!);
-    if (!track) return methods.sendTextEmbed(`The playlist is empty !`);
+    if (!track) return message.sendTextEmbed(`The playlist is empty !`);
 
     let connection = voice.getVoiceConnection(message.guildId ?? "");
     if (!connection)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} Internal error: couldn't get voice connection !`
       );
 
-    this.currentTrackMessage = await methods.sendTextEmbed(`Loading audio...`);
+    this.currentTrackMessage = await message.sendTextEmbed(`Loading audio...`);
 
     let player = (this.currentPlayer = new TrackPlayer(track));
     player.setup(this);
 
     let failedFn = async () => {
-      await methods.sendTextEmbed(
+      await message.sendTextEmbed(
         `${reactions.error.random} Couldn't play current track. Skipping...`
       );
       player.stop();
@@ -121,13 +122,13 @@ export default class MusicController {
   }
 
   public async playNextTrack() {
-    let { message } = this.messageInstance;
+    let { message } = this.context;
     await databaseHandler.removeFirstTrack(message.guildId!);
     await this.play();
   }
 
   public destroy() {
-    let { message } = this.messageInstance;
+    let { message } = this.context;
     voice.getVoiceConnection(message.guildId ?? "")?.destroy();
     controllersManager.remove(message.guildId!);
   }

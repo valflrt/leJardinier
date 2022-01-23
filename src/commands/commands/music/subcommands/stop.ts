@@ -7,17 +7,17 @@ import reactions from "../../../../assets/reactions";
 const stop_cmd = new CCommand()
   .setName("stop")
   .setDescription("Stop the music")
-  .setExecution(async ({ methods, message }) => {
+  .setExecution(async ({ message }) => {
     let controller = controllersManager.get(message.guildId!);
 
     if (!controller)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} Couldn't stop playing !`
       );
     controller.stopPlaying();
     controller.destroy();
 
-    methods.sendTextEmbed(`${reactions.success.random} Stopped playing !`);
+    message.sendTextEmbed(`${reactions.success.random} Stopped playing !`);
   })
   .addHelpCommand();
 

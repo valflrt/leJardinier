@@ -16,14 +16,7 @@ import {
   BulkWriteOptions,
 } from "mongodb";
 
-/**
- * mixes two objects of the same type
- * @param target target to mix the patch in
- * @param patch patch to mix in the target
- */
-const mix = <TargetType>(target: TargetType, patch: TargetType): TargetType => {
-  return Object.assign(target, patch) as TargetType;
-};
+import { mix } from "../../../utils";
 
 /**
  * creates a database manager class with a default schema
@@ -48,6 +41,19 @@ export default class DefaultManager<Schema> {
   ): Promise<Schema | null> {
     let doc = await this.collection.findOne(filter, options);
     return doc ? (doc as unknown as Schema) : null;
+  }
+
+  public async findOrCreateOne(
+    filter: Partial<Schema>,
+    doc: Schema,
+    options: FindOptions = {}
+  ): Promise<Schema | null> {
+    let result = await this.collection.findOne(filter, options);
+    if (!doc) {
+      await this.createOne(doc);
+      result = await this.collection.findOne(filter, options);
+    }
+    return result ? (result as unknown as Schema) : null;
   }
 
   /**

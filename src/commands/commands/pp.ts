@@ -7,11 +7,11 @@ const profilePicture_cmd = new CCommand()
   .setIdentifier("pp")
   .setDescription("Gives someone's profile picture")
   .addParameter((p) => p.setName("mention").setRequired(false))
-  .setExecution(async ({ methods, message }) => {
+  .setExecution(async ({ message }) => {
     let member = message.mentions.members?.first()?.user || message.author;
-    if (!member) return methods.sendTextEmbed(`Unknown user`);
+    if (!member) return message.sendTextEmbed(`Unknown user`);
 
-    methods.sendCustomEmbed((embed: MessageEmbed) =>
+    message.sendCustomEmbed((embed: MessageEmbed) =>
       embed
         .setDescription(`Here is ${member!.toString()}'s profile picture`)
         .setImage(member!.displayAvatarURL({ size: 300 }))

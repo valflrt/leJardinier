@@ -1,9 +1,11 @@
 import CCommandParameter from "./commandParameter";
 import TCommandParameterConfig from "../types/commandParameterConfig";
 import TExecutionFunction from "../types/executionFunction";
+import ICommandSettings from "../types/commandSettings";
+
+import formatters from "../../../builders/replyFormatters";
 
 import config from "../../../config";
-import ICommandSettings from "../types/commandSettings";
 
 export default class CCommand {
   private _name!: string;
@@ -128,16 +130,12 @@ export default class CCommand {
         .setName("help")
         .setSettings({ hidden: true })
         .setExecution(async (context) => {
-          let { methods } = context;
+          let { message } = context;
 
-          methods.sendCustomEmbed((embed) =>
+          message.sendCustomEmbed((embed) =>
             embed
-              .setDescription(
-                new methods.formatters.CommandPreview(this).fullPreview
-              )
-              .addFields(
-                methods.formatters.CommandPreview.createFields(this.commands)
-              )
+              .setDescription(new formatters.CommandPreview(this).fullPreview)
+              .addFields(formatters.CommandPreview.createFields(this.commands))
           );
         })
     );

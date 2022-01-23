@@ -9,8 +9,8 @@ import morseTable from "../../assets/morseTable";
 const morse_cmd = new CCommand()
   .setName("morse")
   .setDescription(`Morse code utility command`)
-  .setExecution(async ({ methods }) => {
-    methods.sendTextEmbed(
+  .setExecution(async ({ message }) => {
+    message.sendTextEmbed(
       `Use ${inlineCode(
         morse_cmd.commands.find((c) => c.name === "encode")!.syntax
       )} to encode text to Morse code`.concat(
@@ -25,13 +25,13 @@ const morse_cmd = new CCommand()
       .setName("encode")
       .setDescription("Encodes text to Morse code")
       .addParameter((p) => p.setName("sentence").setRequired(true))
-      .setExecution(async ({ methods, commandParameters }) => {
+      .setExecution(async ({ message, commandParameters }) => {
         if (commandParameters.length === 0)
-          methods.sendTextEmbed(
+          message.sendTextEmbed(
             "You need to give some text to convert to Morse Code..."
           );
         else
-          methods.sendTextEmbed(
+          message.sendTextEmbed(
             "Here is your Morse encoded text:".concat(
               codeBlock(Morse.encode(commandParameters))
             )
@@ -44,11 +44,11 @@ const morse_cmd = new CCommand()
       .setName("decode")
       .setDescription("Decodes Morse code")
       .addParameter((p) => p.setName("morse code").setRequired(true))
-      .setExecution(async ({ methods, commandParameters }) => {
+      .setExecution(async ({ message, commandParameters }) => {
         if (commandParameters.length === 0)
-          methods.sendTextEmbed("You need to give some Morse to decode...");
+          message.sendTextEmbed("You need to give some Morse to decode...");
         else
-          methods.sendTextEmbed(
+          message.sendTextEmbed(
             "Here is your decoded text:".concat(
               codeBlock(Morse.decode(commandParameters))
             )
@@ -60,8 +60,8 @@ const morse_cmd = new CCommand()
     c
       .setName("table")
       .setDescription("Gives the Morse table")
-      .setExecution(async ({ methods }) => {
-        methods.sendCustomEmbed((embed: MessageEmbed) =>
+      .setExecution(async ({ message }) => {
+        message.sendCustomEmbed((embed: MessageEmbed) =>
           embed.setDescription(`Here is the morse table\n
 					${morseTable.map((char) => `${char[0]}: ${inlineCode(char[1])}`).join("\n")}`)
         );

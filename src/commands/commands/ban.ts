@@ -6,15 +6,15 @@ const ban_cmd = new CCommand()
   .setName("ban")
   .setDescription("Bans one member.")
   .addParameter((p) => p.setName("member mention").setRequired(true))
-  .setExecution(async ({ methods, message }) => {
+  .setExecution(async ({ message }) => {
     let guildMember = await message.guild?.members.fetch(message.author.id);
     if (!guildMember?.permissions.has(Permissions.FLAGS.BAN_MEMBERS))
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} You do not have the permission to ban members`
       );
     let memberToBan = message.mentions.members?.first();
     if (!memberToBan)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `You need to mention the member you want to ban`
       );
 
@@ -29,7 +29,7 @@ const ban_cmd = new CCommand()
         .setCustomId("cancel")
     );
 
-    let sent = await methods.sendTextEmbed(
+    let sent = await message.sendTextEmbed(
       `Are you really sure you want to ban ${memberToBan.toString()}`,
       {
         components: [row],
@@ -48,7 +48,7 @@ const ban_cmd = new CCommand()
         .then(() =>
           interaction.update({
             embeds: [
-              methods.returnTextEmbed(
+              message.returnTextEmbed(
                 `Banned successfully ${memberToBan!.toString()}`
               ),
             ],
@@ -58,7 +58,7 @@ const ban_cmd = new CCommand()
         .catch(() =>
           interaction.update({
             embeds: [
-              methods.returnTextEmbed(
+              message.returnTextEmbed(
                 `Failed to kick ${memberToBan!.toString()}`
               ),
             ],
@@ -67,12 +67,12 @@ const ban_cmd = new CCommand()
         );
     } else if (interaction.customId === "cancel")
       interaction.update({
-        embeds: [methods.returnTextEmbed("Aborted")],
+        embeds: [message.returnTextEmbed("Aborted")],
         components: [row],
       });
     else
       interaction.update({
-        embeds: [methods.returnTextEmbed("Kick has timeout")],
+        embeds: [message.returnTextEmbed("Kick has timeout")],
         components: [row],
       });
   })

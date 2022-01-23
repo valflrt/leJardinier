@@ -2,6 +2,8 @@ import { bold, italic } from "@discordjs/builders";
 
 import CCommand from "../../../features/commands/classes/command";
 
+import formatters from "../../../builders/replyFormatters";
+
 import reactions from "../../../assets/reactions";
 
 // subcommands imports
@@ -13,8 +15,8 @@ import website_cmd from "./subcommands/website";
 const help_cmd = new CCommand()
   .setName("help")
   .setDescription("Display help panel")
-  .setExecution(async ({ methods }) => {
-    methods.sendCustomEmbed((embed) =>
+  .setExecution(async ({ message }) => {
+    message.sendCustomEmbed((embed) =>
       embed
         .setDescription(
           `Hello I'm ${bold("Le Jardinier")} ${reactions.smile.random}\n`
@@ -27,9 +29,7 @@ const help_cmd = new CCommand()
             .concat("\n")
             .concat(`Here are some commands you can start with:`)
         )
-        .addFields(
-          methods.formatters.CommandPreview.createFields(help_cmd.commands)
-        )
+        .addFields(formatters.CommandPreview.createFields(help_cmd.commands))
     );
   })
 

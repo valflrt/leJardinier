@@ -11,18 +11,18 @@ const playlistUrl_cmd = new CCommand()
   .setDescription(
     "Adds multiples songs from a youtube playlist url. (20 items maximum in the playlist)"
   )
-  .setExecution(async ({ methods, message, commandParameters }) => {
+  .setExecution(async ({ message, commandParameters }) => {
     if (commandParameters.length === 0)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} You need to specify the playlist url !`
       );
 
-    let sent = await methods.sendTextEmbed(`Looking for your playlist...`);
+    let sent = await message.sendTextEmbed(`Looking for your playlist...`);
 
     let playlist = await new PrePlaylist().fromURL(commandParameters);
 
     if (!playlist)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} Couldn't find the playlist !\n`.concat(
           `Your url may be invalid.`
         )

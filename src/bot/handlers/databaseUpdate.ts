@@ -1,33 +1,30 @@
 import { inlineCode } from "@discordjs/builders";
 
-import MessageInstance from "../message";
+import Context from "../context";
 
 import database from "../../features/database";
 import { randomItem } from "../../utils";
 
 import reactions from "../../assets/reactions";
 
-const databaseUpdate = async (messageInstance: MessageInstance) => {
-  let { methods, message } = messageInstance;
+const databaseUpdate = async (context: Context) => {
+  let { message } = context;
 
   let guild = await database.guilds.findOne({ id: message.guildId! });
   if (!guild) await database.guilds.createOne({ id: message.guildId! });
 
-  let member = await database.members.findOne({
-    userId: message.author.id,
-    guildId: message.guildId!,
-  });
+  let member = await database.members.findOrCreateOne(
+    {
+      userId: message.author.id,
+      guildId: message.guildId!,
+    },
+    {
+      userId: message.author.id,
+      guildId: message.guildId!,
+    }
+  );
 
-  if (!member) {
-    await database.members.createOne({
-      userId: message.author.id,
-      guildId: message.guildId!,
-    });
-    member = await database.members.findOne({
-      userId: message.author.id,
-      guildId: message.guildId!,
-    });
-  }
+  if (!member) return;
 
   let currentStats = member!.stats!,
     newStats = member!.stats!;
@@ -52,7 +49,7 @@ const databaseUpdate = async (messageInstance: MessageInstance) => {
   );
 
   if (hasLevelUp) {
-    methods.send(
+    message.send(
       `${randomItem(
         "Congratulations",
         "Well done",

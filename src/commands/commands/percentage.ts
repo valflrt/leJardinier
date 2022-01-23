@@ -7,8 +7,8 @@ const percentage_cmd = new CCommand()
   .setName("percentage")
   .setDescription("Gives a random percentage")
   .addParameter((p) => p.setName("sentence").setRequired(false))
-  .setExecution(async ({ methods, commandParameters }) => {
-    methods.sendTextEmbed(
+  .setExecution(async ({ message, commandParameters }) => {
+    message.sendTextEmbed(
       `My answer is ${bold(
         inlineCode(
           `${

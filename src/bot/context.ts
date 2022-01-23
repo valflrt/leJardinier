@@ -1,38 +1,34 @@
-import { Client, Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import { codeBlock } from "@discordjs/builders";
 
 import CCommand from "../features/commands/classes/command";
 import CMessageParser from "../features/commands/classes/messageParser";
 
-import ReplyMethods from "../builders/replyMethods";
 import log from "./log";
 
 import commandList from "../commands";
 import config from "../config";
 import reactions from "../assets/reactions";
+import lejardinier from "..";
+import TunedMessageBuilder, { ITunedMessage } from "../builders/tunedMessage";
 
-class MessageInstance {
-  public message: Message;
-  public bot: Client;
+class Context {
+  public message: ITunedMessage;
 
-  public methods: ReplyMethods;
   public command: CCommand | null;
   public commandParameters: string;
 
-  constructor(message: Message, bot: Client) {
-    this.message = message;
-    this.bot = bot;
+  constructor(message: Message) {
+    this.message = new TunedMessageBuilder(message, this).build();
 
     let messageContent = new CMessageParser(this.message.content);
 
     this.command = commandList.find(messageContent.commandPattern);
     this.commandParameters = messageContent.parameters;
-
-    this.methods = new ReplyMethods(this);
   }
 
   /**
-   * returns a boolean whether a command has been found or not
+   * returns a true or false whether a command has been found or not
    */
   get hasCommand(): boolean {
     return this.command ? true : false;
@@ -51,11 +47,11 @@ class MessageInstance {
   get embed(): MessageEmbed {
     return new MessageEmbed()
       .setAuthor({
-        name: this.bot.user!.username,
+        name: lejardinier.client.user!.username,
         iconURL:
           "https://media.discordapp.net/attachments/749765499998437489/823241819801780254/36fb6d778b4d4a108ddcdefb964b3cc0.webp",
       })
-      .setFooter({ text: this.command ? this.command.namespace! : "" })
+      .setFooter(this.command ? { text: this.command.namespace } : null)
       .setColor("#49a013")
       .setTimestamp();
   }
@@ -74,7 +70,7 @@ class MessageInstance {
       log.command.executionSuccess(this.command!);
     } catch (e) {
       log.command.executionFailure(this.command!, e);
-      this.methods.sendCustomEmbed((embed) =>
+      this.message.sendCustomEmbed((embed) =>
         embed
           .setDescription(
             `${reactions.error.random} An error occurred while executing this command:\n`.concat(
@@ -88,4 +84,4 @@ class MessageInstance {
   }
 }
 
-export default MessageInstance;
+export default Context;

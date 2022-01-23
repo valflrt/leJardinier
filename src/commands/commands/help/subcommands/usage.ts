@@ -7,8 +7,8 @@ import config from "../../../../config";
 const usage_cmd = new CCommand()
   .setName("usage")
   .setDescription("Gives information on how to use the bot")
-  .setExecution(async ({ methods }) => {
-    methods.sendCustomEmbed((embed) =>
+  .setExecution(async ({ message }) => {
+    message.sendCustomEmbed((embed) =>
       embed
         .setTitle(
           underscore(

@@ -12,16 +12,16 @@ const remove_cmd = new CCommand()
   .addAlias("rm")
   .setDescription("Removes a track the current playlist")
   .addParameter((p) => p.setName("track id").setRequired(true))
-  .setExecution(async ({ methods, message, commandParameters }) => {
+  .setExecution(async ({ message, commandParameters }) => {
     if (!commandParameters)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} You need to specify an id !`
       );
 
     let videoID = +(+commandParameters); // used to make sure the number is positive
 
     if (!videoID || !Number.isInteger(videoID))
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} Incorrect id !\n`.concat(
           `Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
         )
@@ -31,7 +31,7 @@ const remove_cmd = new CCommand()
       id: message.guildId!,
     });
     if (!guild)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.success.random} Current playlist is empty`
       );
 
@@ -44,7 +44,7 @@ const remove_cmd = new CCommand()
       { playlist: guild.playlist }
     );
 
-    methods.sendTextEmbed(
+    message.sendTextEmbed(
       `${reactions.success.random} Removed `.concat(
         `${bold(`#${videoID}`)}: ${removed.generateTrackURL()}`
       )

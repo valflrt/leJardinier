@@ -7,10 +7,10 @@ import { randomItem } from "../../utils";
 const choose_cmd = new CCommand()
   .setName("choose")
   .setDescription("Chooses one of the items specified")
-  .setExecution(async ({ methods, commandParameters }) => {
+  .setExecution(async ({ message, commandParameters }) => {
     let items = commandParameters.split(/\s*\|\s*/g);
     let item = randomItem(...items);
-    methods.sendTextEmbed(
+    message.sendTextEmbed(
       `I choose: ${
         item.search(/\<.+[0123456789]{18}\>/g) === -1 ? inlineCode(item) : item
       }`

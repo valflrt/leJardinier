@@ -11,19 +11,19 @@ const videoUrl_cmd = new CCommand()
   .setDescription("Add a song to the current playlist from a youtube url")
   .addParameter((p) => p.setName("youtube url").setRequired(true))
   .setExecution(async (context) => {
-    let { methods, message, commandParameters } = context;
+    let { message, commandParameters } = context;
 
     if (commandParameters.length === 0)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} You must specify the video url`
       );
 
-    let sent = await methods.sendTextEmbed(`Looking for your song...`);
+    let sent = await message.sendTextEmbed(`Looking for your song...`);
 
     let track = await new PreTrack().fromURL(commandParameters);
 
     if (!track)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} Couldn't find the song you're looking for ! `.concat(
           `You could try checking your url or giving another one`
         )

@@ -11,14 +11,14 @@ const search_cmd = new CCommand()
   .setDescription("Add a song to the playlist from youtube search")
   .addParameter((p) => p.setName("youtube search").setRequired(true))
   .setExecution(async (context) => {
-    let { methods, message, commandParameters } = context;
+    let { message, commandParameters } = context;
 
     if (commandParameters.length === 0)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} You need to specify text to search for ! `
       );
 
-    let sent = await methods.sendTextEmbed(`Looking for your song...`);
+    let sent = await message.sendTextEmbed(`Looking for your song...`);
 
     let videoSearchData = await youtubeAPI.searchVideo(commandParameters);
 
