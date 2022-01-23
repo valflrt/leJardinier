@@ -12,9 +12,7 @@ const playlist_cmd = new CCommand()
   .setName("playlist")
   .addAlias("pl")
   .setDescription("Display the current playlist")
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ methods, message }) => {
     let guild = await database.guilds.findOne({
       id: message.guildId!,
     });

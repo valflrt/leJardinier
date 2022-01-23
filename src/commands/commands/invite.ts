@@ -6,8 +6,7 @@ import reactions from "../../assets/reactions";
 const invite_cmd = new CCommand()
   .setName("invite")
   .setDescription("Get bot invitation link")
-  .setExecution(async (messageInstance) => {
-    let { methods, bot } = messageInstance;
+  .setExecution(async ({ methods, bot }) => {
     methods.sendTextEmbed(
       `Click the button bellow if you want me to hop in your server ${reactions.smile.random}`,
       {

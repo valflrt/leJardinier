@@ -10,8 +10,8 @@ const videoUrl_cmd = new CCommand()
   .addAlias("url")
   .setDescription("Add a song to the current playlist from a youtube url")
   .addParameter((p) => p.setName("youtube url").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, message, commandParameters } = messageInstance;
+  .setExecution(async (context) => {
+    let { methods, message, commandParameters } = context;
 
     if (commandParameters.length === 0)
       return methods.sendTextEmbed(
@@ -33,7 +33,7 @@ const videoUrl_cmd = new CCommand()
 
     await sent.editWithEmbed(
       track
-        .generateEmbed(messageInstance)
+        .generateEmbed(context)
         .setDescription(
           `${reactions.success.random} Added ${track.generateTrackURL()}`
         )

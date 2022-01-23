@@ -13,9 +13,7 @@ const autorole_cmd = new CCommand()
     )
   )
   .addParameter((p) => p.setName("role mention").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ methods, message }) => {
     let caller = await message.guild!.members.fetch(message.author.id);
     if (!caller?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
       return methods.sendTextEmbed(

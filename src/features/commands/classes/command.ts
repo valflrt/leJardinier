@@ -127,8 +127,8 @@ export default class CCommand {
       c
         .setName("help")
         .setSettings({ hidden: true })
-        .setExecution(async (messageInstance) => {
-          let { methods } = messageInstance;
+        .setExecution(async (context) => {
+          let { methods } = context;
 
           methods.sendCustomEmbed((embed) =>
             embed

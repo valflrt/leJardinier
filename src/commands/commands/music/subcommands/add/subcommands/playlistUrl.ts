@@ -11,9 +11,7 @@ const playlistUrl_cmd = new CCommand()
   .setDescription(
     "Adds multiples songs from a youtube playlist url. (20 items maximum in the playlist)"
   )
-  .setExecution(async (messageInstance) => {
-    let { methods, message, commandParameters } = messageInstance;
-
+  .setExecution(async ({ methods, message, commandParameters }) => {
     if (commandParameters.length === 0)
       return methods.sendTextEmbed(
         `${reactions.error.random} You need to specify the playlist url !`

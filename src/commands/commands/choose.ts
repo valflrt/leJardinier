@@ -7,8 +7,7 @@ import { randomItem } from "../../utils";
 const choose_cmd = new CCommand()
   .setName("choose")
   .setDescription("Chooses one of the items specified")
-  .setExecution(async (messageInstance) => {
-    let { methods, commandParameters } = messageInstance;
+  .setExecution(async ({ methods, commandParameters }) => {
     let items = commandParameters.split(/\s*\|\s*/g);
     let item = randomItem(...items);
     methods.sendTextEmbed(

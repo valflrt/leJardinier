@@ -7,9 +7,7 @@ const command_cmd = new CCommand()
   .addAlias("cmd")
   .setDescription("Get help about one command")
   .addParameter((p) => p.setName("command name").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, commandParameters } = messageInstance;
-
+  .setExecution(async ({ methods, commandParameters }) => {
     if (!commandParameters)
       return methods.sendTextEmbed(
         `You need to specify the name of the command you're looking for...`

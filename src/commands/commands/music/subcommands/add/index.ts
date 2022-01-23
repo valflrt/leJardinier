@@ -10,8 +10,7 @@ import search_cmd from "./subcommands/search";
 const add_cmd = new CCommand()
   .setName("add")
   .setDescription("Adds a song to the playlist")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
+  .setExecution(async ({ methods }) => {
     methods.sendCustomEmbed((embed) =>
       embed
         .setDescription(

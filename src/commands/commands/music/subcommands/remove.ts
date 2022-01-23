@@ -12,9 +12,7 @@ const remove_cmd = new CCommand()
   .addAlias("rm")
   .setDescription("Removes a track the current playlist")
   .addParameter((p) => p.setName("track id").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, message, commandParameters } = messageInstance;
-
+  .setExecution(async ({ methods, message, commandParameters }) => {
     if (!commandParameters)
       return methods.sendTextEmbed(
         `${reactions.error.random} You need to specify an id !`

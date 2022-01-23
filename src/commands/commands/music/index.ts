@@ -13,8 +13,7 @@ import remove_cmd from "./subcommands/remove";
 const music_cmd = new CCommand()
   .setName("music")
   .setDescription("Music command")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
+  .setExecution(async ({ methods }) => {
     methods.sendCustomEmbed((embed) =>
       embed
         .setDescription(

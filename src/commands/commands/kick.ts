@@ -6,9 +6,7 @@ const kick_cmd = new CCommand()
   .setName("kick")
   .setDescription("Kicks one member.")
   .addParameter((p) => p.setName("member mention").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ methods, message }) => {
     let guildMember = await message.guild?.members.fetch(message.author.id);
     if (!guildMember?.permissions.has(Permissions.FLAGS.KICK_MEMBERS))
       return methods.sendTextEmbed(

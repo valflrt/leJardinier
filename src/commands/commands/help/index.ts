@@ -13,8 +13,7 @@ import website_cmd from "./subcommands/website";
 const help_cmd = new CCommand()
   .setName("help")
   .setDescription("Display help panel")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
+  .setExecution(async ({ methods }) => {
     methods.sendCustomEmbed((embed) =>
       embed
         .setDescription(

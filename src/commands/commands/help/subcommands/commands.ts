@@ -9,9 +9,7 @@ const commands_cmd = new CCommand()
   .setName("commands")
   .addAlias("cmds")
   .setDescription("Displays every available command")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-
+  .setExecution(async ({ methods }) => {
     /*
 				const format = (
 					array: CCommand[],

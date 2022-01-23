@@ -7,8 +7,7 @@ import reactions from "../../../../assets/reactions";
 const website_cmd = new CCommand()
   .setName("website")
   .setDescription("Get my website link")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
+  .setExecution(async ({ methods }) => {
     methods.sendTextEmbed(
       `Click ${hyperlink(
         `here`,

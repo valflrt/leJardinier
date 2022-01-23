@@ -8,8 +8,7 @@ const clear_cmd = new CCommand()
   .setName("clear")
   .addAlias("cl")
   .setDescription(`Clear the current playlist`)
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
+  .setExecution(async ({ methods, message }) => {
     let cleared = await database.guilds.updateOne(
       {
         id: message.guildId!,

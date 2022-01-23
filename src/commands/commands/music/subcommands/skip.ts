@@ -7,8 +7,7 @@ import reactions from "../../../../assets/reactions";
 const skip_cmd = new CCommand()
   .setName("skip")
   .setDescription(`Skip current track`)
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
+  .setExecution(async ({ methods, message }) => {
     let controller = controllersManager.get(message.guildId!);
     if (!controller)
       return methods.sendTextEmbed(

@@ -7,9 +7,7 @@ import reactions from "../../../../assets/reactions";
 const stop_cmd = new CCommand()
   .setName("stop")
   .setDescription("Stop the music")
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ methods, message }) => {
     let controller = controllersManager.get(message.guildId!);
 
     if (!controller)

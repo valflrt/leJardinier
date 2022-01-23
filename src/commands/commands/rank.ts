@@ -9,9 +9,7 @@ const rank_cmd = new CCommand()
   .setName("rank")
   .setDescription("Gives your stats/rank or the ones of the mentioned member")
   .addParameter((p) => p.setName("member mention").setRequired(false))
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ methods, message }) => {
     let memberMention = message.mentions.members?.first();
 
     let member = memberMention?.user ?? message.author;

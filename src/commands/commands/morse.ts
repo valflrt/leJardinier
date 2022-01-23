@@ -9,9 +9,7 @@ import morseTable from "../../assets/morseTable";
 const morse_cmd = new CCommand()
   .setName("morse")
   .setDescription(`Morse code utility command`)
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-
+  .setExecution(async ({ methods }) => {
     methods.sendTextEmbed(
       `Use ${inlineCode(
         morse_cmd.commands.find((c) => c.name === "encode")!.syntax
@@ -27,9 +25,7 @@ const morse_cmd = new CCommand()
       .setName("encode")
       .setDescription("Encodes text to Morse code")
       .addParameter((p) => p.setName("sentence").setRequired(true))
-      .setExecution(async (messageInstance) => {
-        let { methods, commandParameters } = messageInstance;
-
+      .setExecution(async ({ methods, commandParameters }) => {
         if (commandParameters.length === 0)
           methods.sendTextEmbed(
             "You need to give some text to convert to Morse Code..."
@@ -48,9 +44,7 @@ const morse_cmd = new CCommand()
       .setName("decode")
       .setDescription("Decodes Morse code")
       .addParameter((p) => p.setName("morse code").setRequired(true))
-      .setExecution(async (messageInstance) => {
-        let { methods, commandParameters } = messageInstance;
-
+      .setExecution(async ({ methods, commandParameters }) => {
         if (commandParameters.length === 0)
           methods.sendTextEmbed("You need to give some Morse to decode...");
         else
@@ -66,9 +60,7 @@ const morse_cmd = new CCommand()
     c
       .setName("table")
       .setDescription("Gives the Morse table")
-      .setExecution(async (messageInstance) => {
-        let { methods } = messageInstance;
-
+      .setExecution(async ({ methods }) => {
         methods.sendCustomEmbed((embed: MessageEmbed) =>
           embed.setDescription(`Here is the morse table\n
 					${morseTable.map((char) => `${char[0]}: ${inlineCode(char[1])}`).join("\n")}`)
