@@ -1,7 +1,5 @@
-import MessageInstance from "../../../bot/message";
+import Context from "../../../bot/context";
 
-type TExecutionFunction = (
-  messageInstance: MessageInstance
-) => Promise<any> | void;
+type TExecutionFunction = (context: Context) => Promise<any> | void;
 
 export default TExecutionFunction;

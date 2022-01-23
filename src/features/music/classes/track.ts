@@ -7,7 +7,7 @@ import youtubeAPI from "../../apis/youtube";
 import log from "../../../bot/log";
 
 import regexps from "../../../assets/regexp";
-import MessageInstance from "../../../bot/message";
+import Context from "../../../bot/context";
 
 export interface ITrack {
   title: string;
@@ -104,8 +104,8 @@ export class Track extends PreTrack {
    * Generates and returns a custom embed for the current track
    * @param messageInstance needed to generate default embed
    */
-  public generateEmbed(messageInstance: MessageInstance): MessageEmbed {
-    return messageInstance.methods.returnCustomEmbed((embed) =>
+  public generateEmbed(context: Context): MessageEmbed {
+    return context.message.returnCustomEmbed((embed) =>
       embed.setThumbnail(this.thumbnailsURL)
     );
   }

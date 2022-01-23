@@ -36,3 +36,15 @@ export function memoryUsage() {
     1000
   ).toFixed(2)}MB`;
 }
+
+/**
+ * mixes two objects of the same type
+ * @param target target to mix the patch in
+ * @param patch patch to mix in the target
+ */
+export const mix = <TargetType, PatchType>(
+  target: TargetType,
+  patch: PatchType
+): TargetType => {
+  return Object.assign(target, patch) as TargetType;
+};

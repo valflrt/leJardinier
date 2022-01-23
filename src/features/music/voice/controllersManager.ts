@@ -9,13 +9,13 @@ class ControllersManager {
 
   get(guildId: string): MusicController | undefined {
     return this.controllers.find(
-      (controller) => controller.messageInstance.message.guildId === guildId
+      (controller) => controller.context.message.guildId === guildId
     );
   }
 
   remove(guildId: string) {
     this.controllers = this.controllers.filter(
-      (controller) => controller.messageInstance.message.guildId !== guildId
+      (controller) => controller.context.message.guildId !== guildId
     );
   }
 }

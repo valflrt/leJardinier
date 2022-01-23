@@ -5,13 +5,13 @@ import CCommand from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
+import formatters from "../../../../builders/replyFormatters";
+
 const commands_cmd = new CCommand()
   .setName("commands")
   .addAlias("cmds")
   .setDescription("Displays every available command")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-
+  .setExecution(async ({ message }) => {
     /*
 				const format = (
 					array: CCommand[],
@@ -38,12 +38,12 @@ const commands_cmd = new CCommand()
     let i = 0;
     categories.forEach((commands, name) => {
       pages.push(
-        methods.returnCustomEmbed((embed) =>
+        message.returnCustomEmbed((embed) =>
           embed
             .setDescription(
               `${bold(name)} (page ${i + 1} of ${categories.size})`
             )
-            .addFields(methods.formatters.CommandPreview.createFields(commands))
+            .addFields(formatters.CommandPreview.createFields(commands))
         )
       );
       i++;
@@ -60,7 +60,7 @@ const commands_cmd = new CCommand()
         .setStyle("SECONDARY")
     );
 
-    let sent = await methods.sendEmbed(pages[index], {
+    let sent = await message.sendEmbed(pages[index], {
       components: [row],
     });
 

@@ -8,8 +8,7 @@ const clear_cmd = new CCommand()
   .setName("clear")
   .addAlias("cl")
   .setDescription(`Clear the current playlist`)
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
+  .setExecution(async ({ message }) => {
     let cleared = await database.guilds.updateOne(
       {
         id: message.guildId!,
@@ -17,7 +16,7 @@ const clear_cmd = new CCommand()
       { playlist: [] }
     );
     if (cleared.ok === 1)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.success.random} Playlist cleared`
       );
   })

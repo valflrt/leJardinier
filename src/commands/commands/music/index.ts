@@ -1,5 +1,7 @@
 import CCommand from "../../../features/commands/classes/command";
 
+import formatters from "../../../builders/replyFormatters";
+
 import reactions from "../../../assets/reactions";
 
 // subcommands import
@@ -13,18 +15,15 @@ import remove_cmd from "./subcommands/remove";
 const music_cmd = new CCommand()
   .setName("music")
   .setDescription("Music command")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-    methods.sendCustomEmbed((embed) =>
+  .setExecution(async ({ message }) => {
+    message.sendCustomEmbed((embed) =>
       embed
         .setDescription(
           `You can play some good tunes with this command ${reactions.smile.random}\n`.concat(
             `Here are the available commands:`
           )
         )
-        .setFields(
-          methods.formatters.CommandPreview.createFields(music_cmd.commands)
-        )
+        .setFields(formatters.CommandPreview.createFields(music_cmd.commands))
     );
   })
 

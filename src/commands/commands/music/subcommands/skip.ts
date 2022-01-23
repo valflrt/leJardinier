@@ -7,14 +7,13 @@ import reactions from "../../../../assets/reactions";
 const skip_cmd = new CCommand()
   .setName("skip")
   .setDescription(`Skip current track`)
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
+  .setExecution(async ({ message }) => {
     let controller = controllersManager.get(message.guildId!);
     if (!controller)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} Failed to skip this track !`
       );
-    await methods.sendTextEmbed(`${reactions.success.random} Track skipped !`);
+    await message.sendTextEmbed(`${reactions.success.random} Track skipped !`);
     await controller.play();
   })
   .addHelpCommand();

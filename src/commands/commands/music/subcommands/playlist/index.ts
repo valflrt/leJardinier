@@ -12,14 +12,12 @@ const playlist_cmd = new CCommand()
   .setName("playlist")
   .addAlias("pl")
   .setDescription("Display the current playlist")
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ message }) => {
     let guild = await database.guilds.findOne({
       id: message.guildId!,
     });
     if (!guild?.playlist || guild.playlist.length === 0)
-      return methods.sendTextEmbed(`The playlist is empty !`);
+      return message.sendTextEmbed(`The playlist is empty !`);
 
     let tracksPreview = guild.playlist.map((track, i): EmbedFieldData => {
       return {
@@ -28,7 +26,7 @@ const playlist_cmd = new CCommand()
       };
     });
 
-    methods.sendCustomEmbed((embed) =>
+    message.sendCustomEmbed((embed) =>
       embed
         .setDescription(`Here is the current playlist:`)
         .addFields(tracksPreview)

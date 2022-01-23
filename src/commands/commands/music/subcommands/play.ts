@@ -7,8 +7,8 @@ const play_cmd = new CCommand()
   .setName("play")
   .addAlias("p")
   .setDescription("Start playing music from the current playlist")
-  .setExecution(async (messageInstance) => {
-    let controller = new MusicController(messageInstance);
+  .setExecution(async (context) => {
+    let controller = new MusicController(context);
     controllersManager.register(controller);
     await controller.play();
   })

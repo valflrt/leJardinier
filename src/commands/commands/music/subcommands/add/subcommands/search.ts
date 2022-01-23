@@ -10,15 +10,15 @@ const search_cmd = new CCommand()
   .setName("search")
   .setDescription("Add a song to the playlist from youtube search")
   .addParameter((p) => p.setName("youtube search").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, message, commandParameters } = messageInstance;
+  .setExecution(async (context) => {
+    let { message, commandParameters } = context;
 
     if (commandParameters.length === 0)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         `${reactions.error.random} You need to specify text to search for ! `
       );
 
-    let sent = await methods.sendTextEmbed(`Looking for your song...`);
+    let sent = await message.sendTextEmbed(`Looking for your song...`);
 
     let videoSearchData = await youtubeAPI.searchVideo(commandParameters);
 
@@ -43,7 +43,7 @@ const search_cmd = new CCommand()
     await track.saveToDB(message.guildId!);
     await sent.editWithEmbed(
       track
-        .generateEmbed(messageInstance)
+        .generateEmbed(context)
         .setDescription(
           `${reactions.success.random} Added ${track.generateTrackURL()}`
         )

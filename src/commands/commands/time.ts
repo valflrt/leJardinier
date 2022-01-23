@@ -6,9 +6,8 @@ import reactions from "../../assets/reactions";
 const time_cmd = new CCommand()
   .setName("time")
   .setDescription("Get the time")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-    methods.sendTextEmbed(
+  .setExecution(async ({ message }) => {
+    message.sendTextEmbed(
       `It is ${time(new Date(), "t")} ${reactions.smile.random}`
     );
   })

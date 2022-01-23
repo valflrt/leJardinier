@@ -7,9 +7,8 @@ import reactions from "../../../../assets/reactions";
 const website_cmd = new CCommand()
   .setName("website")
   .setDescription("Get my website link")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-    methods.sendTextEmbed(
+  .setExecution(async ({ message }) => {
+    message.sendTextEmbed(
       `Click ${hyperlink(
         `here`,
         `https://valflrt.github.io/lejardinier-typescript/`

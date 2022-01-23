@@ -13,12 +13,10 @@ const autorole_cmd = new CCommand()
     )
   )
   .addParameter((p) => p.setName("role mention").setRequired(true))
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ message }) => {
     let caller = await message.guild!.members.fetch(message.author.id);
     if (!caller?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         "You do not have the permission to add the autorole ! ".concat(
           italic("You must be administrator !")
         )
@@ -26,13 +24,13 @@ const autorole_cmd = new CCommand()
 
     let roleMention = message.mentions.roles.first();
     if (!roleMention)
-      return methods.sendTextEmbed(
+      return message.sendTextEmbed(
         "You need to specify the role which will be given to members !"
       );
 
     let reply = {
       embeds: [
-        methods.returnTextEmbed(
+        message.returnTextEmbed(
           `Click the button below to receive the ${roleMention.toString()} role`
         ),
       ],
@@ -54,7 +52,7 @@ const autorole_cmd = new CCommand()
     } catch (e) {}
     let sent = reference
       ? await reference.reply(reply)
-      : await methods.send(reply);
+      : await message.send(reply);
 
     let toAdd = {
       messageId: sent.id,

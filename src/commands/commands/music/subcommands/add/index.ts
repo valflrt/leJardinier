@@ -1,5 +1,7 @@
 import CCommand from "../../../../../features/commands/classes/command";
 
+import formatters from "../../../../../builders/replyFormatters";
+
 import music_cmd from "../..";
 
 // subcommands imports
@@ -10,15 +12,14 @@ import search_cmd from "./subcommands/search";
 const add_cmd = new CCommand()
   .setName("add")
   .setDescription("Adds a song to the playlist")
-  .setExecution(async (messageInstance) => {
-    let { methods } = messageInstance;
-    methods.sendCustomEmbed((embed) =>
+  .setExecution(async ({ message }) => {
+    message.sendCustomEmbed((embed) =>
       embed
         .setDescription(
           `Use this command to add a song to the playlist from youtube:`
         )
         .addFields(
-          methods.formatters.CommandPreview.createFields(
+          formatters.CommandPreview.createFields(
             music_cmd.commands.find((c) => c.identifier === "add")!.commands
           )
         )

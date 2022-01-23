@@ -16,14 +16,7 @@ import {
   BulkWriteOptions,
 } from "mongodb";
 
-/**
- * mixes two objects of the same type
- * @param target target to mix the patch in
- * @param patch patch to mix in the target
- */
-const mix = <TargetType>(target: TargetType, patch: TargetType): TargetType => {
-  return Object.assign(target, patch) as TargetType;
-};
+import { mix } from "../../../utils";
 
 /**
  * creates a database manager class with a default schema
@@ -48,6 +41,19 @@ export default class DefaultManager<Schema> {
   ): Promise<Schema | null> {
     let doc = await this.collection.findOne(filter, options);
     return doc ? (doc as unknown as Schema) : null;
+  }
+
+  public async findOrCreateOne(
+    filter: Partial<Schema>,
+    doc: Schema,
+    options: FindOptions = {}
+  ): Promise<Schema | null> {
+    let result = await this.collection.findOne(filter, options);
+    if (!doc) {
+      await this.createOne(doc);
+      result = await this.collection.findOne(filter, options);
+    }
+    return result ? (result as unknown as Schema) : null;
   }
 
   /**
@@ -101,7 +107,7 @@ export default class DefaultManager<Schema> {
   public deleteOne(
     filter: Partial<Schema>,
     options: FindOneAndDeleteOptions = {}
-  ): Promise<ModifyResult<unknown>> {
+  ): Promise<ModifyResult<any>> {
     return this.collection.findOneAndDelete(filter, options);
   }
 
@@ -115,7 +121,7 @@ export default class DefaultManager<Schema> {
     filter: Partial<Schema>,
     replacement: Schema,
     options: FindOneAndReplaceOptions = {}
-  ): Promise<ModifyResult<unknown>> {
+  ): Promise<ModifyResult<any>> {
     return this.collection.findOneAndReplace(
       filter,
       mix(new this.schemaConstructor(), replacement),
@@ -133,7 +139,7 @@ export default class DefaultManager<Schema> {
     filter: Partial<Schema>,
     update: Partial<Schema>,
     options: FindOneAndUpdateOptions = {}
-  ): Promise<ModifyResult<unknown>> {
+  ): Promise<ModifyResult<any>> {
     return this.collection.findOneAndUpdate(
       filter,
       { $set: mix(new this.schemaConstructor(), update) },
@@ -153,7 +159,7 @@ export default class DefaultManager<Schema> {
     update: Partial<Schema>,
     doc: Schema,
     options: FindOneAndUpdateOptions = {}
-  ): Promise<ModifyResult<unknown> | InsertOneResult<unknown>> {
+  ): Promise<ModifyResult<any> | InsertOneResult<any>> {
     let targetEntry = await this.findOne(filter);
     if (!targetEntry)
       return await this.createOne(mix(new this.schemaConstructor(), doc));

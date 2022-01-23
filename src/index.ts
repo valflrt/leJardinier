@@ -3,7 +3,7 @@ import log from "./bot/log";
 
 log.logger.startupSequence();
 
-new LeJardinier({
+const lejardinier = new LeJardinier({
   intents: [
     "GUILDS",
     "GUILD_MEMBERS",
@@ -13,4 +13,8 @@ new LeJardinier({
     "GUILD_VOICE_STATES",
     "GUILD_EMOJIS_AND_STICKERS",
   ],
-}).start();
+});
+
+lejardinier.start();
+
+export default lejardinier;

@@ -9,9 +9,7 @@ const rank_cmd = new CCommand()
   .setName("rank")
   .setDescription("Gives your stats/rank or the ones of the mentioned member")
   .addParameter((p) => p.setName("member mention").setRequired(false))
-  .setExecution(async (messageInstance) => {
-    let { methods, message } = messageInstance;
-
+  .setExecution(async ({ message }) => {
     let memberMention = message.mentions.members?.first();
 
     let member = memberMention?.user ?? message.author;
@@ -21,7 +19,7 @@ const rank_cmd = new CCommand()
     });
 
     if (!memberFromDB?.stats)
-      return methods.sendTextEmbed(`Couldn't find user stats !`);
+      return message.sendTextEmbed(`Couldn't find user stats !`);
 
     let XP = memberFromDB.stats!.xp!;
     let levelMaxXP = Math.floor(5 ** 1.1 * memberFromDB.stats!.level!);
@@ -156,10 +154,10 @@ const rank_cmd = new CCommand()
 
     new MessageEmbed();
 
-    methods.send({
+    message.send({
       files: [new MessageAttachment(canvas.toBuffer(), "stats.png")],
       embeds: [
-        methods.returnCustomEmbed((embed) =>
+        message.returnCustomEmbed((embed) =>
           embed.setImage("attachment://stats.png")
         ),
       ],

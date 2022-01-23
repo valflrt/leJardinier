@@ -8,9 +8,8 @@ const boolean_cmd = new CCommand()
   .setIdentifier("bool")
   .setDescription(`Answers "true" or "false" randomly`)
   .addParameter((p) => p.setName("sentence").setRequired(false))
-  .setExecution(async (messageInstance) => {
-    let { methods, commandParameters } = messageInstance;
-    methods.sendTextEmbed(
+  .setExecution(async ({ message, commandParameters }) => {
+    message.sendTextEmbed(
       `My answer is ${bold(
         inlineCode(utils.randomItem("true", "false"))
       )}`.concat(
