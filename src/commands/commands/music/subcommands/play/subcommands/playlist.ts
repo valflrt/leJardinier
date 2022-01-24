@@ -4,10 +4,10 @@ import PrePlaylist from "../../../../../../features/music/classes/playlist";
 
 import reactions from "../../../../../../assets/reactions";
 
-const playlistUrl_cmd = new CCommand()
+const playlist_cmd = new CCommand()
   .setName("playlist url")
-  .setIdentifier("playlisturl")
-  .addAlias("plurl")
+  .setIdentifier("playlist")
+  .addAlias("pl")
   .setDescription(
     "Adds multiples songs from a youtube playlist url. (20 items maximum in the playlist)"
   )
@@ -41,4 +41,4 @@ const playlistUrl_cmd = new CCommand()
     );
   });
 
-export default playlistUrl_cmd;
+export default playlist_cmd;

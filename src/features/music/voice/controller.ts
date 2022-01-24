@@ -1,8 +1,6 @@
 import { StageChannel, VoiceChannel } from "discord.js";
 import * as voice from "@discordjs/voice";
 
-import ytdl from "ytdl-core";
-
 import controllersManager from "./controllersManager";
 import databaseHandler from "./database";
 
@@ -17,7 +15,7 @@ import lejardinier from "../../..";
 export default class MusicController {
   public context: Context;
 
-  private currentPlayer: TrackPlayer | null = null;
+  public currentPlayer: TrackPlayer | null = null;
   public currentTrackMessage?: SentMessage;
 
   public audioChannel?: VoiceChannel | StageChannel | null;

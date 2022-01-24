@@ -6,7 +6,7 @@ import music_cmd from "../..";
 
 // subcommands imports
 import videoUrl_cmd from "./subcommands/videoUrl";
-import playlistUrl_cmd from "./subcommands/playlistUrl";
+import playlist_cmd from "../play/subcommands/playlist";
 import search_cmd from "./subcommands/search";
 
 const add_cmd = new CCommand()
@@ -28,7 +28,7 @@ const add_cmd = new CCommand()
   .addHelpCommand()
 
   .addSubcommand(() => videoUrl_cmd)
-  .addSubcommand(() => playlistUrl_cmd)
+  .addSubcommand(() => playlist_cmd)
   .addSubcommand(() => search_cmd);
 
 export default add_cmd;

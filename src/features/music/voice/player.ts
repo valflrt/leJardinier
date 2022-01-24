@@ -13,6 +13,8 @@ export default class TrackPlayer {
 
   private track: Track;
 
+  public state?: string;
+
   constructor(track: Track) {
     this.audioPlayer = voice.createAudioPlayer({
       behaviors: {
@@ -55,7 +57,8 @@ export default class TrackPlayer {
     let { context, currentTrackMessage } = musicController;
     let { message } = context;
 
-    this.audioPlayer.on(voice.AudioPlayerStatus.Playing, () => {
+    this.audioPlayer.on(voice.AudioPlayerStatus.Playing, (os, ns) => {
+      this.state = ns.status;
       currentTrackMessage!.editWithCustomEmbed((embed) =>
         embed
           .setThumbnail(this.track.thumbnailsURL)
@@ -67,7 +70,8 @@ export default class TrackPlayer {
       );
     });
 
-    this.audioPlayer.on(voice.AudioPlayerStatus.Idle, async () => {
+    this.audioPlayer.on(voice.AudioPlayerStatus.Idle, async (os, ns) => {
+      this.state = ns.status;
       this.audioPlayer.stop();
       musicController.playNextTrack();
     });
