@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto">
+  <a href="#readme">
+    <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto">
+  </a>
 
   <p align="center">
     <a href="https://github.com/valflrt/lejardinier/actions/workflows/push.yml"><img alt="build status" src="https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build" /></a>
