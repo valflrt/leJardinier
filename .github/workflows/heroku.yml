@@ -1,4 +1,4 @@
-name: Build
+name: heroku-deploy
 
 on: workflow_dispatch
 
