@@ -90,8 +90,11 @@ export default class MessageActions {
 }
 
 export class SentMessageActions extends MessageActions {
+  public message: Message;
+
   constructor(context: Context, message: Message) {
     super(context, message);
+    this.message = message;
   }
 
   public editWithEmbed = async (
