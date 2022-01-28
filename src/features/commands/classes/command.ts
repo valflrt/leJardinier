@@ -1,6 +1,7 @@
+import CommandPreview from "../../../builders/commandPreview";
+
 import TExecutionFunction from "../types/executionFunction";
 import ICommandSettings from "../types/commandSettings";
-import CommandPreview from "./commandPreview";
 
 import config from "../../../config";
 
@@ -51,7 +52,7 @@ export default class Command implements ICommandSetup {
 
     this.settings = command.settings;
 
-    this.addHelpCommand();
+    if (!this.settings.noHelpCommand) this.addHelpCommand();
   }
 
   // specific methods
@@ -75,7 +76,7 @@ export default class Command implements ICommandSetup {
       new Command({
         name: "help",
         description: `Help command for command "${this.namespace}"`,
-        settings: { hidden: true },
+        settings: { hidden: true, noHelpCommand: true },
         execution: async ({ actions }) => {
           actions.sendCustomEmbed((embed) =>
             embed
