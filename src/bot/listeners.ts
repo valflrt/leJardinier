@@ -1,11 +1,13 @@
 import { Client, GuildMember, Interaction, Message } from "discord.js";
-import lejardinier from "..";
-import TunedMessageBuilder from "../builders/tunedMessage";
-import config from "../config";
-import database, { connectDatabase } from "../features/database";
+
 import Context from "./context";
+
+import database, { connectDatabase } from "../features/database";
+
 import handlers from "./handlers";
 import log from "./log";
+
+import config from "../config";
 
 const listeners = {
   /**
