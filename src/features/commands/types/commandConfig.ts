@@ -1,5 +1,5 @@
-import CCommand from "../classes/command";
+import Command from "../classes/command";
 
-type TCommandConfig = (command: CCommand) => CCommand;
+type TCommandConfig = (command: Command) => Command;
 
 export default TCommandConfig;

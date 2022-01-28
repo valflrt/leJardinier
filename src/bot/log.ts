@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import Discord from "discord.js";
 
-import CCommand from "../features/commands/classes/command";
+import Command from "../features/commands/classes/command";
 import Context from "./context";
 
 import version from "../config/version";
@@ -127,7 +127,7 @@ class CommandLogger extends Logger {
    * logs successful command execution message
    * @param command command object
    */
-  public executionSuccess(command: CCommand) {
+  public executionSuccess(command: Command) {
     this.success(
       `Successfully executed command ${chalk.underline.bold(
         command.namespace
@@ -140,7 +140,7 @@ class CommandLogger extends Logger {
    * @param command command object
    * @param err error to log
    */
-  public executionFailure(command: CCommand, err: any) {
+  public executionFailure(command: Command, err: any) {
     this.error(
       `Failed to execute ${chalk.underline.bold(command.namespace)}:\n${err}`
     );
