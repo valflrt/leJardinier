@@ -1,15 +1,15 @@
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 
 import lejardinier from "../..";
 
 import reactions from "../../assets/reactions";
 import { MessageActionRow, MessageButton } from "discord.js";
 
-const invite_cmd = new CCommand()
-  .setName("invite")
-  .setDescription("Get bot invitation link")
-  .setExecution(async ({ message }) => {
-    message.sendTextEmbed(
+const invite_cmd = new Command({
+  name: "invite",
+  description: "Get bot invitation link",
+  execution: async ({ actions }) => {
+    actions.sendTextEmbed(
       `Click the button bellow if you want me to hop in your server ${reactions.smile.random}`,
       {
         components: [
@@ -29,7 +29,7 @@ const invite_cmd = new CCommand()
         ],
       }
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default invite_cmd;

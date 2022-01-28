@@ -1,4 +1,4 @@
-import CCommand from "../../../../../features/commands/classes/command";
+import Command from "../../../../../features/commands/classes/command";
 
 import controllersManager from "../../../../../features/music/voice/controllersManager";
 import MusicController from "../../../../../features/music/voice/controller";
@@ -10,29 +10,28 @@ import PreTrack from "../../../../../features/music/classes/track";
 import regexps from "../../../../../assets/regexp";
 import youtubeAPI from "../../../../../features/apis/youtube";
 
-const play_cmd = new CCommand()
-  .setName("play")
-  .addAlias("p")
-  .setDescription(
-    "Start playing a song from an url (detected automatically) or a research"
-  )
-  .addParameter((p) => p.setName("url or search").setRequired(true))
-  .setExecution(async (context) => {
-    let { message, commandParameters } = context;
+const play_cmd = new Command({
+  name: "play",
+  aliases: ["p"],
+  description:
+    "Start playing a song from an url (detected automatically) or a research",
+  parameters: [{ name: "url or search", required: true }],
+  execution: async (context) => {
+    let { actions, message, attributes } = context;
 
-    if (commandParameters.length === 0)
-      return message.sendTextEmbed(
+    if (attributes.parameters.length === 0)
+      return actions.sendTextEmbed(
         `${reactions.error.random} You must specify the video url`
       );
 
-    let sent = await message.sendTextEmbed(`Looking for your song...`);
+    let sent = await actions.sendTextEmbed(`Looking for your song...`);
 
     let track;
-    if (regexps.extractYoutubeVideoID.exec(commandParameters)) {
-      track = await new PreTrack().fromURL(commandParameters);
+    if (regexps.extractYoutubeVideoID.exec(attributes.parameters)) {
+      track = await new PreTrack().fromURL(attributes.parameters);
 
       if (!track)
-        return message.sendTextEmbed(
+        return actions.sendTextEmbed(
           `${reactions.error.random} Couldn't find the song you're looking for ! `.concat(
             `You could try checking your url or giving another one`
           )
@@ -40,7 +39,7 @@ const play_cmd = new CCommand()
 
       await track.saveToDB(message.guildId!);
     } else {
-      let videoSearchData = await youtubeAPI.searchVideo(commandParameters);
+      let videoSearchData = await youtubeAPI.searchVideo(attributes.parameters);
 
       if (!videoSearchData?.id?.videoId)
         return sent.editWithTextEmbed(
@@ -79,9 +78,8 @@ const play_cmd = new CCommand()
     }
     if (controller.currentPlayer?.state === "playing") return;
     await controller.play();
-  })
-  .addHelpCommand()
-
-  .addSubcommand(() => playlist_cmd);
+  },
+  commands: [playlist_cmd],
+});
 
 export default play_cmd;

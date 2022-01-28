@@ -8,7 +8,7 @@ import { randomItem } from "../../utils";
 import reactions from "../../assets/reactions";
 
 const databaseUpdate = async (context: Context) => {
-  let { message } = context;
+  let { actions, message } = context;
 
   let guild = await database.guilds.findOne({ id: message.guildId! });
   if (!guild) await database.guilds.createOne({ id: message.guildId! });
@@ -49,7 +49,7 @@ const databaseUpdate = async (context: Context) => {
   );
 
   if (hasLevelUp) {
-    message.send(
+    actions.send(
       `${randomItem(
         "Congratulations",
         "Well done",

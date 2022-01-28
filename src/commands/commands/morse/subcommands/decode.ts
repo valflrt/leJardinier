@@ -1,23 +1,23 @@
 import { codeBlock } from "@discordjs/builders";
 
-import CCommand from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/classes/command";
 
 import Morse from "../../../../features/morse";
 
-const decode_cmd = new CCommand()
-  .setName("decode")
-  .setDescription("Decodes Morse code")
-  .addParameter((p) => p.setName("morse code").setRequired(true))
-  .setExecution(async ({ message, commandParameters }) => {
-    if (commandParameters.length === 0)
-      message.sendTextEmbed("You need to give some Morse to decode...");
+const decode_cmd = new Command({
+  name: "decode",
+  description: "Decodes Morse code",
+  parameters: [{ name: "morse code", required: true }],
+  execution: async ({ actions, attributes }) => {
+    if (attributes.parameters.length === 0)
+      actions.sendTextEmbed("You need to give some Morse to decode...");
     else
-      message.sendTextEmbed(
+      actions.sendTextEmbed(
         "Here is your decoded text:".concat(
-          codeBlock(Morse.decode(commandParameters))
+          codeBlock(Morse.decode(attributes.parameters))
         )
       );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default decode_cmd;

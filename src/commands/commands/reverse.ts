@@ -1,20 +1,20 @@
 import { inlineCode } from "@discordjs/builders";
 
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 
-const reverse_cmd = new CCommand()
-  .setName("reverse")
-  .setDescription("Reverses the specified text")
-  .setExecution(async ({ message, commandParameters }) => {
+const reverse_cmd = new Command({
+  name: "reverse",
+  description: "Reverses the specified text",
+  execution: async ({ actions, attributes }) => {
     const reverseText = (v: string): string[] =>
       v.length === 0 ? [] : reverseText(v.slice(1)).concat(v[0]);
 
-    message.sendTextEmbed(
+    actions.sendTextEmbed(
       `Here is you reversed text:\n`.concat(
-        inlineCode(reverseText(commandParameters).join(""))
+        inlineCode(reverseText(attributes.parameters).join(""))
       )
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default reverse_cmd;

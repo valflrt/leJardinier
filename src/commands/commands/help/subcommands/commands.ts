@@ -1,17 +1,17 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { bold } from "@discordjs/builders";
 
-import CCommand from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-import formatters from "../../../../builders/replyFormatters";
+import CommandPreview from "../../../../builders/commandPreview";
 
-const commands_cmd = new CCommand()
-  .setName("commands")
-  .addAlias("cmds")
-  .setDescription("Displays every available command")
-  .setExecution(async ({ message }) => {
+const commands_cmd = new Command({
+  name: "commands",
+  description: "Displays every available command",
+  aliases: ["cmds"],
+  execution: async ({ actions }) => {
     /*
 				const format = (
 					array: CCommand[],
@@ -38,12 +38,12 @@ const commands_cmd = new CCommand()
     let i = 0;
     categories.forEach((commands, name) => {
       pages.push(
-        message.returnCustomEmbed((embed) =>
+        actions.returnCustomEmbed((embed) =>
           embed
             .setDescription(
               `${bold(name)} (page ${i + 1} of ${categories.size})`
             )
-            .addFields(formatters.CommandPreview.createFields(commands))
+            .addFields(CommandPreview.createFields(commands))
         )
       );
       i++;
@@ -60,13 +60,13 @@ const commands_cmd = new CCommand()
         .setStyle("SECONDARY")
     );
 
-    let sent = await message.sendEmbed(pages[index], {
+    let sent = await actions.sendEmbed(pages[index], {
       components: [row],
     });
 
-    let collector = sent.createMessageComponentCollector({
+    let collector = sent.message.createMessageComponentCollector({
       filter: (button) => button.customId === "p" || button.customId === "n",
-      idle: 20000, // 20 seconds
+      idle: 2e4, // 20 seconds
     });
 
     collector.on("collect", async (i) => {
@@ -130,7 +130,7 @@ const commands_cmd = new CCommand()
 					await sent.reactions.removeAll();
 				});
 				*/
-  })
-  .addHelpCommand();
+  },
+});
 
 export default commands_cmd;

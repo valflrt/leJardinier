@@ -1,22 +1,24 @@
 import { bold, inlineCode, quote } from "@discordjs/builders";
 
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 import * as utils from "../../utils";
 
-const boolean_cmd = new CCommand()
-  .setName("boolean")
-  .setIdentifier("bool")
-  .setDescription(`Answers "true" or "false" randomly`)
-  .addParameter((p) => p.setName("sentence").setRequired(false))
-  .setExecution(async ({ message, commandParameters }) => {
-    message.sendTextEmbed(
+const boolean_cmd = new Command({
+  name: "boolean",
+  identifier: "bool",
+  description: `Answers "true" or "false" randomly`,
+  parameters: [{ name: "sentence", required: false }],
+  execution: async ({ actions, attributes }) => {
+    actions.sendTextEmbed(
       `My answer is ${bold(
         inlineCode(utils.randomItem("true", "false"))
       )}`.concat(
-        commandParameters.length !== 0 ? ` to\n${quote(commandParameters)}` : ""
+        attributes.parameters.length !== 0
+          ? ` to\n${quote(attributes.parameters)}`
+          : ""
       )
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default boolean_cmd;

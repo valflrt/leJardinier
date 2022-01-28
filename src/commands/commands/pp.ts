@@ -1,22 +1,22 @@
 import { MessageEmbed } from "discord.js";
 
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 
-const profilePicture_cmd = new CCommand()
-  .setName("profile picture")
-  .setIdentifier("pp")
-  .setDescription("Gives someone's profile picture")
-  .addParameter((p) => p.setName("mention").setRequired(false))
-  .setExecution(async ({ message }) => {
+const profilePicture_cmd = new Command({
+  name: "profile picture",
+  identifier: "pp",
+  description: "Gives someone's profile picture",
+  parameters: [{ name: "mention", required: false }],
+  execution: async ({ actions, message }) => {
     let member = message.mentions.members?.first()?.user || message.author;
-    if (!member) return message.sendTextEmbed(`Unknown user`);
+    if (!member) return actions.sendTextEmbed(`Unknown user`);
 
-    message.sendCustomEmbed((embed: MessageEmbed) =>
+    actions.sendCustomEmbed((embed: MessageEmbed) =>
       embed
         .setDescription(`Here is ${member!.toString()}'s profile picture`)
         .setImage(member!.displayAvatarURL({ size: 300 }))
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default profilePicture_cmd;

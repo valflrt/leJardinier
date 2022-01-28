@@ -105,7 +105,7 @@ export class Track extends PreTrack {
    * @param messageInstance needed to generate default embed
    */
   public generateEmbed(context: Context): MessageEmbed {
-    return context.message.returnCustomEmbed((embed) =>
+    return context.actions.returnCustomEmbed((embed) =>
       embed.setThumbnail(this.thumbnailsURL)
     );
   }

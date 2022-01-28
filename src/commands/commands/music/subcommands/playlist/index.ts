@@ -1,23 +1,23 @@
 import { EmbedFieldData } from "discord.js";
 import { bold, hyperlink } from "@discordjs/builders";
 
-import CCommand from "../../../../../features/commands/classes/command";
+import Command from "../../../../../features/commands/classes/command";
 
 import database from "../../../../../features/database";
 
 // subcommands imports
 import clear_cmd from "./subcommands/clear";
 
-const playlist_cmd = new CCommand()
-  .setName("playlist")
-  .addAlias("pl")
-  .setDescription("Display the current playlist")
-  .setExecution(async ({ message }) => {
+const playlist_cmd = new Command({
+  name: "playlist",
+  description: "Display the current playlist",
+  aliases: ["pl"],
+  execution: async ({ actions, message }) => {
     let guild = await database.guilds.findOne({
       id: message.guildId!,
     });
     if (!guild?.playlist || guild.playlist.length === 0)
-      return message.sendTextEmbed(`The playlist is empty !`);
+      return actions.sendTextEmbed(`The playlist is empty !`);
 
     let tracksPreview = guild.playlist.map((track, i): EmbedFieldData => {
       return {
@@ -26,14 +26,13 @@ const playlist_cmd = new CCommand()
       };
     });
 
-    message.sendCustomEmbed((embed) =>
+    actions.sendCustomEmbed((embed) =>
       embed
         .setDescription(`Here is the current playlist:`)
         .addFields(tracksPreview)
     );
-  })
-  .addHelpCommand()
-
-  .addSubcommand(() => clear_cmd);
+  },
+  commands: [clear_cmd],
+});
 
 export default playlist_cmd;

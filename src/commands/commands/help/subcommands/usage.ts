@@ -1,14 +1,14 @@
 import { bold, inlineCode, italic, underscore } from "@discordjs/builders";
 
-import CCommand from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/classes/command";
 
 import config from "../../../../config";
 
-const usage_cmd = new CCommand()
-  .setName("usage")
-  .setDescription("Gives information on how to use the bot")
-  .setExecution(async ({ message }) => {
-    message.sendCustomEmbed((embed) =>
+const usage_cmd = new Command({
+  name: "usage",
+  description: "Gives information on how to use the bot",
+  execution: async ({ actions }) => {
+    actions.sendCustomEmbed((embed) =>
       embed
         .setTitle(
           underscore(
@@ -70,6 +70,7 @@ const usage_cmd = new CCommand()
             )
         )
     );
-  });
+  },
+});
 
 export default usage_cmd;

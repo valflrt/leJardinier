@@ -1,27 +1,27 @@
 import { bold } from "@discordjs/builders";
 
-import CCommand from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/classes/command";
 import { Track } from "../../../../features/music/classes/track";
 
 import database from "../../../../features/database";
 
 import reactions from "../../../../assets/reactions";
 
-const remove_cmd = new CCommand()
-  .setName("remove")
-  .addAlias("rm")
-  .setDescription("Removes a track the current playlist")
-  .addParameter((p) => p.setName("track id").setRequired(true))
-  .setExecution(async ({ message, commandParameters }) => {
-    if (!commandParameters)
-      return message.sendTextEmbed(
+const remove_cmd = new Command({
+  name: "remove",
+  description: "Removes a track the current playlist",
+  aliases: ["rm"],
+  parameters: [{ name: "track id", required: true }],
+  execution: async ({ actions, message, attributes }) => {
+    if (!attributes.parameters)
+      return actions.sendTextEmbed(
         `${reactions.error.random} You need to specify an id !`
       );
 
-    let videoID = +(+commandParameters); // used to make sure the number is positive
+    let videoID = +(+attributes.parameters); // used to make sure the number is positive
 
     if (!videoID || !Number.isInteger(videoID))
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.error.random} Incorrect id !\n`.concat(
           `Please use an integer as id (eg: 1, 2, 56, 5797837, ...)`
         )
@@ -31,7 +31,7 @@ const remove_cmd = new CCommand()
       id: message.guildId!,
     });
     if (!guild)
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.success.random} Current playlist is empty`
       );
 
@@ -44,12 +44,12 @@ const remove_cmd = new CCommand()
       { playlist: guild.playlist }
     );
 
-    message.sendTextEmbed(
+    actions.sendTextEmbed(
       `${reactions.success.random} Removed `.concat(
         `${bold(`#${videoID}`)}: ${removed.generateTrackURL()}`
       )
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default remove_cmd;

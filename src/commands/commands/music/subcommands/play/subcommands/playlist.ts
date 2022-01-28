@@ -1,28 +1,27 @@
-import CCommand from "../../../../../../features/commands/classes/command";
+import Command from "../../../../../../features/commands/classes/command";
 
 import PrePlaylist from "../../../../../../features/music/classes/playlist";
 
 import reactions from "../../../../../../assets/reactions";
 
-const playlist_cmd = new CCommand()
-  .setName("playlist url")
-  .setIdentifier("playlist")
-  .addAlias("pl")
-  .setDescription(
-    "Adds multiples songs from a youtube playlist url. (20 items maximum in the playlist)"
-  )
-  .setExecution(async ({ message, commandParameters }) => {
-    if (commandParameters.length === 0)
-      return message.sendTextEmbed(
+const playlist_cmd = new Command({
+  name: "playlist url",
+  identifier: "playlist",
+  aliases: ["pl"],
+  description:
+    "Adds multiples songs from a youtube playlist url. (20 items maximum in the playlist)",
+  execution: async ({ actions, message, attributes }) => {
+    if (attributes.parameters.length === 0)
+      return actions.sendTextEmbed(
         `${reactions.error.random} You need to specify the playlist url !`
       );
 
-    let sent = await message.sendTextEmbed(`Looking for your playlist...`);
+    let sent = await actions.sendTextEmbed(`Looking for your playlist...`);
 
-    let playlist = await new PrePlaylist().fromURL(commandParameters);
+    let playlist = await new PrePlaylist().fromURL(attributes.parameters);
 
     if (!playlist)
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.error.random} Couldn't find the playlist !\n`.concat(
           `Your url may be invalid.`
         )
@@ -39,6 +38,7 @@ const playlist_cmd = new CCommand()
         )
         .addFields()
     );
-  });
+  },
+});
 
 export default playlist_cmd;

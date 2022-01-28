@@ -1,15 +1,15 @@
 import { MessageAttachment, MessageEmbed } from "discord.js";
 import Canvas from "canvas";
 
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 import database from "../../features/database";
 import Factorize from "../../features/factorize";
 
-const rank_cmd = new CCommand()
-  .setName("rank")
-  .setDescription("Gives your stats/rank or the ones of the mentioned member")
-  .addParameter((p) => p.setName("member mention").setRequired(false))
-  .setExecution(async ({ message }) => {
+const rank_cmd = new Command({
+  name: "rank",
+  description: "Gives your stats/rank or the ones of the mentioned member",
+  parameters: [{ name: "member mention", required: false }],
+  execution: async ({ actions, message }) => {
     let memberMention = message.mentions.members?.first();
 
     let member = memberMention?.user ?? message.author;
@@ -19,7 +19,7 @@ const rank_cmd = new CCommand()
     });
 
     if (!memberFromDB?.stats)
-      return message.sendTextEmbed(`Couldn't find user stats !`);
+      return actions.sendTextEmbed(`Couldn't find user stats !`);
 
     let XP = memberFromDB.stats!.xp!;
     let levelMaxXP = Math.floor(5 ** 1.1 * memberFromDB.stats!.level!);
@@ -154,14 +154,15 @@ const rank_cmd = new CCommand()
 
     new MessageEmbed();
 
-    message.send({
+    actions.send({
       files: [new MessageAttachment(canvas.toBuffer(), "stats.png")],
       embeds: [
-        message.returnCustomEmbed((embed) =>
+        actions.returnCustomEmbed((embed) =>
           embed.setImage("attachment://stats.png")
         ),
       ],
     });
-  });
+  },
+});
 
 export default rank_cmd;

@@ -1,17 +1,17 @@
 import { inlineCode } from "@discordjs/builders";
 
-import CCommand from "../../../features/commands/classes/command";
+import Command from "../../../features/commands/classes/command";
 
 // subcommands imports
 import encode_cmd from "./subcommands/encode";
 import decode_cmd from "./subcommands/decode";
 import table_cmd from "./subcommands/table";
 
-const morse_cmd = new CCommand()
-  .setName("morse")
-  .setDescription(`Morse code utility command`)
-  .setExecution(async ({ message }) => {
-    message.sendTextEmbed(
+const morse_cmd = new Command({
+  name: "morse",
+  description: `Morse code utility command`,
+  execution: async ({ actions }) => {
+    actions.sendTextEmbed(
       `Use ${inlineCode(
         morse_cmd.commands.find((c) => c.name === "encode")!.syntax
       )} to encode text to Morse code`.concat(
@@ -20,10 +20,8 @@ const morse_cmd = new CCommand()
         } to get Morse code table`
       )
     );
-  })
-
-  .addSubcommand(() => encode_cmd)
-  .addSubcommand(() => decode_cmd)
-  .addSubcommand(() => table_cmd);
+  },
+  commands: [encode_cmd, decode_cmd, table_cmd],
+});
 
 export default morse_cmd;

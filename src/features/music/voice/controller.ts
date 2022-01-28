@@ -1,22 +1,24 @@
 import { StageChannel, VoiceChannel } from "discord.js";
 import * as voice from "@discordjs/voice";
 
+import lejardinier from "../../..";
+
+import TrackPlayer from "./player";
 import controllersManager from "./controllersManager";
 import databaseHandler from "./database";
 
 import Context from "../../../bot/context";
-import { SentMessage } from "../../../declarations/types";
+import { SentMessageActions } from "../../../bot/actions";
+
+import log from "../../../bot/log";
 
 import reactions from "../../../assets/reactions";
-import TrackPlayer from "./player";
-import log from "../../../bot/log";
-import lejardinier from "../../..";
 
 export default class MusicController {
   public context: Context;
 
   public currentPlayer: TrackPlayer | null = null;
-  public currentTrackMessage?: SentMessage;
+  public currentTrackMessage?: SentMessageActions;
 
   public audioChannel?: VoiceChannel | StageChannel | null;
 
@@ -28,10 +30,10 @@ export default class MusicController {
    * Makes the bot join the channel where the member is
    */
   public async join(): Promise<boolean> {
-    let { message } = this.context;
+    let { actions, message } = this.context;
 
     if (!message.member || !message.member.voice.channel) {
-      message.sendTextEmbed(
+      actions.sendTextEmbed(
         `${reactions.error.random} You need to be in a voice channel !`
       );
       return false;
@@ -43,14 +45,14 @@ export default class MusicController {
       this.audioChannel!.guild.me!
     );
     if (!permissions.has("CONNECT")) {
-      message.sendTextEmbed(
+      actions.sendTextEmbed(
         `${reactions.error.random} I am not allowed to join this voice channel !`
       );
       return false;
     }
 
     if (!permissions.has("SPEAK")) {
-      message.sendTextEmbed(
+      actions.sendTextEmbed(
         `${reactions.error.random} I am not allowed to speak in this voice channel !`
       );
       return false;
@@ -64,7 +66,7 @@ export default class MusicController {
     });
 
     if (!this.audioChannel?.members.has(lejardinier.client.user!.id))
-      message.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
+      actions.sendTextEmbed(`Joined ${this.audioChannel!.toString()}`);
 
     await voice.entersState(connection, voice.VoiceConnectionStatus.Ready, 3e4); // 6e4: 60s
 
@@ -75,27 +77,27 @@ export default class MusicController {
    * Makes the player start playing the current track
    */
   public async play() {
-    let { message } = this.context;
+    let { actions, message } = this.context;
 
     let joined = await this.join();
     if (!joined) return;
 
     let track = await databaseHandler.getFirstTrack(message.guildId!);
-    if (!track) return message.sendTextEmbed(`The playlist is empty !`);
+    if (!track) return actions.sendTextEmbed(`The playlist is empty !`);
 
     let connection = voice.getVoiceConnection(message.guildId ?? "");
     if (!connection)
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.error.random} Internal error: couldn't get voice connection !`
       );
 
-    this.currentTrackMessage = await message.sendTextEmbed(`Loading audio...`);
+    this.currentTrackMessage = await actions.sendTextEmbed(`Loading audio...`);
 
     let player = (this.currentPlayer = new TrackPlayer(track));
     player.setup(this);
 
     let failedFn = async () => {
-      await message.sendTextEmbed(
+      await actions.sendTextEmbed(
         `${reactions.error.random} Couldn't play current track. Skipping...`
       );
       player.stop();

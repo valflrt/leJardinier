@@ -1,6 +1,4 @@
-import CCommand from "../../../../../features/commands/classes/command";
-
-import formatters from "../../../../../builders/replyFormatters";
+import Command from "../../../../../features/commands/classes/command";
 
 import music_cmd from "../..";
 
@@ -9,26 +7,19 @@ import videoUrl_cmd from "./subcommands/videoUrl";
 import playlist_cmd from "../play/subcommands/playlist";
 import search_cmd from "./subcommands/search";
 
-const add_cmd = new CCommand()
-  .setName("add")
-  .setDescription("Adds a song to the playlist")
-  .setExecution(async ({ message }) => {
-    message.sendCustomEmbed((embed) =>
+const add_cmd = new Command({
+  name: "add",
+  description: "Adds a song to the playlist",
+  execution: async ({ actions }) => {
+    actions.sendCustomEmbed((embed) =>
       embed
         .setDescription(
           `Use this command to add a song to the playlist from youtube:`
         )
-        .addFields(
-          formatters.CommandPreview.createFields(
-            music_cmd.commands.find((c) => c.identifier === "add")!.commands
-          )
-        )
+        .addFields(add_cmd.preview.embedFields)
     );
-  })
-  .addHelpCommand()
-
-  .addSubcommand(() => videoUrl_cmd)
-  .addSubcommand(() => playlist_cmd)
-  .addSubcommand(() => search_cmd);
+  },
+  commands: [videoUrl_cmd, playlist_cmd, search_cmd],
+});
 
 export default add_cmd;

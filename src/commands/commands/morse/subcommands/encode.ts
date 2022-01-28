@@ -1,25 +1,25 @@
 import { codeBlock } from "@discordjs/builders";
 
-import CCommand from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/classes/command";
 
 import Morse from "../../../../features/morse";
 
-const encode_cmd = new CCommand()
-  .setName("encode")
-  .setDescription("Encodes text to Morse code")
-  .addParameter((p) => p.setName("sentence").setRequired(true))
-  .setExecution(async ({ message, commandParameters }) => {
-    if (commandParameters.length === 0)
-      message.sendTextEmbed(
+const encode_cmd = new Command({
+  name: "encode",
+  description: "Encodes text to Morse code",
+  parameters: [{ name: "sentence", required: true }],
+  execution: async ({ actions, attributes }) => {
+    if (attributes.parameters.length === 0)
+      actions.sendTextEmbed(
         "You need to give some text to convert to Morse Code..."
       );
     else
-      message.sendTextEmbed(
+      actions.sendTextEmbed(
         "Here is your Morse encoded text:".concat(
-          codeBlock(Morse.encode(commandParameters))
+          codeBlock(Morse.encode(attributes.parameters))
         )
       );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default encode_cmd;

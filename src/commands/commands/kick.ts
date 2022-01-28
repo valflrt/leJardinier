@@ -1,20 +1,20 @@
 import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import reactions from "../../assets/reactions";
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 
-const kick_cmd = new CCommand()
-  .setName("kick")
-  .setDescription("Kicks one member.")
-  .addParameter((p) => p.setName("member mention").setRequired(true))
-  .setExecution(async ({ message }) => {
+const kick_cmd = new Command({
+  name: "kick",
+  description: "Kicks one member.",
+  parameters: [{ name: "member mention", required: true }],
+  execution: async ({ actions, message }) => {
     let guildMember = await message.guild?.members.fetch(message.author.id);
     if (!guildMember?.permissions.has(Permissions.FLAGS.KICK_MEMBERS))
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.error.random} You do not have the permission to kick members`
       );
     let memberToKick = message.mentions.members?.first();
     if (!memberToKick)
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `You need to mention the member you want to kick`
       );
 
@@ -29,14 +29,14 @@ const kick_cmd = new CCommand()
         .setCustomId("cancel")
     );
 
-    let sent = await message.sendTextEmbed(
+    let sent = await actions.sendTextEmbed(
       `Are you really sure you want to kick ${memberToKick.toString()}`,
       {
         components: [row],
       }
     );
 
-    let interaction = await sent.awaitMessageComponent({
+    let interaction = await sent.message.awaitMessageComponent({
       componentType: "BUTTON",
       time: 3e5,
     });
@@ -48,7 +48,7 @@ const kick_cmd = new CCommand()
         .then(() =>
           interaction.update({
             embeds: [
-              message.returnTextEmbed(
+              actions.returnTextEmbed(
                 `Kicked successfully ${memberToKick!.toString()}`
               ),
             ],
@@ -58,7 +58,7 @@ const kick_cmd = new CCommand()
         .catch(() =>
           interaction.update({
             embeds: [
-              message.returnTextEmbed(
+              actions.returnTextEmbed(
                 `Failed to kick ${memberToKick!.toString()}`
               ),
             ],
@@ -67,15 +67,15 @@ const kick_cmd = new CCommand()
         );
     } else if (interaction.customId === "cancel")
       interaction.update({
-        embeds: [message.returnTextEmbed("Aborted")],
+        embeds: [actions.returnTextEmbed("Aborted")],
         components: [row],
       });
     else
       interaction.update({
-        embeds: [message.returnTextEmbed("Kick has timeout")],
+        embeds: [actions.returnTextEmbed("Kick has timeout")],
         components: [row],
       });
-  })
-  .addHelpCommand();
+  },
+});
 
 export default kick_cmd;

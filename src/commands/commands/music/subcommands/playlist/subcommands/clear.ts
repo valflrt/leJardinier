@@ -1,14 +1,14 @@
-import CCommand from "../../../../../../features/commands/classes/command";
+import Command from "../../../../../../features/commands/classes/command";
 
 import database from "../../../../../../features/database";
 
 import reactions from "../../../../../../assets/reactions";
 
-const clear_cmd = new CCommand()
-  .setName("clear")
-  .addAlias("cl")
-  .setDescription(`Clear the current playlist`)
-  .setExecution(async ({ message }) => {
+const clear_cmd = new Command({
+  name: "clear",
+  description: `Clear the current playlist`,
+  aliases: ["cl"],
+  execution: async ({ actions, message }) => {
     let cleared = await database.guilds.updateOne(
       {
         id: message.guildId!,
@@ -16,10 +16,10 @@ const clear_cmd = new CCommand()
       { playlist: [] }
     );
     if (cleared.ok === 1)
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.success.random} Playlist cleared`
       );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default clear_cmd;

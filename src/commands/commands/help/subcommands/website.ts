@@ -1,20 +1,20 @@
 import { hyperlink } from "@discordjs/builders";
 
-import CCommand from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/classes/command";
 
 import reactions from "../../../../assets/reactions";
 
-const website_cmd = new CCommand()
-  .setName("website")
-  .setDescription("Get my website link")
-  .setExecution(async ({ message }) => {
-    message.sendTextEmbed(
+const website_cmd = new Command({
+  name: "website",
+  description: "Get my website link",
+  execution: async ({ actions }) => {
+    actions.sendTextEmbed(
       `Click ${hyperlink(
         `here`,
         `https://valflrt.github.io/lejardinier-typescript/`
       )} `.concat(`to get to my website ${reactions.smile.random}`)
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default website_cmd;

@@ -1,31 +1,29 @@
-import CCommand from "../../../../features/commands/classes/command";
-
-import formatters from "../../../../builders/replyFormatters";
+import Command from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-const command_cmd = new CCommand()
-  .setName("command")
-  .addAlias("cmd")
-  .setDescription("Get help about one command")
-  .addParameter((p) => p.setName("command name").setRequired(true))
-  .setExecution(async ({ message, commandParameters }) => {
-    if (!commandParameters)
-      return message.sendTextEmbed(
+const command_cmd = new Command({
+  name: "command",
+  description: "Get help about one command",
+  aliases: ["cmd"],
+  parameters: [{ name: "command name", required: true }],
+  execution: async ({ actions, attributes }) => {
+    if (!attributes.parameters)
+      return actions.sendTextEmbed(
         `You need to specify the name of the command you're looking for...`
       );
 
-    let command = commandList.find(commandParameters.split(/\./g));
+    let command = commandList.find(attributes.parameters.split(/\./g));
 
-    if (!command) return message.sendTextEmbed(`Unknown command...`);
+    if (!command) return actions.sendTextEmbed(`Unknown command...`);
     else {
-      message.sendCustomEmbed((embed) =>
+      actions.sendCustomEmbed((embed) =>
         embed
-          .setDescription(new formatters.CommandPreview(command!).fullPreview)
-          .addFields(formatters.CommandPreview.createFields(command!.commands))
+          .setDescription(command_cmd.preview.getFullPreview())
+          .addFields(command_cmd.preview.embedFields)
       );
     }
-  })
-  .addHelpCommand();
+  },
+});
 
 export default command_cmd;

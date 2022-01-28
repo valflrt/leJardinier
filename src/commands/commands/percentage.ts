@@ -1,14 +1,14 @@
 import { bold, inlineCode, quote } from "@discordjs/builders";
 
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 import * as utils from "../../utils";
 
-const percentage_cmd = new CCommand()
-  .setName("percentage")
-  .setDescription("Gives a random percentage")
-  .addParameter((p) => p.setName("sentence").setRequired(false))
-  .setExecution(async ({ message, commandParameters }) => {
-    message.sendTextEmbed(
+const percentage_cmd = new Command({
+  name: "percentage",
+  description: "Gives a random percentage",
+  parameters: [{ name: "sentence", required: false }],
+  execution: async ({ actions, attributes }) => {
+    actions.sendTextEmbed(
       `My answer is ${bold(
         inlineCode(
           `${
@@ -19,12 +19,12 @@ const percentage_cmd = new CCommand()
           }%`
         )
       )}`.concat(
-        commandParameters.length !== 0
-          ? ` to\n${quote(commandParameters)}\n`
+        attributes.parameters.length !== 0
+          ? ` to\n${quote(attributes.parameters)}\n`
           : ""
       )
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default percentage_cmd;

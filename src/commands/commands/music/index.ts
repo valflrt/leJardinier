@@ -1,6 +1,4 @@
-import CCommand from "../../../features/commands/classes/command";
-
-import formatters from "../../../builders/replyFormatters";
+import Command from "../../../features/commands/classes/command";
 
 import reactions from "../../../assets/reactions";
 
@@ -12,26 +10,21 @@ import stop_cmd from "./subcommands/stop";
 import playlist_cmd from "./subcommands/playlist";
 import remove_cmd from "./subcommands/remove";
 
-const music_cmd = new CCommand()
-  .setName("music")
-  .setDescription("Music command")
-  .setExecution(async ({ message }) => {
-    message.sendCustomEmbed((embed) =>
+const music_cmd = new Command({
+  name: "music",
+  description: "Music command",
+  execution: async ({ actions }) => {
+    actions.sendCustomEmbed((embed) =>
       embed
         .setDescription(
           `You can play some good tunes with this command ${reactions.smile.random}\n`.concat(
             `Here are the available commands:`
           )
         )
-        .setFields(formatters.CommandPreview.createFields(music_cmd.commands))
+        .setFields(music_cmd.preview.embedFields)
     );
-  })
-
-  .addSubcommand(() => play_cmd)
-  .addSubcommand(() => add_cmd)
-  .addSubcommand(() => skip_cmd)
-  .addSubcommand(() => stop_cmd)
-  .addSubcommand(() => playlist_cmd)
-  .addSubcommand(() => remove_cmd);
+  },
+  commands: [play_cmd, add_cmd, skip_cmd, stop_cmd, playlist_cmd, remove_cmd],
+});
 
 export default music_cmd;

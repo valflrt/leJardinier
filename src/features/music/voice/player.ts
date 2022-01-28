@@ -55,7 +55,7 @@ export default class TrackPlayer {
 
   public setup(musicController: MusicController) {
     let { context, currentTrackMessage } = musicController;
-    let { message } = context;
+    let { actions } = context;
 
     this.audioPlayer.on(voice.AudioPlayerStatus.Playing, (os, ns) => {
       this.state = ns.status;
@@ -77,7 +77,7 @@ export default class TrackPlayer {
     });
 
     this.audioPlayer.on("error", async (err) => {
-      message.sendTextEmbed(
+      actions.sendTextEmbed(
         `${reactions.error.random} An unknown error occurred (connection might have crashed).\n`.concat(
           `Playing next track...`
         )

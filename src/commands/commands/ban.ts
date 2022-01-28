@@ -1,8 +1,8 @@
 import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import reactions from "../../assets/reactions";
-import CCommand from "../../features/commands/classes/command";
+import Command from "../../features/commands/classes/command";
 
-const ban_cmd = new CCommand()
+const ban_cmd = new Command()
   .setName("ban")
   .setDescription("Bans one member.")
   .addParameter((p) => p.setName("member mention").setRequired(true))

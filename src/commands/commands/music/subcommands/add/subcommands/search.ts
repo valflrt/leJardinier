@@ -1,4 +1,4 @@
-import CCommand from "../../../../../../features/commands/classes/command";
+import Command from "../../../../../../features/commands/classes/command";
 
 import PreTrack from "../../../../../../features/music/classes/track";
 
@@ -6,21 +6,21 @@ import youtubeAPI from "../../../../../../features/apis/youtube";
 
 import reactions from "../../../../../../assets/reactions";
 
-const search_cmd = new CCommand()
-  .setName("search")
-  .setDescription("Add a song to the playlist from youtube search")
-  .addParameter((p) => p.setName("youtube search").setRequired(true))
-  .setExecution(async (context) => {
-    let { message, commandParameters } = context;
+const search_cmd = new Command({
+  name: "search",
+  description: "Add a song to the playlist from youtube search",
+  parameters: [{ name: "youtube search", required: true }],
+  execution: async (context) => {
+    let { actions, message, attributes } = context;
 
-    if (commandParameters.length === 0)
-      return message.sendTextEmbed(
+    if (attributes.parameters.length === 0)
+      return actions.sendTextEmbed(
         `${reactions.error.random} You need to specify text to search for ! `
       );
 
-    let sent = await message.sendTextEmbed(`Looking for your song...`);
+    let sent = await actions.sendTextEmbed(`Looking for your actions, song...`);
 
-    let videoSearchData = await youtubeAPI.searchVideo(commandParameters);
+    let videoSearchData = await youtubeAPI.searchVideo(attributes.parameters);
 
     if (!videoSearchData?.id?.videoId)
       return sent.editWithTextEmbed(
@@ -48,7 +48,7 @@ const search_cmd = new CCommand()
           `${reactions.success.random} Added ${track.generateTrackURL()}`
         )
     );
-  })
-  .addHelpCommand();
+  },
+});
 
 export default search_cmd;
