@@ -2,19 +2,19 @@ import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import reactions from "../../assets/reactions";
 import Command from "../../features/commands/classes/command";
 
-const ban_cmd = new Command()
-  .setName("ban")
-  .setDescription("Bans one member.")
-  .addParameter((p) => p.setName("member mention").setRequired(true))
-  .setExecution(async ({ message }) => {
+const ban_cmd = new Command({
+  name: "ban",
+  description: "Bans one member.",
+  parameters: [{ name: "member mention", required: true }],
+  execution: async ({ actions, message }) => {
     let guildMember = await message.guild?.members.fetch(message.author.id);
     if (!guildMember?.permissions.has(Permissions.FLAGS.BAN_MEMBERS))
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `${reactions.error.random} You do not have the permission to ban members`
       );
     let memberToBan = message.mentions.members?.first();
     if (!memberToBan)
-      return message.sendTextEmbed(
+      return actions.sendTextEmbed(
         `You need to mention the member you want to ban`
       );
 
@@ -29,14 +29,14 @@ const ban_cmd = new Command()
         .setCustomId("cancel")
     );
 
-    let sent = await message.sendTextEmbed(
+    let sent = await actions.sendTextEmbed(
       `Are you really sure you want to ban ${memberToBan.toString()}`,
       {
         components: [row],
       }
     );
 
-    let interaction = await sent.awaitMessageComponent({
+    let interaction = await sent.message.awaitMessageComponent({
       componentType: "BUTTON",
       time: 3e5,
     });
@@ -48,7 +48,7 @@ const ban_cmd = new Command()
         .then(() =>
           interaction.update({
             embeds: [
-              message.returnTextEmbed(
+              actions.returnTextEmbed(
                 `Banned successfully ${memberToBan!.toString()}`
               ),
             ],
@@ -58,7 +58,7 @@ const ban_cmd = new Command()
         .catch(() =>
           interaction.update({
             embeds: [
-              message.returnTextEmbed(
+              actions.returnTextEmbed(
                 `Failed to kick ${memberToBan!.toString()}`
               ),
             ],
@@ -67,15 +67,15 @@ const ban_cmd = new Command()
         );
     } else if (interaction.customId === "cancel")
       interaction.update({
-        embeds: [message.returnTextEmbed("Aborted")],
+        embeds: [actions.returnTextEmbed("Aborted")],
         components: [row],
       });
     else
       interaction.update({
-        embeds: [message.returnTextEmbed("Kick has timeout")],
+        embeds: [actions.returnTextEmbed("Kick has timeout")],
         components: [row],
       });
-  })
-  .addHelpCommand();
+  },
+});
 
 export default ban_cmd;
