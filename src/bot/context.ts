@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 import { codeBlock } from "@discordjs/builders";
 
-import CCommand from "../features/commands/classes/command";
+import Command from "../features/commands/classes/command";
 import CMessageParser from "../features/commands/classes/messageParser";
 
 import log from "./log";
@@ -10,21 +10,21 @@ import commandList from "../commands";
 import config from "../config";
 import reactions from "../assets/reactions";
 import lejardinier from "..";
-import TunedMessageBuilder, { ITunedMessage } from "../builders/tunedMessage";
+import MessageActions from "./actions";
 
 class Context {
-  public message: ITunedMessage;
+  public message: Message;
+  public actions: MessageActions;
 
-  public command: CCommand | null;
-  public commandParameters: string;
+  public attributes: CMessageParser;
+
+  public command: Command | null;
 
   constructor(message: Message) {
-    this.message = new TunedMessageBuilder(message, this).build();
-
-    let messageContent = new CMessageParser(this.message.content);
-
-    this.command = commandList.find(messageContent.commandPattern);
-    this.commandParameters = messageContent.parameters;
+    this.message = message;
+    this.attributes = new CMessageParser(this.message.content);
+    this.command = commandList.find(this.attributes.commandPattern);
+    this.actions = new MessageActions(this, message);
   }
 
   /**
@@ -70,7 +70,7 @@ class Context {
       log.command.executionSuccess(this.command!);
     } catch (e) {
       log.command.executionFailure(this.command!, e);
-      this.message.sendCustomEmbed((embed) =>
+      this.actions.sendCustomEmbed((embed) =>
         embed
           .setDescription(
             `${reactions.error.random} An error occurred while executing this command:\n`.concat(
