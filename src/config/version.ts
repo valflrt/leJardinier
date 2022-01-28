@@ -1,3 +1,3 @@
-const version: `v${string}` = "v3.4.3";
+const version: `v${string}` = "v3.6.0";
 
 export default version;
