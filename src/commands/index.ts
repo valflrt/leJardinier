@@ -10,7 +10,6 @@ import choose_cmd from "./commands/choose";
 import reverse_cmd from "./commands/reverse";
 import morse_cmd from "./commands/morse";
 import music_cmd from "./commands/music";
-import weather_cmd from "./commands/weather";
 import profilePicture_cmd from "./commands/pp";
 import rank_cmd from "./commands/rank";
 import autorole_cmd from "./commands/autorole";
@@ -28,7 +27,6 @@ let commandList = new CommandList()
   .addCommand(reverse_cmd, "Fun")
   .addCommand(morse_cmd, "Fun")
   .addCommand(music_cmd, "Special")
-  .addCommand(weather_cmd, "Special")
   .addCommand(profilePicture_cmd, "User Information")
   .addCommand(rank_cmd, "User Information")
   .addCommand(autorole_cmd, "Moderation");
