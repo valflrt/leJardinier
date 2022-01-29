@@ -1,6 +1,6 @@
 :root {
-  --color-252428: #242429;
-  --color-131216: hsl(255, 10%, 8%);
+  --color-242429: #242429;
+  --color-131216: #131216;
 
   --text: hsl(249, 10%, 95%);
 }
@@ -21,7 +21,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
 
-  background-color: var(--color-252428);
+  background-color: var(--color-242429);
   color: var(--text);
 }
 
@@ -46,6 +46,8 @@ body {
 
   border-radius: 8px;
 
+  box-shadow: 0 5px 10px hsla(255, 10%, 8%, 0.5);
+
   display: flex;
   flex-direction: column;
 }
@@ -69,7 +71,8 @@ body {
 }
 
 .main > .card > .profile > .username {
-  font-size: 24px;
+  font-size: 28px;
+  font-family: "Noto Sans";
 }
 
 .main > .card > .details {
