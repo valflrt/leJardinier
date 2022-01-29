@@ -17,9 +17,9 @@ class Factorize {
    * Functions to round numbers depending on their size (thousands, millions, billions)
    */
   private static rounders = {
-    billion: (number: number) => Math.round(number * 10 ** -8) * 10 ** -1,
-    million: (number: number) => Math.round(number * 10 ** -5) * 10 ** -1,
-    thousand: (number: number) => Math.round(number * 10 ** -2) * 10 ** -1,
+    billion: (number: number) => (number * 10 ** -9).toFixed(1),
+    million: (number: number) => (number * 10 ** -6).toFixed(1),
+    thousand: (number: number) => (number * 10 ** -3).toFixed(1),
   };
 
   /**
@@ -27,27 +27,14 @@ class Factorize {
    * @param string string to parse
    */
   public static fromString(string: string): string {
-    let number = Number.parseFloat(string);
-
-    if (this.regexps.billion.test(string)) {
-      return this.rounders
-        .billion(number)
-        .toString()
-        .replace(this.regexps.overflowFix, "")
-        .concat("B");
-    } else if (this.regexps.million.test(string)) {
-      return this.rounders
-        .million(number)
-        .toString()
-        .replace(this.regexps.overflowFix, "")
-        .concat("M");
-    } else if (this.regexps.thousand.test(string)) {
-      return this.rounders
-        .thousand(number)
-        .toString()
-        .replace(this.regexps.overflowFix, "")
-        .concat("K");
-    } else return string;
+    let number = Number.parseFloat(string.trim().toLowerCase());
+    if (number >= 1e9) {
+      return this.rounders.billion(number).toString().concat("B");
+    } else if (number >= 1e6) {
+      return this.rounders.million(number).toString().concat("M");
+    } else if (number >= 1e3) {
+      return this.rounders.thousand(number).toString().concat("K");
+    } else return number.toString();
   }
 
   /**
@@ -55,27 +42,13 @@ class Factorize {
    * @param number number to parse
    */
   public static fromNumber(number: number): string {
-    let string = number.toString();
-
-    if (this.regexps.billion.test(string)) {
-      return this.rounders
-        .billion(number)
-        .toString()
-        .replace(this.regexps.overflowFix, "")
-        .concat("B");
-    } else if (this.regexps.million.test(string)) {
-      return this.rounders
-        .million(number)
-        .toString()
-        .replace(this.regexps.overflowFix, "")
-        .concat("M");
-    } else if (this.regexps.thousand.test(string)) {
-      return this.rounders
-        .thousand(number)
-        .toString()
-        .replace(this.regexps.overflowFix, "")
-        .concat("K");
-    } else return string;
+    if (number >= 1e9) {
+      return this.rounders.billion(number).toString().concat("B");
+    } else if (number >= 1e6) {
+      return this.rounders.million(number).toString().concat("M");
+    } else if (number >= 1e3) {
+      return this.rounders.thousand(number).toString().concat("K");
+    } else return number.toString();
   }
 }
 
