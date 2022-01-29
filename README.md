@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="#readme">
+  <a href="#">
     <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto">
   </a>
 
