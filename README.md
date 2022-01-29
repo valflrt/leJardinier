@@ -1,14 +1,14 @@
-<p align="center">
-  <a href="#readme">
-    <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto">
-  </a>
+<center>
 
-  <p align="center">
-    <a href="https://github.com/valflrt/lejardinier/actions/workflows/push.yml"><img alt="build status" src="https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build" /></a>
-    <a href="https://github.com/valflrt/lejardinier/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/valflrt/lejardinier" /></a>
-    <a href="https://discord.gg/8PA9M2rqgd" target="_blank"><img alt="discord" src="https://img.shields.io/discord/774689668309450833?color=rgb%2888%2C%20101%2C%20242%29&label=discord&logo=discord&logoColor=%23fff" /></a>
-  </p>
-</p>
+<img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto">
+
+<p></p>
+
+<a href="https://github.com/valflrt/lejardinier/actions/workflows/push.yml"><img alt="build status" src="https://img.shields.io/github/workflow/status/valflrt/lejardinier/Build" /></a>
+<a href="https://github.com/valflrt/lejardinier/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/valflrt/lejardinier" /></a>
+<a href="https://discord.gg/8PA9M2rqgd" target="_blank"><img alt="discord" src="https://img.shields.io/discord/774689668309450833?color=rgb%2888%2C%20101%2C%20242%29&label=discord&logo=discord&logoColor=%23fff" /></a>
+
+</center>
 
 # Le Jardinier
 
