@@ -109,7 +109,7 @@ export class Playlist extends PrePlaylist implements IPlaylist {
   }
 
   /**
-   * returns formatted playlist url for discord
+   * Returns formatted playlist url for discord
    */
   public generatePlaylistURL(): string {
     return bold(hyperlink(this.title, this.playlistURL));

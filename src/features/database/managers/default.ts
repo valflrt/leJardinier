@@ -19,7 +19,7 @@ import {
 import { mix } from "../../../utils";
 
 /**
- * creates a database manager class with a default schema
+ * Creates a database manager class with a default schema
  */
 export default class DefaultManager<Schema> {
   private collection: Collection;
@@ -31,9 +31,9 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * finds one entry
-   * @param filter filter to find the entries
-   * @param options search options
+   * Finds one entry
+   * @param filter filter to find the entry
+   * @param options optional – search options
    */
   public async findOne(
     filter: Partial<Schema>,
@@ -43,6 +43,12 @@ export default class DefaultManager<Schema> {
     return doc ? (doc as unknown as Schema) : null;
   }
 
+  /**
+   * Finds one entry, if not found creates one
+   * @param filter filter to find the entry
+   * @param doc object to create if nothing is found
+   * @param options optional – search options
+   */
   public async findOrCreateOne(
     filter: Partial<Schema>,
     doc: Schema,
@@ -57,9 +63,9 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * finds multiples entries
+   * Finds multiples entries
    * @param filter filter to find the entries
-   * @param options search options
+   * @param options optional – search options
    */
   public async findMany(
     filter: Partial<Schema>,
@@ -70,9 +76,9 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * creates one entry
+   * Creates one entry
    * @param doc entry to create
-   * @param options creation options
+   * @param options optional – creation options
    */
   public createOne(
     doc: Schema,
@@ -85,9 +91,9 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * creates multiple entries from an object array
+   * Creates multiple entries from an object array
    * @param docs array of entries to create
-   * @param options creation options
+   * @param options optional – creation options
    */
   public createMany(
     docs: Schema[],
@@ -100,9 +106,9 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * finds and deletes one entry
+   * Finds and deletes one entry
    * @param filter filter to find the target entry
-   * @param options delete options
+   * @param options optional – delete options
    */
   public deleteOne(
     filter: Partial<Schema>,
@@ -115,7 +121,7 @@ export default class DefaultManager<Schema> {
    * Finds and replace one entry
    * @param filter filter to find the target entry
    * @param replacement replacement to apply to the target entry
-   * @param options replace options
+   * @param options optional – replace options
    */
   public replaceOne(
     filter: Partial<Schema>,
@@ -130,10 +136,10 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * updates an entry
+   * Updates an entry
    * @param filter filter to find the target entry
    * @param update update to apply to the target entry
-   * @param options update options
+   * @param options optional – update options
    */
   public updateOne(
     filter: Partial<Schema>,
@@ -148,11 +154,11 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * updates an entry and if not found creates one
+   * Updates an entry and if not found creates one
    * @param filter filter to find target entry
    * @param update update to apply to the target entry
    * @param doc if not found, object to create the new entry with
-   * @param options update options
+   * @param options optional – update options
    */
   public async updateOrCreateOne(
     filter: Partial<Schema>,
@@ -172,7 +178,7 @@ export default class DefaultManager<Schema> {
   }
 
   /**
-   * wether if the current manager is associated or not
+   * Returns a boolean wether the current manager is associated or not
    */
   public get associated(): boolean {
     return !!this.collection;

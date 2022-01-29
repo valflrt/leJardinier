@@ -11,7 +11,7 @@ import config from "../config";
 
 const listeners = {
   /**
-   * listener for event "ready"
+   * Listener for event "ready"
    */
   onReady: async (bot: Client) => {
     try {
@@ -30,7 +30,7 @@ const listeners = {
   },
 
   /**
-   * listener for event "messageCreate"
+   * Listener for event "messageCreate"
    * @param message message object
    */
   onMessageCreate: async (message: Message) => {

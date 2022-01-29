@@ -5,7 +5,7 @@ import { Track } from "../classes/track";
 import log from "../../../bot/log";
 
 /**
- * returns the first track in the database
+ * Returns the first track in the database
  */
 export const getFirstTrack = async (guildId: string): Promise<Track | null> => {
   let guild = await database.guilds.findOne({

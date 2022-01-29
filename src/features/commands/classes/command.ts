@@ -58,7 +58,7 @@ export default class Command implements ICommandSetup {
   // specific methods
 
   /**
-   * returns true if a command equals an other using identifier (including aliases)
+   * Returns true if a command equals an other using identifier (including aliases)
    * @param identifier other command identifier
    */
   public equals(identifier: string): boolean {
@@ -69,7 +69,7 @@ export default class Command implements ICommandSetup {
   }
 
   /**
-   * adds an help subcommand
+   * Adds an help subcommand
    */
   private addHelpCommand() {
     this.commands.push(
@@ -193,14 +193,14 @@ export default class Command implements ICommandSetup {
   // specific getters
 
   /**
-   * returns the number of subcommands of the current command
+   * Returns the number of subcommands of the current command
    */
   public get commandCount(): number {
     return this.commands.filter((c) => !c.settings.hidden).length;
   }
 
   /**
-   * returns a formatted syntax for current command
+   * Returns a formatted syntax for current command
    */
   public get syntax(): string {
     return `${config.prefix}${this.namespace}${
@@ -211,7 +211,7 @@ export default class Command implements ICommandSetup {
   }
 
   /**
-   * returns an namespace in the form:
+   * Returns an namespace in the form:
    * [parent commands namespace separated by dots][current command identifier]
    * @example help.command.name
    */

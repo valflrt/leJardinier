@@ -5,6 +5,7 @@ const config = {
   secrets: {
     token: process.env.TOKEN ?? "",
     youtubeApiKey: process.env.YOUTUBE_API_KEY ?? "",
+    openWeatherApiKey: process.env.OPENWEATHER_API_KEY ?? "",
     databaseURI: process.env.DATABASE_URI ?? "",
   },
 };

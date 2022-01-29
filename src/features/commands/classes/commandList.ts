@@ -5,13 +5,14 @@ export default class CommandList {
   private _categories: Map<string, Command[]> = new Map();
 
   /**
-   * adds a subcommand
-   * @param config function taking a new CCommand as only argument, used to configure
-   * a CCommand
-   * note: you can do the same as explained in CCommand#addParameter
-   * @param categoryName name of the category of the command
+   * Adds a subcommand
+   * @param command command to add
+   * @param categoryName optional – name of the category of the command if not specified set to "Uncategorized"
    */
-  public addCommand(command: Command, categoryName?: string): CommandList {
+  public addCommand(
+    command: Command,
+    categoryName: string = "Uncategorized"
+  ): CommandList {
     this._commands.push(command);
     if (categoryName) {
       !this.categories.has(categoryName) &&
@@ -22,8 +23,8 @@ export default class CommandList {
   }
 
   /**
-   * finds and returns a command in the list using a command pattern generated
-   * by class CMessageParser. if the command isn't found, returns null
+   * Finds and returns a command in the list using a "command pattern"
+   * If the command isn't found, returns null
    * @param pattern command call pattern
    */
   public find(pattern: string[]): Command | null {
@@ -39,7 +40,7 @@ export default class CommandList {
   }
 
   /**
-   * finds and returns a command using an namespace
+   * Finds and returns a command using an namespace
    * @param namespace string that contains the "path" to the command
    */
   public get(namespace: string): Command | null {

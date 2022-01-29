@@ -28,21 +28,21 @@ class Context {
   }
 
   /**
-   * returns a true or false whether a command has been found or not
+   * Returns a true or false whether a command has been found or not
    */
   get hasCommand(): boolean {
     return this.command ? true : false;
   }
 
   /**
-   * returns a boolean whether the message content starts with the prefix or not
+   * Returns a boolean whether the message content starts with the prefix or not
    */
   get hasPrefix(): boolean {
     return this.message.content.startsWith(config.prefix);
   }
 
   /**
-   * returns a new preformatted MessageEmbed
+   * Returns a new preformatted MessageEmbed
    */
   get embed(): MessageEmbed {
     return new MessageEmbed()
@@ -57,7 +57,7 @@ class Context {
   }
 
   /**
-   * executes the current command and returns a Promise
+   * Executes the current command and returns a Promise
    */
   public async execute(): Promise<void> {
     if (!this.command) return log.logger.error(`Command does not exist`);

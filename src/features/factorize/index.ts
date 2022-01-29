@@ -1,5 +1,5 @@
 /**
- * turns large numbers into small numbers with suffixes
+ * Turns large numbers into small numbers with suffixes
  * e.g.: 1000 > 1K, 44564 > 464.6K, ...
  */
 class Factorize {
@@ -14,7 +14,7 @@ class Factorize {
   };
 
   /**
-   * functions to round numbers depending on their size (thousands, millions, billions)
+   * Functions to round numbers depending on their size (thousands, millions, billions)
    */
   private static rounders = {
     billion: (number: number) => Math.round(number * 10 ** -8) * 10 ** -1,

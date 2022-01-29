@@ -12,8 +12,7 @@ class BaseLogger {
   protected errorColor: string = "#ee7474";
 
   /**
-   * general logging functions
-   * all these functions have the same structure
+   * General logging functions, all these functions have the same structure
    * @param str string to log (joined with one space)
    */
   public write = (item: any) => console.log(item);
@@ -22,25 +21,25 @@ class BaseLogger {
   public success = (str: string) => this.output(str, this.successColor);
 
   /**
-   * clears the console
+   * Clears the console
    */
   public clear = () => console.clear();
 
   /**
-   * adds line breaks (specified number)
+   * Adds line breaks (specified number)
    * @param number number of line breaks
    */
   public newLine = (number: number = 1) => this.write(`\n`.repeat(number - 1));
 
   /**
-   * logs time
+   * Logs time
    */
   public time = () => this.write(new Date().toLocaleTimeString());
 
   /**
    *
    * @param str string to log
-   * @param color color of the "color block" at the str beginning
+   * @param color optional – color of the "color block" at the str beginning
    */
   protected output = (str: string, color: string = this.mainColor) =>
     console.log(
@@ -52,7 +51,7 @@ class BaseLogger {
 
 class Logger extends BaseLogger {
   /**
-   * logs startup sequence
+   * Logs startup sequence
    */
   public startupSequence() {
     this.clear();
@@ -66,7 +65,7 @@ class Logger extends BaseLogger {
   }
 
   /**
-   * logs connection success message
+   * Logs connection success message
    * @param tag bot's tag (username#0000)
    * @param id bot's id (discord snowflake)
    */
@@ -83,7 +82,7 @@ class MessageLogger extends Logger {
   private lastUser: string | null = null;
 
   /**
-   * logs messages (username#0000: [message content])
+   * Logs messages (username#0000: [message content])
    * and shows embed and attachments
    * also avoid logging username too much times:
    * if the same user sent several messages it doesn't logging their username
@@ -117,14 +116,14 @@ class CommandLogger extends Logger {
   private timestamp: number = 0;
 
   /**
-   * sets timestamp to measure command execution time
+   * Sets timestamp to measure command execution time
    */
   public setTimestamp() {
     this.timestamp = Date.now();
   }
 
   /**
-   * logs successful command execution message
+   * Logs successful command execution message
    * @param command command object
    */
   public executionSuccess(command: Command) {
@@ -136,7 +135,7 @@ class CommandLogger extends Logger {
   }
 
   /**
-   * logs execution fail message
+   * Logs execution fail message
    * @param command command object
    * @param err error to log
    */
@@ -147,7 +146,7 @@ class CommandLogger extends Logger {
   }
 
   /**
-   * returns elapsed time
+   * Returns elapsed time
    */
   public get elapsedTime(): string {
     return `${(Date.now() - this.timestamp) / 1000}ms`;

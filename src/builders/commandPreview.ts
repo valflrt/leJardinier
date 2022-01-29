@@ -51,7 +51,7 @@ export default class CommandPreview {
 
   /**
    * Creates a formatted preview for the current command
-   * @param subcommandsIndicator if set to true, adds an header to indicate that there are subcommands. Default is true.
+   * @param subcommandsIndicator optional – if set to true, adds an header to indicate that there are subcommands. Default is true.
    */
   public getFullPreview(subcommandsIndicator: boolean = true): string {
     return `${bold(this.name)}\n`

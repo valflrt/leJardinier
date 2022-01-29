@@ -1,5 +1,6 @@
 import {
   Message,
+  MessageEditOptions,
   MessageEmbed,
   MessagePayload,
   ReplyMessageOptions,
@@ -17,7 +18,7 @@ export default class MessageActions {
   }
 
   /**
-   * sends a message in the current channel
+   * Sends a message in the current channel
    * @param options messages options
    */
   public send = async (
@@ -29,9 +30,9 @@ export default class MessageActions {
   };
 
   /**
-   * sends an already created MessageEmbed
-   * @param embed already created embed
-   * @param options message options
+   * Replies to a message with an embed
+   * @param embed embed to send
+   * @param options optional – message options
    */
   public sendEmbed = async (
     embed: MessageEmbed,
@@ -43,9 +44,9 @@ export default class MessageActions {
   };
 
   /**
-   * sends an embed
-   * @param content text to send
-   * @param options message options
+   * Replies to a message with a text embed
+   * @param content text to use in the embed
+   * @param options optional – message options
    */
   public sendTextEmbed = async (
     content: string,
@@ -55,7 +56,7 @@ export default class MessageActions {
   };
 
   /**
-   * returns a simple text embed
+   * Returns a text embed
    * @param content text to send as the description of the MessageEmbed
    */
   public returnTextEmbed = (content: string): MessageEmbed => {
@@ -63,9 +64,9 @@ export default class MessageActions {
   };
 
   /**
-   * creates a custom MessageEmbed using a callback and sends it
-   * @param setup the callback function
-   * @param options message options
+   * Replies to a message with a custom MessageEmbed
+   * @param setup callback to set up the custom embed
+   * @param options optional – message options
    */
   public sendCustomEmbed = async (
     setup: (embed: MessageEmbed) => MessageEmbed,
@@ -75,8 +76,8 @@ export default class MessageActions {
   };
 
   /**
-   * sets up a custom embed and returns it
-   * @param setup the callback function
+   * Returns a custom embed
+   * @param setup callback to set up the custom embed
    */
   public returnCustomEmbed = (
     setup: (embed: MessageEmbed) => MessageEmbed
@@ -84,6 +85,10 @@ export default class MessageActions {
     return setup(this.context.embed);
   };
 
+  /**
+   * Creates a new SentMessageActions object
+   * @param message message which to attach to
+   */
   protected attachSentMessageActions(message: Message) {
     return new SentMessageActions(this.context, message);
   }
@@ -97,25 +102,40 @@ export class SentMessageActions extends MessageActions {
     this.message = message;
   }
 
+  /**
+   * Edits a sent message with an embed
+   * @param embed embed to edit the message with
+   * @param options optional – message edit options
+   */
   public editWithEmbed = async (
     embed: MessageEmbed,
-    options: ReplyMessageOptions = {}
+    options: MessageEditOptions = {}
   ): Promise<SentMessageActions> => {
     if (!options.embeds) options.embeds = [];
     options.embeds.push(embed);
     return this.attachSentMessageActions(await this.message.edit(options));
   };
 
+  /**
+   * Edits a sent message with a text embed
+   * @param text Text to use in the embed
+   * @param options optional – message edit options
+   */
   public editWithTextEmbed(
     text: string,
-    options: ReplyMessageOptions = {}
+    options: MessageEditOptions = {}
   ): Promise<SentMessageActions> {
     return this.editWithEmbed(this.returnTextEmbed(text), options);
   }
 
+  /**
+   * Edits a sent message with a custom embed
+   * @param setup callback to set up the custom embed
+   * @param options optional – message edit options
+   */
   public editWithCustomEmbed(
     setup: (embed: MessageEmbed) => MessageEmbed,
-    options: ReplyMessageOptions = {}
+    options: MessageEditOptions = {}
   ): Promise<SentMessageActions> {
     return this.editWithEmbed(this.returnCustomEmbed(setup), options);
   }

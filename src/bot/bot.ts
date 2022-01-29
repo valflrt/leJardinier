@@ -15,7 +15,7 @@ export default class LeJardinier {
   }
 
   /**
-   * makes the client login and sets listeners when the bot is ready (= starts the bot)
+   * Makes the client login and sets listeners when the bot is ready (= starts the bot)
    */
   public async start() {
     await this.client.login(config.secrets.token!);
@@ -27,8 +27,8 @@ export default class LeJardinier {
   }
 
   /**
-   * sets bot listeners (once bot started: prevents too early event calls and
-   * resulting errors)
+   * Sets bot listeners (once bot started: prevents too early event calls and
+   * Resulting errors)
    */
   private setListeners() {
     this.client.on("messageCreate", listeners.onMessageCreate);
