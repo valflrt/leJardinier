@@ -1,4 +1,10 @@
-import { Client, GuildMember, Interaction, Message } from "discord.js";
+import {
+  ButtonInteraction,
+  Client,
+  GuildMember,
+  Interaction,
+  Message,
+} from "discord.js";
 
 import Context from "./context";
 
@@ -34,21 +40,14 @@ const listeners = {
    * @param message message object
    */
   onMessageCreate: async (message: Message) => {
-    // checks if something is wrong with the message
-    if (message.author.bot) return; // skip if the author is a bot
-    if (!message.author || !message.guild)
-      // logs an error if guild or author is undefined
-      return log.logger.error(
-        (!message.author ? "author is undefined" : "").concat(
-          !message.guild ? "guild is undefined" : ""
-        )
-      );
+    if (message.author.bot) return; // skips if the author is a bot
+    if (!message.author || !message.guild) return; // skips if guild or author are undefined
 
-    let context = new Context(message);
-
-    handlers.databaseUpdate(context);
+    handlers.databaseUpdate(message);
 
     if (!message.content.startsWith(config.prefix)) return;
+
+    let context = new Context(message);
     log.message.message(message, context); // logs every command
 
     if (context.hasCommand === true) {
@@ -59,7 +58,8 @@ const listeners = {
   },
 
   onInteractionCreate: (i: Interaction) => {
-    handlers.autoroleHandler(i);
+    if (i.isButton() && i.guildId && i.customId === "autorole")
+      handlers.autoroleHandler(i);
   },
 
   onMemberAdd: async (member: GuildMember) => {

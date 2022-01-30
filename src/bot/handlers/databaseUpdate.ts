@@ -1,15 +1,16 @@
+import { Message } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
-
-import Context from "../context";
 
 import database from "../../features/database";
 import { randomItem } from "../../utils";
 
 import reactions from "../../assets/reactions";
 
-const databaseUpdate = async (context: Context) => {
-  let { actions, message } = context;
-
+/**
+ * Handles database update
+ * @param context generated context for current message
+ */
+const databaseUpdate = async (message: Message) => {
   let guild = await database.guilds.findOne({ id: message.guildId! });
   if (!guild) await database.guilds.createOne({ id: message.guildId! });
 
@@ -49,7 +50,7 @@ const databaseUpdate = async (context: Context) => {
   );
 
   if (hasLevelUp) {
-    actions.send(
+    message.channel.send(
       `${randomItem(
         "Congratulations",
         "Well done",
