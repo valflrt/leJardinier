@@ -104,6 +104,11 @@ body {
   min-width: 50%;
 }
 
+.main > h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
 .main:first-child {
   margin-top: 0;
 }
