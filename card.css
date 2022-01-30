@@ -158,6 +158,19 @@ body {
   }
 }
 
+.main > .author {
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+
+  color: #6d6d6d;
+  font-size: 12px;
+
+  position: fixed;
+}
+
+/* specific */
+
 .button.discord {
   --main-color: #5865f2;
   --active-color: #3845d8;
@@ -217,4 +230,8 @@ body {
   transition-duration: 200ms;
   background-color: var(--active-color);
   border: 2px solid var(--main-color);
+}
+
+a {
+  color: inherit;
 }
