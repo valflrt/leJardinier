@@ -1,4 +1,4 @@
-name: Build
+name: build
 
 on: push
 
@@ -12,8 +12,6 @@ jobs:
           node-version: "16"
       - name: Installation
         run: npm install
-      - name: Copying fake config file
-        run: cp .env.example .env
       - name: Tests
         run: npm run test
       - name: Build
