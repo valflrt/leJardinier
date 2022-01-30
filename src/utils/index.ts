@@ -1,8 +1,3 @@
-import { EmbedFieldData } from "discord.js";
-import { blockQuote, bold, inlineCode, quote } from "@discordjs/builders";
-
-import Command from "../features/commands/classes/command";
-
 /**
  * Return one of the given items randomly
  * @param array item array
@@ -47,4 +42,21 @@ export const mix = <TargetType, PatchType>(
   patch: PatchType
 ): TargetType => {
   return Object.assign(target, patch) as TargetType;
+};
+
+export const loops = {
+  /**
+   * Similar to a for loop but using recursion
+   * @param callback function called at every iteration
+   * @param iterations number of iterations to do
+   */
+  for: <T>(callback: (i: number) => T, iterations: number = 0): T | void => {
+    let loop = (i: number = 0): T | void => {
+      let result = callback(i);
+      i++;
+      if (i === iterations) return result;
+      else return loop(i);
+    };
+    return loop();
+  },
 };
