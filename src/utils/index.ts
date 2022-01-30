@@ -40,8 +40,8 @@ export function memoryUsage() {
 export const mix = <TargetType, PatchType>(
   target: TargetType,
   patch: PatchType
-): TargetType => {
-  return Object.assign(target, patch) as TargetType;
+): TargetType & PatchType => {
+  return Object.assign(target, patch);
 };
 
 export const loops = {
