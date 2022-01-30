@@ -11,6 +11,7 @@ const remove_cmd = new Command({
   name: "remove",
   description:
     "Removes the specified autorole message (you need to reply to it)",
+  aliases: ["rm"],
   execution: async ({ actions, message }) => {
     let caller = await message.guild!.members.fetch(message.author.id);
     if (!caller?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
@@ -38,13 +39,20 @@ const remove_cmd = new Command({
         `The message you replied to isn't an autorole message !`
       );
 
-    guild.autorole = guild.autorole?.filter(
-      (v) => v.messageId === reference?.id
+    guild.autorole = guild.autorole.filter(
+      (v) => v.messageId !== reference?.id
     );
     await database.guilds.updateOne({ id: message.guildId! }, guild);
 
     if (reference.deletable) await reference.delete();
-    await message.delete();
+
+    let sent = await actions.sendTextEmbed(
+      `Autorole removed successfully !\n`.concat(
+        `This message will be deleted in 10 seconds`
+      )
+    );
+    setTimeout(() => sent.message.delete(), 1e4); // waits for 10 seconds before to delete the message
+    if (message.deletable) await message.delete();
   },
 });
 
