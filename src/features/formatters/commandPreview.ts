@@ -44,8 +44,10 @@ export default class CommandPreview {
     return this.command.commands
       .filter((c) => !c.settings.hidden)
       .map((command): EmbedFieldData => {
-        let preview = new CommandPreview(command);
-        return { name: preview.name, value: preview.description };
+        return {
+          name: command.preview.name,
+          value: command.preview.description,
+        };
       });
   }
 
