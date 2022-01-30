@@ -1,4 +1,4 @@
-import CommandPreview from "../../builders/commandPreview";
+import CommandPreview from "../../formatters/commandPreview";
 
 import TExecutionFunction from "../types/executionFunction";
 import ICommandSettings from "../types/commandSettings";

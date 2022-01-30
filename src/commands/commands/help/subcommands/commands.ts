@@ -5,7 +5,7 @@ import Command from "../../../../features/commands/classes/command";
 
 import commandList from "../../..";
 
-import CommandPreview from "../../../../features/builders/commandPreview";
+import CommandPreview from "../../../../features/formatters/commandPreview";
 
 const commands_cmd = new Command({
   name: "commands",
