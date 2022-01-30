@@ -11,8 +11,8 @@ import reactions from "../../assets/reactions";
  * @param context generated context for current message
  */
 const databaseUpdate = async (message: Message) => {
-  let guild = await database.guilds.findOne({ id: message.guildId! });
-  if (!guild) await database.guilds.createOne({ id: message.guildId! });
+  let doc = { id: message.guildId! };
+  await database.guilds.findOrCreateOne(doc, doc);
 
   let member = await database.members.findOrCreateOne(
     {

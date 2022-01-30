@@ -1,5 +1,5 @@
 import databaseUpdate from "./databaseUpdate";
-import autoroleHandler from "./autoroleHandler";
+import autoroleHandler from "./autorole";
 
 export default {
   databaseUpdate,
