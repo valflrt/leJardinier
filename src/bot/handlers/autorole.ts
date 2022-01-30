@@ -9,10 +9,16 @@ import reactions from "../../assets/reactions";
  */
 const autoroleHandler = async (i: ButtonInteraction) => {
   let guild = await database.guilds.findOne({ id: i.guildId! });
-  if (!guild?.autorole || i.message.id !== guild.autorole.messageId)
+  if (
+    !guild?.autorole ||
+    !guild.autorole.some((v) => v.messageId === i.message.id)
+  )
     return i.reply({ content: `Failed to issue role !`, ephemeral: true });
+
+  let autorole = guild.autorole.find((v) => v.messageId === i.message.id)!;
+
   (await i.guild!.members.fetch(i.user.id)).roles
-    .add(guild.autorole.roleId)
+    .add(autorole.roleId)
     .then(() =>
       i.reply({
         content: `Role issued ${reactions.smile.random}`,
