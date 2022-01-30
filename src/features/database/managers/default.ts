@@ -38,9 +38,9 @@ export default class DefaultManager<Schema> {
   public async findOne(
     filter: Partial<Schema>,
     options: FindOptions = {}
-  ): Promise<Schema | null> {
+  ): Promise<Required<Schema> | null> {
     let doc = await this.collection.findOne(filter, options);
-    return doc ? (doc as unknown as Schema) : null;
+    return doc ? (doc as unknown as Required<Schema>) : null;
   }
 
   /**
@@ -53,13 +53,13 @@ export default class DefaultManager<Schema> {
     filter: Partial<Schema>,
     doc: Schema,
     options: FindOptions = {}
-  ): Promise<Schema | null> {
+  ): Promise<Required<Schema> | null> {
     let result = await this.findOne(filter, options);
     if (!result) {
       await this.createOne(doc);
       result = await this.findOne(filter, options);
     }
-    return result ? (result as unknown as Schema) : null;
+    return result ? (result as unknown as Required<Schema>) : null;
   }
 
   /**
@@ -70,9 +70,9 @@ export default class DefaultManager<Schema> {
   public async findMany(
     filter: Partial<Schema>,
     options: FindOptions = {}
-  ): Promise<Schema[] | null> {
+  ): Promise<Required<Schema>[] | null> {
     let docs = await this.collection.find(filter, options).toArray();
-    return docs.length !== 0 ? (docs as unknown[] as Schema[]) : null;
+    return docs.length !== 0 ? (docs as unknown[] as Required<Schema>[]) : null;
   }
 
   /**
