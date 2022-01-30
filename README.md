@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <img src="https://github.com/valflrt/lejardinier/blob/pages/pp.png?raw=true" width="128px" height="auto">
+    <img src="https://github.com/valflrt/lejardinier/blob/pages/assets/pp-128.png?raw=true" width="128px" height="auto">
   </a>
 
   <p align="center">
