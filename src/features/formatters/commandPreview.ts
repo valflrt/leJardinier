@@ -54,7 +54,7 @@ export default class CommandPreview {
    * @param subcommandsIndicator optional – if set to true, adds an header to indicate that there are subcommands. Default is true.
    */
   public getFullPreview(subcommandsIndicator: boolean = true): string {
-    return `${bold(this.name)}\n`
+    return `${this.name}\n`
       .concat(this.description)
       .concat(
         subcommandsIndicator && this.command.commandCount !== 0
