@@ -8,7 +8,7 @@ import config from "../../config";
 export const connectDatabase = async (): Promise<void> => {
   const client = new MongoClient(config.secrets.databaseURI);
   await client.connect();
-  database.associate(client.db("lejardinier"));
+  database.associate(client.db(config.secrets.databaseName));
 };
 
 export class DatabaseManagers {
