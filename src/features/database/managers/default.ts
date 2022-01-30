@@ -54,10 +54,10 @@ export default class DefaultManager<Schema> {
     doc: Schema,
     options: FindOptions = {}
   ): Promise<Schema | null> {
-    let result = await this.collection.findOne(filter, options);
-    if (!doc) {
+    let result = await this.findOne(filter, options);
+    if (!result) {
       await this.createOne(doc);
-      result = await this.collection.findOne(filter, options);
+      result = await this.findOne(filter, options);
     }
     return result ? (result as unknown as Schema) : null;
   }
