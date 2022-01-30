@@ -1,10 +1,4 @@
-import {
-  ButtonInteraction,
-  Client,
-  GuildMember,
-  Interaction,
-  Message,
-} from "discord.js";
+import { Client, GuildMember, Interaction, Message } from "discord.js";
 
 import Context from "./context";
 
@@ -43,7 +37,7 @@ const listeners = {
     if (message.author.bot) return; // skips if the author is a bot
     if (!message.author || !message.guild) return; // skips if guild or author are undefined
 
-    handlers.databaseUpdate(message);
+    await handlers.databaseUpdate(message);
 
     if (!message.content.startsWith(config.prefix)) return;
 
