@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { codeBlock } from "@discordjs/builders";
 
 import Command from "../features/commands/classes/command";
-import CMessageParser from "../features/commands/classes/messageParser";
+import MessageParser from "../features/commands/classes/messageParser";
 
 import log from "./log";
 
@@ -16,13 +16,13 @@ class Context {
   public message: Message;
   public actions: MessageActions;
 
-  public attributes: CMessageParser;
+  public attributes: MessageParser;
 
   public command: Command | null;
 
   constructor(message: Message) {
     this.message = message;
-    this.attributes = new CMessageParser(this.message.content);
+    this.attributes = new MessageParser(this.message.content);
     this.command = commandList.find(this.attributes.commandPattern);
     this.actions = new MessageActions(this, message);
   }
