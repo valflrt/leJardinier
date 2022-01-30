@@ -2,6 +2,7 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 import MessageParser from "./messageParser";
+
 import config from "../../../config";
 
 describe(`MessageParser tests`, () => {
