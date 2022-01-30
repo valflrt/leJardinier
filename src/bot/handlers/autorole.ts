@@ -17,7 +17,15 @@ const autoroleHandler = async (i: ButtonInteraction) => {
 
   let autorole = guild.autorole.find((v) => v.messageId === i.message.id)!;
 
-  (await i.guild!.members.fetch(i.user.id)).roles
+  let roles = (await i.guild!.members.fetch(i.user.id)).roles;
+
+  if (roles.cache.has(autorole.roleId))
+    return i.reply({
+      content: `Role already issued`,
+      ephemeral: true,
+    });
+
+  roles
     .add(autorole.roleId)
     .then(() =>
       i.reply({
