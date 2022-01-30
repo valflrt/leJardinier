@@ -1,11 +1,11 @@
 import config from "../../../config";
 
 export default class MessageParser {
-  public readonly commandPattern: string[] = [];
+  public readonly detectedNamespace: string[] = [];
   public readonly parameters: string;
 
   constructor(messageText: string) {
-    this.commandPattern = messageText
+    this.detectedNamespace = messageText
       .replace(new RegExp(`(^${config.prefix})|( .*$)`, "g"), "")
       .trim()
       .split(/(?!^)\.(?!$)/g);

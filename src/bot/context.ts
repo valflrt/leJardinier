@@ -23,7 +23,7 @@ class Context {
   constructor(message: Message) {
     this.message = message;
     this.attributes = new MessageParser(this.message.content);
-    this.command = commandList.find(this.attributes.commandPattern);
+    this.command = commandList.find(this.attributes.detectedNamespace);
     this.actions = new MessageActions(this, message);
   }
 
