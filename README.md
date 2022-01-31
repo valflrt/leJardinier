@@ -25,7 +25,7 @@ Then, run `npm install` in the project directory to install the dependencies.
 
 ### Configuration
 
-Duplicate [`.env.example`](./.env.example) and renamed the duplicate to `.env` (it has to be in the root directory).
+Duplicate [`.env.example`](./.env.example) and rename the duplicate to `.env` (it has to be in the root directory).
 
 In this file you will find this:
 
