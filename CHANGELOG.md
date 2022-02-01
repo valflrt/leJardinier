@@ -1,5 +1,9 @@
 # Changelog
 
+## [`[Unreleased]`](#) - dd/mm/yyyy
+
+- Edited script `lint` in package.json
+
 ## [`[v3.6.5]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.5) - 28/01/2022
 
 ### Changed
