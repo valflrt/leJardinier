@@ -6,7 +6,7 @@
     "prod": "node --max-old-space-size=8192 dist/index.js",
     "build": "npx tsc",
     "test": "npx mocha --config .mocharc.json",
-    "lint": "npx prettier src/ --write --config .prettierrc"
+    "lint": "npx prettier . --write --config .prettierrc"
   },
   "repository": {
     "type": "git",
