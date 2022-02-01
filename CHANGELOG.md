@@ -113,4 +113,4 @@
 - Added command choose: chooses an item from the given ones
 - Added command time: gives time with a discord timestamp
 
-_oldest versions not registered here because i wasn't keeping the track of them (i wasn't aware of rules about semantic versioning)_
+_oldest versions not registered here because i wasn't keeping the track of them (i wasn't aware of rules about semantic versioning and i am still learning so don't mind please)_
