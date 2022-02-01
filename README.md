@@ -16,6 +16,8 @@
 
 Le Jardinier is a simple discord bot made with typescript and using discord.js.
 
+[**See changelog**](./CHANGELOG.md)
+
 ## Using the bot
 
 ### Installation
