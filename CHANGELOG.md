@@ -28,7 +28,7 @@
 ### Changed
 
 - Totally reworked bot message handling structure
-- Improved command rank
+- Improved command `rank`
 - Changed commands' structure , split large commands into folders with index.ts and subcommands in a subfolder
 - Command stats has been renamed to rank
 - Config is now loaded from .env (or from preset env variables) instead of a local ts file
