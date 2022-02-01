@@ -2,7 +2,14 @@
 
 ## [`[Unreleased]`](#) - dd/mm/yyyy
 
+### Added
+
+- Added class ListenerCollection
+
+### Changed
+
 - Edited script `lint` in package.json
+- Changed the way of setting client events
 
 ## [`[v3.6.5]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.5) - 28/01/2022
 

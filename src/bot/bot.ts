@@ -1,7 +1,11 @@
 import { Client, ClientOptions } from "discord.js";
 
-import config from "../config";
 import listeners from "./listeners";
+import { connectDatabase } from "../features/database";
+
+import log from "./log";
+
+import config from "../config";
 
 export default class LeJardinier {
   public client: Client;
@@ -22,17 +26,26 @@ export default class LeJardinier {
     this.client = await new Promise<Client>((resolve) =>
       this.client.once("ready", resolve)
     );
-    await listeners.onReady(this.client);
-    this.setListeners();
+    listeners.apply(this.client);
+    this.ready();
   }
 
   /**
-   * Sets bot listeners (once bot started: prevents too early event calls and
-   * Resulting errors)
+   * Things to do when the bot is ready
    */
-  private setListeners() {
-    this.client.on("messageCreate", listeners.onMessageCreate);
-    this.client.on("interactionCreate", listeners.onInteractionCreate);
-    this.client.on("guildMemberAdd", listeners.onMemberAdd);
+  public async ready() {
+    try {
+      await connectDatabase();
+      log.database.connectionSuccess();
+    } catch (e) {
+      log.database.connectionFailure(e);
+    }
+
+    this.client.user!.setActivity({
+      name: `${config.prefix}help`,
+      type: "WATCHING",
+    });
+
+    log.logger.connectionSuccess(this.client.user!.tag, this.client.user!.id);
   }
 }
