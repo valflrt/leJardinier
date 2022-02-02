@@ -1,7 +1,8 @@
 import { Client, ClientOptions } from "discord.js";
 
+import listeners, { ready } from "./listeners";
+
 import config from "../config";
-import listeners from "./listeners";
 
 export default class LeJardinier {
   public client: Client;
@@ -19,20 +20,12 @@ export default class LeJardinier {
    */
   public async start() {
     await this.client.login(config.secrets.token!);
-    this.client = await new Promise<Client>((resolve) =>
-      this.client.once("ready", resolve)
+    this.client = await new Promise<Client<true>>((resolve) =>
+      this.client.once("ready", async (client) => {
+        await ready(client); // stuff to do when the bot is ready
+        resolve(client);
+      })
     );
-    await listeners.onReady(this.client);
-    this.setListeners();
-  }
-
-  /**
-   * Sets bot listeners (once bot started: prevents too early event calls and
-   * Resulting errors)
-   */
-  private setListeners() {
-    this.client.on("messageCreate", listeners.onMessageCreate);
-    this.client.on("interactionCreate", listeners.onInteractionCreate);
-    this.client.on("guildMemberAdd", listeners.onMemberAdd);
+    listeners.apply(this.client); // applies event listeners
   }
 }

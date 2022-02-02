@@ -2,7 +2,14 @@
 
 ## [`[Unreleased]`](#) - dd/mm/yyyy
 
+### Added
+
+- Added class ListenerCollection
+
+### Changed
+
 - Edited script `lint` in package.json
+- Changed the way of setting client event listeners
 
 ## [`[v3.6.5]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.5) - 28/01/2022
 
@@ -28,7 +35,7 @@
 ### Changed
 
 - Totally reworked bot message handling structure
-- Improved command rank
+- Improved command `rank`
 - Changed commands' structure , split large commands into folders with index.ts and subcommands in a subfolder
 - Command stats has been renamed to rank
 - Config is now loaded from .env (or from preset env variables) instead of a local ts file
