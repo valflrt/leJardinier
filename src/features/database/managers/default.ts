@@ -22,7 +22,7 @@ import { mix } from "../../../utils";
  * Creates a database manager class with a default schema
  */
 export default class DefaultManager<Schema> {
-  private collection: Collection;
+  public collection: Collection;
 
   protected schemaConstructor!: new () => Schema;
 
