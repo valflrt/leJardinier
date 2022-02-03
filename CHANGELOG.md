@@ -9,6 +9,7 @@
 
 ### Changed
 
+- Fixed command "music.skip" because it wasn't actually skipping the current track
 - Edit the panel of the command "rank"
 - Edited script `lint` in package.json
 - Changed the way of setting client event listeners
