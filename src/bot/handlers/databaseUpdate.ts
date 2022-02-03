@@ -32,6 +32,7 @@ const databaseUpdate = async (message: Message) => {
 
   newStats.messageCount = currentStats.messageCount! + 1;
   newStats.xp = currentStats.xp! + 1;
+  newStats.totalXp = currentStats.totalXp! + 1;
 
   let hasLevelUp = newStats.xp === Math.floor(5 ** 1.1 * currentStats.level!);
   if (hasLevelUp) {

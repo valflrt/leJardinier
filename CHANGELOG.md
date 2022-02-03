@@ -4,10 +4,12 @@
 
 ### Added
 
+- Added class UserStats
 - Added class ListenerCollection
 
 ### Changed
 
+- Edit the panel of the command "rank"
 - Edited script `lint` in package.json
 - Changed the way of setting client event listeners
 
