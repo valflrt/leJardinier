@@ -105,9 +105,36 @@ listeners.set("guildMemberAdd", async (member: GuildMember) => {
    */
 });
 
+listeners.set("messageDelete", async (message) => {
+  /**
+   * Skips if the message doesn't contains a MessageActionRow that contains a MessageButton
+   * with "autorole" as customId
+   */
+  if (
+    !message.components.find((v) =>
+      v.components.find((v) => v.customId === "autorole")
+    )
+  )
+    return;
+
+  let guildFromDB = await database.guilds.findOne({ id: message.guildId! });
+  if (!guildFromDB) return;
+
+  /**
+   * removes the autorole object in the database
+   */
+  guildFromDB.autorole = guildFromDB.autorole.filter(
+    (v) => v.channelId !== message.channelId && v.messageId !== message.id
+  );
+  await database.guilds.updateOne({ id: message.guildId! }, guildFromDB);
+});
+
 export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (
   client
 ) => {
+  /**
+   * Tries to connect to database
+   */
   try {
     await connectDatabase();
     log.database.connectionSuccess();
@@ -115,6 +142,9 @@ export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (
     log.database.connectionFailure(e);
   }
 
+  /**
+   * Sets bot activity
+   */
   client.user!.setActivity({
     name: `${config.prefix}help`,
     type: "WATCHING",
