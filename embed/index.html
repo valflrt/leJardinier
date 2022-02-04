@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./index.css" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- 
+      How to integrate ? Simply add this in your html code:
+      ```html
+      <embed
+        src="https://valflrt.github.io/lejardinier/embed"
+        type="text/html"
+        width="400px"
+        height="238px"
+      />
+      ```
+    -->
+    <div class="main loading">
+      <div class="card">
+        <div class="loader">
+          <span></span>
+        </div>
+        <div class="content">
+          <div class="profile">
+            <div class="pp">
+              <img src="../assets/pp-128.png" alt="le jardinier" />
+            </div>
+            <div class="username">Le Jardinier</div>
+          </div>
+          <div class="details">
+            <p>Hello ~ I am Le Jardinier, a simple utility discord bot !</p>
+          </div>
+          <div class="links">
+            <div class="button-container">
+              <a
+                href="https://discord.com/api/oauth2/authorize?client_id=917862148426838046&scope=bot&permissions=8"
+                class="discord button"
+                target="_blank"
+              >
+                Discord Invite
+              </a>
+            </div>
+            <div class="button-container">
+              <a
+                href="https://valflrt.github.io/lejardinier"
+                class="button"
+                target="_blank"
+              >
+                Website
+              </a>
+            </div>
+            <div class="button-container">
+              <a
+                href="https://github.com/valflrt/lejardinier"
+                class="button"
+                target="_blank"
+              >
+                Github
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      setTimeout(
+        () => document.querySelector(".main").classList.remove("loading"),
+        1e3 // 1000 ms
+      );
+    </script>
+  </body>
+</html>
