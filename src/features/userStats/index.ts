@@ -1,7 +1,7 @@
 import { User } from "discord.js";
 import { createCanvas, loadImage, registerFont } from "canvas";
 
-import Factorize from "../factorize";
+import Quantify from "../quantify";
 
 import StatsSchema from "../database/schemas/stats";
 import database from "../database";
@@ -120,7 +120,7 @@ export default class UserStats {
 
     ctx.font = "bold 24px OpenSans";
     ctx.fillText(
-      `${Factorize.fromNumber(XP)}/${Factorize.fromNumber(levelMaxXP)} xp`,
+      `${Quantify.parseNumber(XP)}/${Quantify.parseNumber(levelMaxXP)} xp`,
       barRight + 24,
       barMiddle
     );

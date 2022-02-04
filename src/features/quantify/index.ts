@@ -2,7 +2,7 @@
  * Turns large numbers into small numbers with suffixes
  * e.g.: 1000 > 1K, 44564 > 464.6K, ...
  */
-class Factorize {
+class Quantify {
   /**
    * Regexps to match: thousands, millions, billions
    */
@@ -26,7 +26,7 @@ class Factorize {
    * Parses a string
    * @param string string to parse
    */
-  public static fromString(string: string): string {
+  public static parseString(string: string): string {
     let number = Number.parseFloat(string.trim().toLowerCase());
     if (number >= 1e9) {
       return this.rounders.billion(number).toString().concat("B");
@@ -41,7 +41,7 @@ class Factorize {
    * Parses a number
    * @param number number to parse
    */
-  public static fromNumber(number: number): string {
+  public static parseNumber(number: number): string {
     if (number >= 1e9) {
       return this.rounders.billion(number).toString().concat("B");
     } else if (number >= 1e6) {
@@ -52,4 +52,4 @@ class Factorize {
   }
 }
 
-export default Factorize;
+export default Quantify;
