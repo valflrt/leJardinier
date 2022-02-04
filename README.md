@@ -20,7 +20,7 @@
 
 Le Jardinier is a simple discord bot made with typescript and using discord.js.
 
-## Using the bot
+## How to use
 
 ### Installation
 
