@@ -8,15 +8,17 @@
     <a href="https://github.com/valflrt/lejardinier/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/valflrt/lejardinier" /></a>
     <a href="https://discord.gg/8PA9M2rqgd" target="_blank"><img alt="discord" src="https://img.shields.io/discord/774689668309450833?color=rgb%2888%2C%20101%2C%20242%29&label=discord&logo=discord&logoColor=%23fff" /></a>
   </p>
-</p>
 
-</center>
+  <p align="center">
+    <a href="./CHANGELOG.md"><b>See changelog</b></a>
+    <br/>
+    <a href="https://github.com/valflrt/lejardinier/issues/new"><b>Report Bug</b></a>
+  </p>
+</p>
 
 # Le Jardinier
 
 Le Jardinier is a simple discord bot made with typescript and using discord.js.
-
-[**See changelog**](./CHANGELOG.md)
 
 ## Using the bot
 
