@@ -1,6 +1,6 @@
 # Changelog
 
-## [`[Unreleased]`](#) - dd/mm/yyyy
+## [`[v3.6.6]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.6) - dd/mm/yyyy
 
 ### Added
 
@@ -9,8 +9,9 @@
 
 ### Changed
 
+- Renamed "factorize" feature to "quantify"
 - Fixed command "music.skip" because it wasn't actually skipping the current track
-- Edit the panel of the command "rank"
+- Edited the panel of the command "rank"
 - Edited script `lint` in package.json
 - Changed the way of setting client event listeners
 
