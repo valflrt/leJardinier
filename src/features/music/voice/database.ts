@@ -20,10 +20,10 @@ export const removeFirstTrack = async (guildId: string): Promise<void> => {
     id: guildId,
   });
   if (!guild) {
-    log.system.error("Failed to skip track: Guild not found !");
+    log.error("Failed to skip track: Guild not found !");
     return;
   } else if (guild.playlist!.length === 0) {
-    log.system.error("Failed to skip track: Playlist is empty !");
+    log.error("Failed to skip track: Playlist is empty !");
     return;
   }
   if (guild.playlist!.length === 0) return;

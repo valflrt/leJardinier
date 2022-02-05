@@ -11,7 +11,7 @@ import Context from "./context";
 import database, { connectDatabase } from "../features/database";
 import handlers from "./handlers";
 
-import log from "./log";
+import { botLogger, databaseLogger, messageLogger } from "./log";
 
 import config from "../config";
 
@@ -71,7 +71,7 @@ listeners.set("messageCreate", async (message: Message) => {
   if (!message.content.startsWith(config.prefix)) return;
 
   let context = new Context(message);
-  log.message.message(message, context); // logs every command
+  messageLogger.logMessage(message, context); // logs every command
 
   if (context.hasCommand === true) {
     context.execute();
@@ -135,11 +135,12 @@ export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (
   /**
    * Tries to connect to database
    */
+  databaseLogger.pendingConnection();
   try {
     await connectDatabase();
-    log.database.connectionSuccess();
+    databaseLogger.connectionSuccess();
   } catch (e) {
-    log.database.connectionFailure(e);
+    throw databaseLogger.connectionFailure(e);
   }
 
   /**
@@ -150,7 +151,7 @@ export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (
     type: "WATCHING",
   });
 
-  log.logger.connectionSuccess(client.user!.tag, client.user!.id);
+  botLogger.connectionSuccess(client.user!.tag, client.user!.id);
 };
 
 export default listeners;

@@ -82,7 +82,7 @@ export default class TrackPlayer {
           `Playing next track...`
         )
       );
-      log.system.error(`Audio connection crashed: ${err}`);
+      log.error(`Audio connection crashed: ${err}`);
     });
   }
 

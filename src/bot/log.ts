@@ -6,71 +6,31 @@ import Context from "./context";
 
 import version from "../config/version";
 
-class BaseLogger {
-  protected mainColor: string = "#abf7a7";
-  protected successColor: string = "#41f45e";
-  protected errorColor: string = "#ee7474";
+import Logger from "../features/logger";
 
-  /**
-   * General logging functions, all these functions have the same structure
-   * @param str string to log (joined with one space)
-   */
-  public write = (item: any) => console.log(item);
-  public log = (str: string) => this.output(str, this.mainColor);
-  public error = (str: string) => this.output(str, this.errorColor);
-  public success = (str: string) => this.output(str, this.successColor);
+const logger = new Logger();
 
-  /**
-   * Clears the console
-   */
-  public clear = () => console.clear();
-
-  /**
-   * Adds line breaks (specified number)
-   * @param number number of line breaks
-   */
-  public newLine = (number: number = 1) => this.write(`\n`.repeat(number - 1));
-
-  /**
-   * Logs time
-   */
-  public time = () => this.write(new Date().toLocaleTimeString());
-
-  /**
-   *
-   * @param str string to log
-   * @param color optional – color of the "color block" at the str beginning
-   */
-  protected output = (str: string, color: string = this.mainColor) =>
-    console.log(
-      `${chalk.bgHex(color)(" ")} `.concat(
-        str.replace(/\n/g, `\n${chalk.bgHex(color)(" ")} `)
-      )
-    );
-}
-
-class Logger extends BaseLogger {
+class BotLogger {
   /**
    * Logs startup sequence
    */
-  public startupSequence() {
-    this.clear();
-    this.write(
+  startupSequence() {
+    logger.clear();
+    logger.writeLine(
       ` ${chalk.hex("#abf7a7").bold("Le Jardinier")} ${chalk
-        .rgb(200, 220, 210)
-        .italic(`${version}`)} 🍀 ${chalk.rgb(200, 220, 210)("by valflrt")}`
+        .hex("#dadada")
+        .italic(`${version}`)}`
     );
-    this.newLine(2);
-    this.log(`Starting...`);
+    logger.newLine(2);
+    logger.log(`Starting...`);
   }
-
   /**
    * Logs connection success message
    * @param tag bot's tag (username#0000)
    * @param id bot's id (discord snowflake)
    */
-  public connectionSuccess(tag: string, id: string) {
-    this.success(
+  connectionSuccess(tag: string, id: string) {
+    logger.success(
       `Successfully logged in as ${chalk.underline(tag)} ${chalk.grey(
         `(id: ${id})`
       )}`
@@ -78,7 +38,7 @@ class Logger extends BaseLogger {
   }
 }
 
-class MessageLogger extends Logger {
+class MessageLogger {
   private lastUser: string | null = null;
 
   /**
@@ -88,7 +48,7 @@ class MessageLogger extends Logger {
    * if the same user sent several messages it doesn't logging their username
    * @param message discord message object
    */
-  public message = (message: Discord.Message, context: Context) => {
+  public logMessage(message: Discord.Message, context: Context) {
     if (!context.hasCommand) return;
 
     let embeds: number = message.embeds.length;
@@ -104,15 +64,15 @@ class MessageLogger extends Logger {
 
     if (isSystem) return;
     else if (this.lastUser !== message.author.id) {
-      this.newLine();
-      this.log(`${chalk.bold(message.author.tag)}:\n${text}`);
-    } else if (message.content) this.log(text);
+      logger.newLine();
+      logger.log(`${chalk.bold(message.author.tag)}:\n${text}`);
+    } else if (message.content) logger.log(text);
 
     this.lastUser = message.author.id;
-  };
+  }
 }
 
-class CommandLogger extends Logger {
+class CommandLogger {
   private timestamp: number = 0;
 
   /**
@@ -127,7 +87,7 @@ class CommandLogger extends Logger {
    * @param command command object
    */
   public executionSuccess(command: Command) {
-    this.success(
+    logger.success(
       `Successfully executed command ${chalk.underline.bold(
         command.namespace
       )} in ${this.elapsedTime}`
@@ -140,7 +100,7 @@ class CommandLogger extends Logger {
    * @param err error to log
    */
   public executionFailure(command: Command, err: any) {
-    this.error(
+    logger.error(
       `Failed to execute ${chalk.underline.bold(command.namespace)}:\n${err}`
     );
   }
@@ -153,39 +113,25 @@ class CommandLogger extends Logger {
   }
 }
 
-class DatabaseLogger extends Logger {
+class DatabaseLogger {
+  public pendingConnection() {
+    logger.log(`Connecting to database...`);
+  }
   public connectionSuccess() {
-    this.success(`Successfully connected to database`);
+    logger.updateLine(
+      logger.successString(`Successfully connected to database`)
+    );
   }
   public connectionFailure(err: any) {
-    this.error(`Failed to connect to database:\n${err}`);
-  }
-
-  public userAdditionSuccess() {
-    this.success(`User added successfully`);
-  }
-  public userAdditionFailure(err: any) {
-    this.error(`Failed to add user:\n${err}`);
-  }
-
-  public statAdditionSuccess() {
-    this.success(`Stat added successfully`);
-  }
-  public statAdditionFailure(err: any) {
-    this.error(`Failed to add stat:\n${err}`);
+    logger.updateLine(
+      logger.errorString(`Failed to connect to database:\n${err}`)
+    );
   }
 }
 
-const system = new BaseLogger();
-const logger = new Logger();
-const message = new MessageLogger();
-const command = new CommandLogger();
-const database = new DatabaseLogger();
+export const botLogger = new BotLogger();
+export const messageLogger = new MessageLogger();
+export const commandLogger = new CommandLogger();
+export const databaseLogger = new DatabaseLogger();
 
-export default {
-  system,
-  logger,
-  message,
-  command,
-  database,
-};
+export default logger;

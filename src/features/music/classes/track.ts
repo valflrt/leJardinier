@@ -93,7 +93,7 @@ export class Track extends PreTrack {
   public async saveToDB(guildId: string) {
     let guild = await database.guilds.findOne({ id: guildId });
     if (!guild?.playlist)
-      return log.system.error(
+      return log.error(
         "Failed to add track to the playlist: Guild not found !"
       );
     guild.playlist.push(this as ITrack);

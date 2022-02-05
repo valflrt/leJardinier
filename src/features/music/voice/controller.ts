@@ -107,8 +107,7 @@ export default class MusicController {
     if (!track.videoID) return failedFn();
 
     await player.play(track.videoID).catch((e) => {
-      log.system.error(`Failed to play track:`);
-      console.log(e);
+      log.error(`Failed to play track: ${e}`);
       return failedFn();
     });
     connection.subscribe(player.toObject());
