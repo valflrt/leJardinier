@@ -91,8 +91,6 @@ export default class UserStats {
       .sort({ "stats.totalXp": -1 })
       .toArray();
 
-    console.log(array);
-
     let rank = array?.findIndex((m) => m.userId === this.member.id);
 
     ctx.fillStyle = "#ffffff";
