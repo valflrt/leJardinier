@@ -1,6 +1,13 @@
 # Changelog
 
-## [`[v3.6.6]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.6) - dd/mm/yyyy
+## [`[Unreleased]`](#) - dd/mm/yyyy
+
+### Changed
+
+- Enhanced logger
+- Moved and renamed class "BaseLogger" to features/logger/index.ts as "Logger"
+
+## [`[v3.6.6]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.6) - 04/02/2022
 
 ### Added
 
@@ -9,8 +16,6 @@
 
 ### Changed
 
-- Enhanced logger
-- Moved and renamed class "BaseLogger" to features/logger/index.ts as "Logger"
 - Renamed "factorize" feature to "quantify"
 - Fixed command "music.skip" because it wasn't actually skipping the current track
 - Edited the panel of the command "rank"
