@@ -9,6 +9,8 @@
 
 ### Changed
 
+- Enhanced logger
+- Moved and renamed class "BaseLogger" to features/logger/index.ts as "Logger"
 - Renamed "factorize" feature to "quantify"
 - Fixed command "music.skip" because it wasn't actually skipping the current track
 - Edited the panel of the command "rank"
