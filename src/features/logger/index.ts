@@ -40,7 +40,7 @@ export default class Logger {
    * @param color optional – color of the "colored block" to add at the beginning of each line
    */
   protected output(item: any, color: string = this.mainColor): string {
-    return `${item}`.replace(/^/g, `${chalk.bgHex(color)(" ")} `);
+    return `${item}`.replace(/^/gm, `${chalk.bgHex(color)(" ")} `);
   }
 
   public updateLine(item: any): void {
