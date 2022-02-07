@@ -2,7 +2,7 @@
 
 ## [`[Unreleased]`](https://github.com/valflrt/lejardinier/releases/tag/v<tag>) - dd/mm/yyyy
 
-[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.6...v<tag>)
+[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.7...v<tag>)
 
 ## [`v3.6.7`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.7) - 07/02/2022
 
