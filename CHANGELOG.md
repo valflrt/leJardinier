@@ -1,10 +1,10 @@
 # Changelog
 
-## [`[Unreleased]`](!https://github.com/valflrt/lejardinier/releases/tag/v<tag>) - dd/mm/yyyy
+## [`[Unreleased]`](https://github.com/valflrt/lejardinier/releases/tag/v<tag>) - dd/mm/yyyy
 
-[**`full changelog`**](!https://github.com/valflrt/lejardinier/compare/v3.6.6...v<tag>)
+[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.6...v<tag>)
 
-## [`v3.6.7`](!https://github.com/valflrt/lejardinier/releases/tag/v3.6.7) - 07/02/2022
+## [`v3.6.7`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.7) - 07/02/2022
 
 ### Changed
 
@@ -12,7 +12,7 @@
 - Enhanced logger
 - Moved and renamed class "BaseLogger" to features/logger/index.ts as "Logger"
 
-[**`full changelog`**](!https://github.com/valflrt/lejardinier/compare/v3.6.6...v3.6.7)
+[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.6...v3.6.7)
 
 ## [`v3.6.6`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.6) - 04/02/2022
 
