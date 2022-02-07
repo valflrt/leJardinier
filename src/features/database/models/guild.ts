@@ -1,0 +1,20 @@
+import { Document, model, Schema } from "mongoose";
+
+import { ITrack } from "../../music/classes/track";
+import { IAutoroleSchema } from "./autorole";
+
+export interface IGuildSchema extends Document {
+  id: string;
+  playlist: ITrack[];
+  autorole: IAutoroleSchema[];
+}
+
+export const guildSchema = new Schema<IGuildSchema>({
+  id: { type: String, required: true },
+  playlist: { default: [] },
+  autorole: { default: [] },
+});
+
+const GuildModel = model("database", guildSchema);
+
+export default GuildModel;
