@@ -2,8 +2,7 @@ import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import { italic } from "@discordjs/builders";
 
 import Command from "../../../../features/commands/classes/command";
-
-import database from "../../../../features/database";
+import GuildModel from "../../../../features/database/models/guild";
 
 const add_cmd = new Command({
   name: "add",
@@ -69,7 +68,7 @@ const add_cmd = new Command({
       ? await reference.reply(reply)
       : (await actions.send(reply)).message;
 
-    let guild = await database.guilds.findOne({ id: message.guildId! });
+    let guild = await GuildModel.findOne({ id: message.guildId! });
     if (!guild) return actions.sendTextEmbed(`Failed to save autorole !`);
 
     /**
@@ -80,7 +79,7 @@ const add_cmd = new Command({
       channelId: message.channelId,
       roleIds: roles.map((v) => v.id),
     });
-    await database.guilds.updateOne({ id: message.guildId! }, guild);
+    await guild.save();
 
     /**
      * Deletes message sent by the user

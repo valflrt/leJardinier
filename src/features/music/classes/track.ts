@@ -2,12 +2,14 @@ import { MessageEmbed } from "discord.js";
 import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
-import database from "../../database";
-import youtubeAPI from "../../apis/youtube";
-import log from "../../../bot/log";
-
-import regexps from "../../../assets/regexp";
 import Context from "../../../bot/context";
+
+import GuildModel from "../../database/models/guild";
+
+import youtubeAPI from "../../apis/youtube";
+
+import log from "../../../bot/log";
+import regexps from "../../../assets/regexp";
 
 export interface ITrack {
   title: string;
@@ -91,13 +93,13 @@ export class Track extends PreTrack {
    * @param guildId playlist's guild id
    */
   public async saveToDB(guildId: string) {
-    let guild = await database.guilds.findOne({ id: guildId });
+    let guild = await GuildModel.findOne({ id: guildId });
     if (!guild?.playlist)
       return log.error(
         "Failed to add track to the playlist: Guild not found !"
       );
     guild.playlist.push(this as ITrack);
-    database.guilds.updateOne({ id: guildId }, guild);
+    guild.save();
   }
 
   /**

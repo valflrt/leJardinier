@@ -3,9 +3,9 @@ import { italic } from "@discordjs/builders";
 
 import lejardinier from "../../../..";
 
-import Command from "../../../../features/commands/classes/command";
+import GuildModel from "../../../../features/database/models/guild";
 
-import database from "../../../../features/database";
+import Command from "../../../../features/commands/classes/command";
 
 const remove_cmd = new Command({
   name: "remove",
@@ -31,7 +31,7 @@ const remove_cmd = new Command({
         `You need to reply to the autorole message you want to remove !`
       );
 
-    let guild = await database.guilds.findOne({ id: message.guildId! });
+    let guild = await GuildModel.findOne({ id: message.guildId! });
     if (!guild) return actions.sendTextEmbed(`Failed to find autorole !`);
 
     if (!guild.autorole?.some((v) => v.messageId === reference?.id))
@@ -42,7 +42,7 @@ const remove_cmd = new Command({
     guild.autorole = guild.autorole.filter(
       (v) => v.messageId !== reference?.id
     );
-    await database.guilds.updateOne({ id: message.guildId! }, guild);
+    await guild.save();
 
     if (reference.deletable) await reference.delete();
 

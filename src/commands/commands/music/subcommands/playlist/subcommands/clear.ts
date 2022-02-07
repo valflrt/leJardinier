@@ -1,6 +1,6 @@
 import Command from "../../../../../../features/commands/classes/command";
 
-import database from "../../../../../../features/database";
+import GuildModel from "../../../../../../features/database/models/guild";
 
 import reactions from "../../../../../../assets/reactions";
 
@@ -9,16 +9,14 @@ const clear_cmd = new Command({
   description: `Clear the current playlist`,
   aliases: ["cl"],
   execution: async ({ actions, message }) => {
-    let cleared = await database.guilds.updateOne(
+    await GuildModel.findOneAndUpdate(
       {
         id: message.guildId!,
       },
       { playlist: [] }
+    ).then(() =>
+      actions.sendTextEmbed(`${reactions.success.random} Playlist cleared`)
     );
-    if (cleared.ok === 1)
-      return actions.sendTextEmbed(
-        `${reactions.success.random} Playlist cleared`
-      );
   },
 });
 

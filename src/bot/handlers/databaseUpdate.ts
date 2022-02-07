@@ -1,29 +1,29 @@
 import { Message } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
 
-import database from "../../features/database";
-import { randomItem } from "../../utils";
+import GuildModel from "../../features/database/models/guild";
 
 import reactions from "../../assets/reactions";
+import { randomItem } from "../../utils";
+import MemberModel from "../../features/database/models/member";
 
 /**
  * Handles database update
  * @param context generated context for current message
  */
 const databaseUpdate = async (message: Message) => {
-  let doc = { id: message.guildId! };
-  await database.guilds.findOrCreateOne(doc, doc);
+  let guildFromDB = await GuildModel.findOne({ id: message.guildId! });
+  if (!guildFromDB) new GuildModel({ id: message.guildId! });
 
-  let member = await database.members.findOrCreateOne(
-    {
+  let member = await MemberModel.findOne({
+    userId: message.author.id,
+    guildId: message.guildId!,
+  });
+  if (!member)
+    member = new MemberModel({
       userId: message.author.id,
       guildId: message.guildId!,
-    },
-    {
-      userId: message.author.id,
-      guildId: message.guildId!,
-    }
-  );
+    });
 
   if (!member) return;
 
@@ -40,15 +40,7 @@ const databaseUpdate = async (message: Message) => {
     newStats.level = currentStats.level! + 1;
   }
 
-  await database.members.updateOne(
-    {
-      userId: message.author.id,
-      guildId: message.guildId!,
-    },
-    {
-      stats: newStats,
-    }
-  );
+  member.stats = newStats;
 
   if (hasLevelUp) {
     message.channel.send(
@@ -63,6 +55,8 @@ const databaseUpdate = async (message: Message) => {
       )
     );
   }
+
+  await member.save();
 };
 
 export default databaseUpdate;

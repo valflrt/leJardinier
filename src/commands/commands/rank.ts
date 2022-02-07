@@ -1,9 +1,9 @@
-import { MessageAttachment, MessageEmbed } from "discord.js";
+import { MessageAttachment } from "discord.js";
+
+import MemberModel from "../../features/database/models/member";
 
 import Command from "../../features/commands/classes/command";
 import UserStats from "../../features/userStats";
-
-import database from "../../features/database";
 
 const rank_cmd = new Command({
   name: "rank",
@@ -14,7 +14,7 @@ const rank_cmd = new Command({
 
     let member = memberMention?.user ?? message.author;
 
-    let memberFromDB = await database.members.findOne({
+    let memberFromDB = await MemberModel.findOne({
       userId: member.id,
       guildId: message.guildId!,
     });
@@ -27,8 +27,6 @@ const rank_cmd = new Command({
       memberFromDB.stats,
       message.guildId!
     ).generatePreview();
-
-    new MessageEmbed();
 
     actions.send({
       files: [new MessageAttachment(preview.toBuffer(), "stats.png")],

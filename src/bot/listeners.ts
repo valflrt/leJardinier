@@ -8,8 +8,11 @@ import {
 
 import Context from "./context";
 
-import database, { connectDatabase } from "../features/database";
 import handlers from "./handlers";
+
+import { connectDatabase } from "../features/database";
+import MemberModel from "../features/database/models/member";
+import GuildModel from "../features/database/models/guild";
 
 import { botLogger, databaseLogger, messageLogger } from "./log";
 
@@ -92,11 +95,16 @@ listeners.set("interactionCreate", async (i: Interaction) => {
  * Listener for event "guildMemberAdd"
  */
 listeners.set("guildMemberAdd", async (member: GuildMember) => {
-  let doc = {
+  let memberFromDB = await MemberModel.findOne({
     userId: member.id,
     guildId: member.guild.id,
-  };
-  database.members.updateOrCreateOne(doc, doc, doc);
+  });
+  if (!memberFromDB)
+    memberFromDB = new MemberModel({
+      userId: member.id,
+      guildId: member.guild.id,
+    });
+
   /**
    * that came right to mind
    * - doc ! doc ! doc !
@@ -117,7 +125,7 @@ listeners.set("messageDelete", async (message) => {
   )
     return;
 
-  let guildFromDB = await database.guilds.findOne({ id: message.guildId! });
+  let guildFromDB = await GuildModel.findOne({ id: message.guildId! });
   if (!guildFromDB) return;
 
   /**
@@ -126,7 +134,7 @@ listeners.set("messageDelete", async (message) => {
   guildFromDB.autorole = guildFromDB.autorole.filter(
     (v) => v.channelId !== message.channelId && v.messageId !== message.id
   );
-  await database.guilds.updateOne({ id: message.guildId! }, guildFromDB);
+  await guildFromDB.save();
 });
 
 export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (

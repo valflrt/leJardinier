@@ -1,19 +1,19 @@
 import { User } from "discord.js";
 import { createCanvas, loadImage, registerFont } from "canvas";
 
-import Quantify from "../quantify";
+import MemberModel from "../database/models/member";
+import { IStatsSchema } from "../database/models/stats";
 
-import StatsSchema from "../database/schemas/stats";
-import database from "../database";
+import Quantify from "../quantify";
 
 export default class UserStats {
   private member: User;
-  private stats: Required<StatsSchema>;
+  private stats: Required<IStatsSchema>;
   private guildId: string;
 
-  constructor(member: User, stats: StatsSchema, guildId: string) {
+  constructor(member: User, stats: IStatsSchema, guildId: string) {
     this.member = member;
-    this.stats = stats as Required<StatsSchema>;
+    this.stats = stats as Required<IStatsSchema>;
     this.guildId = guildId;
   }
 
@@ -86,10 +86,9 @@ export default class UserStats {
 
     // display user info
 
-    let array = await database.members.collection
-      .find({ guildId: this.guildId })
-      .sort({ "stats.totalXp": -1 })
-      .toArray();
+    let array = await MemberModel.find({ guildId: this.guildId }).sort({
+      "stats.totalXp": -1,
+    });
 
     let rank = array?.findIndex((m) => m.userId === this.member.id);
 

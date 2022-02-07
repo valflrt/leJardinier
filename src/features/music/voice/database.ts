@@ -1,14 +1,13 @@
-import database from "../../database";
-
 import { Track } from "../classes/track";
 
 import log from "../../../bot/log";
+import GuildModel from "../../database/models/guild";
 
 /**
  * Returns the first track in the database
  */
 export const getFirstTrack = async (guildId: string): Promise<Track | null> => {
-  let guild = await database.guilds.findOne({
+  let guild = await GuildModel.findOne({
     id: guildId!,
   });
   if (!guild || !guild.playlist || !guild.playlist[0]) return null;
@@ -16,7 +15,7 @@ export const getFirstTrack = async (guildId: string): Promise<Track | null> => {
 };
 
 export const removeFirstTrack = async (guildId: string): Promise<void> => {
-  let guild = await database.guilds.findOne({
+  let guild = await GuildModel.findOne({
     id: guildId,
   });
   if (!guild) {
@@ -28,12 +27,7 @@ export const removeFirstTrack = async (guildId: string): Promise<void> => {
   }
   if (guild.playlist!.length === 0) return;
   guild.playlist!.shift();
-  await database.guilds.updateOne(
-    {
-      id: guildId,
-    },
-    { playlist: guild.playlist }
-  );
+  await guild.save();
 };
 
 export default {

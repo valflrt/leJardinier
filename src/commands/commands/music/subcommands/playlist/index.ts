@@ -1,9 +1,9 @@
 import { EmbedFieldData } from "discord.js";
 import { bold, hyperlink } from "@discordjs/builders";
 
-import Command from "../../../../../features/commands/classes/command";
+import GuildModel from "../../../../../features/database/models/guild";
 
-import database from "../../../../../features/database";
+import Command from "../../../../../features/commands/classes/command";
 
 // subcommands imports
 import clear_cmd from "./subcommands/clear";
@@ -13,7 +13,7 @@ const playlist_cmd = new Command({
   description: "Display the current playlist",
   aliases: ["pl"],
   execution: async ({ actions, message }) => {
-    let guild = await database.guilds.findOne({
+    let guild = await GuildModel.findOne({
       id: message.guildId!,
     });
     if (!guild?.playlist || guild.playlist.length === 0)

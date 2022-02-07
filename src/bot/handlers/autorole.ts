@@ -1,6 +1,7 @@
 import { ButtonInteraction } from "discord.js";
 
-import database from "../../features/database";
+import GuildModel from "../../features/database/models/guild";
+
 import reactions from "../../assets/reactions";
 
 /**
@@ -11,17 +12,19 @@ const autoroleHandler = async (i: ButtonInteraction) => {
   /**
    * Fetches guild from database, skips if not found
    */
-  let guild = await database.guilds.findOne({ id: i.guildId! });
+  let guildFromDB = await GuildModel.findOne({ id: i.guildId });
   if (
-    !guild?.autorole ||
-    !guild.autorole.some((v) => v.messageId === i.message.id)
+    !guildFromDB?.autorole ||
+    !guildFromDB.autorole.some((v) => v.messageId === i.message.id)
   )
     return i.reply({ content: `Failed to issue role !`, ephemeral: true });
 
   /**
    * Finds the autorole object from database
    */
-  let autorole = guild.autorole.find((v) => v.messageId === i.message.id)!;
+  let autorole = guildFromDB.autorole.find(
+    (v) => v.messageId === i.message.id
+  )!;
 
   /**
    * Finds the user roles object
