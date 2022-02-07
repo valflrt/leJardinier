@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Migrated from mongodb to mongoose
 - Enhanced logger
 - Moved and renamed class "BaseLogger" to features/logger/index.ts as "Logger"
 
