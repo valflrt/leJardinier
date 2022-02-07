@@ -3,7 +3,7 @@ import { bold } from "@discordjs/builders";
 import Command from "../../../../features/commands/classes/command";
 import { Track } from "../../../../features/music/classes/track";
 
-import database from "../../../../features/database";
+import GuildModel from "../../../../features/database/models/guild";
 
 import reactions from "../../../../assets/reactions";
 
@@ -27,7 +27,7 @@ const remove_cmd = new Command({
         )
       );
 
-    let guild = await database.guilds.findOne({
+    let guild = await GuildModel.findOne({
       id: message.guildId!,
     });
     if (!guild)
@@ -37,12 +37,7 @@ const remove_cmd = new Command({
 
     let removed = new Track(guild.playlist!.splice(videoID - 1, 1)[0]);
 
-    await database.guilds.updateOne(
-      {
-        id: message.guildId!,
-      },
-      { playlist: guild.playlist }
-    );
+    await guild.save();
 
     actions.sendTextEmbed(
       `${reactions.success.random} Removed `.concat(

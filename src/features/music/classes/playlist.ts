@@ -1,12 +1,13 @@
 import { bold, hyperlink } from "@discordjs/builders";
 import { youtube_v3 } from "googleapis";
 
+import GuildModel from "../../database/models/guild";
+
 import youtubeAPI from "../../apis/youtube";
 import PreTrack, { ITrack, Track } from "./track";
 
-import regexps from "../../../assets/regexp";
-import database from "../../database";
 import log from "../../../bot/log";
+import regexps from "../../../assets/regexp";
 
 export interface IPlaylist {
   title: string;
@@ -116,12 +117,12 @@ export class Playlist extends PrePlaylist implements IPlaylist {
   }
 
   public async saveTracksToDB(guildId: string) {
-    let guild = await database.guilds.findOne({ id: guildId });
+    let guild = await GuildModel.findOne({ id: guildId });
     if (!guild?.playlist)
       return log.error(
         "Failed to add track to the playlist: Guild not found !"
       );
     guild.playlist.push(...this.tracks.map((track) => track as ITrack));
-    database.guilds.updateOne({ id: guildId }, guild);
+    guild.save();
   }
 }
