@@ -1,6 +1,10 @@
 # Changelog
 
-## [`[Unreleased]`](!https://github.com/valflrt/lejardinier/releases/tag/<tag>) - dd/mm/yyyy
+## [`[Unreleased]`](!https://github.com/valflrt/lejardinier/releases/tag/v<tag>) - dd/mm/yyyy
+
+[**`full changelog`**](!https://github.com/valflrt/lejardinier/compare/v3.6.6...v<tag>)
+
+## [`v3.6.7`](!https://github.com/valflrt/lejardinier/releases/tag/v3.6.7) - 07/02/2022
 
 ### Changed
 
@@ -8,9 +12,9 @@
 - Enhanced logger
 - Moved and renamed class "BaseLogger" to features/logger/index.ts as "Logger"
 
-[**`full changelog`**](!https://github.com/valflrt/lejardinier/compare/v3.6.6...<tag>)
+[**`full changelog`**](!https://github.com/valflrt/lejardinier/compare/v3.6.6...v3.6.7)
 
-## [`[v3.6.6]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.6) - 04/02/2022
+## [`v3.6.6`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.6) - 04/02/2022
 
 ### Added
 
@@ -28,7 +32,7 @@
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.5...v3.6.6)
 
 
-## [`[v3.6.5]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.5) - 28/01/2022
+## [`v3.6.5`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.5) - 28/01/2022
 
 ### Changed
 
@@ -42,7 +46,7 @@
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.5.4...v3.6.5)
 
-## [`[v3.5.4]`](https://github.com/valflrt/lejardinier/releases/tag/v3.5.4) - 22/01/2022
+## [`v3.5.4`](https://github.com/valflrt/lejardinier/releases/tag/v3.5.4) - 22/01/2022
 
 ### Added
 
@@ -63,7 +67,7 @@
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.4.3...v3.5.4)
 
-## [`[v3.4.3]`](https://github.com/valflrt/lejardinier/releases/tag/v3.4.3) - 08/01/2022
+## [`v3.4.3`](https://github.com/valflrt/lejardinier/releases/tag/v3.4.3) - 08/01/2022
 
 ### Added
 
@@ -85,7 +89,7 @@
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.3.1...v3.4.3)
 
-## [`[v3.3.1]`](https://github.com/valflrt/lejardinier/releases/tag/v3.3.1) - 20/12/2021
+## [`v3.3.1`](https://github.com/valflrt/lejardinier/releases/tag/v3.3.1) - 20/12/2021
 
 ### Added
 
@@ -107,7 +111,7 @@
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.2.4...v3.3.1)
 
-## [`[v3.2.4]`](https://github.com/valflrt/lejardinier/releases/tag/v3.2.4) - 08/12/2021
+## [`v3.2.4`](https://github.com/valflrt/lejardinier/releases/tag/v3.2.4) - 08/12/2021
 
 ### Added
 
@@ -122,7 +126,7 @@
 - Changed config structure
 - Command "morse" now supports much more characters
 
-## [`[v3.2.0]`](https://github.com/valflrt/lejardinier/releases/tag/3.2) - 03/12/2021
+## [`v3.2.0`](https://github.com/valflrt/lejardinier/releases/tag/3.2) - 03/12/2021
 
 ### Added
 
