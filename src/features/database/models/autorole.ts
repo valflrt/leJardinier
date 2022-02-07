@@ -1,6 +1,6 @@
-import { Document, Schema } from "mongoose";
+import { Schema } from "mongoose";
 
-export interface IAutoroleSchema extends Document {
+export interface IAutoroleSchema {
   messageId: string;
   channelId: string;
   roleIds: string[];

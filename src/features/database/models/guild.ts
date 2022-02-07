@@ -15,6 +15,6 @@ export const guildSchema = new Schema<IGuildSchema>({
   autorole: { default: [] },
 });
 
-const GuildModel = model("database", guildSchema);
+const GuildModel = model("guild", guildSchema);
 
 export default GuildModel;

@@ -14,6 +14,6 @@ export const memberSchema = new Schema<IMemberSchema>({
   stats: statsSchema,
 });
 
-const MemberModel = model("database", memberSchema);
+const MemberModel = model("member", memberSchema);
 
 export default MemberModel;
