@@ -2,6 +2,18 @@
 
 ## [`[Unreleased]`](https://github.com/valflrt/lejardinier/releases/tag/v<tag>) - dd/mm/yyyy
 
+### Added
+
+- Added "logPresets" where are stored preset log sequences
+
+### Changed
+
+- Edited logger methods
+
+### Fixed
+
+- Fix logger: Logger#updateLine was crashing heroku
+
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.7...v<tag>)
 
 ## [`v3.6.7`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.7) - 07/02/2022
