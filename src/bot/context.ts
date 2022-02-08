@@ -4,7 +4,8 @@ import { codeBlock } from "@discordjs/builders";
 import Command from "../features/commands/classes/command";
 import MessageParser from "../features/commands/classes/messageParser";
 
-import logger, { commandLogger } from "./log";
+import logger from "../features/logger";
+import logPresets from "./logPresets";
 
 import commandList from "../commands";
 import config from "../config";
@@ -60,16 +61,15 @@ class Context {
    * Executes the current command and returns a Promise
    */
   public async execute(): Promise<void> {
-    if (!this.command) return logger.error(`Command does not exist`);
+    if (!this.command) return logger.log(`Command does not exist`, "error");
 
-    commandLogger.setTimestamp();
     await this.message.channel.sendTyping();
 
     try {
       await this.command!.execution(this);
-      commandLogger.executionSuccess(this.command!);
+      logPresets.COMMAND_EXECUTION_SUCCESS(this.command!);
     } catch (e) {
-      commandLogger.executionFailure(this.command!, e);
+      logPresets.COMMAND_EXECUTION_FAILURE(this.command!, e);
       this.actions.sendCustomEmbed((embed) =>
         embed
           .setDescription(

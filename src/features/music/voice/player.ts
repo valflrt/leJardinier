@@ -2,7 +2,7 @@ import * as voice from "@discordjs/voice";
 
 import { Track } from "../classes/track";
 
-import log from "../../../bot/log";
+import logger from "../../logger";
 
 import reactions from "../../../assets/reactions";
 import MusicController from "./controller";
@@ -82,7 +82,7 @@ export default class TrackPlayer {
           `Playing next track...`
         )
       );
-      log.error(`Audio connection crashed: ${err}`);
+      logger.log(`Audio connection crashed: ${err}`, "error");
     });
   }
 

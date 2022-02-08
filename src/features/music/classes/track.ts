@@ -8,7 +8,8 @@ import GuildModel from "../../database/models/guild";
 
 import youtubeAPI from "../../apis/youtube";
 
-import log from "../../../bot/log";
+import logger from "../../logger";
+
 import regexps from "../../../assets/regexp";
 
 export interface ITrack {
@@ -95,8 +96,9 @@ export class Track extends PreTrack {
   public async saveToDB(guildId: string) {
     let guild = await GuildModel.findOne({ id: guildId });
     if (!guild?.playlist)
-      return log.error(
-        "Failed to add track to the playlist: Guild not found !"
+      return logger.log(
+        "Failed to add track to the playlist: Guild not found !",
+        "error"
       );
     guild.playlist.push(this as ITrack);
     guild.save();

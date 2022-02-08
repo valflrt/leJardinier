@@ -1,66 +1,32 @@
 import chalk from "chalk";
 
-export default class Logger {
-  protected mainColor: string = "#abf7a7";
-  protected successColor: string = "#41f45e";
-  protected errorColor: string = "#ee7474";
+export class Logger {
+  public colors = {
+    main: "#abf7a7",
+    success: "#41f45e",
+    error: "#ee7474",
+  };
 
   /**
-   * General logging functions, all these functions have the same structure
-   * @param str string to log (joined with one space)
+   * Custom log function
+   * @param item item to log
    */
-  public write(item: any) {
-    process.stdout.write(`${item}`);
-  }
-  public writeLine(item: any) {
-    console.log(`${item}`);
-  }
-  public log(item: any) {
-    this.writeLine(this.output(item, this.mainColor));
-  }
-  public logString(item: any) {
-    return this.output(item, this.mainColor);
-  }
-  public error(item: any) {
-    this.writeLine(this.output(item, this.errorColor));
-  }
-  public errorString(item: any) {
-    return this.output(item, this.errorColor);
-  }
-  public success(item: any) {
-    this.writeLine(this.output(item, this.successColor));
-  }
-  public successString(item: any) {
-    return this.output(item, this.successColor);
+  public log(item: any, color: keyof typeof this.colors = "main") {
+    console.log(
+      // writes a colored "block" at the beginning of every line
+      `${item}`.replace(/^/gm, `${chalk.bgHex(this.colors[color])(" ")} `)
+    );
   }
 
   /**
-   * Returns a formatted line
-   * @param item item to be logged
-   * @param color optional – color of the "colored block" to add at the beginning of each line
+   * Logs one or more new line(s)
+   * @param number optional – number of lines to skip
    */
-  protected output(item: any, color: string = this.mainColor): string {
-    return `${item}`.replace(/^/gm, `${chalk.bgHex(color)(" ")} `);
-  }
-
-  public updateLine(item: any): void {
-    process.stdout.moveCursor(0, -1);
-    process.stdout.clearLine(0);
-    this.writeLine(item);
-  }
-
-  /**
-   * Clears the console
-   */
-  public clear() {
-    console.clear();
-  }
-
-  /**
-   * Adds line breaks (specified number)
-   * @param number number of line breaks
-   */
-  public newLine(number: number = 1) {
-    this.writeLine(`\n`.repeat(number - 1));
+  public line(number: number = 1) {
+    console.log("\n".repeat(number - 1));
   }
 }
+
+const logger = new Logger();
+
+export default logger;

@@ -10,7 +10,7 @@ import databaseHandler from "./database";
 import Context from "../../../bot/context";
 import { SentMessageActions } from "../../../bot/actions";
 
-import log from "../../../bot/log";
+import logger from "../../logger";
 
 import reactions from "../../../assets/reactions";
 
@@ -107,7 +107,7 @@ export default class MusicController {
     if (!track.videoID) return failedFn();
 
     await player.play(track.videoID).catch((e) => {
-      log.error(`Failed to play track: ${e}`);
+      logger.log(`Failed to play track: ${e}`, "error");
       return failedFn();
     });
     connection.subscribe(player.toObject());

@@ -6,40 +6,39 @@ import Context from "./context";
 
 import version from "../config/version";
 
-import Logger from "../features/logger";
+import logger from "../features/logger";
 
-const logger = new Logger();
+let lastUser: string;
+let timestamp: number;
 
-class BotLogger {
+const logPresets = {
   /**
    * Logs startup sequence
    */
-  startupSequence() {
-    logger.clear();
-    logger.writeLine(
+  STARTUP_SEQUENCE() {
+    console.clear();
+    console.log(
       ` ${chalk.hex("#abf7a7").bold("Le Jardinier")} ${chalk
         .hex("#dadada")
         .italic(`${version}`)}`
     );
-    logger.newLine(2);
+    logger.line(2);
     logger.log(`Starting...`);
-  }
+  },
+
   /**
    * Logs connection success message
    * @param tag bot's tag (username#0000)
    * @param id bot's id (discord snowflake)
    */
-  connectionSuccess(tag: string, id: string) {
-    logger.success(
+  BOT_CONNECTION_SUCCESS(tag: string, id: string) {
+    logger.log(
       `Successfully logged in as ${chalk.underline(tag)} ${chalk.grey(
         `(id: ${id})`
-      )}`
+      )}`,
+      "success"
     );
-  }
-}
-
-class MessageLogger {
-  private lastUser: string | null = null;
+  },
 
   /**
    * Logs messages (username#0000: [message content])
@@ -48,7 +47,7 @@ class MessageLogger {
    * if the same user sent several messages it doesn't logging their username
    * @param message discord message object
    */
-  public logMessage(message: Discord.Message, context: Context) {
+  MESSAGE_LOG(message: Discord.Message, context: Context) {
     if (!context.hasCommand) return;
 
     let embeds: number = message.embeds.length;
@@ -63,75 +62,49 @@ class MessageLogger {
     );
 
     if (isSystem) return;
-    else if (this.lastUser !== message.author.id) {
-      logger.newLine();
+    else if (lastUser !== message.author.id) {
+      logger.line();
       logger.log(`${chalk.bold(message.author.tag)}:\n${text}`);
     } else if (message.content) logger.log(text);
 
-    this.lastUser = message.author.id;
-  }
-}
-
-class CommandLogger {
-  private timestamp: number = 0;
-
-  /**
-   * Sets timestamp to measure command execution time
-   */
-  public setTimestamp() {
-    this.timestamp = Date.now();
-  }
+    lastUser = message.author.id;
+    timestamp = Date.now();
+  },
 
   /**
    * Logs successful command execution message
    * @param command command object
    */
-  public executionSuccess(command: Command) {
-    logger.success(
+  COMMAND_EXECUTION_SUCCESS(command: Command) {
+    logger.log(
       `Successfully executed command ${chalk.underline.bold(
         command.namespace
-      )} in ${this.elapsedTime}`
+      )} in ${(Date.now() - timestamp) / 1000}ms`,
+      "success"
     );
-  }
+  },
 
   /**
    * Logs execution fail message
    * @param command command object
    * @param err error to log
    */
-  public executionFailure(command: Command, err: any) {
-    logger.error(
-      `Failed to execute ${chalk.underline.bold(command.namespace)}:\n${err}`
+  COMMAND_EXECUTION_FAILURE(command: Command, err: any) {
+    logger.log(
+      `Failed to execute ${chalk.underline.bold(command.namespace)}:\n${err}`,
+      "error"
     );
-  }
+  },
 
-  /**
-   * Returns elapsed time
-   */
-  public get elapsedTime(): string {
-    return `${(Date.now() - this.timestamp) / 1000}ms`;
-  }
-}
-
-class DatabaseLogger {
-  public pendingConnection() {
+  DATABASE_CONNECTION_PENDING() {
     logger.log(`Connecting to database...`);
-  }
-  public connectionSuccess() {
-    logger.updateLine(
-      logger.successString(`Successfully connected to database`)
-    );
-  }
-  public connectionFailure(err: any) {
-    logger.updateLine(
-      logger.errorString(`Failed to connect to database:\n${err}`)
-    );
-  }
-}
+  },
+  DATABASE_CONNECTION_SUCCESS() {
+    logger.log(`Successfully connected to database`, "success");
+  },
+  DATABASE_CONNECTION_FAILURE(err: any) {
+    logger.log(`Failed to connect to database:\n${err}`, "error");
+  },
+};
 
-export const botLogger = new BotLogger();
-export const messageLogger = new MessageLogger();
-export const commandLogger = new CommandLogger();
-export const databaseLogger = new DatabaseLogger();
-
-export default logger;
+export default logPresets;

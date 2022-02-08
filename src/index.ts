@@ -1,7 +1,7 @@
 import LeJardinier from "./bot/bot";
-import { botLogger } from "./bot/log";
+import logPresets from "./bot/logPresets";
 
-botLogger.startupSequence();
+logPresets.STARTUP_SEQUENCE();
 
 const lejardinier = new LeJardinier({
   intents: [

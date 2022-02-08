@@ -1,7 +1,8 @@
 import { Track } from "../classes/track";
 
-import log from "../../../bot/log";
 import GuildModel from "../../database/models/guild";
+
+import logger from "../../logger";
 
 /**
  * Returns the first track in the database
@@ -19,10 +20,10 @@ export const removeFirstTrack = async (guildId: string): Promise<void> => {
     id: guildId,
   });
   if (!guild) {
-    log.error("Failed to skip track: Guild not found !");
+    logger.log("Failed to skip track: Guild not found !", "error");
     return;
   } else if (guild.playlist!.length === 0) {
-    log.error("Failed to skip track: Playlist is empty !");
+    logger.log("Failed to skip track: Playlist is empty !", "error");
     return;
   }
   if (guild.playlist!.length === 0) return;

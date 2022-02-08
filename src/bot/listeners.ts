@@ -14,7 +14,7 @@ import { connectDatabase } from "../features/database";
 import MemberModel from "../features/database/models/member";
 import GuildModel from "../features/database/models/guild";
 
-import { botLogger, databaseLogger, messageLogger } from "./log";
+import logPresets from "./logPresets";
 
 import config from "../config";
 
@@ -74,7 +74,7 @@ listeners.set("messageCreate", async (message: Message) => {
   if (!message.content.startsWith(config.prefix)) return;
 
   let context = new Context(message);
-  messageLogger.logMessage(message, context); // logs every command
+  logPresets.MESSAGE_LOG(message, context); // logs every command
 
   if (context.hasCommand === true) {
     context.execute();
@@ -143,12 +143,12 @@ export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (
   /**
    * Tries to connect to database
    */
-  databaseLogger.pendingConnection();
+  logPresets.DATABASE_CONNECTION_PENDING();
   try {
     await connectDatabase();
-    databaseLogger.connectionSuccess();
+    logPresets.DATABASE_CONNECTION_SUCCESS();
   } catch (e) {
-    throw databaseLogger.connectionFailure(e);
+    throw logPresets.DATABASE_CONNECTION_FAILURE(e);
   }
 
   /**
@@ -159,7 +159,7 @@ export const ready: (...args: ClientEvents["ready"]) => Promise<void> = async (
     type: "WATCHING",
   });
 
-  botLogger.connectionSuccess(client.user!.tag, client.user!.id);
+  logPresets.BOT_CONNECTION_SUCCESS(client.user!.tag, client.user!.id);
 };
 
 export default listeners;
