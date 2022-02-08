@@ -11,8 +11,8 @@ export interface IGuildSchema extends Document {
 
 export const guildSchema = new Schema<IGuildSchema>({
   id: { type: String, required: true },
-  playlist: { default: [] },
-  autorole: { default: [] },
+  playlist: { type: [], default: [] },
+  autorole: { type: [], default: [] },
 });
 
 const GuildModel = model("guild", guildSchema);
