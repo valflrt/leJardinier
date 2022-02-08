@@ -32,6 +32,7 @@ const logPresets = {
    * @param id bot's id (discord snowflake)
    */
   BOT_CONNECTION_SUCCESS(tag: string, id: string) {
+    logger.line();
     logger.log(
       `Successfully logged in as ${chalk.underline(tag)} ${chalk.grey(
         `(id: ${id})`
@@ -96,12 +97,21 @@ const logPresets = {
     );
   },
 
+  /**
+   * Logs database pending connection message
+   */
   DATABASE_CONNECTION_PENDING() {
     logger.log(`Connecting to database...`);
   },
+  /**
+   * Logs database connection success message
+   */
   DATABASE_CONNECTION_SUCCESS() {
     logger.log(`Successfully connected to database`, "success");
   },
+  /**
+   * Logs database connection failure message
+   */
   DATABASE_CONNECTION_FAILURE(err: any) {
     logger.log(`Failed to connect to database:\n${err}`, "error");
   },
