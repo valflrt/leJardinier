@@ -11,7 +11,15 @@ export interface IMemberSchema extends Document {
 export const memberSchema = new Schema<IMemberSchema>({
   userId: { type: String, required: true },
   guildId: { type: String, required: [true, "Requires property guildId"] },
-  stats: statsSchema,
+  stats: {
+    type: statsSchema,
+    default: {
+      xp: 0,
+      totalXp: 0,
+      level: 1,
+      messageCount: 0,
+    },
+  },
 });
 
 const MemberModel = model("member", memberSchema);
