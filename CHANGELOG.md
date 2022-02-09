@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added command "enlarge": enlarges text
 - Added "logPresets" where are stored preset log sequences
 
 ### Changed
