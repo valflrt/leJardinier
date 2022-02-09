@@ -7,7 +7,7 @@ const enlarge_cmd = new Command({
   description: "Enlarges text",
   execution: async ({ actions, attributes }) => {
     actions.sendTextEmbed(
-      codeBlock(attributes.parameters).replace(/(?=.)(?<=.)/g, " ")
+      codeBlock(attributes.parameters.replace(/(?=.)(?<=.)/gi, " "))
     );
   },
 });
