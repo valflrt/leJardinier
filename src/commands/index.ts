@@ -8,6 +8,7 @@ import boolean_cmd from "./commands/boolean";
 import percentage_cmd from "./commands/percentage";
 import choose_cmd from "./commands/choose";
 import reverse_cmd from "./commands/reverse";
+import enlarge_cmd from "./commands/enlarge";
 import morse_cmd from "./commands/morse";
 import music_cmd from "./commands/music";
 import profilePicture_cmd from "./commands/pp";
@@ -25,6 +26,7 @@ let commandList = new CommandList()
   .addCommand(percentage_cmd, "Fun")
   .addCommand(choose_cmd, "Fun")
   .addCommand(reverse_cmd, "Fun")
+  .addCommand(enlarge_cmd, "Fun")
   .addCommand(morse_cmd, "Fun")
   .addCommand(music_cmd, "Special")
   .addCommand(profilePicture_cmd, "User Information")
