@@ -1,6 +1,6 @@
 # Changelog
 
-## [`[v3.6.8]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.8) - dd/mm/yyyy
+## [`v3.6.8`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.8) - dd/mm/yyyy
 
 ### Added
 
