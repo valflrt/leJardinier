@@ -1,6 +1,6 @@
 # Changelog
 
-## [`[Unreleased]`](https://github.com/valflrt/lejardinier/releases/tag/v<tag>) - dd/mm/yyyy
+## [`[v3.6.8]`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.8) - dd/mm/yyyy
 
 ### Added
 
@@ -17,7 +17,7 @@
 - Fixed database models (missing defaults)
 - Fixed logger: Logger#updateLine was crashing heroku
 
-[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.7...v<tag>)
+[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.7...v3.6.8)
 
 ## [`v3.6.7`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.7) - 07/02/2022
 
