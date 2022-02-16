@@ -9,11 +9,13 @@
 
 ### Changed
 
+- Moved class ListenerCollection to .../features/listeners/
 - Edited logger methods
 
 ### Fixed
 
-- Fix logger: Logger#updateLine was crashing heroku
+- Fixed database models (missing defaults)
+- Fixed logger: Logger#updateLine was crashing heroku
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.7...v<tag>)
 
