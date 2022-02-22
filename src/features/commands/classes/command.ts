@@ -1,28 +1,12 @@
 import CommandPreview from "../../formatters/commandPreview";
 
+import ICommandSetup from "../types/commandSetup";
 import TExecutionFunction from "../types/executionFunction";
+import ICommandParameter from "../types/commandParameter";
 import ICommandSettings from "../types/commandSettings";
 
 import config from "../../../config";
 
-interface ICommandSetup {
-  name: string;
-  identifier?: string;
-  description: string;
-
-  execution: TExecutionFunction;
-
-  commands?: Command[];
-  parameters?: ICommandParameter[];
-  aliases?: string[];
-
-  settings?: ICommandSettings;
-}
-
-interface ICommandParameter {
-  name: string;
-  required?: boolean;
-}
 
 export default class Command implements ICommandSetup {
   private _name!: string;
