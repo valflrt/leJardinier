@@ -10,7 +10,7 @@
   </p>
 
   <p align="center">
-    <a href="./CHANGELOG.md"><b>See changelog</b></a>
+    <a href="/CHANGELOG.md"><b>See changelog</b></a>
     <br/>
     <a href="https://github.com/valflrt/lejardinier/issues/new"><b>Report Bug</b></a>
   </p>
@@ -29,7 +29,7 @@ Then, run `npm install` in the project directory to install the dependencies.
 
 ### Configuration
 
-Duplicate [`.env.example`](./.env.example) and rename the duplicate to `.env` (it has to be in the root directory).
+Duplicate [`.env.example`](/.env.example) and rename the duplicate to `.env` (it has to be in the root directory).
 
 In this file you will find this:
 
@@ -93,7 +93,7 @@ Notes:
 
 - You need to have **nodejs**, **npm** and **npx** installed on your computer (npm and npx are usually automatically installed with nodejs)
 - If you find a bug or have a suggestion, please create an issue so I can take a look at it.
-- [`typescript.ts`](./typescript.ts) is useless, I added it because my code editor put an error and adding this file was the way to fix it...
+- [`typescript.ts`](/typescript.ts) is useless, I added it because my code editor put an error and adding this file was the way to fix it...
 - _Don't mind my code it can be fucked up sometimes..._
 
 ## More Information
