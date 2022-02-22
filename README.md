@@ -74,6 +74,10 @@ Finally, to start the code, you can choose to run one of the commands below:
 
 You can also use `npm run lint` to lint the code in `src/`:
 
+### Customization
+
+see [customization](/docs/customization.md).
+
 ## Docker
 
 To build the docker image you need to have docker installed.
