@@ -46,7 +46,6 @@
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.5...v3.6.6)
 
-
 ## [`v3.6.5`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.5) - 28/01/2022
 
 ### Changed

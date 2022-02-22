@@ -7,7 +7,6 @@ import ICommandSettings from "../types/commandSettings";
 
 import config from "../../../config";
 
-
 export default class Command implements ICommandSetup {
   private _name!: string;
   private _identifier!: string;
