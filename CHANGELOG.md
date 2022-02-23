@@ -1,6 +1,14 @@
 # Changelog
 
-## [`v3.6.8`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.8) - dd/mm/yyyy
+## [`unreleased`](https://github.com/valflrt/lejardinier/releases/tag/<tag>) - dd/mm/yyyy
+
+### Changed
+
+- Edited structure in /src/features/commands/
+
+[**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.8...<tag>)
+
+## [`v3.6.8`](https://github.com/valflrt/lejardinier/releases/tag/v3.6.8) - 16/02/2022
 
 ### Added
 
