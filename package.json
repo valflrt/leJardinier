@@ -1,5 +1,6 @@
 {
   "name": "lejardinier",
+  "description": "Simple utility discord bot made with discord.js and using typescript",
   "scripts": {
     "start": "npx ts-node src/index.ts",
     "dev": "npx nodemon --config nodemon.json src/index.ts",
