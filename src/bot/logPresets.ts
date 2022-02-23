@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import Discord from "discord.js";
 
-import Command from "../features/commands/classes/command";
+import Command from "../features/commands/command";
 import Context from "./context";
 
 import version from "../config/version";

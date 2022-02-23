@@ -1,6 +1,6 @@
 import { bold, inlineCode, quote } from "@discordjs/builders";
 
-import Command from "../../features/commands/classes/command";
+import Command from "../../features/commands/command";
 import * as utils from "../../utils";
 
 const percentage_cmd = new Command({

@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 
-import Command from "../../features/commands/classes/command";
+import Command from "../../features/commands/command";
 
 const profilePicture_cmd = new Command({
   name: "profile picture",

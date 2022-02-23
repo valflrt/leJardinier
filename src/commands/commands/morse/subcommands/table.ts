@@ -1,6 +1,6 @@
 import { inlineCode } from "@discordjs/builders";
 
-import Command from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/command";
 
 import morseTable from "../../../../assets/morseTable";
 

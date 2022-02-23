@@ -1,6 +1,6 @@
 import { bold } from "@discordjs/builders";
 
-import Command from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/command";
 import { Track } from "../../../../features/music/classes/track";
 
 import GuildModel from "../../../../features/database/models/guild";

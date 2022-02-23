@@ -1,4 +1,4 @@
-import Command from "../../../features/commands/classes/command";
+import Command from "../../../features/commands/command";
 
 // subcommands imports
 import add_cmd from "./subcommands/add";

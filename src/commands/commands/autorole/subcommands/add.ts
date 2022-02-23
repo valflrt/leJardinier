@@ -1,7 +1,7 @@
 import { MessageActionRow, MessageButton, Permissions } from "discord.js";
 import { italic } from "@discordjs/builders";
 
-import Command from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/command";
 import GuildModel from "../../../../features/database/models/guild";
 
 const add_cmd = new Command({

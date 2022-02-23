@@ -3,7 +3,7 @@ import { bold, hyperlink } from "@discordjs/builders";
 
 import GuildModel from "../../../../../features/database/models/guild";
 
-import Command from "../../../../../features/commands/classes/command";
+import Command from "../../../../../features/commands/command";
 
 // subcommands imports
 import clear_cmd from "./subcommands/clear";

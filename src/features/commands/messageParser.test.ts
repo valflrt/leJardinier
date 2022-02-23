@@ -3,7 +3,7 @@ import { expect } from "chai";
 
 import MessageParser from "./messageParser";
 
-import config from "../../../config";
+import config from "../../config";
 
 describe(`MessageParser tests`, () => {
   describe(`Command namespace detection tests`, () => {

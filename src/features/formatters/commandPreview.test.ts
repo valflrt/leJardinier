@@ -3,7 +3,7 @@ import { expect } from "chai";
 
 import CommandPreview from "./commandPreview";
 
-import Command from "../commands/classes/command";
+import Command from "../commands/command";
 
 import config from "../../config";
 

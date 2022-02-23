@@ -2,7 +2,7 @@ import { MessageAttachment } from "discord.js";
 
 import MemberModel from "../../features/database/models/member";
 
-import Command from "../../features/commands/classes/command";
+import Command from "../../features/commands/command";
 import UserStats from "../../features/userStats";
 
 const rank_cmd = new Command({

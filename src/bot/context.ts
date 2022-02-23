@@ -1,8 +1,8 @@
 import { Message, MessageEmbed } from "discord.js";
 import { codeBlock } from "@discordjs/builders";
 
-import Command from "../features/commands/classes/command";
-import MessageParser from "../features/commands/classes/messageParser";
+import Command from "../features/commands/command";
+import MessageParser from "../features/commands/messageParser";
 
 import logger from "../features/logger";
 import logPresets from "./logPresets";

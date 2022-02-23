@@ -1,6 +1,6 @@
 import { codeBlock } from "@discordjs/builders";
 
-import Command from "../../features/commands/classes/command";
+import Command from "../../features/commands/command";
 
 const enlarge_cmd = new Command({
   name: "enlarge",

@@ -1,4 +1,4 @@
-import CommandList from "../features/commands/classes/commandList";
+import CommandList from "../features/commands/commandList";
 
 import help_cmd from "./commands/help";
 import time_cmd from "./commands/time";

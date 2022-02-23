@@ -1,7 +1,7 @@
 import { EmbedFieldData } from "discord.js";
 import { bold, inlineCode, quote, underscore } from "@discordjs/builders";
 
-import Command from "../commands/classes/command";
+import Command from "../commands/command";
 
 export default class CommandPreview {
   private command: Command;

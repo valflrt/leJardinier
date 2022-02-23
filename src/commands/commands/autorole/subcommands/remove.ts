@@ -5,7 +5,7 @@ import lejardinier from "../../../..";
 
 import GuildModel from "../../../../features/database/models/guild";
 
-import Command from "../../../../features/commands/classes/command";
+import Command from "../../../../features/commands/command";
 
 const remove_cmd = new Command({
   name: "remove",

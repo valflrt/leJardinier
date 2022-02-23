@@ -4,10 +4,10 @@
 
 ### Creating commands
 
-The class [`Command`](../src/features/commands/classes/command.ts) is used to create commands:
+The class [`Command`](../src/features/commands/command.ts) is used to create commands:
 
 ```typescript
-import Command from ".../features/commands/classes/command";
+import Command from ".../features/commands/command";
 import * as utils from ".../utils";
 
 import reactions from ".../assets/reactions";

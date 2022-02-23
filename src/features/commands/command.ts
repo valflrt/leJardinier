@@ -1,11 +1,34 @@
-import CommandPreview from "../../formatters/commandPreview";
+import Context from "../../bot/context";
 
-import ICommandSetup from "../types/commandSetup";
-import TExecutionFunction from "../types/executionFunction";
-import ICommandParameter from "../types/commandParameter";
-import ICommandSettings from "../types/commandSettings";
+import CommandPreview from "../formatters/commandPreview";
 
-import config from "../../../config";
+import config from "../../config";
+
+export interface ICommandSetup {
+  name: string;
+  identifier?: string;
+  description: string;
+
+  execution: TExecutionFunction;
+
+  commands?: Command[];
+  parameters?: ICommandParameter[];
+  aliases?: string[];
+
+  settings?: ICommandSettings;
+}
+
+export interface ICommandParameter {
+  name: string;
+  required?: boolean;
+}
+
+export interface ICommandSettings {
+  hidden?: boolean;
+  noHelpCommand?: boolean;
+}
+
+export type TExecutionFunction = (context: Context) => Promise<any>;
 
 export default class Command implements ICommandSetup {
   private _name!: string;
