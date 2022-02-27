@@ -1,7 +1,1 @@
-title: Le Jardinier
-description: A website dedicated to Le Jardinier discord bot
-logo: https://media.discordapp.net/attachments/947485534194909224/947486225785319424/lejardinier-logo.png?width=64&height=64
-github:
-  owner_name: valflrt
-  owner_url: https://github.com/valflrt
-  repository_url: https://github.com/valflrt/lejardinier
+theme: minimal
