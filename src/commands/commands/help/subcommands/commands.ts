@@ -11,8 +11,10 @@ const commands_cmd = new Command({
   name: "commands",
   description: "Displays every available command",
   aliases: ["cmds"],
-  execution: async ({ actions }) => {
-    /*
+  execution:
+    () =>
+    async ({ actions }) => {
+      /*
 				const format = (
 					array: CCommand[],
 					newArray: CCommand[][] = [],
@@ -31,65 +33,65 @@ const commands_cmd = new Command({
 				on it and it was painful so i don't want to just delete it T^T
 				*/
 
-    let index = 0;
-    let categories = commandList.categories;
+      let index = 0;
+      let categories = commandList.categories;
 
-    let pages: MessageEmbed[] = [];
-    let i = 0;
-    categories.forEach((commands, name) => {
-      pages.push(
-        actions.returnCustomEmbed((embed) =>
-          embed
-            .setDescription(
-              `${bold(name)} (page ${i + 1} of ${categories.size})`
-            )
-            .addFields(CommandPreview.createFields(commands))
-        )
+      let pages: MessageEmbed[] = [];
+      let i = 0;
+      categories.forEach((commands, name) => {
+        pages.push(
+          actions.returnCustomEmbed((embed) =>
+            embed
+              .setDescription(
+                `${bold(name)} (page ${i + 1} of ${categories.size})`
+              )
+              .addFields(CommandPreview.createFields(commands))
+          )
+        );
+        i++;
+      });
+
+      let row = new MessageActionRow().addComponents(
+        new MessageButton()
+          .setCustomId("p")
+          .setLabel("Previous Page")
+          .setStyle("SECONDARY"),
+        new MessageButton()
+          .setCustomId("n")
+          .setLabel("Next Page")
+          .setStyle("SECONDARY")
       );
-      i++;
-    });
 
-    let row = new MessageActionRow().addComponents(
-      new MessageButton()
-        .setCustomId("p")
-        .setLabel("Previous Page")
-        .setStyle("SECONDARY"),
-      new MessageButton()
-        .setCustomId("n")
-        .setLabel("Next Page")
-        .setStyle("SECONDARY")
-    );
-
-    let sent = await actions.sendEmbed(pages[index], {
-      components: [row],
-    });
-
-    let collector = sent.message.createMessageComponentCollector({
-      filter: (button) => button.customId === "p" || button.customId === "n",
-      idle: 2e4, // 20 seconds
-    });
-
-    collector.on("collect", async (i) => {
-      if (i.user.bot) return;
-      index =
-        i.customId === "n"
-          ? index !== categories.size - 1
-            ? index + 1
-            : 0
-          : index !== 0
-          ? index - 1
-          : categories.size - 1;
-      await i.update({ embeds: [pages[index]] });
-    });
-
-    collector.on("end", async () => {
-      row.components.forEach((c) => c.setDisabled());
-      await sent.editWithTextEmbed(`The display has expired`, {
+      let sent = await actions.sendEmbed(pages[index], {
         components: [row],
       });
-    });
 
-    /*
+      let collector = sent.message.createMessageComponentCollector({
+        filter: (button) => button.customId === "p" || button.customId === "n",
+        idle: 2e4, // 20 seconds
+      });
+
+      collector.on("collect", async (i) => {
+        if (i.user.bot) return;
+        index =
+          i.customId === "n"
+            ? index !== categories.size - 1
+              ? index + 1
+              : 0
+            : index !== 0
+            ? index - 1
+            : categories.size - 1;
+        await i.update({ embeds: [pages[index]] });
+      });
+
+      collector.on("end", async () => {
+        row.components.forEach((c) => c.setDisabled());
+        await sent.editWithTextEmbed(`The display has expired`, {
+          components: [row],
+        });
+      });
+
+      /*
 				this code took so long to make that i want to keep it...
 				await sent.react("⬅️");
 				await sent.react("➡️");
@@ -130,7 +132,7 @@ const commands_cmd = new Command({
 					await sent.reactions.removeAll();
 				});
 				*/
-  },
+    },
 });
 
 export default commands_cmd;

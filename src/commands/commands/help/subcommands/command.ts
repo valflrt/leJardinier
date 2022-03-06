@@ -7,23 +7,25 @@ const command_cmd = new Command({
   description: "Get help about one command",
   aliases: ["cmd"],
   parameters: [{ name: "command name", required: true }],
-  execution: async ({ actions, attributes }) => {
-    if (!attributes.parameters)
-      return actions.sendTextEmbed(
-        `You need to specify the name of the command you're looking for...`
-      );
+  execution:
+    (cmd) =>
+    async ({ actions, attributes }) => {
+      if (!attributes.parameters)
+        return actions.sendTextEmbed(
+          `You need to specify the name of the command you're looking for...`
+        );
 
-    let command = commandList.find(attributes.parameters.split(/\./g));
+      let command = commandList.find(attributes.parameters.split(/\./g));
 
-    if (!command) return actions.sendTextEmbed(`Unknown command...`);
-    else {
-      actions.sendCustomEmbed((embed) =>
-        embed
-          .setDescription(command_cmd.preview.getFullPreview())
-          .addFields(command_cmd.preview.embedFields)
-      );
-    }
-  },
+      if (!command) return actions.sendTextEmbed(`Unknown command...`);
+      else {
+        actions.sendCustomEmbed((embed) =>
+          embed
+            .setDescription(cmd.preview.getFullPreview())
+            .addFields(cmd.preview.embedFields)
+        );
+      }
+    },
 });
 
 export default command_cmd;

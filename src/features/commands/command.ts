@@ -4,33 +4,49 @@ import CommandPreview from "../formatters/commandPreview";
 
 import config from "../../config";
 
-export interface ICommandSetup {
+export interface ICommandDeclaration {
   name: string;
-  identifier?: string;
+  identifier: string;
   description: string;
 
   execution: TExecutionFunction;
 
-  commands?: Command[];
-  parameters?: ICommandParameter[];
-  aliases?: string[];
+  commands: Command[];
+  parameters: ICommandParameterDeclaration[];
+  aliases: string[];
 
-  settings?: ICommandSettings;
+  settings: ICommandSettingsDeclaration;
 }
 
-export interface ICommandParameter {
+export interface ICommandParameterDeclaration {
   name: string;
   required?: boolean;
 }
 
-export interface ICommandSettings {
+export interface ICommandSettingsDeclaration {
   hidden?: boolean;
   noHelpCommand?: boolean;
 }
 
 export type TExecutionFunction = (context: Context) => Promise<any>;
 
-export default class Command implements ICommandSetup {
+export interface ICommandOptions {
+  name: string;
+  identifier?: string;
+  description: string;
+
+  execution: TRequiresCommand<TExecutionFunction>;
+
+  commands?: (command: Command) => Command[];
+  parameters?: ICommandParameterDeclaration[];
+  aliases?: string[];
+
+  settings?: ICommandSettingsDeclaration;
+}
+
+export type TRequiresCommand<T> = (command: Command) => T;
+
+export default class Command implements ICommandDeclaration {
   private _name!: string;
   private _identifier!: string;
   private _description!: string;
@@ -38,26 +54,29 @@ export default class Command implements ICommandSetup {
   private _execution!: TExecutionFunction;
 
   private _commands: Command[] = [];
-  private _parameters: ICommandParameter[] = [];
+  private _parameters: ICommandParameterDeclaration[] = [];
   private _aliases: string[] = [];
 
-  private _settings: ICommandSettings = {};
+  private _settings: ICommandSettingsDeclaration = {};
 
   private _parent: Command | null = null;
 
-  constructor(command: ICommandSetup) {
-    this.name = command.name;
-    this.identifier = command.identifier;
-    this.description = command.description;
+  constructor(commandOptions: ICommandOptions) {
+    // basic options
+    this.name = commandOptions.name;
+    this.identifier = commandOptions.identifier;
+    this.description = commandOptions.description;
 
-    this.execution = command.execution;
+    this.parameters = commandOptions.parameters;
+    this.aliases = commandOptions.aliases;
 
-    this.commands = command.commands;
-    this.parameters = command.parameters;
-    this.aliases = command.aliases;
+    this.settings = commandOptions.settings;
 
-    this.settings = command.settings;
+    // "requires command" setup
+    if (commandOptions.commands) this.commands = commandOptions.commands(this);
+    this.execution = commandOptions.execution(this);
 
+    // finishing setup
     if (!this.settings.noHelpCommand) this.addHelpCommand();
   }
 
@@ -83,13 +102,15 @@ export default class Command implements ICommandSetup {
         name: "help",
         description: `Help command for command "${this.namespace}"`,
         settings: { hidden: true, noHelpCommand: true },
-        execution: async ({ actions }) => {
-          actions.sendCustomEmbed((embed) =>
-            embed
-              .setDescription(this.preview.getFullPreview())
-              .addFields(this.preview.embedFields)
-          );
-        },
+        execution:
+          () =>
+          async ({ actions }) => {
+            actions.sendCustomEmbed((embed) =>
+              embed
+                .setDescription(this.preview.getFullPreview())
+                .addFields(this.preview.embedFields)
+            );
+          },
       })
     );
   }
@@ -164,10 +185,10 @@ export default class Command implements ICommandSetup {
   /**
    * Parameter list
    */
-  public get parameters(): ICommandParameter[] {
+  public get parameters(): ICommandParameterDeclaration[] {
     return this._parameters;
   }
-  public set parameters(v: ICommandParameter[] | undefined) {
+  public set parameters(v: ICommandParameterDeclaration[] | undefined) {
     if (v) {
       v.forEach((v) => v.name.toLowerCase().trim());
       this._parameters = v;
@@ -188,10 +209,10 @@ export default class Command implements ICommandSetup {
   /**
    * Command settings
    */
-  public get settings(): ICommandSettings {
+  public get settings(): ICommandSettingsDeclaration {
     return this._settings;
   }
-  public set settings(v: ICommandSettings | undefined) {
+  public set settings(v: ICommandSettingsDeclaration | undefined) {
     if (!v) return;
     this._settings = v;
   }

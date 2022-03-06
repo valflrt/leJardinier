@@ -16,7 +16,7 @@ const play_cmd = new Command({
   description:
     "Start playing a song from an url (detected automatically) or a research",
   parameters: [{ name: "url or search", required: true }],
-  execution: async (context) => {
+  execution: () => async (context) => {
     let { actions, message, attributes } = context;
 
     if (attributes.parameters.length === 0)
@@ -79,7 +79,7 @@ const play_cmd = new Command({
     if (controller.currentPlayer?.state === "playing") return;
     await controller.play();
   },
-  commands: [playlist_cmd],
+  commands: () => [playlist_cmd],
 });
 
 export default play_cmd;

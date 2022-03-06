@@ -7,16 +7,18 @@ const profilePicture_cmd = new Command({
   identifier: "pp",
   description: "Gives someone's profile picture",
   parameters: [{ name: "mention", required: false }],
-  execution: async ({ actions, message }) => {
-    let member = message.mentions.members?.first()?.user || message.author;
-    if (!member) return actions.sendTextEmbed(`Unknown user`);
+  execution:
+    () =>
+    async ({ actions, message }) => {
+      let member = message.mentions.members?.first()?.user || message.author;
+      if (!member) return actions.sendTextEmbed(`Unknown user`);
 
-    actions.sendCustomEmbed((embed: MessageEmbed) =>
-      embed
-        .setDescription(`Here is ${member!.toString()}'s profile picture`)
-        .setImage(member!.displayAvatarURL({ size: 300 }))
-    );
-  },
+      actions.sendCustomEmbed((embed: MessageEmbed) =>
+        embed
+          .setDescription(`Here is ${member!.toString()}'s profile picture`)
+          .setImage(member!.displayAvatarURL({ size: 300 }))
+      );
+    },
 });
 
 export default profilePicture_cmd;

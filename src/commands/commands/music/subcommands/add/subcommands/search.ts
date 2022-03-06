@@ -10,7 +10,7 @@ const search_cmd = new Command({
   name: "search",
   description: "Add a song to the playlist from youtube search",
   parameters: [{ name: "youtube search", required: true }],
-  execution: async (context) => {
+  execution: () => async (context) => {
     let { actions, message, attributes } = context;
 
     if (attributes.parameters.length === 0)

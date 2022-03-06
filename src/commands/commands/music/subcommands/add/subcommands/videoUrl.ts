@@ -10,7 +10,7 @@ const videoUrl_cmd = new Command({
   description: "Add a song to the current playlist from a youtube url",
   aliases: ["url"],
   parameters: [{ name: "youtube url", required: true }],
-  execution: async (context) => {
+  execution: () => async (context) => {
     let { actions, message, attributes } = context;
 
     if (attributes.parameters.length === 0)
