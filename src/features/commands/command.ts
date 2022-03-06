@@ -31,20 +31,42 @@ export interface ICommandSettingsDeclaration {
 export type TExecutionFunction = (context: Context) => Promise<any>;
 
 export interface ICommandOptions {
+  /**
+   * Command name
+   */
   name: string;
+  /**
+   * Command identifier, if not set name is used instead
+   */
   identifier?: string;
+  /**
+   * Command description
+   */
   description: string;
 
-  execution: TRequiresCommand<TExecutionFunction>;
+  /**
+   * Command execution, a function returning a the execution function
+   */
+  execution: (command: Command) => TExecutionFunction;
 
+  /**
+   * Command subcommands, a function returning an array of `Command`
+   */
   commands?: (command: Command) => Command[];
+  /**
+   * Command parameters
+   */
   parameters?: ICommandParameterDeclaration[];
+  /**
+   * Command aliases, can be used to call the function instead of using its original name
+   */
   aliases?: string[];
 
+  /**
+   * Command settings
+   */
   settings?: ICommandSettingsDeclaration;
 }
-
-export type TRequiresCommand<T> = (command: Command) => T;
 
 export default class Command implements ICommandDeclaration {
   private _name!: string;
