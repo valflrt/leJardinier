@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Edited how auto-formatting methods are accessed
+- Edited class Command so the command object can be used in execution
 - Edited structure in /src/features/commands/
 
 [**`full changelog`**](https://github.com/valflrt/lejardinier/compare/v3.6.8...<tag>)
