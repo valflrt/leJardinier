@@ -1,6 +1,7 @@
-import Context from "../../bot/context";
+import { EmbedFieldData } from "discord.js";
+import { bold, inlineCode, quote, underscore } from "@discordjs/builders";
 
-import CommandPreview from "../formatters/commandPreview";
+import Context from "../../bot/context";
 
 import config from "../../config";
 
@@ -68,6 +69,17 @@ export interface ICommandOptions {
   settings?: ICommandSettingsDeclaration;
 }
 
+export interface IFullPreviewOptions {
+  /**
+   * A custom description that overrides the original one if specified (only in the preview)
+   */
+  customDescription?: string;
+  /**
+   * Wether to show subcommands or not
+   */
+  subcommands?: boolean;
+}
+
 export default class Command implements ICommandDeclaration {
   private _name!: string;
   private _identifier!: string;
@@ -129,8 +141,8 @@ export default class Command implements ICommandDeclaration {
           async ({ actions }) => {
             actions.sendCustomEmbed((embed) =>
               embed
-                .setDescription(this.preview.getFullPreview())
-                .addFields(this.preview.embedFields)
+                .setDescription(this.formattedFullPreview())
+                .addFields(this.formattedEmbedFields)
             );
           },
       })
@@ -270,7 +282,57 @@ export default class Command implements ICommandDeclaration {
     }`;
   }
 
-  public get preview(): CommandPreview {
-    return new CommandPreview(this);
+  // Custom formatting methods
+
+  /**
+   * Formatted command description
+   */
+  public get formattedDescription(): string {
+    return `${this.description}\n`
+      .concat(`Usage: ${bold(inlineCode(this.syntax))}`)
+      .concat(
+        this.aliases.length !== 0
+          ? `\n${`Alias${this.aliases.length > 1 ? "es" : ""}: ${this.aliases
+              .map((a) => bold(inlineCode(a)))
+              .join(" ")}`}`
+          : ""
+      )
+      .split(/\n/g)
+      .map((line) => quote(line))
+      .join("\n");
+  }
+
+  /**
+   * Formatted embed fields for the command's subcommands
+   */
+  public get formattedEmbedFields(): EmbedFieldData[] {
+    return this.commands
+      .filter((c) => !c.settings.hidden)
+      .map((command): EmbedFieldData => {
+        return {
+          name: bold(command.name),
+          value: command.formattedDescription,
+        };
+      });
+  }
+
+  /**
+   * Creates a formatted preview for the current command
+   * @param options optional – full preview options
+   */
+  public formattedFullPreview(options: IFullPreviewOptions = {}): string {
+    return `${bold(this.name)}\n`
+      .concat(options.customDescription ?? this.formattedDescription)
+      .concat(
+        options.subcommands !== false && this.commandCount !== 0
+          ? `\n\n${bold(underscore(`Subcommands:`))}\n`
+          : ""
+      )
+      .concat(
+        this.commands
+          .filter((c) => !c.settings.hidden)
+          .map((command) => command.formattedFullPreview())
+          .join("\n")
+      );
   }
 }
