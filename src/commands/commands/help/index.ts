@@ -33,7 +33,7 @@ const help_cmd = new Command({
                 .concat("\n")
                 .concat(`Here are some commands you can start with:`)
             )
-            .addFields(cmd.preview.embedFields),
+            .addFields(cmd.formattedEmbedFields),
         {
           components: [
             new MessageActionRow().setComponents([

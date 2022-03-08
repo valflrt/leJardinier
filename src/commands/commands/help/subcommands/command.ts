@@ -21,8 +21,8 @@ const command_cmd = new Command({
       else {
         actions.sendCustomEmbed((embed) =>
           embed
-            .setDescription(cmd.preview.getFullPreview())
-            .addFields(cmd.preview.embedFields)
+            .setDescription(cmd.formattedFullPreview())
+            .addFields(cmd.formattedEmbedFields)
         );
       }
     },

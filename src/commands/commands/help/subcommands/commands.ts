@@ -5,7 +5,7 @@ import Command from "../../../../features/commands/command";
 
 import commandList from "../../..";
 
-import CommandPreview from "../../../../features/formatters/commandPreview";
+import { createEmbedFields } from "../../../../features/formatters/command";
 
 const commands_cmd = new Command({
   name: "commands",
@@ -45,7 +45,7 @@ const commands_cmd = new Command({
               .setDescription(
                 `${bold(name)} (page ${i + 1} of ${categories.size})`
               )
-              .addFields(CommandPreview.createFields(commands))
+              .addFields(createEmbedFields(commands))
           )
         );
         i++;

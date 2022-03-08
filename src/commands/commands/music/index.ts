@@ -23,7 +23,7 @@ const music_cmd = new Command({
               `Here are the available commands:`
             )
           )
-          .setFields(cmd.preview.embedFields)
+          .setFields(cmd.formattedEmbedFields)
       );
     },
   commands: () => [

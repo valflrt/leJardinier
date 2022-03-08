@@ -1,7 +1,5 @@
 import Command from "../../../../../features/commands/command";
 
-import music_cmd from "../..";
-
 // subcommands imports
 import videoUrl_cmd from "./subcommands/videoUrl";
 import playlist_cmd from "../play/subcommands/playlist";
@@ -18,7 +16,7 @@ const add_cmd = new Command({
           .setDescription(
             `Use this command to add a song to the playlist from youtube:`
           )
-          .addFields(cmd.preview.embedFields)
+          .addFields(cmd.formattedEmbedFields)
       );
     },
   commands: () => [videoUrl_cmd, playlist_cmd, search_cmd],

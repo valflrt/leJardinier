@@ -17,7 +17,7 @@ const autorole_cmd = new Command({
               .concat(`which gives a specific role when clicked.\n\n`)
               .concat(`Here are commands you can use:`)
           )
-          .addFields(cmd.preview.embedFields)
+          .addFields(cmd.formattedEmbedFields)
       );
     },
   commands: () => [add_cmd, remove_cmd],
